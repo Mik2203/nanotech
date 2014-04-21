@@ -253,7 +253,7 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                                     if (!readElement()) return;
                                     if (_curElementType == TextElement) {
                                         double flowFactor = _curText.toDouble(&convertSuccess);
-                                        if (convertSuccess) pass->setFlowFactor(flowFactor);
+                                        // TODO! if (convertSuccess) pass->setFlowFactor(flowFactor);
                                         if (!readElement()) return;
                                     }
                                     if (_curElementType != EndElement || _curText != "flowFactor") return;

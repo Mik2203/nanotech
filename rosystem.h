@@ -20,6 +20,7 @@
 #include "romembranesmodel.h"
 
 
+
 /* содержит данные о системе, такие как температура, тип воды,
  * а также данные по ступеням (ROPass), рециклам между ступенями,
  * данные по входным потокам (ROFeed),
@@ -38,6 +39,8 @@ class ROSystem: public ROAbstractElement {
     Q_PROPERTY(double specificEnergy READ specificEnergy NOTIFY specificEnergyChanged)
     Q_PROPERTY(ROFlow* permeate READ permeate NOTIFY permeateChanged) // меняется при смене pass
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
+
+    Q_PROPERTY(double flowFactor READ flowFactor NOTIFY waterTypeIndexChanged)
 
     Q_PROPERTY(ROPass* firstPass READ firstPass NOTIFY firstPassChanged)
     Q_PROPERTY(ROPass* lastPass READ lastPass NOTIFY lastPassChanged)
@@ -108,6 +111,9 @@ public:
     void setWaterTypeIndex(int index);
     ROScalingElement* const scalingElement() const;
 
+    double flowFactor() const;
+    double permeateFlowFactor() const;
+
     int totalRecycleCount() const;
 
     const QMap<int, double> passIncomingRecycles(int toPassIdx) const;
@@ -147,6 +153,7 @@ private:
     QMap<int, QMap<int, double> > _passRecycles; // from, to; лучше бы сделать структурой
 
     int _waterTypeIndex;
+    // double _flowFactor;
 
     static const int _MAX_PASSES_COUNT;
     static const int _MIN_PASSES_COUNT;

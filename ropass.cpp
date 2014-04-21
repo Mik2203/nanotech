@@ -19,7 +19,7 @@ ROPass::ROPass(ROSystem* system, /*int passNumber,*/ ROFlow* feed) :
     _feed(0), _permeate(new ROFlow()),
     _concentrate(new ROFlow()),
     _selfRecycle(0.0/*new ROFlow()*/),
-    _flowFactor(1.0),
+    //_flowFactor(0.85),
     //_recycleUpdated(false),
     _recovery(0.0),
     _hasBlendPermeate(false), _blendPermeate(0.0),
@@ -71,7 +71,7 @@ ROPass* ROPass::clone(ROFlow* const newFeed) {
 
 
 void ROPass::copyDataFrom(const ROPass* const from) {
-    this->setFlowFactor(from->flowFactor());
+    // this->setFlowFactor(from->flowFactor());
     this->feed()->setRate(from->feed()->rate());
     this->permeate()->setRate(from->permeate()->rate());
     this->setRecovery(from->recovery());
@@ -269,7 +269,11 @@ void ROPass::removeSelfRecycle() {
 
 bool ROPass::hasBlendPermeate() const { return _hasBlendPermeate; }
 
-double ROPass::flowFactor() const { return _flowFactor; }
+double ROPass::flowFactor() const {
+    if (system()->passIndex(this))  // если ступень не первая
+        return system()->permeateFlowFactor();
+    return system()->flowFactor();
+}
 
 double ROPass::blendPermeate() const { return _hasBlendPermeate ? _blendPermeate : 0.0; }
 
@@ -281,11 +285,11 @@ double ROPass::specificEnergy() const {
     return permeate()->rate() > 0.0 ? power() / permeate()->rate() : 0.0;
 }
 
-void ROPass::setFlowFactor(double value) {
-    // TODO bounds to properties
-    _flowFactor = qBound(0.01, value, 1.0); // TODO CONSTS
-    Q_EMIT flowFactorChanged();
-}
+//void ROPass::setFlowFactor(double value) {
+//    // TODO bounds to properties
+//    _flowFactor = qBound(0.01, value, 1.0); // TODO CONSTS
+//    Q_EMIT flowFactorChanged();
+//}
 
 void ROPass::setBlendPermeate(double value) {
     if (!_hasBlendPermeate) {
@@ -359,7 +363,7 @@ void ROPass::updateRecycles() {
 }
 
 void ROPass::reset() {
-    setFlowFactor(1.0);
+    // setFlowFactor(1.0);
     removeBlendPermeate();
     removeSelfRecycle();
     setStageCount(1);
