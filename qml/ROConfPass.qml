@@ -346,7 +346,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         height: parent.height-3
                         width: 50
-                        text: app.units.convertFlowUnits(pass.feed.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits)
+                        text: app.units.convertFlowUnits(pass.feed.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
                         KeyNavigation.backtab: passFlowFactorInput
                     }
 
@@ -382,7 +382,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         height: parent.height-3
                         width: 50
-                        text: app.units.convertFlowUnits(pass.permeate.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits)
+                        text: app.units.convertFlowUnits(pass.permeate.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
                         KeyNavigation.backtab: passFlowFactorInput
                     }
 
