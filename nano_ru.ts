@@ -414,7 +414,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROConfPass.qml" line="224"/>
         <source>Flow factor: </source>
-        <translation>Поправка: </translation>
+        <translation>Коэффициент загрязнения: </translation>
     </message>
     <message>
         <location filename="qml/ROConfPass.qml" line="252"/>
@@ -1250,7 +1250,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="roreportbuilder.cpp" line="196"/>
         <source>Flow Factor</source>
-        <translation>Поправка</translation>
+        <translation>Коэффициент загрязнения</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="190"/>
@@ -1850,7 +1850,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROResults.qml" line="271"/>
         <source>Flow Factor</source>
-        <translation>Поправка</translation>
+        <translation>Коэффициент загрязнения</translation>
     </message>
     <message>
         <location filename="qml/ROResults.qml" line="302"/>
