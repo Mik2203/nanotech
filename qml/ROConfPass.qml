@@ -61,7 +61,7 @@ Item {
                 }
                 editable: passPermeateFlowSetController.enabled
                 KeyNavigation.backtab: passRecoveryInput
-                KeyNavigation.tab: passFlowFactorInput
+//                KeyNavigation.tab: passFlowFactorInput
             }
 
             Text {
@@ -224,16 +224,16 @@ Item {
                 text: app.translator.emptyString + qsTr("Flow factor: ")
             }
 
-            ROWidgets.DoubleInput {
-                id: passFlowFactorInput
+            Text {
+                id: passFlowFactor
                 anchors.right: parent.right//passFlowFactorUnitsSpacer.left
                 anchors.rightMargin: 5 + 30 + parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
                 height: parent.height-3
                 width: 50
-                value: pass.flowFactor
-                onInputChanged: pass.flowFactor = changedValue
+                text: pass.flowFactor.toFixed(2)
+                // onInputChanged: pass.flowFactor = changedValue
                 KeyNavigation.tab: selfRecycleEditor
                 KeyNavigation.backtab: passPermeateFlowInput
             }
@@ -304,7 +304,7 @@ Item {
                     width: 50
                     value: app.units.convertFlowUnits(pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits)
                     onInputChanged: pass.blendPermeate = app.units.convertFlowUnits(changedValue, app.units.flowUnits, ROUnits.DEFAULT_FLOW_UNITS)
-                    KeyNavigation.backtab: passFlowFactorInput
+//                    KeyNavigation.backtab: passFlowFactorInput
                 }
 
                 Text {
@@ -347,7 +347,7 @@ Item {
                         height: parent.height-3
                         width: 50
                         text: app.units.convertFlowUnits(pass.feed.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
-                        KeyNavigation.backtab: passFlowFactorInput
+                        // KeyNavigation.backtab: passFlowFactorInput
                     }
 
                     Text {
@@ -383,7 +383,7 @@ Item {
                         height: parent.height-3
                         width: 50
                         text: app.units.convertFlowUnits(pass.permeate.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
-                        KeyNavigation.backtab: passFlowFactorInput
+                        // KeyNavigation.backtab: passFlowFactorInput
                     }
 
                     Text {
@@ -449,7 +449,7 @@ Item {
                     width: 50
                     value: app.units.convertFlowUnits(pass.selfRecycle, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits)
                     onInputChanged: pass.selfRecycle = app.units.convertFlowUnits(changedValue, app.units.flowUnits, ROUnits.DEFAULT_FLOW_UNITS)
-                    KeyNavigation.backtab: passFlowFactorInput
+//                    KeyNavigation.backtab: passFlowFactorInput
                 }
 
                 Text {

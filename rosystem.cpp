@@ -1,6 +1,8 @@
 #include "rosystem.h"
 #include "romath.h"
 
+#include "rodatabase.h"
+
 #ifdef QT_DEBUG
 #include <QDebug>
 #endif
@@ -62,6 +64,9 @@ ROSystem::ROSystem() :
     // AVERAGE FLUX
     connect(this, SIGNAL(totalActiveAreaChanged()), this, SIGNAL(averageFluxChanged()));
     connect(permeate(), SIGNAL(rateChanged()), this, SIGNAL(averageFluxChanged()));
+
+    // first pass flow factor
+    connect(this, SIGNAL(waterTypeIndexChanged()), pass, SIGNAL(flowFactorChanged()));
 
     Q_EMIT totalActiveAreaChanged();
 }
@@ -161,10 +166,19 @@ ROPass* ROSystem::addPass(int copyFromPassNumber) {
 
 bool ROSystem::removePass(int passIndex) {
     if (passIndex == -1) passIndex = _passes.count()-1; // last
-    if (_passes.count() > _MIN_PASSES_COUNT && (0 <= passIndex && passIndex < _passes.count())) {
-        ROPass* removingPass = _passes.takeAt(passIndex);;
-        if (passIndex == 0) {
-            _passes[passIndex]->setFeed(adjustedFeed());
+    if (_passes.count() > _MIN_PASSES_COUNT &&
+            (0 <= passIndex && passIndex < _passes.count())) {
+
+        ROPass* removingPass = _passes.takeAt(passIndex);
+
+        if (passIndex == 0) {  // first pass
+            ROPass* newFirstPass = _passes[passIndex];
+            newFirstPass->setFeed(adjustedFeed());
+
+            // first pass flow factor
+            connect(this, SIGNAL(waterTypeIndexChanged()), newFirstPass, SIGNAL(flowFactorChanged()));
+            Q_EMIT waterTypeIndexChanged(); // TODO how to do it like this: newFirstPass->flowFactorChanged() ?
+
             Q_EMIT firstPassChanged();
         } else if (passIndex < _passes.count()){
             _passes[passIndex]->setFeed(_passes[passIndex-1]->permeate());
@@ -174,6 +188,7 @@ bool ROSystem::removePass(int passIndex) {
         removePassRecycle(passIndex);
 
         delete removingPass;
+
         emit passCountChanged();
         return true;
     }
@@ -324,6 +339,14 @@ void ROSystem::setWaterTypeIndex(int index) {
 }
 
 ROScalingElement *const ROSystem::scalingElement() const { return _scalingElement; }
+
+double ROSystem::flowFactor() const {
+    return roDB->waterTypes()->get(waterTypeIndex(), "flow_factor").toDouble();
+}
+
+double ROSystem::permeateFlowFactor() const {
+    return roDB->waterTypes()->get(roDB->waterTypes()->WATER_TYPE_PERMEATE, "flow_factor").toDouble();
+}
 
 int ROSystem::totalRecycleCount() const {
     int totalCount = 0;

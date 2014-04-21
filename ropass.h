@@ -30,7 +30,7 @@ class ROPass : public ROAbstractElement {
 
     Q_PROPERTY(double activeArea READ activeArea NOTIFY totalActiveAreaChanged)
     Q_PROPERTY(double recovery READ recovery WRITE setRecovery NOTIFY recoveryChanged)
-    Q_PROPERTY(double flowFactor READ flowFactor WRITE setFlowFactor NOTIFY flowFactorChanged)
+    Q_PROPERTY(double flowFactor READ flowFactor /*WRITE setFlowFactor*/ NOTIFY flowFactorChanged)
 
     Q_PROPERTY(double averageFlux READ averageFlux NOTIFY averageFluxChanged)
     Q_PROPERTY(double power READ power NOTIFY powerChanged)
@@ -103,7 +103,7 @@ public:
 
     void setRecovery(double value);
     void setFeed(ROFlow* const newFeed);
-    void setFlowFactor(double value);
+    // void setFlowFactor(double value);
     void setBlendPermeate(double value);
     void setSelfRecycle(double value);
     Q_INVOKABLE void removeBlendPermeate();
@@ -130,7 +130,7 @@ private:
     ROSystem* const _system;
     QList<ROStage*> _stages;
     double _recovery;
-    double _flowFactor;
+    // double _flowFactor;
     bool _flowChanging;
     bool _permeateChanging;
     ROFlow* _feed;
