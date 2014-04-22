@@ -51,7 +51,7 @@ class ROSystem: public ROAbstractElement {
 
     Q_PROPERTY(int waterTypeIndex READ waterTypeIndex WRITE setWaterTypeIndex NOTIFY waterTypeIndexChanged)
 
-
+    Q_PROPERTY(int lifetime READ lifetime WRITE setLifetime NOTIFY lifetimeChanged)
 
 
     Q_PROPERTY(int passCount READ passCount WRITE setPassCount NOTIFY passCountChanged)
@@ -116,6 +116,9 @@ public:
 
     int totalRecycleCount() const;
 
+    int lifetime() const;
+    void setLifetime(int lifetime);
+
     const QMap<int, double> passIncomingRecycles(int toPassIdx) const;
     const QMap<int, double> passOutgoingRecycles(int fromPassIdx) const;
 
@@ -153,7 +156,8 @@ private:
     QMap<int, QMap<int, double> > _passRecycles; // from, to; лучше бы сделать структурой
 
     int _waterTypeIndex;
-    // double _flowFactor;
+
+    int _lifetime;
 
     static const int _MAX_PASSES_COUNT;
     static const int _MIN_PASSES_COUNT;
@@ -179,6 +183,8 @@ signals:
 
     void elementsCountChanged();
     void stagesCountChanged();
+
+    void lifetimeChanged();
 
 private slots:
     void refreshPermeate();

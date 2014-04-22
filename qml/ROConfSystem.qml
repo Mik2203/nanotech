@@ -14,48 +14,94 @@ Rectangle {
         Row {
             spacing: 50
 
-            Item {
-                id: passContainer
-                width: 300
-                height: passConf.height + passBar.height / 2 + 30
+            Column {
 
-                Rectangle {
-                    id: border
-                    border.color: "grey"
-                    border.width: 1
-                    color: "white"
-                    radius: 3
-                    anchors.fill: parent
-                    anchors.topMargin: passBar.height / 2
-                }
-
-                ParametersBar {
-                    id: passBar
-                    z: 1
-                    anchors.top: parent.top
-                    //anchors.topMargin: -20
+                Item {
                     anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    label: app.translator.emptyString + qsTr("Pass:")
-                    elementsCount: sys.passCount
-                    elementsCountMax: sys.MAX_PASSES_COUNT
-                    elementsCountMin: sys.MIN_PASSES_COUNT
-                    selectedIndex: sys.passIndex(selectedPass)
-                    onAdd: sys.addPass(index)
-                    onRemove: sys.removePass(index);
-                    onSelect: selectedPass = sys.pass(index);
-                }
-
-                ROConfPass {
-                    id: passConf
-                    pass: selectedPass
-                    anchors.top: passBar.bottom
-                    anchors.topMargin: 5
-                    anchors.left: parent.left
+                    anchors.leftMargin: 16
                     anchors.right: parent.right
-                    anchors.margins: 15
+                    height: 18
+
+                    Text {
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: app.translator.emptyString + qsTr("System lifetime:")
+                    }
+
+                    ROWidgets.ComboBox {
+                        id: systemLifetimeEditor
+                        anchors.right: sysLifetimeUnits.left
+                        anchors.rightMargin: 5
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.topMargin: 2
+                        anchors.bottomMargin: 2
+                        textHorizontalAlignment: Text.AlignLeft
+                        textVerticalAlignment: Text.AlignVCenter
+                        width: 40
+                        //height: 25
+//                        selectedText: sys.lifetime
+                        selectedIndex: sys.lifetime-1
+                        model: [1,2,3,4,5] // TODO from sys consts
+                        onSelect: sys.lifetime = selectIndex+1
+                    }
+
+                    Text {
+                        id: sysLifetimeUnits
+                        anchors.right: parent.right
+                        anchors.rightMargin: 32
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: qsTr("years")
+                        font.italic: true
+                        horizontalAlignment: Text.AlignLeft
+                        width: 30
+                    }
                 }
 
+
+                Item {
+                    id: passContainer
+                    width: 300 // TODO why 300?
+                    height: passConf.height + passBar.height / 2 + 30
+
+                    Rectangle {
+                        id: border
+                        border.color: "grey"
+                        border.width: 1
+                        color: "white"
+                        radius: 3
+                        anchors.fill: parent
+                        anchors.topMargin: passBar.height / 2
+                    }
+
+                    ParametersBar {
+                        id: passBar
+                        z: 1
+                        anchors.top: parent.top
+                        //anchors.topMargin: -20
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        label: app.translator.emptyString + qsTr("Pass:")
+                        elementsCount: sys.passCount
+                        elementsCountMax: sys.MAX_PASSES_COUNT
+                        elementsCountMin: sys.MIN_PASSES_COUNT
+                        selectedIndex: sys.passIndex(selectedPass)
+                        onAdd: sys.addPass(index)
+                        onRemove: sys.removePass(index);
+                        onSelect: selectedPass = sys.pass(index);
+                    }
+
+                    ROConfPass {
+                        id: passConf
+                        pass: selectedPass
+                        anchors.top: passBar.bottom
+                        anchors.topMargin: 5
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.margins: 15
+                    }
+
+                }
             }
 
             Column {

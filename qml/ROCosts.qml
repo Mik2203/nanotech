@@ -568,7 +568,7 @@ Rectangle {
                                 //                            Item { width: cellWidth; height: cellHeight }
                                 //                            Item { width: cellWidth; height: cellHeight }
                                 //                            Item { width: cellWidth; height: cellHeight }
-                                ROCostsEditableCell { value: case_.costs.systemLifetime; colSpan: 5 }
+                                ROCostsEditableCell { value: case_.costs.systemLifetime; onInputChanged: case_.costs.systemLifetime = changedValue; colSpan: 5 }
                                 ROCostsReadonlyCell { value: case_.costs.deductionsYearCost }
                             }
 

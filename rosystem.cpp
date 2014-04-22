@@ -20,6 +20,7 @@ ROSystem::ROSystem() :
     _concentrate(new ROFlow()),
     _resultFeed(new ROFlow()),
     _waterTypeIndex(-1),
+    _lifetime(1),
     ROAbstractElement(){
 
     ROFeed* feed = new ROFeed();
@@ -352,6 +353,15 @@ int ROSystem::totalRecycleCount() const {
     int totalCount = 0;
     Q_FOREACH(const auto& rs, _passRecycles) totalCount += rs.count();
     return totalCount;
+}
+
+int ROSystem::lifetime() const {
+    return _lifetime;
+}
+
+void ROSystem::setLifetime(int lifetime) {
+    _lifetime = qBound(1, lifetime, 5);  // TODO consts
+    Q_EMIT lifetimeChanged();
 }
 
 const QMap<int, double> ROSystem::passIncomingRecycles(int toPassIdx) const {
