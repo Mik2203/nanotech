@@ -112,6 +112,7 @@ void ROReportBuilder::insertCase(ROCase *case_) {
 }
 
 void ROReportBuilder::insertCosts(ROCase *case_) {
+    Q_UNUSED(case_);
     insertCostsTotalsDetails();
     insertLineBreak(3);
     insertCostsSystemDesignDetails();

@@ -109,6 +109,6 @@ void ROGenericSchemesModel::loadScheme(ROCase* case_, int groupIndex, int scheme
     schemeFile.close();
 }
 
-int ROGenericSchemesModel::rowCount(const QModelIndex &parent) const { return _data.count(); }
+int ROGenericSchemesModel::rowCount(const QModelIndex &parent) const { Q_UNUSED(parent); return _data.count(); }
 
 QHash<int, QByteArray> ROGenericSchemesModel::roleNames() const { return _roleNames; }

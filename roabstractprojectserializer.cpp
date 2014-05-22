@@ -79,7 +79,7 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                         ROSystem* sys = case_->sys();
                         if (!readElement()) return;
 
-                        //if () {
+
                         // OPTIONAL read water type index
                         if (_curElementType == StartElement && _curText == "waterTypeIndex") {
                             if (!readElement()) return;
@@ -89,6 +89,18 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                                 if (!readElement()) return;
                             }
                             if (_curElementType != EndElement || _curText != "waterTypeIndex") return;
+                            if (!readElement()) return;
+                        }
+
+                        // OPTIONAL element lifetime
+                        if (_curElementType == StartElement && _curText == "elementLifetime") {
+                            if (!readElement()) return;
+                            if (_curElementType == TextElement) {
+                                int elementLifetime = _curText.toInt(&convertSuccess);
+                                if (convertSuccess) sys->setElementLifetime(elementLifetime);
+                                if (!readElement()) return;
+                            }
+                            if (_curElementType != EndElement || _curText != "elementLifetime") return;
                             if (!readElement()) return;
                         }
 
@@ -250,12 +262,10 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
 
                                 // OPTIONAL flow factor
                                 if (_curElementType == StartElement && _curText == "flowFactor") {
-                                    if (!readElement()) return;
-                                    if (_curElementType == TextElement) {
-                                        double flowFactor = _curText.toDouble(&convertSuccess);
-                                        // TODO! if (convertSuccess) pass->setFlowFactor(flowFactor);
-                                        if (!readElement()) return;
-                                    }
+                                    // не используется в новой версии, т.к. теперь зависит от типа воды
+
+                                    // просто чтение далее с проверкой
+                                    if (!readElement() || !readElement()) return;
                                     if (_curElementType != EndElement || _curText != "flowFactor") return;
                                     if (!readElement()) return;
                                 }
@@ -579,6 +589,7 @@ bool ROAbstractProjectSerializer::serialize(const ROProject *const proj, QTextSt
                     writeStartElement("System"); {
                         ROSystem* sys = case_->sys();
                         writeElement("waterTypeIndex", int2Str(sys->waterTypeIndex()));
+                        writeElement("elementLifetime", int2Str(sys->elementLifetime()));
                         writeStartElement("Feeds"); {
                             writeElement("feedCount", int2Str(sys->feedCount()));
                             for (int fIdx=0; fIdx < sys->feedCount(); ++fIdx) {

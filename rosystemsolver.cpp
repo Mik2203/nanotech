@@ -489,7 +489,7 @@ void ROSystemSolver::initPass(int pi) {
 
 
 
-    const ROPass* const pass = _sys->pass(pi);
+//    const ROPass* const pass = _sys->pass(pi);
     e1Qp(pi) = pQts(pi) / eV(pi, 0) * 0.25; // pass->elementsCount();
     pCfr(pi) = pCf(pi); // real = ((pQfr-pQb)*pCf + sum(QRi*CRi)) / pQf
     s1Cf(pi) = (pQfr(pi) * pCfr(pi) + pQsr(pi) * pCf(pi)) / e1Qf(pi);
