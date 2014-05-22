@@ -51,7 +51,7 @@ Rectangle {
                         anchors.right: parent.right
                         anchors.rightMargin: 32
                         anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + qsTr("years")
+                        text: app.translator.emptyString + qsTr("year(s)", "", sys.elementLifetime)
                         font.italic: true
                         horizontalAlignment: Text.AlignLeft
                         width: 30

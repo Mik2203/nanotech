@@ -119,5 +119,6 @@
         <file>generic_schemes/desalination/seawater.ntp</file>
         <file>generic_schemes/electronics/electronics-1.ntp</file>
         <file>generic_schemes/energo/energo-25.ntp</file>
+        <file>qml/widgets/BorderPanel.qml</file>
     </qresource>
 </RCC>
