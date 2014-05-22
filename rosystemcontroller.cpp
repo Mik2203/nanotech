@@ -51,7 +51,7 @@ ROSystemController::ROSystemController(ROSystem* sys, ROSystemSolveScheduler* sy
     connect(_sys, SIGNAL(feedCountChanged()), this, SIGNAL(inputChanged()));
     connect(_sys, SIGNAL(passCountChanged()), this, SIGNAL(inputChanged()));
     connect(_sys, SIGNAL(waterTypeIndexChanged()), this, SIGNAL(inputChanged()));
-    connect(_sys, SIGNAL(lifetimeChanged()), this, SIGNAL(inputChanged()));
+    connect(_sys, SIGNAL(elementLifetimeChanged()), this, SIGNAL(inputChanged()));
 
     // Translation
     connect(roApp->translator(), SIGNAL(currentLanguageChanged()), this, SLOT(updateWarnings()));

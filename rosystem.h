@@ -41,7 +41,7 @@ class ROSystem: public ROAbstractElement {
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
 
     Q_PROPERTY(double flowFactor READ flowFactor NOTIFY waterTypeIndexChanged)
-    Q_PROPERTY(double saltPassageYearIncrease READ saltPassageYearIncrease NOTIFY lifetimeChanged)
+    Q_PROPERTY(double saltPassageYearIncrease READ saltPassageYearIncrease NOTIFY elementLifetimeChanged)
 
     Q_PROPERTY(ROPass* firstPass READ firstPass NOTIFY firstPassChanged)
     Q_PROPERTY(ROPass* lastPass READ lastPass NOTIFY lastPassChanged)
@@ -52,7 +52,7 @@ class ROSystem: public ROAbstractElement {
 
     Q_PROPERTY(int waterTypeIndex READ waterTypeIndex WRITE setWaterTypeIndex NOTIFY waterTypeIndexChanged)
 
-    Q_PROPERTY(int lifetime READ lifetime WRITE setLifetime NOTIFY lifetimeChanged)
+    Q_PROPERTY(int elementLifetime READ elementLifetime WRITE setElementLifetime NOTIFY elementLifetimeChanged)
 
 
     Q_PROPERTY(int passCount READ passCount WRITE setPassCount NOTIFY passCountChanged)
@@ -120,8 +120,8 @@ public:
 
     int totalRecycleCount() const;
 
-    int lifetime() const;
-    void setLifetime(int lifetime);
+    int elementLifetime() const;
+    void setElementLifetime(int elementLifetime);
 
     const QMap<int, double> passIncomingRecycles(int toPassIdx) const;
     const QMap<int, double> passOutgoingRecycles(int fromPassIdx) const;
@@ -188,7 +188,7 @@ signals:
     void elementsCountChanged();
     void stagesCountChanged();
 
-    void lifetimeChanged();
+    void elementLifetimeChanged();
 
 private slots:
     void refreshPermeate();

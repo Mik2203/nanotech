@@ -25,12 +25,12 @@ Rectangle {
                     Text {
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + qsTr("System lifetime:")
+                        text: app.translator.emptyString + qsTr("Element lifetime:")
                     }
 
                     ROWidgets.ComboBox {
-                        id: systemLifetimeEditor
-                        anchors.right: sysLifetimeUnits.left
+                        id: elementLifetimeEditor
+                        anchors.right: elementLifetimeUnits.left
                         anchors.rightMargin: 5
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
@@ -41,13 +41,13 @@ Rectangle {
                         width: 40
                         //height: 25
 //                        selectedText: sys.lifetime
-                        selectedIndex: sys.lifetime-1
+                        selectedIndex: sys.elementLifetime-1
                         model: [1,2,3,4,5] // TODO from sys consts
-                        onSelect: sys.lifetime = selectIndex+1
+                        onSelect: sys.elementLifetime = selectIndex+1
                     }
 
                     Text {
-                        id: sysLifetimeUnits
+                        id: elementLifetimeUnits
                         anchors.right: parent.right
                         anchors.rightMargin: 32
                         anchors.verticalCenter: parent.verticalCenter

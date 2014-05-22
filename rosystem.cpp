@@ -181,8 +181,8 @@ bool ROSystem::removePass(int passIndex) {
             Q_EMIT waterTypeIndexChanged(); // TODO how to do it like this: newFirstPass->flowFactorChanged() ?
 
             // first pass SP increase
-            connect(this, SIGNAL(lifetimeChanged()), newFirstPass, SIGNAL(saltPassageYearIncreaseChanged()));
-            Q_EMIT lifetimeChanged(); // TODO how to do it like this: newFirstPass->flowFactorChanged() ?
+            connect(this, SIGNAL(elementLifetimeChanged()), newFirstPass, SIGNAL(saltPassageYearIncreaseChanged()));
+            Q_EMIT elementLifetimeChanged(); // TODO how to do it like this: newFirstPass->flowFactorChanged() ?
 
             Q_EMIT firstPassChanged();
         } else if (passIndex < _passes.count()){
@@ -369,13 +369,13 @@ int ROSystem::totalRecycleCount() const {
     return totalCount;
 }
 
-int ROSystem::lifetime() const {
+int ROSystem::elementLifetime() const {
     return _lifetime;
 }
 
-void ROSystem::setLifetime(int lifetime) {
+void ROSystem::setElementLifetime(int lifetime) {
     _lifetime = qBound(1, lifetime, 5);  // TODO consts
-    Q_EMIT lifetimeChanged();
+    Q_EMIT elementLifetimeChanged();
 }
 
 const QMap<int, double> ROSystem::passIncomingRecycles(int toPassIdx) const {

@@ -345,7 +345,7 @@ bool ROSystemSolver::init() {
         double pQf_user = pass->feed()->rate();
         pQf[pi] = pQf_user - pQr(pi);
         pFF[pi] = pass->flowFactor();
-        pSPI[pi] = pow(1.0 + pass->saltPassageYearIncrease(), _sys->lifetime());
+        pSPI[pi] = pow(1.0 + pass->saltPassageYearIncrease(), _sys->elementLifetime());
         pQb[pi] = pass->blendPermeate();
         pQfr[pi] = pQf_user - pQb[pi];
         pQfb[pi] = pQf[pi] - pQb[pi];
@@ -543,7 +543,7 @@ void ROSystemSolver::initPass(int pi) {
             int si = _usedSolutes[sii];
             esCp(pi, ei, sii) = esCf(pi, 0, sii) * 0.01;
             esCc(pi, ei, sii) = esCf(pi, 0, sii) * 1.1;
-            esSPm(pi, ei, sii) = SPm(MSi(pi, ei), si, esCf(pi, 0, sii));
+            esSPm(pi, ei, sii) = pSPI[pi] * SPm(MSi(pi, ei), si, esCf(pi, 0, sii));
         }
         eCp(pi, ei) = s1Cf(pi) * 0.01;
         eCc(pi, ei) = s1Cf(pi) * 1.1;
@@ -734,8 +734,8 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
                         //SPm
                         J(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
-                        J(iesSPm(pi, ei, sii), iesCf(pi, ei, sii)) = -dSPm(MSi(pi, ei), si, esCf(pi, ei, sii));
-                        F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - SPm(MSi(pi, ei), si, esCf(pi, ei, sii));
+                        J(iesSPm(pi, ei, sii), iesCf(pi, ei, sii)) = - pSPI[pi] * dSPm(MSi(pi, ei), si, esCf(pi, ei, sii));
+                        F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - pSPI[pi] * SPm(MSi(pi, ei), si, esCf(pi, ei, sii));
 
                         //Cp
 
