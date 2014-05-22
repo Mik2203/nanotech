@@ -67,6 +67,7 @@ private:
     Eigen::VectorXd pQr;
     Eigen::VectorXd e1vQf;
     Eigen::VectorXd pFF;
+    Eigen::VectorXd pSPI;
     Eigen::VectorXd s; // elements area
     Eigen::VectorXd v; // elements vessels count
 

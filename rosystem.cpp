@@ -180,6 +180,10 @@ bool ROSystem::removePass(int passIndex) {
             connect(this, SIGNAL(waterTypeIndexChanged()), newFirstPass, SIGNAL(flowFactorChanged()));
             Q_EMIT waterTypeIndexChanged(); // TODO how to do it like this: newFirstPass->flowFactorChanged() ?
 
+            // first pass SP increase
+            connect(this, SIGNAL(lifetimeChanged()), newFirstPass, SIGNAL(saltPassageYearIncreaseChanged()));
+            Q_EMIT lifetimeChanged(); // TODO how to do it like this: newFirstPass->flowFactorChanged() ?
+
             Q_EMIT firstPassChanged();
         } else if (passIndex < _passes.count()){
             _passes[passIndex]->setFeed(_passes[passIndex-1]->permeate());
@@ -347,6 +351,16 @@ double ROSystem::flowFactor() const {
 
 double ROSystem::permeateFlowFactor() const {
     return roDB->waterTypes()->get(roDB->waterTypes()->WATER_TYPE_PERMEATE, "flow_factor").toDouble();
+}
+
+double ROSystem::saltPassageYearIncrease() const
+{
+    return roDB->waterTypes()->get(waterTypeIndex(), "salt_passage_year_increase").toDouble();
+}
+
+double ROSystem::permeateSaltPassageYearIncrease() const
+{
+    return roDB->waterTypes()->get(roDB->waterTypes()->WATER_TYPE_PERMEATE, "salt_passage_year_increase").toDouble();
 }
 
 int ROSystem::totalRecycleCount() const {

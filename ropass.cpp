@@ -275,6 +275,13 @@ double ROPass::flowFactor() const {
     return system()->flowFactor();
 }
 
+double ROPass::saltPassageYearIncrease() const
+{
+    if (system()->passIndex(this))  // если ступень не первая
+        return system()->permeateSaltPassageYearIncrease();
+    return system()->saltPassageYearIncrease();
+}
+
 double ROPass::blendPermeate() const { return _hasBlendPermeate ? _blendPermeate : 0.0; }
 
 double ROPass::power() const {

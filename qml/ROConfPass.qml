@@ -213,34 +213,6 @@ Item {
         }
 
 
-        Item { // PASS FLOW FACTOR EDITOR ROW
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: 20
-
-            Text {
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                text: app.translator.emptyString + qsTr("Flow factor: ")
-            }
-
-            Text {
-                id: passFlowFactor
-                anchors.right: parent.right//passFlowFactorUnitsSpacer.left
-                anchors.rightMargin: 5 + 30 + parent.height-3
-                anchors.verticalCenter: parent.verticalCenter
-                horizontalAlignment: TextInput.AlignRight
-                height: parent.height-3
-                width: 50
-                text: pass.flowFactor.toFixed(2)
-                // onInputChanged: pass.flowFactor = changedValue
-                KeyNavigation.tab: selfRecycleEditor
-                KeyNavigation.backtab: passPermeateFlowInput
-            }
-
-        }
-
-
         Item { // PASS FLUX ROW
             anchors.left: parent.left
             anchors.right: parent.right

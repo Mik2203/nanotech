@@ -41,6 +41,7 @@ class ROSystem: public ROAbstractElement {
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
 
     Q_PROPERTY(double flowFactor READ flowFactor NOTIFY waterTypeIndexChanged)
+    Q_PROPERTY(double saltPassageYearIncrease READ saltPassageYearIncrease NOTIFY lifetimeChanged)
 
     Q_PROPERTY(ROPass* firstPass READ firstPass NOTIFY firstPassChanged)
     Q_PROPERTY(ROPass* lastPass READ lastPass NOTIFY lastPassChanged)
@@ -113,6 +114,9 @@ public:
 
     double flowFactor() const;
     double permeateFlowFactor() const;
+
+    double saltPassageYearIncrease() const;
+    double permeateSaltPassageYearIncrease() const;
 
     int totalRecycleCount() const;
 

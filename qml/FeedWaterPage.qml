@@ -24,7 +24,7 @@ Rectangle {
             if (sys.partFeedIndex(selectedFeed) == -1)
                 feedBar.select(0)
         }
-    } // pass is undefined, so reselect
+    }
 
     Item {
         id: waterPageAll
@@ -34,45 +34,70 @@ Rectangle {
         anchors.leftMargin: 10
         anchors.bottomMargin: 5
         width: 300
-        Item {
-            id: waterTypeSelector
-            anchors.left: parent.left
-            anchors.top: parent.top
+
+        Column {
+            id: waterParametersColumn
+            spacing: 5
             width: parent.width
-            height: 20
-            Text {
-                id: waterTypeLabel
+            Item {
+                id: waterTypeSelector
                 anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                text: app.translator.emptyString + qsTr("Water type: ")
-            }
+//                anchors.top: parent.top
+                width: parent.width
+                height: 20
 
-            ROWidgets.ComboBox {
-                id: waterType
-                anchors.right: waterTypeChosenWarning.left
-                anchors.rightMargin: 3
-                anchors.left: waterTypeLabel.right
-                anchors.leftMargin: 3
-                anchors.verticalCenter: parent.verticalCenter
-                height: parent.height-2
-
-                model: db.waterTypes
-                selectedIndex: sys.waterTypeIndex
-                selectedText: app.translator.emptyString + model.get(selectedIndex, "name")
-                itemDelegate: ROWidgets.DefaultListViewDelegate {
-                    width: buttonContainer.width
-                    height: buttonContainer.height
-                    text: waterType.model.get(index, "name")
+                Text {
+                    id: waterTypeLabel
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: app.translator.emptyString + qsTr("Water type: ")
                 }
-                onSelect: sys.waterTypeIndex = selectIndex
 
+                ROWidgets.ComboBox {
+                    id: waterType
+                    anchors.right: waterTypeChosenWarning.left
+                    anchors.rightMargin: 3
+                    anchors.left: waterTypeLabel.right
+                    anchors.leftMargin: 3
+                    anchors.verticalCenter: parent.verticalCenter
+                    height: parent.height-2
+
+                    model: db.waterTypes
+                    selectedIndex: sys.waterTypeIndex
+                    selectedText: app.translator.emptyString + model.get(selectedIndex, "name")
+                    itemDelegate: ROWidgets.DefaultListViewDelegate {
+                        width: buttonContainer.width
+                        height: buttonContainer.height
+                        text: waterType.model.get(index, "name")
+                    }
+                    onSelect: sys.waterTypeIndex = selectIndex
+
+                }
+
+                ROWidgets.WarningPopup {
+                    id: waterTypeChosenWarning
+                    warning: sysC.waterTypeChosen
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
 
-            ROWidgets.WarningPopup {
-                id: waterTypeChosenWarning
-                warning: sysC.waterTypeChosen
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
+
+            Row { // PASS FLOW FACTOR EDITOR ROW
+                anchors.left: parent.left
+                spacing: 10
+                height: 20
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: app.translator.emptyString + qsTr("Flow factor: ")
+                }
+
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    horizontalAlignment: TextInput.AlignRight
+                    text: sys.flowFactor.toFixed(2)
+                }
             }
         }
 
@@ -91,7 +116,7 @@ Rectangle {
 
         FeedBar {
             id: feedBar
-            anchors.top: waterTypeSelector.bottom
+            anchors.top: waterParametersColumn.bottom
             anchors.topMargin: 3
             anchors.left: parent.left
             elementsCount: sys.feedCount
@@ -124,37 +149,21 @@ Rectangle {
 
     }
 
-    Rectangle { // BORDER
-        border.color: "grey"
-        border.width: 1
-        color: "transparent"
-        anchors.fill: scalingPanel
-        anchors.margins: -10
-        radius: 3
-
-        Rectangle {
-            anchors.verticalCenter: parent.top
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            width: scalingHeaderLabel.width + 10
-            height: scalingHeaderLabel.height + 5
-
-            Text {
-                id: scalingHeaderLabel
-                text: app.translator.emptyString + qsTr("Scaling")
-                anchors.centerIn: parent
-            }
-        }
-    }
-
-    ScalingPanel {
-        id: scalingPanel
+    ROWidgets.BorderPanel {
         width: 320
-        anchors.left: waterPageAll.right
-        anchors.leftMargin: 40
         anchors.top: parent.top
-        anchors.topMargin: 63
+        anchors.topMargin: 7
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 15
+        anchors.bottomMargin: 5
+        anchors.left: waterPageAll.right
+        anchors.leftMargin: 30
+
+        headerLabel: app.translator.emptyString + qsTr("Scaling")
+
+        ScalingPanel {
+            id: scalingPanel
+            anchors.margins: 10
+            anchors.fill: parent
+        }
     }
 }

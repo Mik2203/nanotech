@@ -51,7 +51,7 @@ Rectangle {
                         anchors.right: parent.right
                         anchors.rightMargin: 32
                         anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("years")
+                        text: app.translator.emptyString + qsTr("years")
                         font.italic: true
                         horizontalAlignment: Text.AlignLeft
                         width: 30

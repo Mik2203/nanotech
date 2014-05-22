@@ -333,6 +333,7 @@ bool ROSystemSolver::init() {
     e1vQf = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates on first stage
     //s1Qp = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates on first stage
     pFF = Eigen::VectorXd::Zero(_sys->passCount()); // passes flow factors
+    pSPI = Eigen::VectorXd::Zero(_sys->passCount()); // passes salt passage increase
 
     for (int pi=0; pi < _sys->passCount(); ++pi) {
         const ROPass* const pass = _sys->pass(pi);
@@ -344,6 +345,7 @@ bool ROSystemSolver::init() {
         double pQf_user = pass->feed()->rate();
         pQf[pi] = pQf_user - pQr(pi);
         pFF[pi] = pass->flowFactor();
+        pSPI[pi] = pow(1.0 + pass->saltPassageYearIncrease(), _sys->lifetime());
         pQb[pi] = pass->blendPermeate();
         pQfr[pi] = pQf_user - pQb[pi];
         pQfb[pi] = pQf[pi] - pQb[pi];
