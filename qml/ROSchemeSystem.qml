@@ -1,6 +1,7 @@
 import QtQuick 1.1
 import ROPass 1.0
 import Line 1.0
+import ROScalingElement 1.0
 
 import "widgets" as ROWidgets
 
@@ -25,7 +26,42 @@ Item {
         anchors.top: parent.top
         anchors.topMargin: elHeight
 
+        Column {
+            id: adjustmentIndicator
+            anchors.bottom: feedLine.bottom
+            visible: sys.scalingElement.adjustment != ROScalingElement.NoAdjusment
+
+
+
+            Image {
+                source: "../images/acid.png";
+                width: 30
+                height: 30
+                anchors.right: parent.right
+                smooth: true
+                rotation: 120
+            }
+
+            Line {
+                penWidth: linkThickness
+                anchors.right: parent.right
+                vertices: [0, 0,
+                           0, elWidth/4]
+                color: "green"
+                lineEndType: Line.LineEndArrow
+            }
+
+            Line {
+                penWidth: linkThickness
+                vertices: [0, 0,
+                           elWidth/4, 0]
+                anchors.right: parent.right
+                color: "black"
+            }
+        }
+
         Line {
+            id: feedLine
             penWidth: linkThickness
             anchors.top: parent.top
             anchors.topMargin: (elHeight-linkThickness) / 2
@@ -33,7 +69,6 @@ Item {
                        elWidth/2, 0]
             color: "black"
             lineEndType: Line.LineEndArrow
-            //lineStartType: Line.LineEndArrow
         }
 
         Item {

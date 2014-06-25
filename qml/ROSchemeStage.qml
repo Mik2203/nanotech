@@ -13,7 +13,7 @@ Item {
 
     Row {
         anchors.bottom: box.top
-        anchors.bottomMargin: -3
+        anchors.bottomMargin: editable ? -elHeight/10 : -elHeight/2
         anchors.horizontalCenter: box.horizontalCenter
         z: 2
 

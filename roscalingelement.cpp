@@ -177,7 +177,7 @@ void ROScalingElement::reset() {
     _CaLeakageExplicit = false;
     _MgLeakage = 0.0;
     _MgLeakageExplicit = false;
-    _targetPh = 7.6;
-    _acidConcentration = 1.0;
+    _targetPh = 7.6; // TODO const
+    _acidConcentration = 1.0; // TODO const
     _dosingAcid = H2SO4;
 }
