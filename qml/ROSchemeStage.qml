@@ -11,6 +11,25 @@ Item {
     width: elWidth + cFlow.width
     height: elHeight + pFlow.height
 
+    Row {
+        anchors.bottom: box.top
+        anchors.bottomMargin: -3
+        anchors.horizontalCenter: box.horizontalCenter
+        z: 2
+
+        Text {
+            text: stage.vesselCount
+        }
+
+        Text {
+            text: "#"
+        }
+
+        Text {
+            text: stage.elementsPerVesselCount
+        }
+    }
+
     Rectangle {
         id: box
         width: elWidth
