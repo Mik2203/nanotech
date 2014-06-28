@@ -33,7 +33,7 @@ Item {
                 anchors.leftMargin: 5
                 anchors.top: parent.top
                 anchors.topMargin: -(height + linkThickness) /2
-                text: qsTr("F%1").arg(passIndex+1)
+                text: app.translator.emptyString + qsTr("F%1").arg(passIndex+1)
             }
         }
 
@@ -63,7 +63,7 @@ Item {
             opacity: 0.85
             anchors.leftMargin: -width / 2
             anchors.verticalCenter: parent.verticalCenter
-            text: qsTr("P%1").arg(passIndex+1)
+            text: app.translator.emptyString + qsTr("P%1").arg(passIndex+1)
         }
     }
 
@@ -100,7 +100,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: -height / 2
-            text: qsTr("SR%1").arg(passIndex+1)
+            text: app.translator.emptyString + qsTr("SR%1").arg(passIndex+1)
         }
     }
 
@@ -123,7 +123,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.topMargin: elHeight * 0.2
-            text: qsTr("B%1").arg(passIndex+1)
+            text: app.translator.emptyString + qsTr("B%1").arg(passIndex+1)
         }
 
         ROWidgets.BorderText {  // permeate from stages label
@@ -133,7 +133,7 @@ Item {
             anchors.leftMargin: 12
             anchors.top: parent.bottom
             anchors.topMargin: -height/2
-            text: qsTr("SP%1").arg(passIndex+1)
+            text: app.translator.emptyString + qsTr("SP%1").arg(passIndex+1)
         }
 
         ROWidgets.BorderText {  // feed to stages label
@@ -143,7 +143,7 @@ Item {
             anchors.leftMargin: 12
             anchors.bottom: parent.top
             anchors.bottomMargin: -(height - linkThickness * 2) /2
-            text: qsTr("SF%1").arg(passIndex+1)
+            text: app.translator.emptyString + qsTr("SF%1").arg(passIndex+1)
         }
     }
 
@@ -174,7 +174,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 anchors.topMargin: -height / 2
-                text: qsTr("R%1-%2").arg(passIndex+1).arg(index+1)
+                text: app.translator.emptyString + qsTr("R%1-%2").arg(passIndex+1).arg(index+1)
             }
         }
 
