@@ -28,7 +28,7 @@ Item {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: app.translator.emptyString + qsTr("Permeate flow: ")
+                text: app.translator.emptyString + qsTr("Permeate flow (P%1):").arg(passIndex+1)
             }
 
             ROWidgets.CheckBox {
@@ -88,7 +88,7 @@ Item {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: app.translator.emptyString + qsTr("Recovery: ")
+                text: app.translator.emptyString + qsTr("Recovery:")
             }
 
             ROWidgets.CheckBox {
@@ -155,7 +155,7 @@ Item {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: app.translator.emptyString + qsTr("Feed flow: ")
+                text: app.translator.emptyString + qsTr("Feed flow (F%1):").arg(passIndex+1)
             }
 
             ROWidgets.CheckBox {
@@ -221,7 +221,7 @@ Item {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: app.translator.emptyString + qsTr("Average flux: ")
+                text: app.translator.emptyString + qsTr("Average flux:")
             }
 
             ROWidgets.DoubleInput {
@@ -254,7 +254,7 @@ Item {
                 Text {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    text: app.translator.emptyString + qsTr("Blend permeate: ")
+                    text: app.translator.emptyString + qsTr("Blend permeate (B%1):").arg(passIndex+1)
                 }
 
                 ROWidgets.CheckBox {
@@ -296,7 +296,7 @@ Item {
                 anchors.leftMargin: 10
                 anchors.right: parent.right
 
-                visible: pass.hasBlendPermeate && pass.blendPermeate > 0.0
+                visible: pass.hasBlendPermeate// && pass.blendPermeate > 0.0
 
                 Item {
                     anchors.left: parent.left
@@ -306,7 +306,7 @@ Item {
                     Text {
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + qsTr("Feed on stages:")
+                        text: app.translator.emptyString + qsTr("Feed on stages (SF%1):").arg(passIndex+1)
                     }
 
                     Text {
@@ -342,7 +342,7 @@ Item {
                     Text {
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + qsTr("Permeate from stages:")
+                        text: app.translator.emptyString + qsTr("Permeate from stages (SP%1):").arg(passIndex+1)
                     }
 
                     Text {
@@ -399,7 +399,7 @@ Item {
                 Text {
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    text: app.translator.emptyString + qsTr("Self Recycle: ")
+                    text: app.translator.emptyString + qsTr("Self Recycle (SR%1):").arg(passIndex+1)
                 }
 
                 ROWidgets.CheckBox {
@@ -445,7 +445,7 @@ Item {
                     Text {
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + qsTr("Pass %1: ").arg(index+1)
+                        text: app.translator.emptyString + qsTr("Pass %1 (R%2-%1):").arg(index+1).arg(passIndex+1)
                     }
 
                     ROWidgets.CheckBox {

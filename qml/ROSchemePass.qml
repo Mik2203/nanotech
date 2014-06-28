@@ -7,14 +7,36 @@ import "widgets" as ROWidgets
 
 Item {
     id: container
+    property real passPermeateArrowLength: 70
+    property real passFeedArrowLength: 100
     property ROPass pass
     property ROPassController passC: sysC.passC(pass)
     property int passIndex: sys.passIndex(pass)
     width: stages.width
-    height: stages.height
+    height: stages.height + pFlow.height
 
     Row {
         id: stages
+
+        Line {
+            penWidth: linkThickness
+            anchors.top: parent.top
+            anchors.topMargin: (elHeight-linkThickness) / 2
+            vertices: [0, 0,
+                       passFeedArrowLength, 0]
+            color: passIndex == 0 ? "black" : "blue"
+            lineEndType: Line.LineEndArrow
+
+            ROWidgets.BorderText {  // permeate from stages label
+                opacity: 0.85
+                anchors.left: parent.left
+                anchors.leftMargin: 5
+                anchors.top: parent.top
+                anchors.topMargin: -(height + linkThickness) /2
+                text: qsTr("F%1").arg(passIndex+1)
+            }
+        }
+
         Repeater {
             model: pass.stageCount
             delegate: ROSchemeStage { stage: pass.stage(index)  }
@@ -25,27 +47,24 @@ Item {
         id: pFlow
         penWidth: linkThickness
         anchors.left: parent.left
-        anchors.leftMargin: (elWidth-linkThickness) / 2
-        anchors.bottom: stages.bottom
-        vertices: [0, 0,
-                   getWidth(), 0]
+        anchors.top: stages.bottom
+        vertices: [getWidth(), 0,
+                   0, 0,
+                   0, passPermeateArrowLength - linkThickness * 2]
         color: "blue"
         function getWidth(){
-            if (passIndex < sys.passCount-1) {
-                if (pass.stageCount == 1) {
-                    if (sys.passCount > 1) {
-                        return 0;
-                    } else {
-                        return elWidth
-                    }
-                }
-                return (elWidth*1.5 + linkThickness) * (pass.stageCount-1)
-            } else { // LAST PASS
-                return stages.width - elWidth/2
-            }
+            return passFeedArrowLength + elWidth / 2 + linkThickness * 0.5 + (pass.stageCount-1) * (elWidth * 1.5 + linkThickness * 1.3);
         }
 
         lineEndType: passIndex == sys.passCount-1 ? Line.LineEndArrow : Line.LineEndNone
+
+        ROWidgets.BorderText {  // total permeate label
+            anchors.left: parent.left
+            opacity: 0.85
+            anchors.leftMargin: -width / 2
+            anchors.verticalCenter: parent.verticalCenter
+            text: qsTr("P%1").arg(passIndex+1)
+        }
     }
 
     ROWidgets.Button {
@@ -53,7 +72,7 @@ Item {
         anchors.left: parent.right
         anchors.leftMargin: 5
         anchors.verticalCenter: parent.top
-        anchors.verticalCenterOffset: elHeight/2 - 2
+        anchors.verticalCenterOffset: (elHeight - linkThickness) * 0.5
         width: 18
         height: width
         onClicked: { pass.addStage(pass.stageCount); selectedPass = pass; selectedStage = pass.lastStage;  }
@@ -61,39 +80,74 @@ Item {
     }
 
     Line { // SELF RECYCLE
-        anchors.left: parent.left // привязка по сути к левой стороне первой стадии
-        anchors.leftMargin: -(arrowLength + linkThickness)/2 // Сдвиг влево на половину длины соединяющей стрелки
+        anchors.right: parent.right
+        anchors.rightMargin: arrowLength / 2
         anchors.bottom: parent.top // привязка к высшей точке - это точка прямоугольников стадий
-        anchors.bottomMargin: -elHeight/2 //Сдвиг вниз
+        anchors.bottomMargin: -elHeight / 2 //Сдвиг вниз
 
         visible: pass.hasSelfRecycle
 
         color: "red"
         penWidth: linkThickness
         vertices: [0, 0,
-                   0, -elHeight * 0.7,
-                   parent.width, -elHeight * 0.7,
-                   parent.width, 0]
+                   0, -elHeight,
+                   parent.width - passFeedArrowLength - 10, -elHeight,
+                   parent.width - passFeedArrowLength - 10, 0]
         lineStartType: Line.LineEndArrow
+
+        ROWidgets.BorderText {
+            opacity: 0.85
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: -height / 2
+            text: qsTr("SR%1").arg(passIndex+1)
+        }
     }
 
     Line { // BLEND
-        anchors.left: parent.left // привязка по сути к левой стороне первой стадии
-        anchors.leftMargin: -arrowLength/2 - linkThickness*3 // Сдвиг влево на половину длины соединяющей стрелки
-        anchors.top: parent.top // привязка к высшей точке - это точка прямоугольников стадий
-        anchors.topMargin: elHeight / 2 //Сдвиг вниз
+        anchors.left: parent.left  // привязка к левой стороне первой стадии
+        anchors.leftMargin: 30  // сдвиг вправо
+        anchors.top: parent.top  // привязка к высшей точке - это точка прямоугольников стадий
+        anchors.topMargin: (elHeight) * 0.5  //сдвиг вниз
 
         visible: pass.hasBlendPermeate
 
         color: passIndex == 0 ? "black" : "blue"
         penWidth: linkThickness
         vertices: [0, 0,
-                   0, elHeight,
-                   (elWidth + arrowLength) / 2 + linkThickness*2, elHeight]
+                   0, elHeight]
         lineEndType: Line.LineEndArrow
+
+        ROWidgets.BorderText {
+            opacity: 0.85
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: elHeight * 0.2
+            text: qsTr("B%1").arg(passIndex+1)
+        }
+
+        ROWidgets.BorderText {  // permeate from stages label
+            opacity: 0.85
+            visible: pass.hasBlendPermeate
+            anchors.left: parent.left
+            anchors.leftMargin: 12
+            anchors.top: parent.bottom
+            anchors.topMargin: -height/2
+            text: qsTr("SP%1").arg(passIndex+1)
+        }
+
+        ROWidgets.BorderText {  // feed to stages label
+            opacity: 0.85
+            visible: pass.hasBlendPermeate
+            anchors.left: parent.left
+            anchors.leftMargin: 12
+            anchors.bottom: parent.top
+            anchors.bottomMargin: -(height - linkThickness * 2) /2
+            text: qsTr("SF%1").arg(passIndex+1)
+        }
     }
 
-    Repeater {
+    Repeater {  // Рециклы с других ступеней
         model: passIndex
 
         Line {
@@ -101,18 +155,26 @@ Item {
             visible: pass.hasRecycle(index)
             penWidth: linkThickness
             anchors.right: parent.right
-            anchors.rightMargin: (arrowLength - linkThickness) / 2
+            anchors.rightMargin: arrowLength / 2
             anchors.bottom: parent.top // привязка к высшей точке - это точка прямоугольников стадий
             anchors.bottomMargin: -elHeight / 2 //Сдвиг вниз
             vertices: [0, 0,
-                0, -(passOffset + elHeight) * (passIndex - index) - elHeight*0.9, //-linkThickness*2
-                -stages.width - elWidth * (passIndex - index), -(passOffset + elHeight) * (passIndex - index) - elHeight*0.9, //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) - 10
-                -stages.width - elWidth * (passIndex - index), -(passOffset + elHeight) * (passIndex - index)] //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) + elHeight - 16
+                0, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-linkThickness*2
+                -stages.width + passFeedArrowLength + 10, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) - 10
+                -stages.width + passFeedArrowLength + 10, -(passPermeateArrowLength + elHeight) * (passIndex - index)] //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) + elHeight - 16
             color: "red"
             lineEndType: Line.LineEndArrow
             Connections {
                 target: pass
                 onRecycleChanged: rFlow.visible = pass.hasRecycle(index)
+            }
+
+            ROWidgets.BorderText {
+                opacity: 0.85
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: -height / 2
+                text: qsTr("R%1-%2").arg(passIndex+1).arg(index+1)
             }
         }
 
