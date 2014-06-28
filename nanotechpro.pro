@@ -218,7 +218,8 @@ OTHER_FILES += \
     qml/HelloWindow.qml \
     qml/AboutWindow.qml \
     app_icon.rc \
-    qml/widgets/BorderPanel.qml
+    qml/widgets/BorderPanel.qml \
+    qml/widgets/BorderText.qml
 
 TRANSLATIONS += nano_ru.ts # for update utilite
 win32:RC_FILE = app_icon.rc # for windows icon

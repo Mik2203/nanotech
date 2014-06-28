@@ -10,13 +10,7 @@ double len(const QPointF& p) {
     return sqrt(p.x()*p.x() + p.y()*p.y());
 }
 
-const double qmlLine::_arrowSize = 9.0;
-const QPointF qmlLine::_arrowPoints[4] = {
-    QPointF(0.0, -_arrowSize/2),
-    QPointF(0.0, _arrowSize/2),
-    QPointF(_arrowSize, 0.0)
-};
-
+//const double qmlLine::_arrowSize = 9.0;
 
 qmlLine::qmlLine(QDeclarativeItem *parent) :
         QDeclarativeItem(parent),
@@ -42,20 +36,31 @@ void qmlLine::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     QPointF initEnd = _points.last();
     truncateEnds();
 
+    QPointF penDelta = QPointF(penWidth() / 2, penWidth() / 2);
+
+    QVector<QPointF> drawPoints = _points;
+    for (int i=0; i<drawPoints.count(); i++) {
+        drawPoints[i] += penDelta;
+    }
+
     // draw
-    painter->drawPolyline(_points.data(), _points.count());
+    painter->drawPolyline(drawPoints.data(), drawPoints.count());
 
     // restore values
     _points[0] = initStart;
     _points[_points.count()-1] = initEnd;
 
+    drawPoints[0] = initStart + penDelta;
+    drawPoints[drawPoints.count()-1] = initEnd + penDelta;
+
+
     // Draw line ends
     if (_points.count() >= 2) {
         switch (_lineStartType) {
-        case LineEndArrow: drawArrow(painter, _points[0], _points[1]);
+        case LineEndArrow: drawArrow(painter, drawPoints[0], drawPoints[1]);
         }
         switch (_lineEndType) {
-        case LineEndArrow: drawArrow(painter, _points[_points.count()-1], _points[_points.count()-2]);
+        case LineEndArrow: drawArrow(painter, drawPoints[drawPoints.count()-1], drawPoints[drawPoints.count()-2]);
         }
     }
 }
@@ -90,6 +95,10 @@ void qmlLine::setLineEndType(qmlLine::LineEndType type) {
 void qmlLine::setPenWidth(int newWidth) {
     if(_penWidth == newWidth) return;
     _penWidth = newWidth;
+    _arrowSize = _penWidth * 3;
+    _arrowPoints[0] = QPointF(0.0, -_arrowSize/2);
+    _arrowPoints[1] = QPointF(0.0, _arrowSize/2);
+    _arrowPoints[2] = QPointF(_arrowSize, 0.0);
     Q_EMIT penWidthChanged();
     update();
 }
@@ -100,6 +109,7 @@ void qmlLine::update() {
     qreal maxX = 0.0;
     qreal minY = 0.0;
     qreal maxY = 0.0;
+
     if (!_points.isEmpty()) {
         minX = maxX = _points[0].x();
         minY = maxY = _points[0].y();
@@ -137,7 +147,7 @@ void qmlLine::drawArrow(QPainter *painter, const QPointF& p0, const QPointF& p1)
 
     QTransform arrowTrans = QTransform::fromTranslate(p0mapped.x(), p0mapped.y());
     arrowTrans.rotate(angle);
-    arrowTrans.translate(-_arrowSize + _penWidth / 2 + 1 /*+ _penWidth*/, 0/*_penWidth / 2*/);
+    arrowTrans.translate(-_arrowSize * 0.8 /*+ _penWidth*/, 0/*_penWidth / 2*/);
     painter->setWorldTransform(arrowTrans);
     painter->setWorldMatrixEnabled(true);
 
@@ -154,7 +164,7 @@ void qmlLine::truncateEnds() {
             QPointF dir = _points[0] - _points[1];
             double dirLen = len(dir);
             if (dirLen > _arrowSize) {
-                dir = dir / dirLen * (dirLen - _arrowSize - _penWidth / 2 + 2); // shorten by _arrowSize + _penWidth / 2
+                dir = dir / dirLen * (dirLen - _arrowSize * 0.7); // shorten by _arrowSize + _penWidth / 2
                 _points[0] = _points[1] + dir;
             }
         }
@@ -164,7 +174,7 @@ void qmlLine::truncateEnds() {
             QPointF dir = _points[_points.count()-1] - _points[_points.count()-2];
             double dirLen = len(dir);
             if (dirLen > _arrowSize) {
-                dir = dir / dirLen * (dirLen - _arrowSize - _penWidth / 2 + 2);
+                dir = dir / dirLen * (dirLen - _arrowSize * 0.7);
                 _points[_points.count()-1] = _points[_points.count()-2] + dir;
             }
         }
@@ -181,8 +191,8 @@ void qmlLine::setVertices(const QVariant &value) {
     _points.clear();
     QVariantList vertlist = _vertices.toList();
 
-    for (int index = 0; (index + 1) < vertlist.size(); index += 2) {
-        _points.append(QPointF(vertlist.at(index).toReal(), vertlist.at(index+1).toReal()));
+    for (int ci = 0; (ci + 1) < vertlist.size(); ci += 2) {
+        _points.append(QPointF(vertlist.at(ci).toReal(), vertlist.at(ci+1).toReal()));
     }
 
 
@@ -191,9 +201,9 @@ void qmlLine::setVertices(const QVariant &value) {
     update();
 
     // set relative coordinates
-    for (int pIdx=0; pIdx<_points.count(); ++pIdx) {
-        _points[pIdx].setX(_points[pIdx].x() - _minX);
-        _points[pIdx].setY(_points[pIdx].y() - _minY);
+    for (int pi=0; pi<_points.count(); ++pi) {
+        _points[pi].setX(_points[pi].x() - _minX);
+        _points[pi].setY(_points[pi].y() - _minY);
     }
 
     Q_EMIT verticesChanged();

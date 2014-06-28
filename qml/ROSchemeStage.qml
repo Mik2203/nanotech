@@ -128,23 +128,22 @@ Item {
             vertices: [0, 0,
                        arrowLength, 0]
             function calcLength() {
-                var len = (elWidth+linkThickness) / 2; // defaults
+                var len = (elWidth+linkThickness) *0.5; // defaults
                 if (stageIndex == pass.stageCount - 1) { // last stage
-                    var offset = 0.0
+                    var offset = 0.0;  // вычисление максимального смещения исходя из данных рециклов всех ступеней
                     var hasRecycle = false;
                     for (var pi=0; pi<passIndex; ++pi) {
-                        if (pass.hasRecycle(pi)) {
+                        if (pass.hasRecycle(pi))
                             hasRecycle = true;
-                            //offset += sys.pass(pi).stageCount * elWidth * 1.5;
-                        }
                         if (hasRecycle) {
-                            var pOff = (sys.pass(pi).stageCount - pass.stageCount) * (elWidth + linkThickness) * 1.5;
-                            if (pOff > offset) offset = pOff;
+                            var pOff = (sys.pass(pi).stageCount - pass.stageCount) * (elWidth + linkThickness) * 1.5 + elWidth;
+                            if (pOff > offset)
+                                offset = pOff;
                         }
                     }
-                    len += offset
+                    len += offset;
                 }
-                return len
+                return len;
             }
 
             Connections {
@@ -168,7 +167,7 @@ Item {
 
         Line {
             id: pFlow
-            penWidth: 3
+            penWidth: linkThickness
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.bottom
             vertices: [0, 0,

@@ -60,8 +60,8 @@ protected:
 private:
     void drawArrow(QPainter *painter, const QPointF& p0, const QPointF& p1);
     void truncateEnds();
-    static const double _arrowSize;
-    static const QPointF _arrowPoints[4];
+    double _arrowSize;
+    QPointF _arrowPoints[3];
     double _minX;
     double _minY;
 };

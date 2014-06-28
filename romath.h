@@ -100,7 +100,7 @@ static double dPIiCf(double Cf, double Qp, double Qf, double Cc, /*double T,*/ d
     return - pfi(Qp, Qf) * PIf * 0.5 * Cc * barToPSI / (Cf * Cf);
 }
 
-static double A(int series, double Cf, double Qp, double Qf, double Cc, double PIf){
+static double A(int series, double Cf, double Qp, double Qf, double Cc, double PIf) {
     double a = 0;
     double pii = PIi(Cf, Qp, Qf, Cc, PIf);
     double aCoeff = ROMembrane::aCoeff(series);

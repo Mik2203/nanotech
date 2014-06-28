@@ -95,7 +95,10 @@ void ROReportBuilder::insertWarnings(ROCase *case_) {
 }
 
 void ROReportBuilder::insertScheme() {
-    _cursor.insertImage(roApp->schemeCapturer()->getImage().scaledToHeight(100, Qt::SmoothTransformation));
+    QImage capturedScheme = roApp->schemeCapturer()->getImage();
+    if (capturedScheme.width() > _pageSize.width())
+        capturedScheme = capturedScheme.scaledToWidth(_pageSize.width(), Qt::SmoothTransformation);
+    _cursor.insertImage(capturedScheme);
 }
 
 void ROReportBuilder::insertCase(ROCase *case_) {

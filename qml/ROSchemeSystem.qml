@@ -7,14 +7,13 @@ import "widgets" as ROWidgets
 
 Item {
     id: schemeContainer
-    width: passRow.width
-    height: passRow.height + elHeight
+    width: passRow.width + 15  // 15 - labels, etc..
+    height: passRow.height + elHeight * 2  // 1 elHeight запасная на рециклы
 
     property real elWidth: 70
     property real elHeight: 40
     property real arrowLength: elWidth/2
     property real linkThickness: 3
-    property real passOffset: 50
     property bool editable: true
     property bool showWarnings: false
 
@@ -24,11 +23,15 @@ Item {
         id: passRow
 
         anchors.top: parent.top
-        anchors.topMargin: elHeight
+        anchors.topMargin: elHeight * 1.5  // 1 elHeight запасная на рециклы
+
+        anchors.left: parent.left
+        anchors.leftMargin: 15  // 15 - labels, etc..
 
         Column {
             id: adjustmentIndicator
-            anchors.bottom: feedLine.bottom
+            anchors.bottom: parent.top
+            anchors.bottomMargin: -(elHeight + linkThickness) / 2
             visible: sys.scalingElement.adjustment != ROScalingElement.NoAdjusment
 
 
@@ -60,19 +63,9 @@ Item {
             }
         }
 
-        Line {
-            id: feedLine
-            penWidth: linkThickness
-            anchors.top: parent.top
-            anchors.topMargin: (elHeight-linkThickness) / 2
-            vertices: [0, 0,
-                       elWidth/2, 0]
-            color: "black"
-            lineEndType: Line.LineEndArrow
-        }
-
-        Item {
+        Column {
             id: passes
+            spacing: -elHeight / 2
 
             function updateHeight() {
                 var spi = passesRepeater.itemAt(passesRepeater.count-1)
@@ -96,33 +89,15 @@ Item {
                 delegate: ROSchemePass {
                     pass: sys.pass(index)
                     passIndex: index
-                    x: index * elWidth
-                    y: index * (elHeight + passOffset)
 
                     onWidthChanged: passes.updateWidth()
-
-                    Line {
-                        visible: sys.passCount-1 > index
-
-                        penWidth: linkThickness
-                        anchors.top: parent.bottom
-                        anchors.left: parent.left
-                        anchors.leftMargin: (elWidth - linkThickness) / 2
-
-                        vertices: [0, 0,
-                                   0, passOffset-linkThickness*2,
-                                   elWidth/2, passOffset-linkThickness*2]
-                        color: "blue"
-                        lineEndType: Line.LineEndArrow
-                    }
-
 
                     ROWidgets.Button {
                         text: app.translator.emptyString + qsTr("+")
                         anchors.top: parent.bottom
                         anchors.topMargin: 5
                         anchors.left: parent.left
-                        anchors.leftMargin: 25
+                        anchors.leftMargin: elWidth - width / 2
                         width: 18
                         height: width
                         onClicked: { sys.addPass(index+1); selectedPass = sys.pass(index+1) }

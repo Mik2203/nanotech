@@ -34,20 +34,8 @@ MouseArea {
     Component {
         id: tooltipComponent
 
-        Rectangle {
-            id: tooltipContainer
-            width: tooltipLabel.width + 5
-            height: tooltipLabel.height + 5
-            border.color: "lightgrey"
-            border.width: 1
-
-            Text {
-                id: tooltipLabel
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 3
-                text: tooltip
-            }
+        BorderText {
+            text: tooltip
         }
     }
 

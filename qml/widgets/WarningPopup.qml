@@ -40,23 +40,10 @@ Image {
         Component {
             id: popupComponent
 
-            Rectangle {
-                id: popup
-                width: popupLabel.width + 5
-                height: popupLabel.height + 5
-                border.color: "lightgrey"
-                border.width: 1
-
-                Text {
-                    id: popupLabel
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 3
-                    text: warning.what
-                }
+            BorderText {
+                text: warning.what
             }
         }
-
 
     }
 }
