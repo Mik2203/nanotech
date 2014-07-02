@@ -5,7 +5,7 @@
 
 #include "roflow.h"
 
-// содержит информацию о входных потоках: доли потока и ионах.
+// СЃРѕРґРµСЂР¶РёС‚ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РІС…РѕРґРЅС‹С… РїРѕС‚РѕРєР°С…: РґРѕР»Рё РїРѕС‚РѕРєР° Рё РёРѕРЅР°С….
 
 class ROFeed : public QObject {
     Q_OBJECT
@@ -22,7 +22,7 @@ public:
     double part() const;
     void setPart(double value);
 
-    // флаг удаления потока ROFlow при удалении ROFeed
+    // С„Р»Р°Рі СѓРґР°Р»РµРЅРёСЏ РїРѕС‚РѕРєР° ROFlow РїСЂРё СѓРґР°Р»РµРЅРёРё ROFeed
     bool deleteFlow() const;
     void setDeleteFlow(bool needDelete);
 

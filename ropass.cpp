@@ -42,8 +42,8 @@ ROPass::ROPass(ROSystem* system, /*int passNumber,*/ ROFlow* feed) :
 
 
     // POWER & ENERGY -
-    // достаточно только реагировать на изменения давления, потому что даже, если что то еще поменяется,
-    // то нужен пересчет, который изменит давление
+    // РґРѕСЃС‚Р°С‚РѕС‡РЅРѕ С‚РѕР»СЊРєРѕ СЂРµР°РіРёСЂРѕРІР°С‚СЊ РЅР° РёР·РјРµРЅРµРЅРёСЏ РґР°РІР»РµРЅРёСЏ, РїРѕС‚РѕРјСѓ С‡С‚Рѕ РґР°Р¶Рµ, РµСЃР»Рё С‡С‚Рѕ С‚Рѕ РµС‰Рµ РїРѕРјРµРЅСЏРµС‚СЃСЏ,
+    // С‚Рѕ РЅСѓР¶РµРЅ РїРµСЂРµСЃС‡РµС‚, РєРѕС‚РѕСЂС‹Р№ РёР·РјРµРЅРёС‚ РґР°РІР»РµРЅРёРµ
     connect(firstStageFeed(), SIGNAL(pressureChanged()), this, SIGNAL(powerChanged()));
     connect(this, SIGNAL(powerChanged()), this, SIGNAL(specificEnergyChanged()));
 
@@ -270,14 +270,14 @@ void ROPass::removeSelfRecycle() {
 bool ROPass::hasBlendPermeate() const { return _hasBlendPermeate; }
 
 double ROPass::flowFactor() const {
-    if (system()->passIndex(this))  // если ступень не первая
+    if (system()->passIndex(this))  // РµСЃР»Рё СЃС‚СѓРїРµРЅСЊ РЅРµ РїРµСЂРІР°СЏ
         return system()->permeateFlowFactor();
     return system()->flowFactor();
 }
 
 double ROPass::saltPassageYearIncrease() const
 {
-    if (system()->passIndex(this))  // если ступень не первая
+    if (system()->passIndex(this))  // РµСЃР»Рё СЃС‚СѓРїРµРЅСЊ РЅРµ РїРµСЂРІР°СЏ
         return system()->permeateSaltPassageYearIncrease();
     return system()->saltPassageYearIncrease();
 }

@@ -232,53 +232,53 @@ void MainWindow::setLanguage(bool checked) {
 //    double LToM3 = 1 / m3ToL;
 
 //    // Inputs Parameters
-//    double Yi = _system.pass(0)->recovery(); // Степень извлечения пермеата для i –го элемента (D38)
-//    double Qpi = 1.0;               // TODO Производительность пермеата  для i –го элемента (D2)
-//    double Ppi = 0.0;               // TODO Давление со стороны пермеата
-//    double Qf = Qpi / Yi;           // Изначальный входной поток (D5)
-//    double Qr = 3.0;                // TODO Поток рециркуляции i –го элемента (D7)
-//    double Qfi = Qf + Qr;           // Входной поток для i –го элемента (D4)
-//    double Qci = Qfi - Qpi;         // Поток концентрата i –го элемента (D6)
-//    double n = 1;                   // TODO Количество элементов в серии
-//    double qfc = (Qfi + Qci) / 2;   // Среднеарифметическое поток через коцентрат=1/2(вх.поток+вых поток) (D43)
+//    double Yi = _system.pass(0)->recovery(); // РЎС‚РµРїРµРЅСЊ РёР·РІР»РµС‡РµРЅРёСЏ РїРµСЂРјРµР°С‚Р° РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D38)
+//    double Qpi = 1.0;               // TODO РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ РїРµСЂРјРµР°С‚Р°  РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D2)
+//    double Ppi = 0.0;               // TODO Р”Р°РІР»РµРЅРёРµ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РїРµСЂРјРµР°С‚Р°
+//    double Qf = Qpi / Yi;           // РР·РЅР°С‡Р°Р»СЊРЅС‹Р№ РІС…РѕРґРЅРѕР№ РїРѕС‚РѕРє (D5)
+//    double Qr = 3.0;                // TODO РџРѕС‚РѕРє СЂРµС†РёСЂРєСѓР»СЏС†РёРё i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D7)
+//    double Qfi = Qf + Qr;           // Р’С…РѕРґРЅРѕР№ РїРѕС‚РѕРє РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D4)
+//    double Qci = Qfi - Qpi;         // РџРѕС‚РѕРє РєРѕРЅС†РµРЅС‚СЂР°С‚Р° i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D6)
+//    double n = 1;                   // TODO РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃРµСЂРёРё
+//    double qfc = (Qfi + Qci) / 2;   // РЎСЂРµРґРЅРµР°СЂРёС„РјРµС‚РёС‡РµСЃРєРѕРµ РїРѕС‚РѕРє С‡РµСЂРµР· РєРѕС†РµРЅС‚СЂР°С‚=1/2(РІС….РїРѕС‚РѕРє+РІС‹С… РїРѕС‚РѕРє) (D43)
 //    double T = ui->lineEdit_Temperature->text().toDouble();
-//    double TCF = 0.0; // Фактор температурной коррекции (D13)
+//    double TCF = 0.0; // Р¤Р°РєС‚РѕСЂ С‚РµРјРїРµСЂР°С‚СѓСЂРЅРѕР№ РєРѕСЂСЂРµРєС†РёРё (D13)
 //    if (T >= 25.0)  TCF = pow(M_E, 2640.0 * (1.0 / 298.0 - 1.0 / (273.0 + T)));
 //    else            TCF = pow(M_E, 3020.0 * (1.0 / 298.0 - 1.0 / (273.0 + T)));
-//    double Cfi = 1;//qobject_cast<ROSolutesDataModel *>(ui->tableView->model())->totalDisolvedSolids(ROSolute::Meql);   // Концентрация на входе i –го элемента (D28)
+//    double Cfi = 1;//qobject_cast<ROSolutesDataModel *>(ui->tableView->model())->totalDisolvedSolids(ROSolute::Meql);   // РљРѕРЅС†РµРЅС‚СЂР°С†РёСЏ РЅР° РІС…РѕРґРµ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D28)
 //    double TDS = 2; //qobject_cast<ROSolutesDataModel *>(ui->tableView->model())->totalDisolvedSolids(ROSolute::Mgl);//ui->lineEdit_TDS->text().toDouble();
 
-//    double PIf = 1.123 / 14.5 * (273.0 + T) * (Cfi * LToM3); // Осмотическое давление входной воды (D24)
+//    double PIf = 1.123 / 14.5 * (273.0 + T) * (Cfi * LToM3); // РћСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ РІС…РѕРґРЅРѕР№ РІРѕРґС‹ (D24)
 
 //    double beta = Qpi / Qci; // ????????????????? (D46)
-//    double SPm = 0.0877 * pow(TCF, 2); // Прохождение солей (D50)
+//    double SPm = 0.0877 * pow(TCF, 2); // РџСЂРѕС…РѕР¶РґРµРЅРёРµ СЃРѕР»РµР№ (D50)
 //    double temp_H52 = pow(1 + beta, SPm); // H52
-//    double SPsr = ((temp_H52 - 1) / (Yi * temp_H52 - Yi*(1 + beta) + beta)); // Прохождение солей c рециклом (D52)
-//    double Ri = 1 - SPsr; // Селективность для i –го элемента без рецикла (D26)
-//    double Cci = ((1-Yi * (1-Ri)) / (1-Yi)) * Cfi; // Концентрация концентрата для i –го элемента (D31)
-//    double PIfi = PIf;  // Входное осмотическое давление для i –го элемента (D22)
-//    double PIc = 1.123 / 14.5 * (273.0 + T) * (Cci * LToM3); // Осмотическое давление концентрата входной воды (E24)
+//    double SPsr = ((temp_H52 - 1) / (Yi * temp_H52 - Yi*(1 + beta) + beta)); // РџСЂРѕС…РѕР¶РґРµРЅРёРµ СЃРѕР»РµР№ c СЂРµС†РёРєР»РѕРј (D52)
+//    double Ri = 1 - SPsr; // РЎРµР»РµРєС‚РёРІРЅРѕСЃС‚СЊ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° Р±РµР· СЂРµС†РёРєР»Р° (D26)
+//    double Cci = ((1-Yi * (1-Ri)) / (1-Yi)) * Cfi; // РљРѕРЅС†РµРЅС‚СЂР°С†РёСЏ РєРѕРЅС†РµРЅС‚СЂР°С‚Р° РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D31)
+//    double PIfi = PIf;  // Р’С…РѕРґРЅРѕРµ РѕСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D22)
+//    double PIc = 1.123 / 14.5 * (273.0 + T) * (Cci * LToM3); // РћСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ РєРѕРЅС†РµРЅС‚СЂР°С‚Р° РІС…РѕРґРЅРѕР№ РІРѕРґС‹ (E24)
 
-//    double pfi = exp(0.7 * Yi) * 1.0; // TODO Фактор КП для i –го элемента (D25)
-//    double Cfir = (Cfi * Qf + Cci * Qr) / Qfi; // Концентрация на входе i –го элемента после рецикла (D29)
-//    double PIi = PIfi * pfi * Cci / Cfir; // Среднее осмотическое давление со стороны концентрата (D21)
+//    double pfi = exp(0.7 * Yi) * 1.0; // TODO Р¤Р°РєС‚РѕСЂ РљРџ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D25)
+//    double Cfir = (Cfi * Qf + Cci * Qr) / Qfi; // РљРѕРЅС†РµРЅС‚СЂР°С†РёСЏ РЅР° РІС…РѕРґРµ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° РїРѕСЃР»Рµ СЂРµС†РёРєР»Р° (D29)
+//    double PIi = PIfi * pfi * Cci / Cfir; // РЎСЂРµРґРЅРµРµ РѕСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РєРѕРЅС†РµРЅС‚СЂР°С‚Р° (D21)
 
 //    double PI = (PIc + PIi) / 2 * barToPSI; // (F20)
-//    double A = 0.0; // Проницаемость мембраны (D9-D11)
+//    double A = 0.0; // РџСЂРѕРЅРёС†Р°РµРјРѕСЃС‚СЊ РјРµРјР±СЂР°РЅС‹ (D9-D11)
 //    if (PI <= 25.0) A = 0.125;
 //    else if (PI <= 200) A = 0.125 - 0.011 * (PI - 25.0) / 35.0;
 //    else A = 0.07 - 0.0001 * (PI - 200);
-//    A *= 24.6236; // TODO Коэф. перевода из gfd в л/м2/час/бар
+//    A *= 24.6236; // TODO РљРѕСЌС„. РїРµСЂРµРІРѕРґР° РёР· gfd РІ Р»/Рј2/С‡Р°СЃ/Р±Р°СЂ
 
-//    double dPfci = 0.04 * PSIToBar * n * pow(qfc, 2); // Перепад давления для i –го элемента (со стороны концентрата) (D19)
-//    double PIpi = PIfi * (1 - Ri); // Осмотическое давление со стороны пермеата для i –го элемента (D23)
-//    double S = _system.pass(0)->stage(0)->membrane()->activeArea(); // Площадь мембранного элемента (D12)
-//    double FF = 1.0; // TODO Фактор мембранного забивания (D15)
+//    double dPfci = 0.04 * PSIToBar * n * pow(qfc, 2); // РџРµСЂРµРїР°Рґ РґР°РІР»РµРЅРёСЏ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РєРѕРЅС†РµРЅС‚СЂР°С‚Р°) (D19)
+//    double PIpi = PIfi * (1 - Ri); // РћСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РїРµСЂРјРµР°С‚Р° РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D23)
+//    double S = _system.pass(0)->stage(0)->membrane()->activeArea(); // РџР»РѕС‰Р°РґСЊ РјРµРјР±СЂР°РЅРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° (D12)
+//    double FF = 1.0; // TODO Р¤Р°РєС‚РѕСЂ РјРµРјР±СЂР°РЅРЅРѕРіРѕ Р·Р°Р±РёРІР°РЅРёСЏ (D15)
 //    double PIci = PIc;
-//    double Pfi = (PIci - PIpi) + (Ppi + dPfci / 2) + (Qpi * m3ToL) / (A * S * TCF * FF); // Давление на входе i –го элемента (D16-D18)
+//    double Pfi = (PIci - PIpi) + (Ppi + dPfci / 2) + (Qpi * m3ToL) / (A * S * TCF * FF); // Р”Р°РІР»РµРЅРёРµ РЅР° РІС…РѕРґРµ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D16-D18)
 
-//    double Qmi = 1.0; // Средняя производительность одного элемента  Qmi = Q / Ne (D42)
-//    double F = (Qmi * m3ToL) / S; // Удельный съем, средний (Flux) (D47)
+//    double Qmi = 1.0; // РЎСЂРµРґРЅСЏСЏ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ РѕРґРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°  Qmi = Q / Ne (D42)
+//    double F = (Qmi * m3ToL) / S; // РЈРґРµР»СЊРЅС‹Р№ СЃСЉРµРј, СЃСЂРµРґРЅРёР№ (Flux) (D47)
 //    double Qc = Qci - Qr;
 //    double Cpi = (Qf * Cfi - Qc * Cci) / Qpi;
 //    double TDSp = Cpi * TDS / Cfi;
@@ -308,52 +308,52 @@ void MainWindow::setLanguage(bool checked) {
 //    double LToM3 = 1 / m3ToL;
 
 //    // Inputs Parameters
-//    double Yi = _system.pass(0)->recovery(); // Степень извлечения пермеата для i –го элемента (D38)
-//    double Qpi = 1.0;               // TODO Производительность пермеата  для i –го элемента (D2)
-//    double Ppi = 0.0;               // TODO Давление со стороны пермеата
-//    double Qf = Qpi / Yi;           // Изначальный входной поток (D5)
-//    double Qr = 3.0;                // TODO Поток рециркуляции i –го элемента (D7)
-//    double Qfi = Qf + Qr;           // Входной поток для i –го элемента (D4)
-//    double Qci = Qfi - Qpi;         // Поток концентрата i –го элемента (D6)
-//    double n = 1;                   // TODO Количество элементов в серии
-//    double qfc = (Qfi + Qci) / 2;   // Среднеарифметическое поток через коцентрат=1/2(вх.поток+вых поток) (D43)
+//    double Yi = _system.pass(0)->recovery(); // РЎС‚РµРїРµРЅСЊ РёР·РІР»РµС‡РµРЅРёСЏ РїРµСЂРјРµР°С‚Р° РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D38)
+//    double Qpi = 1.0;               // TODO РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ РїРµСЂРјРµР°С‚Р°  РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D2)
+//    double Ppi = 0.0;               // TODO Р”Р°РІР»РµРЅРёРµ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РїРµСЂРјРµР°С‚Р°
+//    double Qf = Qpi / Yi;           // РР·РЅР°С‡Р°Р»СЊРЅС‹Р№ РІС…РѕРґРЅРѕР№ РїРѕС‚РѕРє (D5)
+//    double Qr = 3.0;                // TODO РџРѕС‚РѕРє СЂРµС†РёСЂРєСѓР»СЏС†РёРё i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D7)
+//    double Qfi = Qf + Qr;           // Р’С…РѕРґРЅРѕР№ РїРѕС‚РѕРє РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D4)
+//    double Qci = Qfi - Qpi;         // РџРѕС‚РѕРє РєРѕРЅС†РµРЅС‚СЂР°С‚Р° i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D6)
+//    double n = 1;                   // TODO РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃРµСЂРёРё
+//    double qfc = (Qfi + Qci) / 2;   // РЎСЂРµРґРЅРµР°СЂРёС„РјРµС‚РёС‡РµСЃРєРѕРµ РїРѕС‚РѕРє С‡РµСЂРµР· РєРѕС†РµРЅС‚СЂР°С‚=1/2(РІС….РїРѕС‚РѕРє+РІС‹С… РїРѕС‚РѕРє) (D43)
 //    double T = ui->lineEdit_Temperature->text().toDouble();
-//    double TCF = 0.0; // Фактор температурной коррекции (D13)
+//    double TCF = 0.0; // Р¤Р°РєС‚РѕСЂ С‚РµРјРїРµСЂР°С‚СѓСЂРЅРѕР№ РєРѕСЂСЂРµРєС†РёРё (D13)
 //    if (T >= 25.0)  TCF = pow(M_E, 2640.0 * (1.0 / 298.0 - 1.0 / (273.0 + T)));
 //    else            TCF = pow(M_E, 3020.0 * (1.0 / 298.0 - 1.0 / (273.0 + T)));
-//    double Cfi = 1;//qobject_cast<ROSolutesDataModel *>(ui->tableView->model())->totalDisolvedSolids(ROSolute::Meql);   // Концентрация на входе i –го элемента (D28)
+//    double Cfi = 1;//qobject_cast<ROSolutesDataModel *>(ui->tableView->model())->totalDisolvedSolids(ROSolute::Meql);   // РљРѕРЅС†РµРЅС‚СЂР°С†РёСЏ РЅР° РІС…РѕРґРµ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D28)
 //    //double TDS = qobject_cast<ROSolutesDataModel *>(ui->tableView->model())->totalDisolvedSolids(ROSolute::Mgl);
-//    double PIf = 1.123 / 14.5 * (273.0 + T) * (Cfi * LToM3); // Осмотическое давление входной воды (D24)
+//    double PIf = 1.123 / 14.5 * (273.0 + T) * (Cfi * LToM3); // РћСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ РІС…РѕРґРЅРѕР№ РІРѕРґС‹ (D24)
 
 //    double beta = Qpi / Qci; // ????????????????? (D46)
-//    double SPm = 0.0877 * pow(TCF, 2); // Прохождение солей (D50)
+//    double SPm = 0.0877 * pow(TCF, 2); // РџСЂРѕС…РѕР¶РґРµРЅРёРµ СЃРѕР»РµР№ (D50)
 //    double temp_H52 = pow(1 + beta, SPm); // H52
-//    double SPsr = ((temp_H52 - 1) / (Yi * temp_H52 - Yi*(1 + beta) + beta)); // Прохождение солей c рециклом (D52)
-//    double Ri = 1 - SPsr; // Селективность для i –го элемента без рецикла (D26)
-//    double Cci = ((1-Yi * (1-Ri)) / (1-Yi)) * Cfi; // Концентрация концентрата для i –го элемента (D31)
-//    double PIfi = PIf;  // Входное осмотическое давление для i –го элемента (D22)
-//    double PIc = 1.123 / 14.5 * (273.0 + T) * (Cci * LToM3); // Осмотическое давление концентрата входной воды (E24)
+//    double SPsr = ((temp_H52 - 1) / (Yi * temp_H52 - Yi*(1 + beta) + beta)); // РџСЂРѕС…РѕР¶РґРµРЅРёРµ СЃРѕР»РµР№ c СЂРµС†РёРєР»РѕРј (D52)
+//    double Ri = 1 - SPsr; // РЎРµР»РµРєС‚РёРІРЅРѕСЃС‚СЊ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° Р±РµР· СЂРµС†РёРєР»Р° (D26)
+//    double Cci = ((1-Yi * (1-Ri)) / (1-Yi)) * Cfi; // РљРѕРЅС†РµРЅС‚СЂР°С†РёСЏ РєРѕРЅС†РµРЅС‚СЂР°С‚Р° РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D31)
+//    double PIfi = PIf;  // Р’С…РѕРґРЅРѕРµ РѕСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D22)
+//    double PIc = 1.123 / 14.5 * (273.0 + T) * (Cci * LToM3); // РћСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ РєРѕРЅС†РµРЅС‚СЂР°С‚Р° РІС…РѕРґРЅРѕР№ РІРѕРґС‹ (E24)
 
-//    double pfi = exp(0.7 * Yi) * 1.0; // TODO Фактор КП для i –го элемента (D25)
-//    double Cfir = (Cfi * Qf + Cci * Qr) / Qfi; // Концентрация на входе i –го элемента после рецикла (D29)
-//    double PIi = PIfi * pfi * Cci / Cfir; // Среднее осмотическое давление со стороны концентрата (D21)
+//    double pfi = exp(0.7 * Yi) * 1.0; // TODO Р¤Р°РєС‚РѕСЂ РљРџ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D25)
+//    double Cfir = (Cfi * Qf + Cci * Qr) / Qfi; // РљРѕРЅС†РµРЅС‚СЂР°С†РёСЏ РЅР° РІС…РѕРґРµ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° РїРѕСЃР»Рµ СЂРµС†РёРєР»Р° (D29)
+//    double PIi = PIfi * pfi * Cci / Cfir; // РЎСЂРµРґРЅРµРµ РѕСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РєРѕРЅС†РµРЅС‚СЂР°С‚Р° (D21)
 
 //    double PI = (PIc + PIi) / 2 * barToPSI; // (F20)
-//    double A = 0.0; // Проницаемость мембраны (D9-D11)
+//    double A = 0.0; // РџСЂРѕРЅРёС†Р°РµРјРѕСЃС‚СЊ РјРµРјР±СЂР°РЅС‹ (D9-D11)
 //    if (PI <= 25.0) A = 0.125;
 //    else if (PI <= 200) A = 0.125 - 0.011 * (PI - 25.0) / 35.0;
 //    else A = 0.07 - 0.0001 * (PI - 200);
-//    A *= 24.6236; // TODO Коэф. перевода из gfd в л/м2/час/бар
+//    A *= 24.6236; // TODO РљРѕСЌС„. РїРµСЂРµРІРѕРґР° РёР· gfd РІ Р»/Рј2/С‡Р°СЃ/Р±Р°СЂ
 
-//    double dPfci = 0.04 * PSIToBar * n * pow(qfc, 2); // Перепад давления для i –го элемента (со стороны концентрата) (D19)
-//    double PIpi = PIfi * (1 - Ri); // Осмотическое давление со стороны пермеата для i –го элемента (D23)
-//    double S = _system.pass(0)->stage(0)->membrane()->activeArea(); // Площадь мембранного элемента (D12)
-//    double FF = 1.0; // TODO Фактор мембранного забивания (D15)
+//    double dPfci = 0.04 * PSIToBar * n * pow(qfc, 2); // РџРµСЂРµРїР°Рґ РґР°РІР»РµРЅРёСЏ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РєРѕРЅС†РµРЅС‚СЂР°С‚Р°) (D19)
+//    double PIpi = PIfi * (1 - Ri); // РћСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РїРµСЂРјРµР°С‚Р° РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D23)
+//    double S = _system.pass(0)->stage(0)->membrane()->activeArea(); // РџР»РѕС‰Р°РґСЊ РјРµРјР±СЂР°РЅРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° (D12)
+//    double FF = 1.0; // TODO Р¤Р°РєС‚РѕСЂ РјРµРјР±СЂР°РЅРЅРѕРіРѕ Р·Р°Р±РёРІР°РЅРёСЏ (D15)
 //    double PIci = PIc;
-//    double Pfi = (PIci - PIpi) + (Ppi + dPfci / 2) + (Qpi * m3ToL) / (A * S * TCF * FF); // Давление на входе i –го элемента (D16-D18)
+//    double Pfi = (PIci - PIpi) + (Ppi + dPfci / 2) + (Qpi * m3ToL) / (A * S * TCF * FF); // Р”Р°РІР»РµРЅРёРµ РЅР° РІС…РѕРґРµ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D16-D18)
 
-//    double Qmi = 1.0; // Средняя производительность одного элемента  Qmi = Q / Ne (D42)
-//    double F = (Qmi * m3ToL) / S; // Удельный съем, средний (Flux) (D47)
+//    double Qmi = 1.0; // РЎСЂРµРґРЅСЏСЏ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ РѕРґРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°  Qmi = Q / Ne (D42)
+//    double F = (Qmi * m3ToL) / S; // РЈРґРµР»СЊРЅС‹Р№ СЃСЉРµРј, СЃСЂРµРґРЅРёР№ (Flux) (D47)
 
 ////    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Feed flow to stage 1"), Qfi, QStringList() << QObject::tr("gpm")));
 ////    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Raw water flow to system"), Qf, QStringList() << QObject::tr("gpm")));
@@ -362,7 +362,7 @@ void MainWindow::setLanguage(bool checked) {
 ////    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Total active area"), S, QStringList() << QObject::tr("m2")));
 ////    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Pass 1 permeate flow"), Qpi, QStringList() << QObject::tr("m3/h")));
 ////    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Pass 1 recovery"), Yi, QStringList() << QObject::tr("%")));
-////    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Feed temperature"), T, QStringList() << QObject::tr("°C")));
+////    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Feed temperature"), T, QStringList() << QObject::tr("В°C")));
 ////!    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Feed TDS"), TDS, QStringList() << QObject::tr("mg/l")));
 ////    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Number of elements"), n, QStringList() << QObject::tr("")));
 ////!    outputParameters.append(new RODoubleSystemParameter(QObject::tr("Average pass 1 flux"), F, QStringList() << QObject::tr("lmh")));
@@ -515,52 +515,52 @@ void MainWindow::computeResult(int index){
     double LToM3 = 1 / m3ToL;
 
     // Inputs Parameters
-    double Yi = _system.pass(0)->recovery(); // Степень извлечения пермеата для i –го элемента (D38)
-    double Qpi = 1.0;               // TODO Производительность пермеата  для i –го элемента (D2)
-    double Ppi = 0.0;               // TODO Давление со стороны пермеата
-    double Qf = Qpi / Yi;           // Изначальный входной поток (D5)
-    double Qr = 3.0;                // TODO Поток рециркуляции i –го элемента (D7)
-    double Qfi = Qf + Qr;           // Входной поток для i –го элемента (D4)
-    double Qci = Qfi - Qpi;         // Поток концентрата i –го элемента (D6)
-    double n = 1;                   // TODO Количество элементов в серии
-    double qfc = (Qfi + Qci) / 2;   // Среднеарифметическое поток через коцентрат=1/2(вх.поток+вых поток) (D43)
+    double Yi = _system.pass(0)->recovery(); // РЎС‚РµРїРµРЅСЊ РёР·РІР»РµС‡РµРЅРёСЏ РїРµСЂРјРµР°С‚Р° РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D38)
+    double Qpi = 1.0;               // TODO РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ РїРµСЂРјРµР°С‚Р°  РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D2)
+    double Ppi = 0.0;               // TODO Р”Р°РІР»РµРЅРёРµ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РїРµСЂРјРµР°С‚Р°
+    double Qf = Qpi / Yi;           // РР·РЅР°С‡Р°Р»СЊРЅС‹Р№ РІС…РѕРґРЅРѕР№ РїРѕС‚РѕРє (D5)
+    double Qr = 3.0;                // TODO РџРѕС‚РѕРє СЂРµС†РёСЂРєСѓР»СЏС†РёРё i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D7)
+    double Qfi = Qf + Qr;           // Р’С…РѕРґРЅРѕР№ РїРѕС‚РѕРє РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D4)
+    double Qci = Qfi - Qpi;         // РџРѕС‚РѕРє РєРѕРЅС†РµРЅС‚СЂР°С‚Р° i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D6)
+    double n = 1;                   // TODO РљРѕР»РёС‡РµСЃС‚РІРѕ СЌР»РµРјРµРЅС‚РѕРІ РІ СЃРµСЂРёРё
+    double qfc = (Qfi + Qci) / 2;   // РЎСЂРµРґРЅРµР°СЂРёС„РјРµС‚РёС‡РµСЃРєРѕРµ РїРѕС‚РѕРє С‡РµСЂРµР· РєРѕС†РµРЅС‚СЂР°С‚=1/2(РІС….РїРѕС‚РѕРє+РІС‹С… РїРѕС‚РѕРє) (D43)
     double T = ui->lineEdit_Temperature->text().toDouble();
-    double TCF = 0.0; // Фактор температурной коррекции (D13)
+    double TCF = 0.0; // Р¤Р°РєС‚РѕСЂ С‚РµРјРїРµСЂР°С‚СѓСЂРЅРѕР№ РєРѕСЂСЂРµРєС†РёРё (D13)
     if (T >= 25.0)  TCF = pow(M_E, 2640.0 * (1.0 / 298.0 - 1.0 / (273.0 + T)));
     else            TCF = pow(M_E, 3020.0 * (1.0 / 298.0 - 1.0 / (273.0 + T)));
-    double Cfi = 1; //qobject_cast<ROSolutesDataModel *>(ui->tableView->model())->totalDisolvedSolids(ROSolute::Meql);   // Концентрация на входе i –го элемента (D28)
+    double Cfi = 1; //qobject_cast<ROSolutesDataModel *>(ui->tableView->model())->totalDisolvedSolids(ROSolute::Meql);   // РљРѕРЅС†РµРЅС‚СЂР°С†РёСЏ РЅР° РІС…РѕРґРµ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D28)
     double TDS = 2; //qobject_cast<ROSolutesDataModel *>(ui->tableView->model())->totalDisolvedSolids(ROSolute::Mgl);;
-    double PIf = 1.123 / 14.5 * (273.0 + T) * (Cfi * LToM3); // Осмотическое давление входной воды (D24)
+    double PIf = 1.123 / 14.5 * (273.0 + T) * (Cfi * LToM3); // РћСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ РІС…РѕРґРЅРѕР№ РІРѕРґС‹ (D24)
 
     double beta = Qpi / Qci; // ????????????????? (D46)
-    double SPm = 0.0877 * pow(TCF, 2); // Прохождение солей (D50)
+    double SPm = 0.0877 * pow(TCF, 2); // РџСЂРѕС…РѕР¶РґРµРЅРёРµ СЃРѕР»РµР№ (D50)
     double temp_H52 = pow(1 + beta, SPm); // H52
-    double SPsr = ((temp_H52 - 1) / (Yi * temp_H52 - Yi*(1 + beta) + beta)); // Прохождение солей c рециклом (D52)
-    double Ri = 1 - SPsr; // Селективность для i –го элемента без рецикла (D26)
-    double Cci = ((1-Yi * (1-Ri)) / (1-Yi)) * Cfi; // Концентрация концентрата для i –го элемента (D31)
-    double PIfi = PIf;  // Входное осмотическое давление для i –го элемента (D22)
-    double PIc = 1.123 / 14.5 * (273.0 + T) * (Cci * LToM3); // Осмотическое давление концентрата входной воды (E24)
+    double SPsr = ((temp_H52 - 1) / (Yi * temp_H52 - Yi*(1 + beta) + beta)); // РџСЂРѕС…РѕР¶РґРµРЅРёРµ СЃРѕР»РµР№ c СЂРµС†РёРєР»РѕРј (D52)
+    double Ri = 1 - SPsr; // РЎРµР»РµРєС‚РёРІРЅРѕСЃС‚СЊ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° Р±РµР· СЂРµС†РёРєР»Р° (D26)
+    double Cci = ((1-Yi * (1-Ri)) / (1-Yi)) * Cfi; // РљРѕРЅС†РµРЅС‚СЂР°С†РёСЏ РєРѕРЅС†РµРЅС‚СЂР°С‚Р° РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D31)
+    double PIfi = PIf;  // Р’С…РѕРґРЅРѕРµ РѕСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D22)
+    double PIc = 1.123 / 14.5 * (273.0 + T) * (Cci * LToM3); // РћСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ РєРѕРЅС†РµРЅС‚СЂР°С‚Р° РІС…РѕРґРЅРѕР№ РІРѕРґС‹ (E24)
 
-    double pfi = exp(0.7 * Yi) * 1.0; // TODO Фактор КП для i –го элемента (D25)
-    double Cfir = (Cfi * Qf + Cci * Qr) / Qfi; // Концентрация на входе i –го элемента после рецикла (D29)
-    double PIi = PIfi * pfi * Cci / Cfir; // Среднее осмотическое давление со стороны концентрата (D21)
+    double pfi = exp(0.7 * Yi) * 1.0; // TODO Р¤Р°РєС‚РѕСЂ РљРџ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D25)
+    double Cfir = (Cfi * Qf + Cci * Qr) / Qfi; // РљРѕРЅС†РµРЅС‚СЂР°С†РёСЏ РЅР° РІС…РѕРґРµ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° РїРѕСЃР»Рµ СЂРµС†РёРєР»Р° (D29)
+    double PIi = PIfi * pfi * Cci / Cfir; // РЎСЂРµРґРЅРµРµ РѕСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РєРѕРЅС†РµРЅС‚СЂР°С‚Р° (D21)
 
     double PI = (PIc + PIi) / 2 * barToPSI; // (F20)
-    double A = 0.0; // Проницаемость мембраны (D9-D11)
+    double A = 0.0; // РџСЂРѕРЅРёС†Р°РµРјРѕСЃС‚СЊ РјРµРјР±СЂР°РЅС‹ (D9-D11)
     if (PI <= 25.0) A = 0.125;
     else if (PI <= 200) A = 0.125 - 0.011 * (PI - 25.0) / 35.0;
     else A = 0.07 - 0.0001 * (PI - 200);
-    A *= 24.6236; // TODO Коэф. перевода из gfd в л/м2/час/бар
+    A *= 24.6236; // TODO РљРѕСЌС„. РїРµСЂРµРІРѕРґР° РёР· gfd РІ Р»/Рј2/С‡Р°СЃ/Р±Р°СЂ
 
-    double dPfci = 0.04 * PSIToBar * n * pow(qfc, 2); // Перепад давления для i –го элемента (со стороны концентрата) (D19)
-    double PIpi = PIfi * (1 - Ri); // Осмотическое давление со стороны пермеата для i –го элемента (D23)
-    double S = _system.pass(0)->stage(0)->membrane()->activeArea(); // Площадь мембранного элемента (D12)
-    double FF = 1.0; // TODO Фактор мембранного забивания (D15)
+    double dPfci = 0.04 * PSIToBar * n * pow(qfc, 2); // РџРµСЂРµРїР°Рґ РґР°РІР»РµРЅРёСЏ РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РєРѕРЅС†РµРЅС‚СЂР°С‚Р°) (D19)
+    double PIpi = PIfi * (1 - Ri); // РћСЃРјРѕС‚РёС‡РµСЃРєРѕРµ РґР°РІР»РµРЅРёРµ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ РїРµСЂРјРµР°С‚Р° РґР»СЏ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D23)
+    double S = _system.pass(0)->stage(0)->membrane()->activeArea(); // РџР»РѕС‰Р°РґСЊ РјРµРјР±СЂР°РЅРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р° (D12)
+    double FF = 1.0; // TODO Р¤Р°РєС‚РѕСЂ РјРµРјР±СЂР°РЅРЅРѕРіРѕ Р·Р°Р±РёРІР°РЅРёСЏ (D15)
     double PIci = PIc;
-    double Pfi = (PIci - PIpi) + (Ppi + dPfci / 2) + (Qpi * m3ToL) / (A * S * TCF * FF); // Давление на входе i –го элемента (D16-D18)
+    double Pfi = (PIci - PIpi) + (Ppi + dPfci / 2) + (Qpi * m3ToL) / (A * S * TCF * FF); // Р”Р°РІР»РµРЅРёРµ РЅР° РІС…РѕРґРµ i вЂ“РіРѕ СЌР»РµРјРµРЅС‚Р° (D16-D18)
 
-    double Qmi = 1.0; // Средняя производительность одного элемента  Qmi = Q / Ne (D42)
-    double F = (Qmi * m3ToL) / S; // Удельный съем, средний (Flux) (D47)
+    double Qmi = 1.0; // РЎСЂРµРґРЅСЏСЏ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ РѕРґРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°  Qmi = Q / Ne (D42)
+    double F = (Qmi * m3ToL) / S; // РЈРґРµР»СЊРЅС‹Р№ СЃСЉРµРј, СЃСЂРµРґРЅРёР№ (Flux) (D47)
     double Qc = Qci - Qr;
     double Cpi = (Qf * Cfi - Qc * Cci) / Qpi;
     double TDSp = Cpi * TDS / Cfi;

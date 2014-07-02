@@ -5,7 +5,7 @@
 
 #include "roreportbuilder.h"
 
-// управление выводом на печать и в PDF файл.
+// СѓРїСЂР°РІР»РµРЅРёРµ РІС‹РІРѕРґРѕРј РЅР° РїРµС‡Р°С‚СЊ Рё РІ PDF С„Р°Р№Р».
 
 class ROPrinter : public QObject {
     Q_OBJECT

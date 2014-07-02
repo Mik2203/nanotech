@@ -34,7 +34,7 @@
 #include <QDeclarativeView>
 #include <QMenuBar>
 
-// класс окна для использования в QML
+// РєР»Р°СЃСЃ РѕРєРЅР° РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІ QML
 class QWindowItem : public QDeclarativeItem
 {
     Q_OBJECT

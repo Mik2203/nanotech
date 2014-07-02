@@ -113,7 +113,7 @@ void ROSystemController::updatePasses() {
     }
     Q_EMIT hasAnyCriticalWarningsChanged();
     Q_EMIT hasAnyCautionWarningsChanged();
-    // TODO recalc - если делать неявный апдейт системы, а не по кнопке calculate
+    // TODO recalc - РµСЃР»Рё РґРµР»Р°С‚СЊ РЅРµСЏРІРЅС‹Р№ Р°РїРґРµР№С‚ СЃРёСЃС‚РµРјС‹, Р° РЅРµ РїРѕ РєРЅРѕРїРєРµ calculate
 }
 
 

@@ -21,7 +21,7 @@ ROReportBuilder::ROReportBuilder(ROProject* proj, QObject *parent) :
     _tcf.setFontPointSize(7.0);
 }
 
-// TODO ðåôàêòîð: óäàëèòü äóáëèðîâàíèå êîäà
+// TODO Ñ€ÐµÑ„Ð°ÐºÑ‚Ð¾Ñ€: ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð´ÑƒÐ±Ð»Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ ÐºÐ¾Ð´Ð°
 const QTextDocument* const ROReportBuilder::build(QSizeF pageSize) {
     _doc->clear();
     _cursor.setPosition(0);
@@ -382,7 +382,7 @@ void ROReportBuilder::insertStagesDesignDetails() {
     ROSystem* sys = case_()->sys();
     // init table
     storeFormat();
-    QTextTable *table = insertDataTable(8, sys->stagesCount()); // íå äåëèì, ò.ê. íå áîëåå 8 ñòàäèé ïî óñëîâèþ
+    QTextTable *table = insertDataTable(8, sys->stagesCount()); // Ð½Ðµ Ð´ÐµÐ»Ð¸Ð¼, Ñ‚.Ðº. Ð½Ðµ Ð±Ð¾Ð»ÐµÐµ 8 ÑÑ‚Ð°Ð´Ð¸Ð¹ Ð¿Ð¾ ÑƒÑÐ»Ð¾Ð²Ð¸ÑŽ
 
     // vertical headers
     insertText(table->cellAt(2, 0), tr("Element type"));
@@ -407,7 +407,7 @@ void ROReportBuilder::insertStagesDesignDetails() {
     int col = 2;
     for (int pi=0; pi<sys->passCount(); ++pi) {
         ROPass* pass = sys->pass(pi);
-        //table->mergeCells(0, col, 1, pass->stageCount()); - íå ðàáîòàåò ïî÷åìó òî - áåðåì ñðåäíåå ïðîñòî
+        //table->mergeCells(0, col, 1, pass->stageCount()); - Ð½Ðµ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÐµÑ‚ Ð¿Ð¾Ñ‡ÐµÐ¼Ñƒ Ñ‚Ð¾ - Ð±ÐµÑ€ÐµÐ¼ ÑÑ€ÐµÐ´Ð½ÐµÐµ Ð¿Ñ€Ð¾ÑÑ‚Ð¾
         _tbf.setAlignment(Qt::AlignHCenter);
         insertText(table->cellAt(0, col + pass->stageCount() / 2), tr("Pass %1").arg(pi+1));
         _tbf.setAlignment(Qt::AlignRight);
@@ -528,7 +528,7 @@ void ROReportBuilder::insertElementsDesignDetails() {
         storeFormat();
         _tbf.setAlignment(Qt::AlignLeft);
 
-        QTextTable *table = insertDataTable(5, elementsCount); // íå äåëèì, ò.ê. íå áîëåå 8 ñòàäèé ïî óñëîâèþ
+        QTextTable *table = insertDataTable(5, elementsCount); // Ð½Ðµ Ð´ÐµÐ»Ð¸Ð¼, Ñ‚.Ðº. Ð½Ðµ Ð±Ð¾Ð»ÐµÐµ 8 ÑÑ‚Ð°Ð´Ð¸Ð¹ Ð¿Ð¾ ÑƒÑÐ»Ð¾Ð²Ð¸ÑŽ
 
         insertText(table->cellAt(2, 0), tr("Active Area"));
         insertText(table->cellAt(2, 1), tr("m2"));

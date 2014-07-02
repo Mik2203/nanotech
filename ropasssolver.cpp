@@ -36,14 +36,14 @@ bool ROPassSolver::solve(ROPass* const pass) {
     double pQfr = pQf + pQr;
     double FF = pass->flowFactor();
 
-    // Подсчет количества элементов в ступени
+    // РџРѕРґСЃС‡РµС‚ РєРѕР»РёС‡РµСЃС‚РІР° СЌР»РµРјРµРЅС‚РѕРІ РІ СЃС‚СѓРїРµРЅРё
     int elsCount = 0;
     for(int stageIndex = 0; stageIndex < pass->stageCount(); ++stageIndex) {
         ROStage* stage = pass->stage(stageIndex);
         elsCount += stage->elementsPerVesselCount();
     }
 
-    // Инициализация переменных c данными (SPm, S)
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРµСЂРµРјРµРЅРЅС‹С… c РґР°РЅРЅС‹РјРё (SPm, S)
     Eigen::VectorXd SPm(elsCount);
     Eigen::VectorXd s(elsCount);
     //Eigen::VectorXd PB = Eigen::VectorXd::Zero(elsCount);
@@ -63,14 +63,14 @@ bool ROPassSolver::solve(ROPass* const pass) {
 //    std::cout << s;
 //    std::cout << PB;
 
-    // Инициализация
-    // 5 значений для вычислений (Cp, Cc, Pf, Qc, Qp) в каждом элементе
-    // +1 на Cfr
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
+    // 5 Р·РЅР°С‡РµРЅРёР№ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёР№ (Cp, Cc, Pf, Qc, Qp) РІ РєР°Р¶РґРѕРј СЌР»РµРјРµРЅС‚Рµ
+    // +1 РЅР° Cfr
     int size = elsCount * 5 + 1;
-    Eigen::MatrixXd J = Eigen::MatrixXd::Zero(size,size); // Якобиан
-    Eigen::VectorXd X(size); // Вектор переменных
-    Eigen::VectorXd dX(size); // Вектор приращений на каждом шаге
-    Eigen::VectorXd F(size); // Вектор значений функций
+    Eigen::MatrixXd J = Eigen::MatrixXd::Zero(size,size); // РЇРєРѕР±РёР°РЅ
+    Eigen::VectorXd X(size); // Р’РµРєС‚РѕСЂ РїРµСЂРµРјРµРЅРЅС‹С…
+    Eigen::VectorXd dX(size); // Р’РµРєС‚РѕСЂ РїСЂРёСЂР°С‰РµРЅРёР№ РЅР° РєР°Р¶РґРѕРј С€Р°РіРµ
+    Eigen::VectorXd F(size); // Р’РµРєС‚РѕСЂ Р·РЅР°С‡РµРЅРёР№ С„СѓРЅРєС†РёР№
 
 #define iCP off
 #define iCC off+1
@@ -105,7 +105,7 @@ bool ROPassSolver::solve(ROPass* const pass) {
     int eI = 0; // element index
     int off = 0;
 
-    // Инициализация вектора переменных
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РІРµРєС‚РѕСЂР° РїРµСЂРµРјРµРЅРЅС‹С…
     for(eI = 0; eI < elsCount; ++eI) {
         off = eI * 5;
         QP = pQp / elsCount;
@@ -149,7 +149,7 @@ bool ROPassSolver::solve(ROPass* const pass) {
         J(iQC, iCFR) = -pQfr;
 
         for(int elIdx = 0; elIdx < elsCount; ++elIdx) {
-            J(iQP, elIdx * 5 + 4) = 1; // Для всех QP
+            J(iQP, elIdx * 5 + 4) = 1; // Р”Р»СЏ РІСЃРµС… QP
         }
 
         J(iCFR, iL_CC) = pQr; // last element Cc
@@ -162,7 +162,7 @@ bool ROPassSolver::solve(ROPass* const pass) {
         F[iQP] = -pQp;
         F[iCFR] = pQf*pCf + pQr*L_CC - pQfr*CFR;
         for(int elIdx = 0; elIdx < elsCount; ++elIdx)
-            F[iQP] += X[elIdx * 5 + 4]; // Для всех QP
+            F[iQP] += X[elIdx * 5 + 4]; // Р”Р»СЏ РІСЃРµС… QP
 
 
         // Other elements data

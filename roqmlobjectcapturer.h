@@ -5,7 +5,7 @@
 #include <QDeclarativeItem>
 #include <QGraphicsScene>
 
-// класс для захвата QML в картинку
+// РєР»Р°СЃСЃ РґР»СЏ Р·Р°С…РІР°С‚Р° QML РІ РєР°СЂС‚РёРЅРєСѓ
 
 class ROQMLObjectCapturer : public QObject {
 

@@ -12,10 +12,10 @@
 #include "rogenericschemesmodel.h"
 
 /*
- * класс сингтон, содержащий таблицы БД, отображенные в структуры языка С++.
- * Содержит следующие классы: ROWaterTypeModel, ROMembranesModel,
- * ROMembranesAlternativesModel, ROGenericSchemesModel отображающие
- * соответствующие таблицы БД.
+ * РєР»Р°СЃСЃ СЃРёРЅРіС‚РѕРЅ, СЃРѕРґРµСЂР¶Р°С‰РёР№ С‚Р°Р±Р»РёС†С‹ Р‘Р”, РѕС‚РѕР±СЂР°Р¶РµРЅРЅС‹Рµ РІ СЃС‚СЂСѓРєС‚СѓСЂС‹ СЏР·С‹РєР° РЎ++.
+ * РЎРѕРґРµСЂР¶РёС‚ СЃР»РµРґСѓСЋС‰РёРµ РєР»Р°СЃСЃС‹: ROWaterTypeModel, ROMembranesModel,
+ * ROMembranesAlternativesModel, ROGenericSchemesModel РѕС‚РѕР±СЂР°Р¶Р°СЋС‰РёРµ
+ * СЃРѕРѕС‚РІРµС‚СЃС‚РІСѓСЋС‰РёРµ С‚Р°Р±Р»РёС†С‹ Р‘Р”.
  */
 
 

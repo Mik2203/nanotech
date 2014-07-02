@@ -291,9 +291,9 @@ void ROSystemSolver::checkForNan(const Eigen::MatrixXd& mat) {
 
 void ROSystemSolver::zeroMatrices() {
     J.setZero();
-    X.setZero(); // = Eigen::VectorXd::Zero(matrixSize); // Вектор переменных
-    dX.setZero(); // = Eigen::VectorXd::Zero(matrixSize); // Вектор приращений на каждом шаге
-    F.setZero(); // = Eigen::VectorXd::Zero(matrixSize); // Вектор значений функций
+    X.setZero(); // = Eigen::VectorXd::Zero(matrixSize); // Р’РµРєС‚РѕСЂ РїРµСЂРµРјРµРЅРЅС‹С…
+    dX.setZero(); // = Eigen::VectorXd::Zero(matrixSize); // Р’РµРєС‚РѕСЂ РїСЂРёСЂР°С‰РµРЅРёР№ РЅР° РєР°Р¶РґРѕРј С€Р°РіРµ
+    F.setZero(); // = Eigen::VectorXd::Zero(matrixSize); // Р’РµРєС‚РѕСЂ Р·РЅР°С‡РµРЅРёР№ С„СѓРЅРєС†РёР№
 }
 
 bool ROSystemSolver::init() {
@@ -308,7 +308,7 @@ bool ROSystemSolver::init() {
 
     T = _sys->temperature();
 
-    // Подсчет количества элементов в ступени
+    // РџРѕРґСЃС‡РµС‚ РєРѕР»РёС‡РµСЃС‚РІР° СЌР»РµРјРµРЅС‚РѕРІ РІ СЃС‚СѓРїРµРЅРё
     pQb = Eigen::VectorXd::Zero(_sys->passCount()); // blending rates
     pQfb = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates after blend
     pQf = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates on pass
@@ -457,7 +457,7 @@ bool ROSystemSolver::init() {
         //logT << ""
     }
 
-    // Инициализация переменных SPm, S, Pb
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїРµСЂРµРјРµРЅРЅС‹С… SPm, S, Pb
     msi = Eigen::VectorXi::Zero(totalElsCount);
     s = Eigen::VectorXd::Zero(totalElsCount);
     v = Eigen::VectorXd::Zero(totalElsCount);
@@ -474,12 +474,12 @@ bool ROSystemSolver::init() {
         }
     }
 
-    // Инициализация
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
     int matrixSize = totalElsCount * _elementEquationCount + _sys->passCount() * _passEquationCount;
-    J = Eigen::MatrixXd::Zero(matrixSize,matrixSize); // Якобиан
-    X = Eigen::VectorXd::Zero(matrixSize); // Вектор переменных
-    dX = Eigen::VectorXd::Zero(matrixSize); // Вектор приращений на каждом шаге
-    F = Eigen::VectorXd::Zero(matrixSize); // Вектор значений функций
+    J = Eigen::MatrixXd::Zero(matrixSize,matrixSize); // РЇРєРѕР±РёР°РЅ
+    X = Eigen::VectorXd::Zero(matrixSize); // Р’РµРєС‚РѕСЂ РїРµСЂРµРјРµРЅРЅС‹С…
+    dX = Eigen::VectorXd::Zero(matrixSize); // Р’РµРєС‚РѕСЂ РїСЂРёСЂР°С‰РµРЅРёР№ РЅР° РєР°Р¶РґРѕРј С€Р°РіРµ
+    F = Eigen::VectorXd::Zero(matrixSize); // Р’РµРєС‚РѕСЂ Р·РЅР°С‡РµРЅРёР№ С„СѓРЅРєС†РёР№
 
     initSystem();
     return calcSystem(true);
@@ -493,7 +493,7 @@ void ROSystemSolver::initPass(int pi) {
     e1Qp(pi) = pQts(pi) / eV(pi, 0) * 0.25; // pass->elementsCount();
     pCfr(pi) = pCf(pi); // real = ((pQfr-pQb)*pCf + sum(QRi*CRi)) / pQf
     s1Cf(pi) = (pQfr(pi) * pCfr(pi) + pQsr(pi) * pCf(pi)) / e1Qf(pi);
-    // Инициализация вектора переменных
+    // РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РІРµРєС‚РѕСЂР° РїРµСЂРµРјРµРЅРЅС‹С…
     s1Cp(pi) = s1Cf(pi) * 0.01;
     s1Cc(pi) = s1Cf(pi) * 1.1;
     s1PIf(pi) = PI_old(s1Cf(pi), T);
@@ -980,7 +980,7 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                         J(ipsCts(pi, sii), iesCp(pi, ei2, sii)) = evQp(pi, ei2);
 //                        if (ei2 > 0)
                         J(ipsCts(pi, sii), ieQp(pi, ei2)) = esCp(pi, ei2, sii) * eV(pi, ei2);
-                        F[ipsCts(pi, sii)] += evQp(pi, ei2) * esCp(pi, ei2, sii); // Qp и Qc эл-та по смещению
+                        F[ipsCts(pi, sii)] += evQp(pi, ei2) * esCp(pi, ei2, sii); // Qp Рё Qc СЌР»-С‚Р° РїРѕ СЃРјРµС‰РµРЅРёСЋ
                     }
 
                     J(ipCts(pi), ipsCts(pi, sii)) = 1;

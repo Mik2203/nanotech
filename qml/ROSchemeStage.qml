@@ -130,7 +130,7 @@ Item {
             function calcLength() {
                 var len = (elWidth+linkThickness) *0.5; // defaults
                 if (stageIndex == pass.stageCount - 1) { // last stage
-                    var offset = 0.0;  // вычисление максимального смещения исходя из данных рециклов всех ступеней
+                    var offset = 0.0;  // РІС‹С‡РёСЃР»РµРЅРёРµ РјР°РєСЃРёРјР°Р»СЊРЅРѕРіРѕ СЃРјРµС‰РµРЅРёСЏ РёСЃС…РѕРґСЏ РёР· РґР°РЅРЅС‹С… СЂРµС†РёРєР»РѕРІ РІСЃРµС… СЃС‚СѓРїРµРЅРµР№
                     var hasRecycle = false;
                     for (var pi=0; pi<passIndex; ++pi) {
                         if (pass.hasRecycle(pi))

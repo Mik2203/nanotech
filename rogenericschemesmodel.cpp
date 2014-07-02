@@ -20,8 +20,8 @@ ROGenericSchemesModel::ROGenericSchemesModel(QObject *parent) :
 
         // ENERGO
         schemes << QString::fromLocal8Bit("M150-54")
-                << QString::fromLocal8Bit("Ýíåðãî-48")
-                << QString::fromLocal8Bit("Ýíåðãî-25");
+                << QString::fromLocal8Bit("Ð­Ð½ÐµÑ€Ð³Ð¾-48")
+                << QString::fromLocal8Bit("Ð­Ð½ÐµÑ€Ð³Ð¾-25");
 
         filePaths << ":/generic_schemes/energo/m150-54.ntp"
                   << ":/generic_schemes/energo/energo-48.ntp"
@@ -32,8 +32,8 @@ ROGenericSchemesModel::ROGenericSchemesModel(QObject *parent) :
         filePaths.clear();
 
         // Medicine
-        schemes << QString::fromLocal8Bit("Âîäà î÷èùåííàÿ 0.5 ì3/÷")
-                << QString::fromLocal8Bit("Âîäà î÷èùåííàÿ.0.25 ì3/÷");
+        schemes << QString::fromLocal8Bit("Ð’Ð¾Ð´Ð° Ð¾Ñ‡Ð¸Ñ‰ÐµÐ½Ð½Ð°Ñ 0.5 Ð¼3/Ñ‡")
+                << QString::fromLocal8Bit("Ð’Ð¾Ð´Ð° Ð¾Ñ‡Ð¸Ñ‰ÐµÐ½Ð½Ð°Ñ.0.25 Ð¼3/Ñ‡");
         filePaths << ":/generic_schemes/medicine/purified_water-0.5.ntp"
                   << ":/generic_schemes/medicine/purified_water-0.25.ntp";
         _data << DataRecord(1, schemes, filePaths);
@@ -42,7 +42,7 @@ ROGenericSchemesModel::ROGenericSchemesModel(QObject *parent) :
         filePaths.clear();
 
         // Electronics
-        schemes << QString::fromLocal8Bit("Ýëåêòðîíèêà-1");
+        schemes << QString::fromLocal8Bit("Ð­Ð»ÐµÐºÑ‚Ñ€Ð¾Ð½Ð¸ÐºÐ°-1");
         filePaths << ":/generic_schemes/electronics/electronics-1.ntp";
         _data << DataRecord(2, schemes, filePaths);
 
@@ -50,8 +50,8 @@ ROGenericSchemesModel::ROGenericSchemesModel(QObject *parent) :
         filePaths.clear();
 
         // Beverages
-        schemes << QString::fromLocal8Bit("Ïèùåâàÿ ïðîìûøëåííîñòü")
-                << QString::fromLocal8Bit("Óìÿã÷åíèå");
+        schemes << QString::fromLocal8Bit("ÐŸÐ¸Ñ‰ÐµÐ²Ð°Ñ Ð¿Ñ€Ð¾Ð¼Ñ‹ÑˆÐ»ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ")
+                << QString::fromLocal8Bit("Ð£Ð¼ÑÐ³Ñ‡ÐµÐ½Ð¸Ðµ");
         filePaths << ":/generic_schemes/beverages/food_processing.ntp"
                   << ":/generic_schemes/beverages/softening.ntp";
         _data << DataRecord(3, schemes, filePaths);
@@ -60,8 +60,8 @@ ROGenericSchemesModel::ROGenericSchemesModel(QObject *parent) :
         filePaths.clear();
 
         // Desalination
-        schemes << QString::fromLocal8Bit("Ìîðñêàÿ âîäà")
-                << QString::fromLocal8Bit("Êàñïèéñêîå ìîðå");
+        schemes << QString::fromLocal8Bit("ÐœÐ¾Ñ€ÑÐºÐ°Ñ Ð²Ð¾Ð´Ð°")
+                << QString::fromLocal8Bit("ÐšÐ°ÑÐ¿Ð¸Ð¹ÑÐºÐ¾Ðµ Ð¼Ð¾Ñ€Ðµ");
         filePaths << ":/generic_schemes/desalination/seawater.ntp"
                   << ":/generic_schemes/desalination/caspian.ntp";
         _data << DataRecord(4, schemes, filePaths);

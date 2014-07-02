@@ -7,7 +7,7 @@
 #include "rosolutemodel.h"
 #include "rowatermodel.h"
 
-/* класс для работы с базой данных вод.
+/* РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ Р±Р°Р·РѕР№ РґР°РЅРЅС‹С… РІРѕРґ.
  */
 
 class ROSoluteModelIO : public QObject {

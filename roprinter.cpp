@@ -24,7 +24,7 @@ void ROPrinter::print(ROPrinter::PrinterDevice device) {
 }
 
 
-// TODO удалить дублирование кода
+// TODO СѓРґР°Р»РёС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёРµ РєРѕРґР°
 void ROPrinter::printPDF() {
     QString filename = QFileDialog::getSaveFileName(0, tr("Save PDF File"), QString(), "PDF (*.pdf)");
     if(!filename.isEmpty()) {

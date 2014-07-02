@@ -4,7 +4,7 @@
 #include <QDeclarativeItem>
 #include <QPainter>
 
-// класс линии для отрисовки на схеме
+// РєР»Р°СЃСЃ Р»РёРЅРёРё РґР»СЏ РѕС‚СЂРёСЃРѕРІРєРё РЅР° СЃС…РµРјРµ
 
 class qmlLine : public QDeclarativeItem
 {

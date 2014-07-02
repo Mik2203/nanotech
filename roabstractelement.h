@@ -6,7 +6,7 @@
 
 #include <QObject>
 
-// базовый класс для элементов схемы
+// Р±Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РґР»СЏ СЌР»РµРјРµРЅС‚РѕРІ СЃС…РµРјС‹
 class ROAbstractElement: public QObject {
 public:
     explicit ROAbstractElement(): QObject() {}

@@ -14,8 +14,8 @@
 
 #include "rowarning.h"
 
-/* содержит информацию: СИФ, коэф. поправки, данные по потокам,
- * данные по рециклу на себя и др., а также информацию о стадиях (ROStage).
+/* СЃРѕРґРµСЂР¶РёС‚ РёРЅС„РѕСЂРјР°С†РёСЋ: РЎРР¤, РєРѕСЌС„. РїРѕРїСЂР°РІРєРё, РґР°РЅРЅС‹Рµ РїРѕ РїРѕС‚РѕРєР°Рј,
+ * РґР°РЅРЅС‹Рµ РїРѕ СЂРµС†РёРєР»Сѓ РЅР° СЃРµР±СЏ Рё РґСЂ., Р° С‚Р°РєР¶Рµ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ СЃС‚Р°РґРёСЏС… (ROStage).
  */
 
 
@@ -39,8 +39,8 @@ class ROPass : public ROAbstractElement {
     Q_PROPERTY(double specificEnergy READ specificEnergy NOTIFY specificEnergyChanged)
 
 
-    Q_PROPERTY(ROStage* firstStage READ firstStage NOTIFY firstStageChanged) // меняется при смене pass
-    Q_PROPERTY(ROStage* lastStage READ lastStage NOTIFY lastStageChanged) // меняется при смене pass
+    Q_PROPERTY(ROStage* firstStage READ firstStage NOTIFY firstStageChanged) // РјРµРЅСЏРµС‚СЃСЏ РїСЂРё СЃРјРµРЅРµ pass
+    Q_PROPERTY(ROStage* lastStage READ lastStage NOTIFY lastStageChanged) // РјРµРЅСЏРµС‚СЃСЏ РїСЂРё СЃРјРµРЅРµ pass
 
 
     // FLOWS
@@ -73,7 +73,7 @@ public:
     static double MIN_RECOVERY() { return _MIN_RECOVERY; }
 
     explicit ROPass(ROSystem* const system, ROFlow* const feed = 0);
-    explicit ROPass();  // только для QML
+    explicit ROPass();  // С‚РѕР»СЊРєРѕ РґР»СЏ QML
     ~ROPass();
     ROPass* clone(ROFlow* const newFeed = 0);
 
@@ -162,7 +162,7 @@ signals:
 
     void hasSelfRecycleChanged();
     void hasBlendPermeateChanged();
-    void recycleChanged(); // любые изменения в рециклах, кроме собственного
+    void recycleChanged(); // Р»СЋР±С‹Рµ РёР·РјРµРЅРµРЅРёСЏ РІ СЂРµС†РёРєР»Р°С…, РєСЂРѕРјРµ СЃРѕР±СЃС‚РІРµРЅРЅРѕРіРѕ
 
     void flowFactorChanged();
     void saltPassageYearIncreaseChanged();

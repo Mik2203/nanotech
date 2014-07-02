@@ -5,8 +5,8 @@
 #include <QtSql/QSqlRelationalTableModel>
 
 /*
- * Класс для отображения типов вод из БД
- * Класс зависит от базы данных: вызов populate предполагает, что база данных уже была подключена.
+ * РљР»Р°СЃСЃ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ С‚РёРїРѕРІ РІРѕРґ РёР· Р‘Р”
+ * РљР»Р°СЃСЃ Р·Р°РІРёСЃРёС‚ РѕС‚ Р±Р°Р·С‹ РґР°РЅРЅС‹С…: РІС‹Р·РѕРІ populate РїСЂРµРґРїРѕР»Р°РіР°РµС‚, С‡С‚Рѕ Р±Р°Р·Р° РґР°РЅРЅС‹С… СѓР¶Рµ Р±С‹Р»Р° РїРѕРґРєР»СЋС‡РµРЅР°.
  */
 
 class ROWaterTypeModel: public QSqlRelationalTableModel {
@@ -27,7 +27,7 @@ public:
     };
     explicit ROWaterTypeModel(QSqlDatabase db = QSqlDatabase(), QObject *parent = 0);
 
-    void populate(); // заполнить содержимым
+    void populate(); // Р·Р°РїРѕР»РЅРёС‚СЊ СЃРѕРґРµСЂР¶РёРјС‹Рј
     QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
     Q_INVOKABLE QVariant get(int row, const QString & field_name) const;
     int count() const;

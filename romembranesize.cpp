@@ -6,7 +6,7 @@ ROMembraneSize::ROMembraneSize(const double& diameter, const double& length):
 const double ROMembraneSize::diameter() const { return _diameter; }
 const double ROMembraneSize::length() const { return _length; }
 const QString ROMembraneSize::toString() const {
-    return QString("%1 \u00D7 %2").arg(QString::number(_diameter, 'f', 2),
+    return QString("%1 × %2").arg(QString::number(_diameter, 'f', 2),
                                        QString::number(_length, 'f', 2));
 }
 

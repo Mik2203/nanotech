@@ -7,8 +7,8 @@
 #include "romembrane.h"
 #include "roabstractelement.h"
 
-/* содержит информацию об элемете системы такую как СИФ,
- * активная площадь, данные по потокам.
+/* СЃРѕРґРµСЂР¶РёС‚ РёРЅС„РѕСЂРјР°С†РёСЋ РѕР± СЌР»РµРјРµС‚Рµ СЃРёСЃС‚РµРјС‹ С‚Р°РєСѓСЋ РєР°Рє РЎРР¤,
+ * Р°РєС‚РёРІРЅР°СЏ РїР»РѕС‰Р°РґСЊ, РґР°РЅРЅС‹Рµ РїРѕ РїРѕС‚РѕРєР°Рј.
  */
 
 class ROStage;
@@ -28,7 +28,7 @@ class ROElement : public ROAbstractElement
 
 public:
     explicit ROElement(ROStage* stage, ROFlow* feed = 0);
-    ROElement(); // Только для QML
+    ROElement(); // РўРѕР»СЊРєРѕ РґР»СЏ QML
     ~ROElement();
     
     ROFlow* const feed() const;

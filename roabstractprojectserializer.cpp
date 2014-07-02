@@ -262,9 +262,9 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
 
                                 // OPTIONAL flow factor
                                 if (_curElementType == StartElement && _curText == "flowFactor") {
-                                    // не используется в новой версии, т.к. теперь зависит от типа воды
+                                    // РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РІ РЅРѕРІРѕР№ РІРµСЂСЃРёРё, С‚.Рє. С‚РµРїРµСЂСЊ Р·Р°РІРёСЃРёС‚ РѕС‚ С‚РёРїР° РІРѕРґС‹
 
-                                    // просто чтение далее с проверкой
+                                    // РїСЂРѕСЃС‚Рѕ С‡С‚РµРЅРёРµ РґР°Р»РµРµ СЃ РїСЂРѕРІРµСЂРєРѕР№
                                     if (!readElement() || !readElement()) return;
                                     if (_curElementType != EndElement || _curText != "flowFactor") return;
                                     if (!readElement()) return;

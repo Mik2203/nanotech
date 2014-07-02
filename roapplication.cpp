@@ -263,7 +263,7 @@ ROProjectManager *const ROApplication::projectManager() const { return _projectM
 
 void ROApplication::help() {
 #ifdef Q_OS_WIN
-    // вызов без консоли.
+    // РІС‹Р·РѕРІ Р±РµР· РєРѕРЅСЃРѕР»Рё.
     ShellExecute(NULL, L"open", L"help\\doc.pdf", NULL, NULL, SW_SHOW );
 #else
     system("start help/doc.pdf");

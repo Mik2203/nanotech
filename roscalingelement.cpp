@@ -119,7 +119,7 @@ void ROScalingElement::adjust() {
     case pHAdjustment: {
         setTargetPh(_targetPh);
         double c = pow(10.0, -_targetPh) - pow(10.0, -_feed->pH());
-        // TODO ограничения за выход в минус
+        // TODO РѕРіСЂР°РЅРёС‡РµРЅРёСЏ Р·Р° РІС‹С…РѕРґ РІ РјРёРЅСѓСЃ
         switch(_dosingAcid) {
         case H2SO4: {
             double so4MolarMass = 32.06 + 15.9994*4;

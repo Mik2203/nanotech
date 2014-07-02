@@ -9,7 +9,7 @@
 #include <QVariant>
 #include "roproject.h"
 
-/* модель для загрузки стандартных схем.
+/* РјРѕРґРµР»СЊ РґР»СЏ Р·Р°РіСЂСѓР·РєРё СЃС‚Р°РЅРґР°СЂС‚РЅС‹С… СЃС…РµРј.
  */
 
 class ROGenericSchemesModel : public QAbstractListModel {

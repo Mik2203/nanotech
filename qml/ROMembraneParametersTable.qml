@@ -15,8 +15,8 @@ ROWidgets.SimpleListView {
         anchors.leftMargin: 3
         ROMembraneParametersCell { text: app.translator.emptyString + qsTr("Model"); font.bold: true }
         ROMembraneParametersCell { text: app.translator.emptyString + qsTr("Size\n(mm×mm)"); font.bold: true }
-        ROMembraneParametersCell { text: app.translator.emptyString + qsTr("Area\n(m2)"); font.bold: true; width: 40 }
-        ROMembraneParametersCell { text: app.translator.emptyString + qsTr("Productivity\n(m3/h)"); font.bold: true; width: 70 }
+        ROMembraneParametersCell { text: app.translator.emptyString + qsTr("Area\n(m²)"); font.bold: true; width: 40 }
+        ROMembraneParametersCell { text: app.translator.emptyString + qsTr("Productivity\n(m³/h)"); font.bold: true; width: 70 }
         ROMembraneParametersCell { text: app.translator.emptyString + qsTr("Rejection\n(%)"); font.bold: true; width: 60 }
         ROMembraneParametersCell { text: app.translator.emptyString + qsTr("Pressure\n(MPa)"); font.bold: true; width: 60 }
         ROMembraneParametersCell { text: app.translator.emptyString + qsTr("Test solution"); font.bold: true; width: 100 }

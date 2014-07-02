@@ -4,8 +4,8 @@
 #include <QObject>
 #include <QVector>
 
-/* содержит информацию по ионам,
- * такую как солесодержание, ph, температура, LSI, S&SDI и др.
+/* СЃРѕРґРµСЂР¶РёС‚ РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕ РёРѕРЅР°Рј,
+ * С‚Р°РєСѓСЋ РєР°Рє СЃРѕР»РµСЃРѕРґРµСЂР¶Р°РЅРёРµ, ph, С‚РµРјРїРµСЂР°С‚СѓСЂР°, LSI, S&SDI Рё РґСЂ.
  */
 
 class ROSolutes : public QObject {
@@ -99,7 +99,7 @@ private:
     double _totalMolarMass;
 
     bool _changing;
-    void calcAutoValues(); // расчет значений, зависящих от других
+    void calcAutoValues(); // СЂР°СЃС‡РµС‚ Р·РЅР°С‡РµРЅРёР№, Р·Р°РІРёСЃСЏС‰РёС… РѕС‚ РґСЂСѓРіРёС…
 
 signals:
     void solutesChanged();

@@ -58,7 +58,7 @@ QVariant ROWaterModel::waterGroupsNames() const {
     QList<QVariant> names;
     QList<QVariant> ids = waterGroupsIds().toList();
     Q_FOREACH(QVariant id, ids) {
-        // Проверка на id
+        // РџСЂРѕРІРµСЂРєР° РЅР° id
         names << tr(_waterNames[id.toInt()]);
     }
 

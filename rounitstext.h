@@ -6,7 +6,7 @@
 #include "rounits.h"
 #include "singleton.h"
 
-// Класс ROUnitsText обеспечивает поддержку перевода ROUnits.
+// РљР»Р°СЃСЃ ROUnitsText РѕР±РµСЃРїРµС‡РёРІР°РµС‚ РїРѕРґРґРµСЂР¶РєСѓ РїРµСЂРµРІРѕРґР° ROUnits.
 
 #define roUnitsText ROUnitsText::instance()
 class ROUnitsText : public QObject, public Singleton<ROUnitsText> {

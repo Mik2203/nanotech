@@ -73,8 +73,8 @@ void ROUnitsText::update() {
 }
 
 const char * ROUnitsText::_flowUnitsData[] = {
-    QT_TR_NOOP("m3/h"),
-    QT_TR_NOOP("m3/d"),
+    QT_TR_NOOP("m³/h"),
+    QT_TR_NOOP("m³/d"),
     QT_TR_NOOP("GPD"),
     QT_TR_NOOP("GPM")
 };

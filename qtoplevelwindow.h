@@ -33,7 +33,7 @@
 #include <QDebug>
 
 
-// класс главного окна
+// РєР»Р°СЃСЃ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР°
 class QTopLevelWindow : public QMainWindow {
     Q_OBJECT
 public:

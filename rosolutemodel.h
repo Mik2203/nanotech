@@ -6,7 +6,7 @@
 
 #include "rosolutes.h"
 
-/* класс для работы с ROSolutes в GUI.
+/* РєР»Р°СЃСЃ РґР»СЏ СЂР°Р±РѕС‚С‹ СЃ ROSolutes РІ GUI.
  */
 
 

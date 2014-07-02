@@ -82,8 +82,8 @@ Item {
     Line { // SELF RECYCLE
         anchors.right: parent.right
         anchors.rightMargin: arrowLength / 2
-        anchors.bottom: parent.top // привязка к высшей точке - это точка прямоугольников стадий
-        anchors.bottomMargin: -elHeight / 2 //Сдвиг вниз
+        anchors.bottom: parent.top // РїСЂРёРІСЏР·РєР° Рє РІС‹СЃС€РµР№ С‚РѕС‡РєРµ - СЌС‚Рѕ С‚РѕС‡РєР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ СЃС‚Р°РґРёР№
+        anchors.bottomMargin: -elHeight / 2 //РЎРґРІРёРі РІРЅРёР·
 
         visible: pass.hasSelfRecycle
 
@@ -105,10 +105,10 @@ Item {
     }
 
     Line { // BLEND
-        anchors.left: parent.left  // привязка к левой стороне первой стадии
-        anchors.leftMargin: 30  // сдвиг вправо
-        anchors.top: parent.top  // привязка к высшей точке - это точка прямоугольников стадий
-        anchors.topMargin: (elHeight) * 0.5  //сдвиг вниз
+        anchors.left: parent.left  // РїСЂРёРІСЏР·РєР° Рє Р»РµРІРѕР№ СЃС‚РѕСЂРѕРЅРµ РїРµСЂРІРѕР№ СЃС‚Р°РґРёРё
+        anchors.leftMargin: 30  // СЃРґРІРёРі РІРїСЂР°РІРѕ
+        anchors.top: parent.top  // РїСЂРёРІСЏР·РєР° Рє РІС‹СЃС€РµР№ С‚РѕС‡РєРµ - СЌС‚Рѕ С‚РѕС‡РєР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ СЃС‚Р°РґРёР№
+        anchors.topMargin: (elHeight) * 0.5  //СЃРґРІРёРі РІРЅРёР·
 
         visible: pass.hasBlendPermeate
 
@@ -147,7 +147,7 @@ Item {
         }
     }
 
-    Repeater {  // Рециклы с других ступеней
+    Repeater {  // Р РµС†РёРєР»С‹ СЃ РґСЂСѓРіРёС… СЃС‚СѓРїРµРЅРµР№
         model: passIndex
 
         Line {
@@ -156,8 +156,8 @@ Item {
             penWidth: linkThickness
             anchors.right: parent.right
             anchors.rightMargin: arrowLength / 2
-            anchors.bottom: parent.top // привязка к высшей точке - это точка прямоугольников стадий
-            anchors.bottomMargin: -elHeight / 2 //Сдвиг вниз
+            anchors.bottom: parent.top // РїСЂРёРІСЏР·РєР° Рє РІС‹СЃС€РµР№ С‚РѕС‡РєРµ - СЌС‚Рѕ С‚РѕС‡РєР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ СЃС‚Р°РґРёР№
+            anchors.bottomMargin: -elHeight / 2 //РЎРґРІРёРі РІРЅРёР·
             vertices: [0, 0,
                 0, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-linkThickness*2
                 -stages.width + passFeedArrowLength + 10, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) - 10

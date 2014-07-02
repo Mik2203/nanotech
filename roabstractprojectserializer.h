@@ -6,7 +6,7 @@
 
 #include "roproject.h"
 
-// класс для сериализации и десериализации проекта
+// РєР»Р°СЃСЃ РґР»СЏ СЃРµСЂРёР°Р»РёР·Р°С†РёРё Рё РґРµСЃРµСЂРёР°Р»РёР·Р°С†РёРё РїСЂРѕРµРєС‚Р°
 class ROAbstractProjectSerializer : public QObject
 {
     Q_OBJECT

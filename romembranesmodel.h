@@ -5,9 +5,9 @@
 
 #include "romembrane.h"
 
-/* модель таблицы БД с одноименным названием.
- * Данный класс создается и инициализируется в синглтоне RODatabase.
- * Вызов populate предполагает, что база данных уже была подключена.
+/* РјРѕРґРµР»СЊ С‚Р°Р±Р»РёС†С‹ Р‘Р” СЃ РѕРґРЅРѕРёРјРµРЅРЅС‹Рј РЅР°Р·РІР°РЅРёРµРј.
+ * Р”Р°РЅРЅС‹Р№ РєР»Р°СЃСЃ СЃРѕР·РґР°РµС‚СЃСЏ Рё РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃСЏ РІ СЃРёРЅРіР»С‚РѕРЅРµ RODatabase.
+ * Р’С‹Р·РѕРІ populate РїСЂРµРґРїРѕР»Р°РіР°РµС‚, С‡С‚Рѕ Р±Р°Р·Р° РґР°РЅРЅС‹С… СѓР¶Рµ Р±С‹Р»Р° РїРѕРґРєР»СЋС‡РµРЅР°.
  */
 
 class ROMembranesModel: public QSqlRelationalTableModel
@@ -34,7 +34,7 @@ public:
     };
     explicit ROMembranesModel(QSqlDatabase db = QSqlDatabase(), QObject *parent = 0);
 
-    void populate(); // заполнить содержимым
+    void populate(); // Р·Р°РїРѕР»РЅРёС‚СЊ СЃРѕРґРµСЂР¶РёРјС‹Рј
     QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
     Q_INVOKABLE QVariant get(int row, const QString & field_name) const;
     void getMembraneData(ROMembrane*& membrane, int row) const;

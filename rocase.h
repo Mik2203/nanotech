@@ -8,10 +8,10 @@
 #include "rosystemsolvescheduler.h"
 
 /*
- * содержит информацию о варианте системы и включает в себя описание
- * самой системы (ROSystem), затраты на систему (ROCosts), класс анализа и
- * обработки предупреждений (ROSystemController), класс, содержащий информацию о
- * текущем ходе расчетов (ROSystemSolveScheduler)
+ * СЃРѕРґРµСЂР¶РёС‚ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РІР°СЂРёР°РЅС‚Рµ СЃРёСЃС‚РµРјС‹ Рё РІРєР»СЋС‡Р°РµС‚ РІ СЃРµР±СЏ РѕРїРёСЃР°РЅРёРµ
+ * СЃР°РјРѕР№ СЃРёСЃС‚РµРјС‹ (ROSystem), Р·Р°С‚СЂР°С‚С‹ РЅР° СЃРёСЃС‚РµРјСѓ (ROCosts), РєР»Р°СЃСЃ Р°РЅР°Р»РёР·Р° Рё
+ * РѕР±СЂР°Р±РѕС‚РєРё РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёР№ (ROSystemController), РєР»Р°СЃСЃ, СЃРѕРґРµСЂР¶Р°С‰РёР№ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ
+ * С‚РµРєСѓС‰РµРј С…РѕРґРµ СЂР°СЃС‡РµС‚РѕРІ (ROSystemSolveScheduler)
  */
 
 class ROCase : public QObject
@@ -21,8 +21,8 @@ class ROCase : public QObject
     Q_PROPERTY(ROSystem* sys READ sys CONSTANT)
 
     Q_PROPERTY(ROCosts* costs READ costs CONSTANT)
-    Q_PROPERTY(ROSystemController* sysC READ sysC CONSTANT) // по сути является сервисом, не должен быть здесь
-    Q_PROPERTY(ROSystemSolveScheduler* sysSS READ sysSS CONSTANT) // по сути является сервисом, не должен быть здесь
+    Q_PROPERTY(ROSystemController* sysC READ sysC CONSTANT) // РїРѕ СЃСѓС‚Рё СЏРІР»СЏРµС‚СЃСЏ СЃРµСЂРІРёСЃРѕРј, РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р·РґРµСЃСЊ
+    Q_PROPERTY(ROSystemSolveScheduler* sysSS READ sysSS CONSTANT) // РїРѕ СЃСѓС‚Рё СЏРІР»СЏРµС‚СЃСЏ СЃРµСЂРІРёСЃРѕРј, РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ Р·РґРµСЃСЊ
 
 public:
     explicit ROCase();

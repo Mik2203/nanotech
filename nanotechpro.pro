@@ -275,7 +275,7 @@ win32 {
     else:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$PWD/omp/vcompd.lib
 }
 
-# ��� ����, ����� �������� ������� ��� ������� � app.showHelp
+# РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РІС‹Р·С‹РІР°С‚СЊ СЃРїСЂР°РІРєСѓ Р±РµР· РєРѕРЅСЃРѕР»Рё РІ app.showHelp
 win32 {
     LIBS += -L"C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Lib/" -lshell32
     INCLUDEPATH += "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Include"

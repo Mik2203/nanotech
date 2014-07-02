@@ -21,10 +21,10 @@
 
 
 
-/* содержит данные о системе, такие как температура, тип воды,
- * а также данные по ступеням (ROPass), рециклам между ступенями,
- * данные по входным потокам (ROFeed),
- * а также данные по осадкообразованию (ROScalingElement).
+/* СЃРѕРґРµСЂР¶РёС‚ РґР°РЅРЅС‹Рµ Рѕ СЃРёСЃС‚РµРјРµ, С‚Р°РєРёРµ РєР°Рє С‚РµРјРїРµСЂР°С‚СѓСЂР°, С‚РёРї РІРѕРґС‹,
+ * Р° С‚Р°РєР¶Рµ РґР°РЅРЅС‹Рµ РїРѕ СЃС‚СѓРїРµРЅСЏРј (ROPass), СЂРµС†РёРєР»Р°Рј РјРµР¶РґСѓ СЃС‚СѓРїРµРЅСЏРјРё,
+ * РґР°РЅРЅС‹Рµ РїРѕ РІС…РѕРґРЅС‹Рј РїРѕС‚РѕРєР°Рј (ROFeed),
+ * Р° С‚Р°РєР¶Рµ РґР°РЅРЅС‹Рµ РїРѕ РѕСЃР°РґРєРѕРѕР±СЂР°Р·РѕРІР°РЅРёСЋ (ROScalingElement).
  */
 
 class ROSystem: public ROAbstractElement {
@@ -37,7 +37,7 @@ class ROSystem: public ROAbstractElement {
     Q_PROPERTY(double averageFlux READ averageFlux NOTIFY averageFluxChanged)
     Q_PROPERTY(double power READ power NOTIFY powerChanged)
     Q_PROPERTY(double specificEnergy READ specificEnergy NOTIFY specificEnergyChanged)
-    Q_PROPERTY(ROFlow* permeate READ permeate NOTIFY permeateChanged) // меняется при смене pass
+    Q_PROPERTY(ROFlow* permeate READ permeate NOTIFY permeateChanged) // РјРµРЅСЏРµС‚СЃСЏ РїСЂРё СЃРјРµРЅРµ pass
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
 
     Q_PROPERTY(double flowFactor READ flowFactor NOTIFY waterTypeIndexChanged)
@@ -157,7 +157,7 @@ private:
     ROFlow* const _concentrate;
     ROFlow* _resultFeed;
 
-    QMap<int, QMap<int, double> > _passRecycles; // from, to; лучше бы сделать структурой
+    QMap<int, QMap<int, double> > _passRecycles; // from, to; Р»СѓС‡С€Рµ Р±С‹ СЃРґРµР»Р°С‚СЊ СЃС‚СЂСѓРєС‚СѓСЂРѕР№
 
     int _waterTypeIndex;
 

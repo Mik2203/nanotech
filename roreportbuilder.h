@@ -12,8 +12,8 @@
 #include "roqmlobjectcapturer.h"
 
 
-/* класс для построения отчетов.
- * использует QTextDocument и QPrinter для печати на принтер и в pdf.
+/* РєР»Р°СЃСЃ РґР»СЏ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РѕС‚С‡РµС‚РѕРІ.
+ * РёСЃРїРѕР»СЊР·СѓРµС‚ QTextDocument Рё QPrinter РґР»СЏ РїРµС‡Р°С‚Рё РЅР° РїСЂРёРЅС‚РµСЂ Рё РІ pdf.
  */
 
 class ROReportBuilder : public QObject
@@ -22,7 +22,7 @@ class ROReportBuilder : public QObject
     Q_PROPERTY(ROCase* case_ READ case_ WRITE setCase NOTIFY caseChanged)
 
 public:
-    explicit ROReportBuilder(ROProject* proj, QObject *parent = 0); // TODO убрать ROProject из конструктора и ROCase - сделать сервисом
+    explicit ROReportBuilder(ROProject* proj, QObject *parent = 0); // TODO СѓР±СЂР°С‚СЊ ROProject РёР· РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂР° Рё ROCase - СЃРґРµР»Р°С‚СЊ СЃРµСЂРІРёСЃРѕРј
     explicit ROReportBuilder() {} // FOR QML
     const QTextDocument* const build(QSizeF pageSize);
     const QTextDocument* const buildCosts(QSizeF pageSize);
