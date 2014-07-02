@@ -44,7 +44,8 @@ private:
     void checkForNan(const Eigen::MatrixXd& mat);
     // **
 
-    enum Decomposition { PartialPivLU, ColPivHouseholderQR, FullPivHouseholderQR };
+//    enum Decomposition { PartialPivLU, ColPivHouseholderQR, FullPivHouseholderQR };
+    Eigen::SparseQR<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int> > _solver;
     void setSystemValues();
     ROSystem * _sys;
     bool _setSystemValues;
@@ -56,7 +57,7 @@ private:
     QVector<int> _usedSolutes;
     int _elementEquationCount;
     int _passEquationCount;
-    Decomposition _decomposition;
+//    Decomposition _decomposition;
     Eigen::MatrixXd _preComputedICoeffs;
     Eigen::VectorXd pQb;
     Eigen::VectorXd pQfb;
@@ -93,7 +94,7 @@ private:
     bool init();
 
     void zeroMatrices();
-    bool calcSystem(bool determineDecomposition = false);
+    bool calcSystem();
     void initPass(int pi);
     void initSystem();
     void logValues();

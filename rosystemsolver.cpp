@@ -42,7 +42,7 @@ ROSystemSolver::ROSystemSolver(ROSystem * const sys, QObject *parent) :
     _passEquationCount(0),
     _tolerance(0.01),
     _setSystemValues(true),
-    _decomposition(ColPivHouseholderQR),
+//    _decomposition(ColPivHouseholderQR),
     _sys(sys)
 {
 }
@@ -244,7 +244,7 @@ void ROSystemSolver::solve() {
     t.start();
 //#endif
 
-    _decomposition = ColPivHouseholderQR;
+//    _decomposition = ColPivHouseholderQR;
     _solved = init();
 
     if (_solved && _setSystemValues) setSystemValues();
@@ -482,7 +482,7 @@ bool ROSystemSolver::init() {
     F = Eigen::VectorXd::Zero(matrixSize); // Вектор значений функций
 
     initSystem();
-    return calcSystem(true);
+    return calcSystem();
 }
 
 void ROSystemSolver::initPass(int pi) {
@@ -562,7 +562,7 @@ void ROSystemSolver::initPass(int pi) {
 }
 
 
-bool ROSystemSolver::calcSystem(bool determineDecomposition) {
+bool ROSystemSolver::calcSystem() {
     QElapsedTimer timer;
     bool solved = false;
     int stepCntr = 0;
@@ -1022,24 +1022,15 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
         SET_MATRIX_TIME += timer.nsecsElapsed();
         timer.restart();
 
-        bool solution_exists = false;
 
 
-//        if (determineDecomposition)
+        if (stepCntr == 0)
             J.makeCompressed();
 
-        if (!solution_exists && (determineDecomposition || _decomposition == FullPivHouseholderQR)) {
-            Eigen::SparseQR<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int> > solver;
-//            if (determineDecomposition)
-                solver.analyzePattern(J);
-            solver.factorize(J);
-            dX = solver.solve(F);
-            solution_exists = (J*dX).isApprox(F, _tolerance);
-            if (determineDecomposition && solution_exists) {
-                _decomposition = FullPivHouseholderQR;
-                determineDecomposition = false;
-            }
-        }
+        // SOLVE IT!
+        _solver.compute(J);
+        dX = _solver.solve(F);
+        bool solution_exists = (J*dX).isApprox(F, _tolerance);
 
 //#ifdef QT_DEBUG
 //        qDebug() << "stop solving system";
