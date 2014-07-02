@@ -2,6 +2,7 @@
 #define ROSYSTEMSOLVER_H
 
 #include "Eigen/Dense"
+#include <Eigen/Sparse>
 #include <QObject>
 #include <QVector>
 
@@ -84,7 +85,7 @@ private:
     Eigen::VectorXi piOff;
     Eigen::VectorXi peOff;
     Eigen::VectorXi msi;
-    Eigen::MatrixXd J;
+    Eigen::SparseMatrix<double> J;
     Eigen::VectorXd X;
     Eigen::VectorXd dX;
     Eigen::VectorXd F;
