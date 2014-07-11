@@ -8,6 +8,7 @@ import ROUnits 1.0
 import ROUnitsText 1.0
 import "widgets" as ROWidgets
 
+
 Item {
     id: panel
     property ROPass pass
@@ -15,6 +16,7 @@ Item {
     property ROPassController passC: sysC.passC(pass)
     height: column_panel.height
     onPassChanged: selectedStage = pass.firstStage
+
 
     Column {
         id: column_panel
@@ -212,6 +214,39 @@ Item {
             }
         }
 
+//        Item { // PASS CONCENTRATE ROW
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            height: 20
+
+//            Text {
+//                anchors.left: parent.left
+//                anchors.verticalCenter: parent.verticalCenter
+//                text: app.translator.emptyString + qsTr("Concentrate flow (C%1):").arg(passIndex+1)
+//            }
+
+//            Text {
+//                id: passConcentrateFlowLabel
+//                anchors.right: passConcentrateFlowUnits.left
+//                anchors.rightMargin: 5
+//                anchors.verticalCenter: parent.verticalCenter
+//                horizontalAlignment: TextInput.AlignRight
+//                width: 50
+//                text: app.units.convertFlowUnits(pass.concentrate.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+//            }
+
+//            Text {
+//                id: passConcentrateFlowUnits
+//                anchors.right: parent.right
+//                anchors.verticalCenter: parent.verticalCenter
+//                text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+//                font.italic: true
+//                horizontalAlignment: Text.AlignLeft
+//                width: 30
+//                anchors.rightMargin: parent.height-3
+//            }
+//        }
+
 
         Item { // PASS FLUX ROW
             anchors.left: parent.left
@@ -224,21 +259,15 @@ Item {
                 text: app.translator.emptyString + qsTr("Average flux:")
             }
 
-            ROWidgets.DoubleInput {
+            Text {
                 id: passFluxLabel
                 anchors.right: parent.right//passFlowFactorUnitsSpacer.left
                 anchors.rightMargin: 5 + 30 + parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
-                height: parent.height-3
                 width: 50
-                value: pass.averageFlux
-                editable: false
-                onInputChanged: pass.flowFactor = changedValue
-                KeyNavigation.tab: selfRecycleEditor
-                KeyNavigation.backtab: passPermeateFlowInput
+                text: pass.averageFlux.toFixed(2)
             }
-
         }
 
 
@@ -391,7 +420,7 @@ Item {
             anchors.left: parent.left
             anchors.leftMargin: passIndex > 0 ? 10 : 0
             anchors.right: parent.right
-            Item { // PASS PERMEATE FLOW EDITOR ROW
+            Item { // PASS SELF RECYCLE FLOW EDITOR ROW
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: 20
@@ -435,6 +464,88 @@ Item {
                     width: 30
                 }
             }
+
+            Column {
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.right: parent.right
+
+                visible: pass.hasSelfRecycle
+
+                Item {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 20
+
+                    Text {
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: app.translator.emptyString + qsTr("Feed on first stage (SFR%1):").arg(passIndex+1)
+                    }
+
+                    Text {
+                        id: feedOnFirstStageValue
+                        anchors.right: feedOnFirstStageUnits.left
+                        anchors.rightMargin: 5
+                        anchors.verticalCenter: parent.verticalCenter
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                        height: parent.height-3
+                        width: 50
+                        text: app.units.convertFlowUnits(pass.feed.rate + pass.selfRecycle, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+                        // KeyNavigation.backtab: passFlowFactorInput
+                    }
+
+                    Text {
+                        id: feedOnFirstStageUnits
+                        anchors.right: parent.right
+                        anchors.rightMargin: parent.height-3
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+                        font.italic: true
+                        horizontalAlignment: Text.AlignLeft
+                        width: 30
+                    }
+                }
+
+                Item {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 20
+
+                    Text {
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: app.translator.emptyString + qsTr("Concentrate from stages (SC%1):").arg(passIndex+1)
+                    }
+
+                    Text {
+                        id: concentrateFromLastStageValue
+                        anchors.right: concentrateFromLastStageUnit.left
+                        anchors.rightMargin: 5
+                        anchors.verticalCenter: parent.verticalCenter
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                        height: parent.height-3
+                        width: 50
+                        text: app.units.convertFlowUnits(pass.feed.rate - pass.permeate.rate + pass.selfRecycle, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+                        // KeyNavigation.backtab: passFlowFactorInput
+                    }
+
+                    Text {
+                        id: concentrateFromLastStageUnit
+                        anchors.right: parent.right
+                        anchors.rightMargin: parent.height-3
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+                        font.italic: true
+                        horizontalAlignment: Text.AlignLeft
+                        width: 30
+                    }
+                }
+
+            }
+
 
             Component {
                 id: recyclesDelegate

@@ -41,6 +41,7 @@ class ROStage: public ROAbstractElement {
     // VESSELS
     Q_PROPERTY(int vesselCount READ vesselCount WRITE setVesselCount NOTIFY vesselsCountChanged)
     Q_PROPERTY(int elementsPerVesselCount READ elementsPerVesselCount WRITE setElementsPerVesselCount NOTIFY elementsPerVesselCountChanged)
+    Q_PROPERTY(int elementsCount READ elementsCount NOTIFY elementsCountChanged)
     Q_PROPERTY(ROElement* firstElement READ firstElement CONSTANT)
     Q_PROPERTY(ROElement* lastElement READ lastElement CONSTANT)
 

@@ -7,8 +7,9 @@ import "widgets" as ROWidgets
 
 Item {
     id: container
-    property real passPermeateArrowLength: 70
-    property real passFeedArrowLength: 100
+    property int passPermeateArrowLength: 70
+    property int passFeedArrowLength: 130
+    property int passBlendArrowRightOffset: 30
     property ROPass pass
     property ROPassController passC: sysC.passC(pass)
     property int passIndex: sys.passIndex(pass)
@@ -82,8 +83,8 @@ Item {
     Line { // SELF RECYCLE
         anchors.right: parent.right
         anchors.rightMargin: arrowLength / 2
-        anchors.bottom: parent.top // РїСЂРёРІСЏР·РєР° Рє РІС‹СЃС€РµР№ С‚РѕС‡РєРµ - СЌС‚Рѕ С‚РѕС‡РєР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ СЃС‚Р°РґРёР№
-        anchors.bottomMargin: -elHeight / 2 //РЎРґРІРёРі РІРЅРёР·
+        anchors.bottom: parent.top // привязка к высшей точке - это точка прямоугольников стадий
+        anchors.bottomMargin: -elHeight / 2 //Сдвиг вниз
 
         visible: pass.hasSelfRecycle
 
@@ -91,8 +92,8 @@ Item {
         penWidth: linkThickness
         vertices: [0, 0,
                    0, -elHeight,
-                   parent.width - passFeedArrowLength - 10, -elHeight,
-                   parent.width - passFeedArrowLength - 10, 0]
+                   parent.width - passFeedArrowLength + 30, -elHeight,
+                   parent.width - passFeedArrowLength + 30, 0]
         lineStartType: Line.LineEndArrow
 
         ROWidgets.BorderText {
@@ -102,13 +103,31 @@ Item {
             anchors.topMargin: -height / 2
             text: app.translator.emptyString + qsTr("SR%1").arg(passIndex+1)
         }
+
+        ROWidgets.BorderText {  // feed to stages label
+            opacity: 0.85
+            anchors.left: parent.left
+            anchors.leftMargin: 9
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -(height - linkThickness * 2) / 2
+            text: app.translator.emptyString + qsTr("SFR%1").arg(passIndex+1)
+        }
+
+        ROWidgets.BorderText {  // concentrate from stages label
+            opacity: 0.85
+            anchors.right: parent.right
+            anchors.rightMargin: 10
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: -(height - linkThickness * 2) / 2
+            text: app.translator.emptyString + qsTr("SC%1").arg(passIndex+1)
+        }
     }
 
     Line { // BLEND
-        anchors.left: parent.left  // РїСЂРёРІСЏР·РєР° Рє Р»РµРІРѕР№ СЃС‚РѕСЂРѕРЅРµ РїРµСЂРІРѕР№ СЃС‚Р°РґРёРё
-        anchors.leftMargin: 30  // СЃРґРІРёРі РІРїСЂР°РІРѕ
-        anchors.top: parent.top  // РїСЂРёРІСЏР·РєР° Рє РІС‹СЃС€РµР№ С‚РѕС‡РєРµ - СЌС‚Рѕ С‚РѕС‡РєР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ СЃС‚Р°РґРёР№
-        anchors.topMargin: (elHeight) * 0.5  //СЃРґРІРёРі РІРЅРёР·
+        anchors.left: parent.left  // привязка к левой стороне первой стадии
+        anchors.leftMargin: passBlendArrowRightOffset  // сдвиг вправо
+        anchors.top: parent.top  // привязка к высшей точке - это точка прямоугольников стадий
+        anchors.topMargin: (elHeight) * 0.5  //сдвиг вниз
 
         visible: pass.hasBlendPermeate
 
@@ -128,9 +147,8 @@ Item {
 
         ROWidgets.BorderText {  // permeate from stages label
             opacity: 0.85
-            visible: pass.hasBlendPermeate
             anchors.left: parent.left
-            anchors.leftMargin: 12
+            anchors.leftMargin: 15
             anchors.top: parent.bottom
             anchors.topMargin: -height/2
             text: app.translator.emptyString + qsTr("SP%1").arg(passIndex+1)
@@ -138,16 +156,15 @@ Item {
 
         ROWidgets.BorderText {  // feed to stages label
             opacity: 0.85
-            visible: pass.hasBlendPermeate
             anchors.left: parent.left
-            anchors.leftMargin: 12
+            anchors.leftMargin: 15
             anchors.bottom: parent.top
             anchors.bottomMargin: -(height - linkThickness * 2) /2
             text: app.translator.emptyString + qsTr("SF%1").arg(passIndex+1)
         }
     }
 
-    Repeater {  // Р РµС†РёРєР»С‹ СЃ РґСЂСѓРіРёС… СЃС‚СѓРїРµРЅРµР№
+    Repeater {  // Рециклы с других ступеней
         model: passIndex
 
         Line {
@@ -156,12 +173,12 @@ Item {
             penWidth: linkThickness
             anchors.right: parent.right
             anchors.rightMargin: arrowLength / 2
-            anchors.bottom: parent.top // РїСЂРёРІСЏР·РєР° Рє РІС‹СЃС€РµР№ С‚РѕС‡РєРµ - СЌС‚Рѕ С‚РѕС‡РєР° РїСЂСЏРјРѕСѓРіРѕР»СЊРЅРёРєРѕРІ СЃС‚Р°РґРёР№
-            anchors.bottomMargin: -elHeight / 2 //РЎРґРІРёРі РІРЅРёР·
+            anchors.bottom: parent.top // привязка к высшей точке - это точка прямоугольников стадий
+            anchors.bottomMargin: -elHeight / 2 //Сдвиг вниз
             vertices: [0, 0,
                 0, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-linkThickness*2
-                -stages.width + passFeedArrowLength + 10, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) - 10
-                -stages.width + passFeedArrowLength + 10, -(passPermeateArrowLength + elHeight) * (passIndex - index)] //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) + elHeight - 16
+                -stages.width + arrowLength / 2 + 39, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) - 10
+                -stages.width + arrowLength / 2 + 39, -(passPermeateArrowLength + elHeight) * (passIndex - index)] //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) + elHeight - 16
             color: "red"
             lineEndType: Line.LineEndArrow
             Connections {

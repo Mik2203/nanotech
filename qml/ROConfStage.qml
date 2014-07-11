@@ -30,8 +30,8 @@ Item {
             }
 
             ROWidgets.TextInput {
-                anchors.right: vesselsCountUnitsSpacer.left
-                anchors.rightMargin: 5
+                anchors.right: parent.right
+                anchors.rightMargin: 5 + 30 + parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
                 validator: IntValidator {}
@@ -39,13 +39,6 @@ Item {
                 width: 50
                 value: stage.vesselCount
                 onInputChanged: stage.vesselCount = changedValue
-            }
-
-            Item {
-                id: vesselsCountUnitsSpacer
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                width: 30 + parent.height-3
             }
 
             KeyNavigation.tab: elementsPerVesselCountEditor
@@ -64,8 +57,8 @@ Item {
             }
 
             ROWidgets.TextInput {
-                anchors.right: elementsPerVesselCountUnitsSpacer.left
-                anchors.rightMargin: 5
+                anchors.right: parent.right
+                anchors.rightMargin: 5 + 30 + parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
                 validator: IntValidator {}
@@ -75,15 +68,30 @@ Item {
                 onInputChanged: stage.elementsPerVesselCount = changedValue
             }
 
-            Item {
-                id: elementsPerVesselCountUnitsSpacer
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                width: 30 + parent.height-3
-            }
 
             KeyNavigation.tab: preStagePressureEditor
             KeyNavigation.backtab: vesselsCountEditor
+        }
+
+        Item { // STAGE TOTAL ELEMENTS EDITOR ROW
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 20
+
+            Text {
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                text: app.translator.emptyString + qsTr("Total elements count: ")
+            }
+
+            Text {
+                anchors.right: parent.right
+                anchors.rightMargin: 5 + 30 + parent.height-3
+                anchors.verticalCenter: parent.verticalCenter
+                horizontalAlignment: TextInput.AlignRight
+                text: stage.elementsCount.toFixed(2)
+                width: 50
+            }
         }
 
         Item { // STAGE PRESTAGE PRESSURE EDITOR ROW
@@ -111,18 +119,13 @@ Item {
 
             Text {
                 id: stagePreStagePressureUnits
-                anchors.right: stagePreStagePressureRightSpacer.left
+                anchors.right: parent.right
+                anchors.rightMargin: parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 text: app.translator.emptyString + unitsText.pressureUnitText(app.units.pressureUnits)
                 font.italic: true
                 horizontalAlignment: Text.AlignLeft
                 width: 30
-            }
-
-            Item {
-                id: stagePreStagePressureRightSpacer
-                anchors.right: parent.right
-                width: parent.height-3
             }
 
             KeyNavigation.backtab: elementsPerVesselCountEditor
@@ -153,18 +156,13 @@ Item {
 
             Text {
                 id: stageBackPressureUnits
-                anchors.right: stageBackPressureRightSpacer.left
+                anchors.right: parent.right
+                anchors.rightMargin: parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 text: app.translator.emptyString + unitsText.pressureUnitText(app.units.pressureUnits)
                 font.italic: true
                 horizontalAlignment: Text.AlignLeft
                 width: 30
-            }
-
-            Item {
-                id: stageBackPressureRightSpacer
-                anchors.right: parent.right
-                width: parent.height-3
             }
 
             KeyNavigation.backtab: elementsPerVesselCountEditor

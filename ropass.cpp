@@ -51,7 +51,7 @@ ROPass::ROPass(ROSystem* system, /*int passNumber,*/ ROFlow* feed) :
     connect(permeate(), SIGNAL(rateChanged()), this, SLOT(updateRecycles()));
     connect(permeate(), SIGNAL(rateChanged()), this, SLOT(updateBlendPermeate()));
 
-    emit totalActiveAreaChanged();
+    Q_EMIT totalActiveAreaChanged();
 }
 
 
