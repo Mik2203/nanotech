@@ -10,7 +10,7 @@ Column {
 
 
     width: colWidthData //visible ? : 01
-    Behavior on width { NumberAnimation { duration: 100 } }
+//    Behavior on width { NumberAnimation { duration: 100 } }
 
     ROResultText { value: element.activeArea }
     ROResultText { value: app.units.convertFluxUnits(element.averageFlux, ROUnits.DEFAULT_FLUX_UNITS, app.units.fluxUnits); }

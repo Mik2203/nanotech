@@ -48,51 +48,51 @@ Item {
         var colNum = 1; // SYSTEM COL
         if (expandFlags[sys])
             for (var pIdx=0; pIdx<sys.passCount; ++pIdx) {
-                colNum += passColNum(pIdx)
+                colNum += passColNum(pIdx);
             }
-        return colNum
+        return colNum;
     }
 
     function passColNum(pIdx) {
         var colNum = 1; // PASS COLL
         if (expandFlags[sys.pass(pIdx)]) {
             for (var sIdx=0; sIdx<sys.pass(pIdx).stageCount; ++sIdx) {
-                colNum += stageColNum(pIdx, sIdx) // STAGE COL
+                colNum += stageColNum(pIdx, sIdx); // STAGE COL
             }
         }
-        return colNum
+        return colNum;
     }
 
     function stageColNum(pIdx, sIdx) {
         var colNum = 1; // STAGE COLL
         if (expandFlags[sys.pass(pIdx).stage(sIdx)])
-            colNum += sys.pass(pIdx).stage(sIdx).elementsPerVesselCount
-        return colNum
+            colNum += sys.pass(pIdx).stage(sIdx).elementsPerVesselCount;
+        return colNum;
     }
 
     function getShowFieldNum() {
         if (showFeed && showPermeate && showConcentrate)
-            return 3
+            return 3;
         else if((showFeed && showPermeate) ||
                 (showFeed && showConcentrate) ||
                 (showPermeate && showConcentrate))
-            return 2
+            return 2;
         else if (showFeed || showPermeate || showConcentrate)
-            return 1
-        return 0
+            return 1;
+        return 0;
     }
 
     function setAllExpanded(expanded) {
         var temp = expandFlags
 
-        temp[sys] = expanded
+        temp[sys] = expanded;
         for (var pIdx=0; pIdx<sys.passCount; ++pIdx) {
-            temp[sys.pass(pIdx)] = expanded
+            temp[sys.pass(pIdx)] = expanded;
             for (var sIdx=0; sIdx<sys.pass(pIdx).stageCount; ++sIdx) {
-                temp[sys.pass(pIdx).stage(sIdx)] = expanded
+                temp[sys.pass(pIdx).stage(sIdx)] = expanded;
             }
         }
-        expandFlags = temp
+        expandFlags = temp;
     }
 
     Column {
@@ -426,28 +426,94 @@ Item {
             Repeater {
                 model: sys.passCount
                 delegate: Row {
-                    visible: expandFlags[pass] ? true : false
-                    //                    height: visible ? rowHeight : 0
+                    height: rowHeight
                     property ROPass pass: sys.pass(index)
                     property int pIdx: index
 
-                    Repeater {
-                        model: pass.stageCount
+                    Row {
+                        height: rowHeight
+                        visible: expandFlags[pass] ? true : false
 
-                        Rectangle {
-                            property ROStage stage: pass.stage(index)
-                            width: colWidthData * stageColNum(pIdx, index)
-                            height: rowHeight
-                            border.color: borderColor
-                            Text {text: stage.membrane.seriesAndModel; anchors.centerIn: parent }
+                        Repeater {
+                            model: pass.stageCount
+
+                            Rectangle {
+                                property ROStage stage: pass.stage(index)
+                                width: colWidthData * stageColNum(pIdx, index)
+                                height: rowHeight
+                                border.color: borderColor
+                                Text {text: stage.membrane.seriesAndModel; anchors.centerIn: parent }
+                            }
                         }
                     }
+
                     Rectangle { // PASS SPACER
-                        //width: 30
                         width: colWidthData
                         height: rowHeight
                         border.color: borderColor
                     }
+
+                }
+
+            }
+
+            // TODO esli hotya bi odin pass est' - to nado, esli ni odnogo, to net
+            Rectangle {
+                //width: 30
+                width: colWidthData
+                height: rowHeight
+                border.color: borderColor
+            }
+        }
+
+
+        Row { // STAGE NUMBER OF ELEMENTS
+            visible: expandFlags[sys] ? true : false
+            height: visible ? rowHeight : 0
+
+            Rectangle {
+                width: colWidthParam
+                height: rowHeight
+                border.color: borderColor
+                Text {text: app.translator.emptyString + qsTr("Total elements count"); anchors.leftMargin: 5; anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter }
+            }
+
+            Rectangle { //Spacer
+                width: colWidthUnits
+                height: rowHeight
+                border.color: borderColor
+            }
+
+            Repeater {
+                model: sys.passCount
+                delegate: Row {
+                    height: rowHeight
+                    property ROPass pass: sys.pass(index)
+                    property int pIdx: index
+
+                    Row {
+                        height: rowHeight
+                        visible: expandFlags[pass] ? true : false
+
+                        Repeater {
+                            model: pass.stageCount
+
+                            Rectangle {
+                                property ROStage stage: pass.stage(index)
+                                width: colWidthData * stageColNum(pIdx, index)
+                                height: rowHeight
+                                border.color: borderColor
+                                Text {text: stage.elementsCount; anchors.centerIn: parent }
+                            }
+                        }
+                    }
+
+                    Rectangle { // PASS SPACER
+                        width: colWidthData
+                        height: rowHeight
+                        border.color: borderColor
+                    }
+
                 }
 
             }

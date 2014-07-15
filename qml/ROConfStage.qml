@@ -89,7 +89,7 @@ Item {
                 anchors.rightMargin: 5 + 30 + parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
-                text: stage.elementsCount.toFixed(2)
+                text: stage.elementsCount
                 width: 50
             }
         }

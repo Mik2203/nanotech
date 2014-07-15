@@ -17,8 +17,6 @@ Item {
     property bool editable: true
     property bool showWarnings: false
 
-
-
     Row {
         id: passRow
 
@@ -67,10 +65,6 @@ Item {
             id: passes
             spacing: -elHeight / 2
 
-            function updateHeight() {
-                var spi = passesRepeater.itemAt(passesRepeater.count-1)
-                height = spi.y + spi.height;
-            }
             function updateWidth() {
                 var maxX = 0.0;
                 for (var pi=0; pi<sys.passCount; ++pi) {
@@ -83,8 +77,8 @@ Item {
             Repeater {
                 id: passesRepeater
                 model: sys.passCount
-                onItemAdded: { passes.updateWidth(); passes.updateHeight(); }
-                onItemRemoved: { passes.updateWidth(); passes.updateHeight(); }
+                onItemAdded: passes.updateWidth()
+                onItemRemoved: passes.updateWidth()
 
                 delegate: ROSchemePass {
                     pass: sys.pass(index)

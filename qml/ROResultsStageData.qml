@@ -25,7 +25,7 @@ Row {
 
 
     Column { // STAGE DATA
-        Behavior on width { NumberAnimation { duration: 100 } }
+//        Behavior on width { NumberAnimation { duration: 100 } }
 
         ROResultText { value: stage.activeArea }
         ROResultText { value: app.units.convertFluxUnits(stage.averageFlux, ROUnits.DEFAULT_FLUX_UNITS, app.units.fluxUnits); }

@@ -16,6 +16,7 @@ Item {
     width: stages.width
     height: stages.height + pFlow.height
 
+
     Row {
         id: stages
 

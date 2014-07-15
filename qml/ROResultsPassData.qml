@@ -22,7 +22,7 @@ Row {
     }
 
     Column { //PASS DATA
-        Behavior on width { NumberAnimation { duration: 100 } }
+//        Behavior on width { NumberAnimation { duration: 100 } }
 
         ROResultText { value: pass.activeArea }
         ROResultText { value: app.units.convertFluxUnits(pass.averageFlux, ROUnits.DEFAULT_FLUX_UNITS, app.units.fluxUnits); }

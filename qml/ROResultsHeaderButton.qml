@@ -15,9 +15,7 @@ ROWidgets.Button {
         id: dropdownIcon
         source: "../images/spinbox_down.png"
         rotation: button.toggled ? 90 : -90
-        Behavior on rotation {
-                 NumberAnimation { duration: 300 }
-             }
+        Behavior on rotation { NumberAnimation { duration: 300 } }
         smooth: true
         anchors.right: parent.right
         anchors.rightMargin: 3
