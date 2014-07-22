@@ -13,12 +13,14 @@ class ROUnitsText : public QObject, public Singleton<ROUnitsText> {
     Q_OBJECT
     Q_PROPERTY(QVariant flowUnitsTextList READ flowUnitsTextList NOTIFY textUpdated)
     Q_PROPERTY(QVariant fluxUnitsTextList READ fluxUnitsTextList NOTIFY textUpdated)
+    Q_PROPERTY(QVariant areaUnitsTextList READ areaUnitsTextList NOTIFY textUpdated)
     Q_PROPERTY(QVariant pressureUnitsTextList READ pressureUnitsTextList NOTIFY textUpdated)
     Q_PROPERTY(QVariant temperatureUnitsTextList READ temperatureUnitsTextList NOTIFY textUpdated)
 
 public:
     QVariant flowUnitsTextList();
     QVariant fluxUnitsTextList();
+    QVariant areaUnitsTextList();
     QVariant pressureUnitsTextList();
     QVariant temperatureUnitsTextList();
 
@@ -31,6 +33,7 @@ public slots:
     // Can't pass enums as parameters, because of QML limitations
     QString flowUnitText(int); // int = ROUnits::FlowUnits
     QString fluxUnitText(int); // int = ROUnits::FluxUnits
+    QString areaUnitText(int); // int = ROUnits::AreaUnits
     QString pressureUnitText(int); //int = ROUnits::PressureUnits
     QString temperatureUnitText(int); // int = ROUnits::TemperatureUnits
     void update();
@@ -38,11 +41,13 @@ public slots:
 private:
     QVariant _flowUnitsTextList;
     QVariant _fluxUnitsTextList;
+    QVariant _areaUnitsTextList;
     QVariant _pressureUnitsTextList;
     QVariant _temperatureUnitsTextList;
 
     static const char *_flowUnitsData[];
     static const char *_fluxUnitsData[];
+    static const char *_areaUnitsData[];
     static const char *_pressureUnitsData[];
     static const char *_temperatureUnitsData[];
     

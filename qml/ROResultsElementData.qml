@@ -12,7 +12,7 @@ Column {
     width: colWidthData //visible ? : 01
 //    Behavior on width { NumberAnimation { duration: 100 } }
 
-    ROResultText { value: element.activeArea }
+    ROResultText { value: app.units.convertAreaUnits(element.activeArea, ROUnits.DEFAULT_AREA_UNITS, app.units.areaUnits); }
     ROResultText { value: app.units.convertFluxUnits(element.averageFlux, ROUnits.DEFAULT_FLUX_UNITS, app.units.fluxUnits); }
     ROResultText { value: element.recovery * 100.0; }
     ROResultText { value: app.units.convertFlowUnits(element.feed.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits); type: "F"; }

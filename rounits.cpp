@@ -1,17 +1,24 @@
 #include "rounits.h"
 #include "romath.h"
 
-ROUnits::ROUnits(FlowUnits flowU, FluxUnits fluxU, PressureUnits pressU, TemperatureUnits tempU, QObject *parent) :
-    QObject(parent), _flowUnits(flowU), _fluxUnits(fluxU), _pressureUnits(pressU), _temperatureUnits(tempU) { }
+ROUnits::ROUnits(FlowUnits flowU, FluxUnits fluxU, AreaUnits areaU, PressureUnits pressU, TemperatureUnits tempU, QObject *parent) :
+    QObject(parent),
+    _flowUnits(flowU),
+    _fluxUnits(fluxU),
+    _areaUnits(areaU),
+    _pressureUnits(pressU),
+    _temperatureUnits(tempU) { }
 
 
 ROUnits::FlowUnits ROUnits::flowUnits() const { return _flowUnits; }
 ROUnits::FluxUnits ROUnits::fluxUnits() const { return _fluxUnits; }
+ROUnits::AreaUnits ROUnits::areaUnits() const { return _areaUnits; }
 ROUnits::PressureUnits ROUnits::pressureUnits() const { return _pressureUnits; }
 ROUnits::TemperatureUnits ROUnits::temperatureUnits() const { return _temperatureUnits; }
 
 ROUnits::FlowUnits ROUnits::DEFAULT_FLOW_UNITS() { return m3h; }
 ROUnits::FluxUnits ROUnits::DEFAULT_FLUX_UNITS() { return lmh; }
+ROUnits::AreaUnits ROUnits::DEFAULT_AREA_UNITS() { return m2; }
 ROUnits::PressureUnits ROUnits::DEFAULT_PRESSURE_UNITS() { return bar; }
 ROUnits::TemperatureUnits ROUnits::DEFAULT_TEMPERATURE_UNITS() { return Celsius; }
 
@@ -20,6 +27,23 @@ void ROUnits::setFlowUnits(FlowUnits u) {
         _flowUnits = u;
         Q_EMIT flowUnitsChanged();
     }
+
+    AreaUnits au;
+    switch (u) {
+    case m3h:
+    case m3d:
+        au = m2;
+        break;
+    case GPD:
+    case GPM:
+        au = ft2;
+        break;
+    }
+
+    if (au != _areaUnits) {
+        _areaUnits = au;
+        Q_EMIT areaUnitsChanged();
+    }
 }
 void ROUnits::setFluxUnits(FluxUnits u) {
     if (u != _fluxUnits) {
@@ -27,6 +51,7 @@ void ROUnits::setFluxUnits(FluxUnits u) {
         Q_EMIT fluxUnitsChanged();
     }
 }
+
 void ROUnits::setPressureUnits(PressureUnits u) {
     if (u != _pressureUnits) {
         _pressureUnits = u;
@@ -70,14 +95,33 @@ double ROUnits::convertFluxUnits(double value, ROUnits::FluxUnits from, ROUnits:
 
     switch(from) {
     case lmh: lmhValue = value; break;
-    case GFD: lmhValue = value * 24.62448197; break;
+    case GFD: lmhValue = value * 1.69779861; break;
     }
 
 
     switch(to) {
     case lmh: result = lmhValue; break;
-    case GFD: result = lmhValue / 24.62448197; break;
+    case GFD: result = lmhValue / 1.69779861; break;
     }
+    return result;
+}
+
+double ROUnits::convertAreaUnits(double value, ROUnits::AreaUnits from, ROUnits::AreaUnits to)
+{
+    if (from == to) return value;
+
+    double m2Value, result;
+
+    switch (from) {
+    case m2: m2Value = value; break;
+    case ft2: m2Value = value / 10.7639104; break;
+    }
+
+    switch (to) {
+    case m2: result = m2Value; break;
+    case ft2: result = m2Value * 10.7639104; break;
+    }
+
     return result;
 }
 

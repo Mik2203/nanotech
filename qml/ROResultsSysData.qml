@@ -6,7 +6,7 @@ import ROSolutes 1.0
 import ROUnits 1.0
 
 Column { // SYSTEM
-    ROResultText { value: sys.activeArea }
+    ROResultText { value: app.units.convertAreaUnits(sys.activeArea, ROUnits.DEFAULT_AREA_UNITS, app.units.areaUnits); }
     ROResultText { value: app.units.convertFluxUnits(sys.averageFlux, ROUnits.DEFAULT_FLUX_UNITS, app.units.fluxUnits); }
     ROResultText { value: sys.recovery * 100.0 }
     ROResultText { value: app.units.convertFlowUnits(sys.feed.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits); type: "F"; }

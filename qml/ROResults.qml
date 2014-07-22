@@ -755,7 +755,7 @@ Item {
                     width: colWidthUnits
                     height: rowHeight
                     border.color: borderColor
-                    Text {text: app.translator.emptyString + qsTr("m²"); font.italic: true; anchors.leftMargin: 5; anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter}
+                    Text {text: app.translator.emptyString + unitsText.areaUnitText(app.units.areaUnits); font.italic: true; anchors.leftMargin: 5; anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter}
                 }
 
                 Rectangle {

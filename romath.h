@@ -23,7 +23,7 @@ static const double m3ToL = 1000.028;
 static const double kgToL = 1000.0;
 static const double lToKg = 1.0 / kgToL;
 static const double LToM3 = 1.0 / m3ToL;
-static const double gfdToLmh = 24.62448197;
+static const double gfd_PSItoLmh_bar = 24.62448197;
 static const double m3hToGpm = 1.0 / 0.22712472;
 
 static double poly(double x, double* ks, int deg) {
@@ -110,7 +110,7 @@ static double A(int series, double Cf, double Qp, double Qf, double Cc, double P
         a = aCoeff - 0.011 * (pii - 25.0) / 35.0; // TODO optimize
     else
         a = aCoeff - 0.0001 * (pii - 200);
-    return a * gfdToLmh;
+    return a * gfd_PSItoLmh_bar;
 }
 
 static double dAQf(
@@ -124,7 +124,7 @@ static double dAQf(
     if (pii <= 25.0) da = 0.0;
     else if (pii <= 200) da = -0.011 / 35.0 * dPIiQf(Cf, Qp, Qf, Cc, PIf); // TODO optimize
     else da = -0.0001 * dPIiQf(Cf, Qp, Qf, Cc, PIf);
-    return da * gfdToLmh;
+    return da * gfd_PSItoLmh_bar;
 }
 
 static double dAQp(double Cf, double Qp, double Qf, double Cc, double PIf) {
@@ -133,7 +133,7 @@ static double dAQp(double Cf, double Qp, double Qf, double Cc, double PIf) {
     if (pii <= 25.0) da = 0.0;
     else if (pii <= 200) da = -0.011 / 35.0 * dPIiQp(Cf, Qp, Qf, Cc, PIf); // TODO optimize
     else da = -0.0001 * dPIiQp(Cf, Qp, Qf, Cc, PIf);
-    return da * gfdToLmh;
+    return da * gfd_PSItoLmh_bar;
 }
 
 static double dACf(double Cf, double Qp, double Qf, double Cc, double PIf) {
@@ -142,7 +142,7 @@ static double dACf(double Cf, double Qp, double Qf, double Cc, double PIf) {
     if (pii <= 25.0) da = 0.0;
     else if (pii <= 200) da = -0.011 / 35.0 * dPIiCf(Cf, Qp, Qf, Cc, PIf); // TODO optimize
     else da = -0.0001 * dPIiCf(Cf, Qp, Qf, Cc, PIf);
-    return da * gfdToLmh;
+    return da * gfd_PSItoLmh_bar;
 }
 
 static double dACc(double Cf, double Qp, double Qf, double Cc, double PIf) {
@@ -151,7 +151,7 @@ static double dACc(double Cf, double Qp, double Qf, double Cc, double PIf) {
     if (pii <= 25.0) da = 0.0;
     else if (pii <= 200) da = -0.011 / 35.0 * dPIiCc(Cf, Qp, Qf, PIf); // TODO optimize
     else da = -0.0001 * dPIiCc(Cf, Qp, Qf, PIf);
-    return da * gfdToLmh;
+    return da * gfd_PSItoLmh_bar;
 }
 
 

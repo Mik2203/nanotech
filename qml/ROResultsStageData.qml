@@ -27,7 +27,7 @@ Row {
     Column { // STAGE DATA
 //        Behavior on width { NumberAnimation { duration: 100 } }
 
-        ROResultText { value: stage.activeArea }
+        ROResultText { value: app.units.convertAreaUnits(stage.activeArea, ROUnits.DEFAULT_AREA_UNITS, app.units.areaUnits); }
         ROResultText { value: app.units.convertFluxUnits(stage.averageFlux, ROUnits.DEFAULT_FLUX_UNITS, app.units.fluxUnits); }
         ROResultText { value: stage.recovery * 100.0; }
         ROResultText { value: app.units.convertFlowUnits(stage.feed.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits); type: "F"; }

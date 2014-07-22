@@ -24,7 +24,7 @@ Row {
     Column { //PASS DATA
 //        Behavior on width { NumberAnimation { duration: 100 } }
 
-        ROResultText { value: pass.activeArea }
+        ROResultText { value: app.units.convertAreaUnits(pass.activeArea, ROUnits.DEFAULT_AREA_UNITS, app.units.areaUnits); }
         ROResultText { value: app.units.convertFluxUnits(pass.averageFlux, ROUnits.DEFAULT_FLUX_UNITS, app.units.fluxUnits); }
         ROResultText { value: pass.recovery * 100.0; }
         ROResultText { value: app.units.convertFlowUnits(pass.feed.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits); type: "F"; }

@@ -16,6 +16,10 @@ ROUnitsText::~ROUnitsText() {
         delete[] _fluxUnitsData[uIdx];
     delete[] _fluxUnitsData;
 
+    for (int uIdx=0; uIdx<ROUnits::AREA_UNIT_COUNT; ++uIdx)
+        delete[] _areaUnitsData[uIdx];
+    delete[] _areaUnitsData;
+
     for (int uIdx=0; uIdx<ROUnits::PRESSURE_UNIT_COUNT; ++uIdx)
         delete[] _pressureUnitsData[uIdx];
     delete[] _pressureUnitsData;
@@ -27,6 +31,7 @@ ROUnitsText::~ROUnitsText() {
 
 QVariant ROUnitsText::flowUnitsTextList() { return _flowUnitsTextList; }
 QVariant ROUnitsText::fluxUnitsTextList() { return _fluxUnitsTextList; }
+QVariant ROUnitsText::areaUnitsTextList() { return _areaUnitsTextList; }
 QVariant ROUnitsText::pressureUnitsTextList() { return _pressureUnitsTextList; }
 QVariant ROUnitsText::temperatureUnitsTextList() { return _temperatureUnitsTextList; }
 
@@ -37,6 +42,10 @@ QString ROUnitsText::flowUnitText(int u) {
 QString ROUnitsText::fluxUnitText(int u) {
     if (u < 0 || ROUnits::FLUX_UNIT_COUNT <= u) u = ROUnits::DEFAULT_FLUX_UNITS();
     return tr(_fluxUnitsData[u]);
+}
+QString ROUnitsText::areaUnitText(int u) {
+    if (u < 0 || ROUnits::AREA_UNIT_COUNT <= u) u = ROUnits::DEFAULT_AREA_UNITS();
+    return tr(_areaUnitsData[u]);
 }
 QString ROUnitsText::pressureUnitText(int u) {
     if (u < 0 || ROUnits::PRESSURE_UNIT_COUNT <= u) u = ROUnits::DEFAULT_PRESSURE_UNITS();
@@ -59,6 +68,11 @@ void ROUnitsText::update() {
         fluxUnitsTextList << fluxUnitText(uIdx);
     _fluxUnitsTextList = QVariant::fromValue(fluxUnitsTextList);
 
+    QStringList areaUnitsTextList;
+    for (int uIdx=0; uIdx<ROUnits::AREA_UNIT_COUNT; ++uIdx)
+        areaUnitsTextList << areaUnitText(uIdx);
+    _areaUnitsTextList = QVariant::fromValue(areaUnitsTextList);
+
     QStringList pressureUnitsTextList;
     for (int uIdx=0; uIdx<ROUnits::PRESSURE_UNIT_COUNT; ++uIdx)
         pressureUnitsTextList << pressureUnitText(uIdx);
@@ -77,6 +91,11 @@ const char * ROUnitsText::_flowUnitsData[] = {
     QT_TR_NOOP("m³/d"),
     QT_TR_NOOP("GPD"),
     QT_TR_NOOP("GPM")
+};
+
+const char * ROUnitsText::_areaUnitsData[] = {
+    QT_TR_NOOP("m²"),
+    QT_TR_NOOP("ft²")
 };
 
 const char * ROUnitsText::_fluxUnitsData[] = {
