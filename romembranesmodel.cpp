@@ -56,15 +56,6 @@ QVariant ROMembranesModel::data( const QModelIndex & index, int role) const {
     return QSqlQueryModel::data(index, role);
 }
 
-//void ROMembranesModel::populate() {
-//    setTable("ROMembranes");
-//    setRelation(1, QSqlRelation("ROMembranesSeries", "id", "series"));
-//    setRelation(9, QSqlRelation("ROMembranesTests", "id", "summary"));
-//    setSort(1, Qt::AscendingOrder); // by series
-//    select();
-//    qDebug() << record(0);
-//}
-
 QVariant ROMembranesModel::get(int row, const QString & field_name) const {
     /*
       К именам, которые не могут быть представлены именами, совпадающими с именами в БД,
@@ -109,6 +100,3 @@ int ROMembranesModel::indexById(int id) const {
 int ROMembranesModel::count() const { return rowCount(); }
 
 QHash<int, QByteArray> ROMembranesModel::roleNames() const { return _roleNames; }
-
-
-

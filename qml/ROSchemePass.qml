@@ -8,7 +8,7 @@ import "widgets" as ROWidgets
 Item {
     id: container
     property int passPermeateArrowLength: 70
-    property int passFeedArrowLength: 130
+    property int passFeedArrowLength: 90
     property int passBlendArrowRightOffset: 30
     property ROPass pass
     property ROPassController passC: sysC.passC(pass)
@@ -16,6 +16,26 @@ Item {
     width: stages.width
     height: stages.height + pFlow.height
 
+    function __passHasIncomingRecycles() {
+        for (var pi=passIndex+1; pi<sys.passCount; ++pi) {
+            if (sys.pass(pi).hasRecycle(passIndex))
+                return true;
+        }
+        return false;
+    }
+
+    Repeater {
+//        id: recycleObserver
+        model: sys.passCount
+
+        Connections {
+            target: sys.pass(index)
+            onRecycleChanged: {
+                feedLabel.visible = __passHasIncomingRecycles()
+                feedStageLabel.visible = __passHasIncomingRecycles() || pass.hasSelfRecycle || pass.hasBlendPermeate
+            }
+        }
+    }
 
     Row {
         id: stages
@@ -29,12 +49,25 @@ Item {
             color: passIndex == 0 ? "black" : "blue"
             lineEndType: Line.LineEndArrow
 
-            ROWidgets.BorderText {  // permeate from stages label
+            ROWidgets.BorderText {  // feed to stages label
+                id: feedStageLabel
                 opacity: 0.85
+                visible: __passHasIncomingRecycles() || pass.hasSelfRecycle || pass.hasBlendPermeate
+                anchors.right: parent.right
+                anchors.rightMargin: 15
+                anchors.bottom: parent.top
+                anchors.bottomMargin: -(height - linkThickness) / 2
+                text: app.translator.emptyString + qsTr("SF%1").arg(passIndex+1)
+            }
+
+            ROWidgets.BorderText {  // feed label
+                id: feedLabel
+                opacity: 0.85
+                visible: __passHasIncomingRecycles()
                 anchors.left: parent.left
                 anchors.leftMargin: 5
                 anchors.top: parent.top
-                anchors.topMargin: -(height + linkThickness) /2
+                anchors.topMargin: -(height + linkThickness) / 2
                 text: app.translator.emptyString + qsTr("F%1").arg(passIndex+1)
             }
         }
@@ -105,15 +138,6 @@ Item {
             text: app.translator.emptyString + qsTr("SR%1").arg(passIndex+1)
         }
 
-        ROWidgets.BorderText {  // feed to stages label
-            opacity: 0.85
-            anchors.left: parent.left
-            anchors.leftMargin: 9
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: -(height - linkThickness * 2) / 2
-            text: app.translator.emptyString + qsTr("SFR%1").arg(passIndex+1)
-        }
-
         ROWidgets.BorderText {  // concentrate from stages label
             opacity: 0.85
             anchors.right: parent.right
@@ -154,18 +178,9 @@ Item {
             anchors.topMargin: -height/2
             text: app.translator.emptyString + qsTr("SP%1").arg(passIndex+1)
         }
-
-        ROWidgets.BorderText {  // feed to stages label
-            opacity: 0.85
-            anchors.left: parent.left
-            anchors.leftMargin: 15
-            anchors.bottom: parent.top
-            anchors.bottomMargin: -(height - linkThickness * 2) /2
-            text: app.translator.emptyString + qsTr("SF%1").arg(passIndex+1)
-        }
     }
 
-    Repeater {  // Рециклы с других ступеней
+    Repeater {  // рециклы на другие ступени
         model: passIndex
 
         Line {
@@ -178,8 +193,8 @@ Item {
             anchors.bottomMargin: -elHeight / 2 //Сдвиг вниз
             vertices: [0, 0,
                 0, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-linkThickness*2
-                -stages.width + arrowLength / 2 + 39, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) - 10
-                -stages.width + arrowLength / 2 + 39, -(passPermeateArrowLength + elHeight) * (passIndex - index)] //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) + elHeight - 16
+                -stages.width + arrowLength / 2 + 42, -(passPermeateArrowLength + elHeight) * (passIndex - index) - elHeight * 1.5, //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) - 10
+                -stages.width + arrowLength / 2 + 42, -(passPermeateArrowLength + elHeight) * (passIndex - index)] //-(passOffset-linkThickness*2 + stages.height ) * (passIndex - index) + elHeight - 16
             color: "red"
             lineEndType: Line.LineEndArrow
             Connections {

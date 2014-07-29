@@ -17,6 +17,41 @@ Item {
     height: column_panel.height
     onPassChanged: selectedStage = pass.firstStage
 
+    function __passHasIncomingRecycles() {
+        for (var pi=passIndex+1; pi<sys.passCount; ++pi) {
+            if (sys.pass(pi).hasRecycle(passIndex))
+                return true;
+        }
+        return false;
+    }
+    function __passIncomingRecyclesRate() {
+        var rate = 0.0;
+        for (var pi=passIndex+1; pi<sys.passCount; ++pi) {
+            if (sys.pass(pi).hasRecycle(passIndex))
+                rate += sys.pass(pi).recycle(passIndex)
+        }
+        return rate;
+    }
+    function __updateRowsVisibility() {
+        originalFeedRow.visible = __passHasIncomingRecycles()
+        if (originalFeedRow.visible)
+            originalFeedRow.originalFeed = pass.feed.rate - __passIncomingRecyclesRate()
+        stageFeedRow.visible = __passHasIncomingRecycles() || pass.hasSelfRecycle || pass.hasBlendPermeate
+    }
+    onPassIndexChanged: __updateRowsVisibility()
+    Connections {
+        target: pass
+        onHasSelfRecycleChanged: __updateRowsVisibility()
+        onHasBlendPermeateChanged: __updateRowsVisibility()
+    }
+    Repeater {
+        model: sys.passCount
+        Connections {
+            target: sys.pass(index)
+            onRecycleChanged: __updateRowsVisibility()
+        }
+    }
+
 
     Column {
         id: column_panel
@@ -157,7 +192,7 @@ Item {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: app.translator.emptyString + qsTr("Feed flow (F%1):").arg(passIndex+1)
+                text: app.translator.emptyString + qsTr("Feed flow:")
             }
 
             ROWidgets.CheckBox {
@@ -213,6 +248,8 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
+
+
 
 //        Item { // PASS CONCENTRATE ROW
 //            anchors.left: parent.left
@@ -327,41 +364,41 @@ Item {
 
                 visible: pass.hasBlendPermeate// && pass.blendPermeate > 0.0
 
-                Item {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: 20
+//                Item {
+//                    anchors.left: parent.left
+//                    anchors.right: parent.right
+//                    height: 20
 
-                    Text {
-                        anchors.left: parent.left
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + qsTr("Feed on stages (SF%1):").arg(passIndex+1)
-                    }
+//                    Text {
+//                        anchors.left: parent.left
+//                        anchors.verticalCenter: parent.verticalCenter
+//                        text: app.translator.emptyString + qsTr("Feed on stages (SF%1):").arg(passIndex+1)
+//                    }
 
-                    Text {
-                        id: feedOnStageValue
-                        anchors.right: feedOnStageUnits.left
-                        anchors.rightMargin: 5
-                        anchors.verticalCenter: parent.verticalCenter
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        height: parent.height-3
-                        width: 50
-                        text: app.units.convertFlowUnits(pass.feed.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
-                        // KeyNavigation.backtab: passFlowFactorInput
-                    }
+//                    Text {
+//                        id: feedOnStageValue
+//                        anchors.right: feedOnStageUnits.left
+//                        anchors.rightMargin: 5
+//                        anchors.verticalCenter: parent.verticalCenter
+//                        horizontalAlignment: Text.AlignRight
+//                        verticalAlignment: Text.AlignVCenter
+//                        height: parent.height-3
+//                        width: 50
+//                        text: app.units.convertFlowUnits(pass.feed.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+//                        // KeyNavigation.backtab: passFlowFactorInput
+//                    }
 
-                    Text {
-                        id: feedOnStageUnits
-                        anchors.right: parent.right
-                        anchors.rightMargin: parent.height-3
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
-                        font.italic: true
-                        horizontalAlignment: Text.AlignLeft
-                        width: 30
-                    }
-                }
+//                    Text {
+//                        id: feedOnStageUnits
+//                        anchors.right: parent.right
+//                        anchors.rightMargin: parent.height-3
+//                        anchors.verticalCenter: parent.verticalCenter
+//                        text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+//                        font.italic: true
+//                        horizontalAlignment: Text.AlignLeft
+//                        width: 30
+//                    }
+//                }
 
                 Item { // PASS BLEND PERMEATE EDITOR ROW
                     anchors.left: parent.left
@@ -471,42 +508,6 @@ Item {
                 anchors.right: parent.right
 
                 visible: pass.hasSelfRecycle
-
-                Item {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: 20
-
-                    Text {
-                        anchors.left: parent.left
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + qsTr("Feed on first stage (SFR%1):").arg(passIndex+1)
-                    }
-
-                    Text {
-                        id: feedOnFirstStageValue
-                        anchors.right: feedOnFirstStageUnits.left
-                        anchors.rightMargin: 5
-                        anchors.verticalCenter: parent.verticalCenter
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        height: parent.height-3
-                        width: 50
-                        text: app.units.convertFlowUnits(pass.feed.rate + pass.selfRecycle, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
-                        // KeyNavigation.backtab: passFlowFactorInput
-                    }
-
-                    Text {
-                        id: feedOnFirstStageUnits
-                        anchors.right: parent.right
-                        anchors.rightMargin: parent.height-3
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
-                        font.italic: true
-                        horizontalAlignment: Text.AlignLeft
-                        width: 30
-                    }
-                }
 
                 Item {
                     anchors.left: parent.left
@@ -626,6 +627,88 @@ Item {
                 id: passRecyclesRepeater
                 model: passIndex
                 delegate: recyclesDelegate
+            }
+
+            Item {
+                id: originalFeedRow
+                anchors.left: parent.left
+                anchors.right: parent.right
+                visible: __passHasIncomingRecycles()
+                height: 20
+                property real originalFeed: pass.feed.rate - pass.recycle(1).rate
+
+                Text {
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: app.translator.emptyString + qsTr("Original feed flow (F%1):").arg(passIndex+1)
+                    font.italic: true
+                }
+
+                Text {
+                    id: originalFeedRowValue
+                    anchors.right: originalFeedRowUnits.left
+                    anchors.rightMargin: 5
+                    anchors.verticalCenter: parent.verticalCenter
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                    height: parent.height-3
+                    width: 50
+                    text: app.units.convertFlowUnits(originalFeedRow.originalFeed, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+                    font.italic: true
+                    // KeyNavigation.backtab: passFlowFactorInput
+                }
+
+                Text {
+                    id: originalFeedRowUnits
+                    anchors.right: parent.right
+                    anchors.rightMargin: parent.height-3
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+                    font.italic: true
+                    horizontalAlignment: Text.AlignLeft
+                    width: 30
+                }
+            }
+
+            Item {
+                id: stageFeedRow
+                anchors.left: parent.left
+                anchors.right: parent.right
+                visible: __passHasIncomingRecycles() || pass.hasSelfRecycle || pass.hasBlendPermeate
+                height: 20
+                property real stageFeed: pass.feed.rate - (pass.hasBlendPermeate ? pass.blendPermeate : 0.0) + (pass.hasSelfRecycle ? pass.selfRecycle : 0.0)
+
+                Text {
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: app.translator.emptyString + qsTr("Feed on first stage (SF%1):").arg(passIndex+1)
+                    font.italic: true
+                }
+
+                Text {
+                    id: feedOnFirstStageValue
+                    anchors.right: feedOnFirstStageUnits.left
+                    anchors.rightMargin: 5
+                    anchors.verticalCenter: parent.verticalCenter
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                    height: parent.height-3
+                    width: 50
+                    text: app.units.convertFlowUnits(stageFeedRow.stageFeed, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+                    font.italic: true
+                    // KeyNavigation.backtab: passFlowFactorInput
+                }
+
+                Text {
+                    id: feedOnFirstStageUnits
+                    anchors.right: parent.right
+                    anchors.rightMargin: parent.height-3
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+                    font.italic: true
+                    horizontalAlignment: Text.AlignLeft
+                    width: 30
+                }
             }
         }
 

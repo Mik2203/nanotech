@@ -19,49 +19,45 @@ ROGenericSchemesModel::ROGenericSchemesModel(QObject *parent) :
         QStringList filePaths;
 
         // ENERGO
-        schemes << QString::fromLocal8Bit("M150-54")
-                << QString::fromLocal8Bit("Энерго-48")
-                << QString::fromLocal8Bit("Энерго-25");
+        schemes << QString::fromUtf8("M150-54")
+                << QString::fromUtf8("Энерго-48")
+                << QString::fromUtf8("Энерго-25");
 
         filePaths << ":/generic_schemes/energo/m150-54.ntp"
                   << ":/generic_schemes/energo/energo-48.ntp"
                   << ":/generic_schemes/energo/energo-25.ntp";
         _data << DataRecord(0, schemes, filePaths);
 
-        schemes.clear();
-        filePaths.clear();
+        schemes.clear(); filePaths.clear();
 
         // Medicine
-        schemes << QString::fromLocal8Bit("Вода очищенная 0.5 м3/ч")
-                << QString::fromLocal8Bit("Вода очищенная.0.25 м3/ч");
+        schemes << QString::fromUtf8("Вода очищенная 0.5 м3/ч")
+                << QString::fromUtf8("Вода очищенная.0.25 м3/ч");
         filePaths << ":/generic_schemes/medicine/purified_water-0.5.ntp"
                   << ":/generic_schemes/medicine/purified_water-0.25.ntp";
         _data << DataRecord(1, schemes, filePaths);
 
-        schemes.clear();
-        filePaths.clear();
+        schemes.clear(); filePaths.clear();
 
         // Electronics
-        schemes << QString::fromLocal8Bit("Электроника-1");
+        schemes << QString::fromUtf8("Электроника-1");
         filePaths << ":/generic_schemes/electronics/electronics-1.ntp";
         _data << DataRecord(2, schemes, filePaths);
 
-        schemes.clear();
-        filePaths.clear();
+        schemes.clear(); filePaths.clear();
 
         // Beverages
-        schemes << QString::fromLocal8Bit("Пищевая промышленность")
-                << QString::fromLocal8Bit("Умягчение");
+        schemes << QString::fromUtf8("Пищевая промышленность")
+                << QString::fromUtf8("Умягчение");
         filePaths << ":/generic_schemes/beverages/food_processing.ntp"
                   << ":/generic_schemes/beverages/softening.ntp";
         _data << DataRecord(3, schemes, filePaths);
 
-        schemes.clear();
-        filePaths.clear();
+        schemes.clear(); filePaths.clear();
 
         // Desalination
-        schemes << QString::fromLocal8Bit("Морская вода")
-                << QString::fromLocal8Bit("Каспийское море");
+        schemes << QString::fromUtf8("Морская вода")
+                << QString::fromUtf8("Каспийское море");
         filePaths << ":/generic_schemes/desalination/seawater.ntp"
                   << ":/generic_schemes/desalination/caspian.ntp";
         _data << DataRecord(4, schemes, filePaths);

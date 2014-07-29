@@ -26,7 +26,6 @@ public:
         AreaRole,
         ProductivityRole,
         RejectionRole,
-//        PressureRole,
         MaxFeedPressureRole,
         MaxPressureDropRole,
         MaxFeedRateRole,
