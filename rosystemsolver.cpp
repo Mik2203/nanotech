@@ -694,7 +694,7 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                 for (int sii=0; sii<_usedSolutes.count(); ++sii) {
                     int si = _usedSolutes[sii];
 
-                    if (si == ROSolutes::CO2) {
+                    /*if (si == ROSolutes::CO2) {
                         //Cp
                         J(iesCp(pi, ei, sii), iesCp(pi, ei, sii)) = 1;
                         F[iesCp(pi, ei, sii)] = esCp(pi, ei, sii) - syssCaf(sii); //- esCf(pi, ei, sii);
@@ -702,7 +702,7 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                         //Cc
                         J(iesCc(pi, ei, sii), iesCc(pi, ei, sii)) = 1;
                         F[iesCc(pi, ei, sii)] = esCc(pi, ei, sii) - syssCaf(sii); //- esCf(pi, ei, sii);
-                    } else if (si == ROSolutes::CO3) {
+                    } else */if (si == ROSolutes::CO3) {
 
                         //Cp
                         J(iesCp(pi, ei, sii), iesCp(pi, ei, sii)) = 1;
@@ -716,20 +716,6 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                         J(iesCc(pi, ei, sii), iesCc(pi, ei, hco3i)) = -dco3hco3(T, ePHc(pi, ei));
                         J(iesCc(pi, ei, sii), iePHc(pi, ei)) = -dco3ph(esCc(pi, ei, hco3i), T, ePHc(pi, ei));
                         F[iesCc(pi, ei, sii)] = esCc(pi, ei, sii) - co3(esCc(pi, ei, hco3i), T, ePHc(pi, ei));
-
-                        // on element, not solute
-                        J(ieIp(pi, ei), iesCp(pi, ei, sii)) = _preComputedICoeffs(sii);
-                        F[ieIp(pi, ei)] += esCp(pi, ei, sii) * _preComputedICoeffs(sii);
-
-                        J(ieIc(pi, ei), iesCc(pi, ei, sii)) = _preComputedICoeffs(sii);
-                        F[ieIc(pi, ei)] += esCc(pi, ei, sii) * _preComputedICoeffs(sii);
-
-                        J(ieCc(pi, ei), iesCc(pi, ei, sii)) = -1;
-                        F[ieCc(pi, ei)] -= esCc(pi, ei, sii);
-
-                        J(ieCp(pi, ei), iesCp(pi, ei, sii)) = -1;
-                        F[ieCp(pi, ei)] -= esCp(pi, ei, sii);
-
                     } else {
 
                         //SPm
@@ -761,12 +747,14 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                         }
 
                         F[iesCc(pi, ei, sii)] = eQp(pi, ei) * esCp(pi, ei, sii) + eQc(pi, ei) * esCc(pi, ei, sii) - eQf(pi, ei) * esCf(pi, ei, sii);
+                    }
 
+                    if (si != ROSolutes::CO2) {
                         // on element, not solute
                         J(ieIp(pi, ei), iesCp(pi, ei, sii)) = _preComputedICoeffs(sii);
                         F[ieIp(pi, ei)] += esCp(pi, ei, sii) * _preComputedICoeffs(sii);
 
-                        J(ieIc(pi, ei), iesCc(pi, ei, sii)) = _preComputedICoeffs(sii); // TODO - const: mb init only ?
+                        J(ieIc(pi, ei), iesCc(pi, ei, sii)) = _preComputedICoeffs(sii);
                         F[ieIc(pi, ei)] += esCc(pi, ei, sii) * _preComputedICoeffs(sii);
 
                         J(ieCc(pi, ei), iesCc(pi, ei, sii)) = -1;
@@ -883,7 +871,7 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
             for (int sii=0; sii<_usedSolutes.count(); ++sii) {
                 int si = _usedSolutes[sii];
 
-                if (si == ROSolutes::CO2) {
+/*                if (si == ROSolutes::CO2) {
                     // psCfr
                     J(ipsCfr(pi, sii), ipsCfr(pi, sii)) = 1;
                     F[ipsCfr(pi, sii)] = psCfr(pi, sii) - syssCaf(sii); //esCf(pi, sii);
@@ -900,7 +888,7 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                     J(ipsCp(pi, sii), ipsCp(pi, sii)) = 1;
                     F[ipsCp(pi, sii)] = psCp(pi, sii) - syssCaf(sii); //esCf(pi, sii);
 
-                } else if (si == ROSolutes::CO3) {
+                } else */if (si == ROSolutes::CO3) {
 
                     // psCfr
                     J(ipsCfr(pi, sii), ipsCfr(pi, sii)) = 1;
@@ -925,24 +913,6 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                     J(ipsCp(pi, sii), ipsCp(pi, hco3i)) = -dco3hco3(T, pPHp(pi));
                     J(ipsCp(pi, sii), ipPHp(pi)) = -dco3ph(psCp(pi, hco3i), T, pPHp(pi));
                     F[ipsCp(pi, sii)] = psCp(pi, sii) - co3(psCp(pi, hco3i), T, pPHp(pi));
-
-
-                    // pIfr
-                    J(ipIfr(pi), ipsCfr(pi, sii)) = _preComputedICoeffs(sii);
-                    F[ipIfr(pi)] += psCfr(pi, sii) * _preComputedICoeffs(sii);
-
-                    // s1If
-                    J(is1If(pi), is1sCf(pi, sii)) = _preComputedICoeffs(sii);
-                    F[is1If(pi)] += s1sCf(pi, sii) * _preComputedICoeffs(sii);
-
-                    // pIts
-                    J(ipIts(pi), ipsCts(pi, sii)) = _preComputedICoeffs(sii);
-                    F[ipIts(pi)] += psCts(pi, sii) * _preComputedICoeffs(sii);
-
-                    // pIp
-                    J(ipIp(pi), ipsCp(pi, sii)) = _preComputedICoeffs(sii);
-                    F[ipIp(pi)] += psCp(pi, sii) * _preComputedICoeffs(sii);
-
                 } else {
                     // pass Cfr
                     J(ipsCfr(pi, sii), ipsCfr(pi, sii)) = -pQfr(pi);
@@ -996,8 +966,9 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
                     J(ipCp(pi), ipsCp(pi, sii)) = 1;
                     F[ipCp(pi)] += psCp(pi, sii);
+                }
 
-
+                if (si != ROSolutes::CO2) {
                     // pIfr
                     J(ipIfr(pi), ipsCfr(pi, sii)) = _preComputedICoeffs(sii);
                     F[ipIfr(pi)] += psCfr(pi, sii) * _preComputedICoeffs(sii);
@@ -1087,7 +1058,7 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
             return false;
         }
 
-        solved = (/*(X.array() > -tolerance()).all() && */(dX.array().abs()/*.mean()*/ < _tolerance).all());
+        solved = ((X.array() > -tolerance()).all() && (dX.array().abs()/*.mean()*/ < _tolerance).all());
 
         // CORRECTION
         //X = X.array().abs();
