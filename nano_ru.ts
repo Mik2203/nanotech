@@ -484,7 +484,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROConfPass.qml" line="684"/>
         <source>Feed on first stage (SF%1):</source>
-        <translation>Вх. поток на первую стадию (ИС%1):</translation>
+        <translation>Вх. поток на стадию (ИС%1):</translation>
     </message>
     <message>
         <location filename="qml/ROConfPass.qml" line="732"/>
