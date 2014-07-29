@@ -1,7 +1,7 @@
 #ifndef ROMEMBRANESMODEL_H
 #define ROMEMBRANESMODEL_H
 
-#include <QtSql/QSqlRelationalTableModel>
+#include <QtSql/QSqlQueryModel>
 
 #include "romembrane.h"
 
@@ -10,7 +10,7 @@
  * Вызов populate предполагает, что база данных уже была подключена.
  */
 
-class ROMembranesModel: public QSqlRelationalTableModel
+class ROMembranesModel: public QSqlQueryModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count CONSTANT)
@@ -18,23 +18,26 @@ class ROMembranesModel: public QSqlRelationalTableModel
 public:
 
     enum MembraneRoles  {
-        SeriesRole = Qt::UserRole + 1,
+        IdRole = Qt::UserRole + 1,
+        SeriesRole,
         ModelRole,
         DiameterRole,
         LengthRole,
         AreaRole,
         ProductivityRole,
         RejectionRole,
-        PressureRole,
-        TestSolutionRole,
+//        PressureRole,
         MaxFeedPressureRole,
         MaxPressureDropRole,
         MaxFeedRateRole,
-        MinConcenrateToPermeateRole
+        MinConcenrateToPermeateRole,
+        TestSolutionNameRole,
+        TestSolutionConcetrationRole,
+        TestPressureRole,
+        TestRecoveryRole
     };
-    explicit ROMembranesModel(QSqlDatabase db = QSqlDatabase(), QObject *parent = 0);
+    explicit ROMembranesModel(QObject *parent = 0);
 
-    void populate(); // заполнить содержимым
     QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
     Q_INVOKABLE QVariant get(int row, const QString & field_name) const;
     void getMembraneData(ROMembrane*& membrane, int row) const;

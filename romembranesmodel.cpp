@@ -8,7 +8,10 @@
 #include <QDebug>
 #endif
 
-ROMembranesModel::ROMembranesModel(QSqlDatabase db, QObject *parent): QSqlRelationalTableModel(parent, db) {
+ROMembranesModel::ROMembranesModel(QObject *parent):
+    QSqlQueryModel(parent) {
+
+    _roleNames[IdRole] = "id";
     _roleNames[SeriesRole] = "series";
     _roleNames[ModelRole] = "model_";
     _roleNames[DiameterRole] = "diameter";
@@ -16,32 +19,51 @@ ROMembranesModel::ROMembranesModel(QSqlDatabase db, QObject *parent): QSqlRelati
     _roleNames[AreaRole] = "area";
     _roleNames[ProductivityRole] = "productivity";
     _roleNames[RejectionRole] = "rejection";
-    _roleNames[PressureRole] = "pressure";
-    _roleNames[TestSolutionRole] = "test_solution";
     _roleNames[MaxFeedPressureRole] = "max_feed_pressure";
     _roleNames[MaxPressureDropRole] = "max_pressure_drop";
     _roleNames[MaxFeedRateRole] = "max_feed_rate";
     _roleNames[MinConcenrateToPermeateRole] = "min_concentrate_to_permeate";
+    _roleNames[TestSolutionNameRole] = "test_solution_name";
+    _roleNames[TestSolutionConcetrationRole] = "test_solution_concentration";
+    _roleNames[TestPressureRole] = "test_pressure";
+    _roleNames[TestRecoveryRole] = "test_recovery";
 #if QT_VERSION < 0x050000
     setRoleNames(_roleNames);
 #endif
+    setQuery("SELECT ROMembranes.id as id, ROMembranesSeries.series as series, model, diameter, length, area, productivity, rejection, "
+             "max_feed_pressure, max_pressure_drop, max_feed_rate, min_concentrate, "
+             "ROMembranesTests.solution_short_name as test_solution_name, "
+             "ROMembranesTests.solution_concentration as test_solution_concentration, "
+             "ROMembranesTests.pressure as test_pressure, "
+             "ROMembranesTests.recovery as test_recovery "
+             "FROM ROMembranes "
+             "LEFT JOIN ROMembranesTests ON ROMembranes.test_id = ROMembranesTests.id "
+             "LEFT JOIN ROMembranesSeries ON ROMembranes.series_id = ROMembranesSeries.id");
+#ifdef QT_DEBUG
+    if (this->lastError().isValid()) {
+        qDebug() << "ERROR!" << this->lastError().text();
+        qDebug() << this->rowCount();
+    }
+#endif
+
+
 }
 
 QVariant ROMembranesModel::data( const QModelIndex & index, int role) const {
-    if (SeriesRole <= role && role <= MinConcenrateToPermeateRole)
-        return QSqlRelationalTableModel::data(this->index(index.row(), role-SeriesRole+1));
-    else
-        return QSqlRelationalTableModel::data(index, role);
-    //return data(index.row(), QString(roleNames()[role])); // record(index.row()).value(QString(roleNames()[role]));
+    if (SeriesRole <= role && role <= TestRecoveryRole)
+        return QSqlQueryModel::data(this->index(index.row(), role-IdRole));
+
+    return QSqlQueryModel::data(index, role);
 }
 
-void ROMembranesModel::populate() {
-    setTable("ROMembranes");
-    setRelation(1, QSqlRelation("ROMembranesSeries", "id", "series"));
-    setRelation(9, QSqlRelation("ROWater", "id", "name"));
-    setSort(1, Qt::AscendingOrder); // by series
-    select();
-}
+//void ROMembranesModel::populate() {
+//    setTable("ROMembranes");
+//    setRelation(1, QSqlRelation("ROMembranesSeries", "id", "series"));
+//    setRelation(9, QSqlRelation("ROMembranesTests", "id", "summary"));
+//    setSort(1, Qt::AscendingOrder); // by series
+//    select();
+//    qDebug() << record(0);
+//}
 
 QVariant ROMembranesModel::get(int row, const QString & field_name) const {
     /*
@@ -64,21 +86,21 @@ void ROMembranesModel::getMembraneData(ROMembrane*& membrane, int row) const {
 
     QSqlRecord membraneRecord = record(row);
     if (!membraneRecord.isEmpty()) {
-        membrane = new ROMembrane(membraneRecord.value(1).toString(), // Series
-                                  membraneRecord.value(2).toString(), // Model
-                                  ROMembraneSize(membraneRecord.value(3).toDouble(), // Diameter
-                                                 membraneRecord.value(4).toDouble()), // Length
-                                  membraneRecord.value(5).toDouble(), // Area
-                                  membraneRecord.value(6).toDouble(), // Productivity
-                                  membraneRecord.value(7).toDouble(), // Rejection
-                                  membraneRecord.value(8).toDouble()); // Pressure
+        membrane = new ROMembrane(membraneRecord.value("series").toString(), // Series
+                                  membraneRecord.value("model").toString(), // Model
+                                  ROMembraneSize(membraneRecord.value("diameter").toDouble(), // Diameter
+                                                 membraneRecord.value("length").toDouble()), // Length
+                                  membraneRecord.value("area").toDouble(), // Area
+                                  membraneRecord.value("productivity").toDouble(), // Productivity
+                                  membraneRecord.value("rejection").toDouble(), // Rejection
+                                  membraneRecord.value("test_pressure").toDouble()); // Pressure
     }
 
 }
 
 int ROMembranesModel::indexById(int id) const {
     for (int row=0; row<rowCount(); ++row) {
-        if (record(row).value(0) == id)
+        if (record(row).value("id") == id)
             return row;
     }
     return -1;

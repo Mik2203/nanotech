@@ -17,16 +17,16 @@ ROMembranesAlternativesModel::ROMembranesAlternativesModel(QObject *parent) :
 #if QT_VERSION < 0x050000
     setRoleNames(_roleNames);
 #endif
-//    setRoleNames(roles);
-
 
     setQuery("SELECT ROMembranesAlternatives.nanotech_id as id, series || ' ' || model as nanotech, dow, csm, hydranautics, toray, koch, desal_ge as desalGE FROM ROMembranesAlternatives "
              "LEFT JOIN ROMembranes ON ROMembranesAlternatives.nanotech_id = ROMembranes.id "
              "LEFT JOIN ROMembranesSeries ON ROMembranes.series_id = ROMembranesSeries.id");
 #ifdef QT_DEBUG
-    qDebug() << "ERROR!" << this->lastError().text();
-    qDebug() << this->rowCount();
-    qDebug() << this->data(this->index(2,2), DowRole);
+    if (this->lastError().isValid()) {
+        qDebug() << "ERROR!" << this->lastError().text();
+        qDebug() << this->rowCount();
+        qDebug() << this->data(this->index(2,2), DowRole);
+    }
 #endif
 }
 
