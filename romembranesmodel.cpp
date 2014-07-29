@@ -38,15 +38,14 @@ ROMembranesModel::ROMembranesModel(QObject *parent):
              "ROMembranesTests.recovery as test_recovery "
              "FROM ROMembranes "
              "LEFT JOIN ROMembranesTests ON ROMembranes.test_id = ROMembranesTests.id "
-             "LEFT JOIN ROMembranesSeries ON ROMembranes.series_id = ROMembranesSeries.id");
+             "LEFT JOIN ROMembranesSeries ON ROMembranes.series_id = ROMembranesSeries.id "
+             "ORDER BY series, model");
 #ifdef QT_DEBUG
     if (this->lastError().isValid()) {
         qDebug() << "ERROR!" << this->lastError().text();
         qDebug() << this->rowCount();
     }
 #endif
-
-
 }
 
 QVariant ROMembranesModel::data( const QModelIndex & index, int role) const {

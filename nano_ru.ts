@@ -401,75 +401,93 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Стадия</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="31"/>
+        <location filename="qml/ROConfPass.qml" line="68"/>
         <source>Permeate flow (P%1):</source>
         <oldsource>Permeate flow: </oldsource>
         <translation>Поток фильтрата (Ф%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="91"/>
+        <location filename="qml/ROConfPass.qml" line="128"/>
         <source>Recovery:</source>
         <oldsource>Recovery: </oldsource>
         <translation>СИФ:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="158"/>
         <source>Feed flow (F%1):</source>
         <oldsource>Feed flow: </oldsource>
-        <translation>Входной поток (И%1):</translation>
+        <translation type="obsolete">Входной поток (И%1):</translation>
     </message>
     <message>
         <source>Flow factor: </source>
         <translation type="obsolete">Коэффициент загрязнения: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="224"/>
+        <location filename="qml/ROConfPass.qml" line="296"/>
         <source>Average flux:</source>
         <oldsource>Average flux: </oldsource>
         <translation>Средний съем:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="257"/>
+        <location filename="qml/ROConfPass.qml" line="323"/>
         <source>Blend permeate (B%1):</source>
         <oldsource>Blend permeate: </oldsource>
         <translation>Подмешивание (П%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="309"/>
         <source>Feed on stages (SF%1):</source>
         <oldsource>Feed on stages:</oldsource>
-        <translation>Вх. поток на стадии (ИС%1):</translation>
+        <translation type="obsolete">Вх. поток на стадии (ИС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="345"/>
+        <location filename="qml/ROConfPass.qml" line="195"/>
+        <source>Feed flow:</source>
+        <translation>Объем вх. потока:</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfPass.qml" line="411"/>
         <source>Permeate from stages (SP%1):</source>
         <oldsource>Permeate from stages:</oldsource>
         <translation>Фильтрат со стадий (ФС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="383"/>
+        <location filename="qml/ROConfPass.qml" line="449"/>
         <source>Recycles:</source>
         <translation>Рециклы:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="402"/>
+        <location filename="qml/ROConfPass.qml" line="468"/>
         <source>Self Recycle (SR%1):</source>
         <oldsource>Self Recycle: </oldsource>
         <translation>Собств. рецикл (СР%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="448"/>
+        <location filename="qml/ROConfPass.qml" line="520"/>
+        <source>Concentrate from stages (SC%1):</source>
+        <translation>Концентрат со стадий (КС%1):</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfPass.qml" line="560"/>
         <source>Pass %1 (R%2-%1):</source>
         <oldsource>Pass %1: </oldsource>
         <translation>Ступень %1 (Р%2-%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="509"/>
+        <location filename="qml/ROConfPass.qml" line="621"/>
         <source>Max</source>
         <translation>Максимум</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="538"/>
+        <location filename="qml/ROConfPass.qml" line="643"/>
+        <source>Original feed flow (F%1):</source>
+        <translation>Исходный вх. поток (И%1):</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfPass.qml" line="684"/>
+        <source>Feed on first stage (SF%1):</source>
+        <translation>Вх. поток на первую стадию (ИС%1):</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfPass.qml" line="732"/>
         <source>Stage:</source>
         <translation>Стадия:</translation>
     </message>
@@ -497,10 +515,6 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Модель</translation>
     </message>
     <message>
-        <source>Size (mВІГ—m)</source>
-        <translation type="obsolete">Размер (м²×м)</translation>
-    </message>
-    <message>
         <source>Area</source>
         <translation type="obsolete">Площадь</translation>
     </message>
@@ -522,38 +536,43 @@ Do you want to save your changes?</source>
         <translation>Кол-во корпусов: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="63"/>
+        <location filename="qml/ROConfStage.qml" line="56"/>
         <source>Elements per vessel: </source>
         <translation>Кол-во элементов: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="98"/>
+        <location filename="qml/ROConfStage.qml" line="84"/>
+        <source>Total elements count: </source>
+        <translation>Общее кол-во элементов: </translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfStage.qml" line="106"/>
         <source>Pre stage pressure: </source>
         <translation>Перепад давления: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="140"/>
+        <location filename="qml/ROConfStage.qml" line="143"/>
         <source>Back pressure: </source>
         <translation>Давление фильтрата: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="180"/>
+        <location filename="qml/ROConfStage.qml" line="178"/>
         <source>Membrane element:</source>
         <oldsource>Membrane model: </oldsource>
         <translation>Мембранный элемент:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="220"/>
+        <location filename="qml/ROConfStage.qml" line="218"/>
         <source>Choose membrane</source>
         <translation>Выберите мембрану</translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="232"/>
+        <location filename="qml/ROConfStage.qml" line="230"/>
         <source>Elements alternatives</source>
         <translation>Замена элементов</translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="232"/>
+        <location filename="qml/ROConfStage.qml" line="230"/>
         <source>Elements parameters</source>
         <translation>Параметры элементов</translation>
     </message>
@@ -608,13 +627,13 @@ Do you want to save your changes?</source>
         <location filename="qml/ROCosts.qml" line="166"/>
         <location filename="qml/ROCosts.qml" line="179"/>
         <location filename="qml/ROCosts.qml" line="192"/>
-        <source>rub/m3</source>
-        <translation>руб/м3</translation>
+        <source>rub/m³</source>
+        <translation>руб/м³</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="217"/>
-        <source>Year permeate (m3)</source>
-        <translation>Фильтрат за год (м3)</translation>
+        <source>Year permeate (m³)</source>
+        <translation>Фильтрат за год (м³)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="224"/>
@@ -680,8 +699,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="302"/>
-        <source>Energy by 1 m3 (kW/h)</source>
-        <translation>Энергия на 1 куб м (кВт/ч)</translation>
+        <source>Energy by 1m³ (kW/h)</source>
+        <translation>Энергия на 1м³ (кВт/ч)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="303"/>
@@ -713,8 +732,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="350"/>
-        <source>Sink (m3)</source>
-        <translation>Объем на мойку (м3)</translation>
+        <source>Sink (m³)</source>
+        <translation>Объем на мойку (м³)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="351"/>
@@ -778,18 +797,19 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="466"/>
-        <source>Rate (m3/h)</source>
-        <translation>Кол-во (м3/ч)</translation>
+        <source>Rate (m³/h)</source>
+        <oldsource>Rate (m³/h)</oldsource>
+        <translation>Кол-во (м³/ч)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="467"/>
-        <source>Volume by year (m3)</source>
-        <translation>Объем в год (м3)</translation>
+        <source>Volume by year (m³)</source>
+        <translation>Объем в год (м³)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="468"/>
-        <source>Cost (rub/m3)</source>
-        <translation>Затраты (руб/м3)</translation>
+        <source>Cost (rub/m³)</source>
+        <translation>Затраты (руб/м³)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="469"/>
@@ -967,27 +987,27 @@ Cannot open database.
 <context>
     <name>ROGenericSchemesModel</name>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="72"/>
+        <location filename="rogenericschemesmodel.cpp" line="68"/>
         <source>Energetics</source>
         <translation>Энергетика</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="73"/>
+        <location filename="rogenericschemesmodel.cpp" line="69"/>
         <source>Medicine</source>
         <translation>Медицина</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="74"/>
+        <location filename="rogenericschemesmodel.cpp" line="70"/>
         <source>Electronics</source>
         <translation>Электроника</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="75"/>
+        <location filename="rogenericschemesmodel.cpp" line="71"/>
         <source>Beverages</source>
         <translation>Напитки</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="76"/>
+        <location filename="rogenericschemesmodel.cpp" line="72"/>
         <source>Desalination</source>
         <translation>Опреснение</translation>
     </message>
@@ -1033,30 +1053,33 @@ Cannot open database.
 <context>
     <name>ROMembraneParametersTable</name>
     <message>
-        <location filename="qml/ROMembraneParametersTable.qml" line="16"/>
+        <location filename="qml/ROMembraneParametersTable.qml" line="17"/>
         <source>Model</source>
         <translation>Модель</translation>
     </message>
     <message>
-        <location filename="qml/ROMembraneParametersTable.qml" line="17"/>
         <source>Size
-(mmГ—mm)</source>
-        <oldsource>Size (m2 x m)</oldsource>
-        <translation>Размер (м2 х м)</translation>
+(mm²—mm)</source>
+        <oldsource>Size (m² x m)</oldsource>
+        <translation type="obsolete">Размер (м² х м)</translation>
     </message>
     <message>
         <location filename="qml/ROMembraneParametersTable.qml" line="18"/>
         <source>Area
-(m2)</source>
-        <oldsource>Area</oldsource>
-        <translation>Площадь</translation>
+(%1)</source>
+        <oldsource>Area
+(m²)</oldsource>
+        <translation>Площадь
+(%1)</translation>
     </message>
     <message>
         <location filename="qml/ROMembraneParametersTable.qml" line="19"/>
         <source>Productivity
-(m3/h)</source>
-        <oldsource>Productivity</oldsource>
-        <translation>Производительность</translation>
+(%1)</source>
+        <oldsource>Productivity
+(m³/h)</oldsource>
+        <translation>Производительность
+(%1)</translation>
     </message>
     <message>
         <location filename="qml/ROMembraneParametersTable.qml" line="20"/>
@@ -1066,16 +1089,34 @@ Cannot open database.
         <translation>Селективность</translation>
     </message>
     <message>
-        <location filename="qml/ROMembraneParametersTable.qml" line="21"/>
+        <location filename="qml/ROMembraneParametersTable.qml" line="29"/>
+        <source>Test conditions</source>
+        <translation>Условия испытаний</translation>
+    </message>
+    <message>
+        <location filename="qml/ROMembraneParametersTable.qml" line="34"/>
+        <source>Soln. (%)</source>
+        <translation>Раст. (%)</translation>
+    </message>
+    <message>
+        <location filename="qml/ROMembraneParametersTable.qml" line="35"/>
+        <source>Pres. (%1)</source>
+        <translation>Давл. (%1)</translation>
+    </message>
+    <message>
+        <location filename="qml/ROMembraneParametersTable.qml" line="36"/>
+        <source>Recov. (%)</source>
+        <translation>СИФ (%)</translation>
+    </message>
+    <message>
         <source>Pressure
 (MPa)</source>
         <oldsource>Pressure</oldsource>
-        <translation>Давление</translation>
+        <translation type="obsolete">Давление</translation>
     </message>
     <message>
-        <location filename="qml/ROMembraneParametersTable.qml" line="22"/>
         <source>Test solution</source>
-        <translation>Тестовый раствор</translation>
+        <translation type="obsolete">Тестовый раствор</translation>
     </message>
 </context>
 <context>
@@ -1538,13 +1579,13 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="771"/>
-        <source>Total Costs (%1 rub/year, %2 rub/m3)</source>
-        <translation>Суммарные затраты (%1 руб/год, %2 руб/м3)</translation>
+        <source>Total Costs (%1 rub/year, %2 rub/m³)</source>
+        <translation>Суммарные затраты (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="788"/>
-        <source>Year permeate (m3)</source>
-        <translation>Фильтрат за год (м3)</translation>
+        <source>Year permeate (m³)</source>
+        <translation>Фильтрат за год (м³)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="789"/>
@@ -1563,8 +1604,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="809"/>
-        <source>System Design Costs (%1 rub/year, %2 rub/m3)</source>
-        <translation>Затраты на построение системы (%1 руб/год, %2 руб/м3)</translation>
+        <source>System Design Costs (%1 rub/year, %2 rub/m³)</source>
+        <translation>Затраты на построение системы (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="826"/>
@@ -1616,8 +1657,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="851"/>
-        <source>Energy by 1 m3 (kW/h)</source>
-        <translation>Энергия на 1 куб м (кВт/ч)</translation>
+        <source>Energy by 1 m³ (kW/h)</source>
+        <translation>Энергия на 1 м³ (кВт/ч)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="852"/>
@@ -1636,8 +1677,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="872"/>
-        <source>Chemistry Costs (%1 rub/year, %2 rub/m3)</source>
-        <translation>Затраты на реаренты (%1 руб/год, %2 руб/м3)</translation>
+        <source>Chemistry Costs (%1 rub/year, %2 rub/m³)</source>
+        <translation>Затраты на реаренты (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="889"/>
@@ -1671,8 +1712,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="897"/>
-        <source>Sink (m3)</source>
-        <translation>Объем на мойку (м3)</translation>
+        <source>Sink (m³)</source>
+        <translation>Объем на мойку (м³)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="898"/>
@@ -1706,8 +1747,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="957"/>
-        <source>Water Costs (%1 rub/year, %2 rub/m3)</source>
-        <translation>Затраты на воду (%1 руб/год, %2 руб/м3)</translation>
+        <source>Water Costs (%1 rub/year, %2 rub/m³)</source>
+        <translation>Затраты на воду (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="974"/>
@@ -1721,23 +1762,23 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="978"/>
-        <source>Rate (m3/h)</source>
-        <translation>Кол-во (м3/ч)</translation>
+        <source>Rate (m³/h)</source>
+        <translation>Кол-во (м³/ч)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="979"/>
-        <source>Volume by year (m3)</source>
-        <translation>Объем в год (м3)</translation>
+        <source>Volume by year (m³)</source>
+        <translation>Объем в год (м³)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="980"/>
-        <source>Cost (rub/m3)</source>
-        <translation>Затраты (руб/м3)</translation>
+        <source>Cost (rub/m³)</source>
+        <translation>Затраты (руб/м³)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="1003"/>
-        <source>Maintenance Costs (%1 rub/year, %2 rub/m3)</source>
-        <translation>Затраты на обслуживание (%1 руб/год, %2 руб/м3)</translation>
+        <source>Maintenance Costs (%1 rub/year, %2 rub/m³)</source>
+        <translation>Затраты на обслуживание (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="1020"/>
@@ -1810,15 +1851,15 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="198"/>
-        <source>kWh/m3</source>
-        <translation>КВтч/м3</translation>
+        <source>kWh/m³</source>
+        <translation>КВтч/м³</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="203"/>
         <location filename="roreportbuilder.cpp" line="395"/>
         <location filename="roreportbuilder.cpp" line="534"/>
-        <source>m2</source>
-        <translation>м2</translation>
+        <source>m²</source>
+        <translation>м²</translation>
     </message>
     <message>
         <source>lmh</source>
@@ -1832,8 +1873,8 @@ Do you want to save your changes?</source>
         <translation></translation>
     </message>
     <message>
-        <source>m3/h</source>
-        <translation type="obsolete">м3/ч</translation>
+        <source>m³/h</source>
+        <translation type="obsolete">м³/ч</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="262"/>
@@ -1896,7 +1937,7 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROResults.qml" line="339"/>
-        <source>kWh/mВі</source>
+        <source>kWh/m³</source>
         <translation>кВтч/м³</translation>
     </message>
     <message>
@@ -1913,32 +1954,32 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Эл</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="531"/>
+        <location filename="qml/ROResults.qml" line="597"/>
         <source>Active Area</source>
         <translation>Активная поверхность</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="538"/>
+        <location filename="qml/ROResults.qml" line="604"/>
         <source>Avg. Flux</source>
         <translation>Сред. съем</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="545"/>
+        <location filename="qml/ROResults.qml" line="611"/>
         <source>Recovery</source>
         <translation>СИФ</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="552"/>
+        <location filename="qml/ROResults.qml" line="618"/>
         <source>Flow</source>
         <translation>Поток</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="600"/>
+        <location filename="qml/ROResults.qml" line="666"/>
         <source>TDS</source>
         <translation>Солесодержание</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="561"/>
+        <location filename="qml/ROResults.qml" line="627"/>
         <source>Pressure</source>
         <translation>Давление</translation>
     </message>
@@ -1958,53 +1999,57 @@ Do you want to save your changes?</source>
         <translation>Стадия %1</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="488"/>
+        <location filename="qml/ROResults.qml" line="478"/>
+        <source>Total elements count</source>
+        <translation>Общее кол-во элементов</translation>
+    </message>
+    <message>
+        <location filename="qml/ROResults.qml" line="554"/>
         <source>El %1</source>
         <translation>Эл %1</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="568"/>
+        <location filename="qml/ROResults.qml" line="634"/>
         <source>Osm. Pressure</source>
         <translation>Осм. давление</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="576"/>
+        <location filename="qml/ROResults.qml" line="642"/>
         <source>Solutes data</source>
         <translation>Данные по ионам</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="592"/>
+        <location filename="qml/ROResults.qml" line="658"/>
         <source>pH</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="639"/>
+        <location filename="qml/ROResults.qml" line="705"/>
         <source>Scaling data</source>
         <translation>Осадкообразование</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="653"/>
+        <location filename="qml/ROResults.qml" line="719"/>
         <source>LSI</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="661"/>
+        <location filename="qml/ROResults.qml" line="727"/>
         <source>S&amp;DSI</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="668"/>
+        <location filename="qml/ROResults.qml" line="734"/>
         <source>Ionic Strength</source>
         <translation>Ионная сила</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="692"/>
-        <source>mВІ</source>
-        <translation>м²</translation>
+        <source>m²</source>
+        <translation type="obsolete">м²</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="753"/>
-        <location filename="qml/ROResults.qml" line="774"/>
+        <location filename="qml/ROResults.qml" line="819"/>
+        <location filename="qml/ROResults.qml" line="840"/>
         <source>mg/l</source>
         <translation>мг/л</translation>
     </message>
@@ -2059,42 +2104,47 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Добавить стадию</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="36"/>
+        <location filename="qml/ROSchemePass.qml" line="71"/>
         <source>F%1</source>
         <translation>И%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="66"/>
+        <location filename="qml/ROSchemePass.qml" line="101"/>
         <source>P%1</source>
         <translation>Ф%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="71"/>
+        <location filename="qml/ROSchemePass.qml" line="106"/>
         <source>+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="103"/>
+        <location filename="qml/ROSchemePass.qml" line="138"/>
         <source>SR%1</source>
         <translation>СР%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="126"/>
+        <location filename="qml/ROSchemePass.qml" line="147"/>
+        <source>SC%1</source>
+        <translation>КС%1</translation>
+    </message>
+    <message>
+        <location filename="qml/ROSchemePass.qml" line="170"/>
         <source>B%1</source>
         <translation>П%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="136"/>
+        <location filename="qml/ROSchemePass.qml" line="179"/>
         <source>SP%1</source>
         <translation>ФС%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="146"/>
+        <location filename="qml/ROSchemePass.qml" line="60"/>
         <source>SF%1</source>
         <translation>ИС%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="177"/>
+        <location filename="qml/ROSchemePass.qml" line="210"/>
         <source>R%1-%2</source>
         <translation>Р%1-%2</translation>
     </message>
@@ -2106,7 +2156,7 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Добавить ступень</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemeSystem.qml" line="96"/>
+        <location filename="qml/ROSchemeSystem.qml" line="90"/>
         <source>+</source>
         <translation></translation>
     </message>
@@ -2256,64 +2306,74 @@ Do you want to save your changes?</source>
 <context>
     <name>ROUnitsText</name>
     <message>
-        <location filename="rounitstext.cpp" line="76"/>
-        <source>m3/h</source>
+        <location filename="rounitstext.cpp" line="90"/>
+        <source>m³/h</source>
         <oldsource>m³/h</oldsource>
-        <translation>м3/ч</translation>
+        <translation>м³/ч</translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="77"/>
-        <source>m3/d</source>
+        <location filename="rounitstext.cpp" line="91"/>
+        <source>m³/d</source>
         <oldsource>m³/d</oldsource>
-        <translation>м3/сут</translation>
+        <translation>м³/сут</translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="78"/>
+        <location filename="rounitstext.cpp" line="92"/>
         <source>GPD</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="79"/>
+        <location filename="rounitstext.cpp" line="93"/>
         <source>GPM</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="83"/>
+        <location filename="rounitstext.cpp" line="97"/>
+        <source>m²</source>
+        <translation>м²</translation>
+    </message>
+    <message>
+        <location filename="rounitstext.cpp" line="98"/>
+        <source>ft²</source>
+        <translation>фут²</translation>
+    </message>
+    <message>
+        <location filename="rounitstext.cpp" line="102"/>
         <source>lmh</source>
         <translation>лмч</translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="84"/>
+        <location filename="rounitstext.cpp" line="103"/>
         <source>GFD</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="88"/>
+        <location filename="rounitstext.cpp" line="107"/>
         <source>bar</source>
         <translation>бар</translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="89"/>
+        <location filename="rounitstext.cpp" line="108"/>
         <source>PSI</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="90"/>
+        <location filename="rounitstext.cpp" line="109"/>
         <source>MPa</source>
         <translation>МПа</translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="91"/>
+        <location filename="rounitstext.cpp" line="110"/>
         <source>atm</source>
         <translation>атм</translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="95"/>
+        <location filename="rounitstext.cpp" line="114"/>
         <source>C</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="rounitstext.cpp" line="96"/>
+        <location filename="rounitstext.cpp" line="115"/>
         <source>F</source>
         <translation></translation>
     </message>

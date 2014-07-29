@@ -125,7 +125,7 @@ Rectangle {
                             anchors.horizontalCenter: parent.horizontalCenter;
                         }
                         Text {
-                            text: app.translator.emptyString + qsTr("rub/m3");
+                            text: app.translator.emptyString + qsTr("rub/m³");
                             anchors.horizontalCenter: parent.horizontalCenter;
                         }
                     }
@@ -146,7 +146,7 @@ Rectangle {
                             anchors.horizontalCenter: parent.horizontalCenter;
                             font.pointSize: 12
                         }
-                        Text { text: app.translator.emptyString + qsTr("rub/m3"); anchors.horizontalCenter: parent.horizontalCenter; }
+                        Text { text: app.translator.emptyString + qsTr("rub/m³"); anchors.horizontalCenter: parent.horizontalCenter; }
                     }
                 }
 
@@ -163,7 +163,7 @@ Rectangle {
                             anchors.horizontalCenter: parent.horizontalCenter;
                             font.pointSize: 12
                         }
-                        Text { text: app.translator.emptyString + qsTr("rub/m3"); anchors.horizontalCenter: parent.horizontalCenter; }
+                        Text { text: app.translator.emptyString + qsTr("rub/m³"); anchors.horizontalCenter: parent.horizontalCenter; }
                     }
                 }
 
@@ -176,7 +176,7 @@ Rectangle {
                     Column {
                         anchors.centerIn: parent
                         Text { text: case_.costs.totalWaterCostsYearWater.toFixed(app.visibleDecimals); anchors.horizontalCenter: parent.horizontalCenter; font.pointSize: 12 }
-                        Text { text: app.translator.emptyString + qsTr("rub/m3"); anchors.horizontalCenter: parent.horizontalCenter; }
+                        Text { text: app.translator.emptyString + qsTr("rub/m³"); anchors.horizontalCenter: parent.horizontalCenter; }
                     }
                 }
 
@@ -189,7 +189,7 @@ Rectangle {
                     Column {
                         anchors.centerIn: parent
                         Text { text: case_.costs.totalWaterCostsYearMaintenance.toFixed(app.visibleDecimals); anchors.horizontalCenter: parent.horizontalCenter; font.pointSize: 12 }
-                        Text { text: app.translator.emptyString + qsTr("rub/m3"); anchors.horizontalCenter: parent.horizontalCenter; }
+                        Text { text: app.translator.emptyString + qsTr("rub/m³"); anchors.horizontalCenter: parent.horizontalCenter; }
                     }
                 }
 
@@ -214,7 +214,7 @@ Rectangle {
 
                             Row {
                                 spacing: colSpacing
-                                ROCostsRowHeader { text: app.translator.emptyString + qsTr("Year permeate (m3)"); anchors.verticalCenter: parent.verticalCenter }
+                                ROCostsRowHeader { text: app.translator.emptyString + qsTr("Year permeate (m³)"); anchors.verticalCenter: parent.verticalCenter }
                                 ROCostsReadonlyCell { value: case_.costs.permeateYearAmount; }
                                 Item { width: (cellWidth + colSpacing) * 4 + cellWidth; height: cellHeight }
                             }
@@ -299,7 +299,7 @@ Rectangle {
                             Row {
                                 spacing: colSpacing
                                 ROCostsRowHeader { } // skip cell
-                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Energy by 1 m3 (kW/h)") }
+                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Energy by 1m³ (kW/h)") }
                                 ROCostsColHeader { text: app.translator.emptyString + qsTr("Energy by system (kW/h)") }
                                 //                            Item { width: cellWidth; height: cellHeight }
                                 ROCostsColHeader { text: app.translator.emptyString + qsTr("Energy of a year"); colSpan: 2 }
@@ -347,7 +347,7 @@ Rectangle {
                             Row {
                                 spacing: colSpacing
                                 ROCostsRowHeader { } // skip cell
-                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Sink (m3)") }
+                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Sink (m³)") }
                                 ROCostsColHeader { text: app.translator.emptyString + qsTr("Sink (kg)") }
                                 ROCostsColHeader { text: app.translator.emptyString + qsTr("Sink times a year") }
                                 ROCostsColHeader { text: app.translator.emptyString + qsTr("Mass of a year (kg)") }
@@ -463,9 +463,9 @@ Rectangle {
                                 ROCostsRowHeader { } // skip cell
                                 //                            Item { width: cellWidth; height: cellHeight }
                                 //                            Item { width: cellWidth; height: cellHeight }
-                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Rate (m3/h)"); colSpan: 3 }
-                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Volume by year (m3)") }
-                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Cost (rub/m3)") }
+                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Rate (m³/h)"); colSpan: 3 }
+                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Volume by year (m³)") }
+                                ROCostsColHeader { text: app.translator.emptyString + qsTr("Cost (rub/m³)") }
                                 ROCostsColHeader { text: app.translator.emptyString + qsTr("Year costs") }
                             }
 

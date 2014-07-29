@@ -195,12 +195,12 @@ void ROReportBuilder::insertSystemDesignDetails() {
     insertText(table->cellAt(1, 1), tr("kW"));
 
     insertText(table->cellAt(2, 0), tr("Specific Energy"));
-    insertText(table->cellAt(2, 1), tr("kWh/m3"));
+    insertText(table->cellAt(2, 1), tr("kWh/m³"));
 
     insertText(table->cellAt(3, 0), tr("Flow Factor"));
 
     insertText(table->cellAt(4, 0), tr("Active Area"));
-    insertText(table->cellAt(4, 1), tr("m2"));
+    insertText(table->cellAt(4, 1), tr("m²"));
 
     insertText(table->cellAt(5, 0), tr("Average Flux"));
     insertText(table->cellAt(5, 1), roUnitsText->fluxUnitText(roUnits->fluxUnits()));
@@ -392,7 +392,7 @@ void ROReportBuilder::insertStagesDesignDetails() {
     insertText(table->cellAt(4, 0), tr("Elements count"));
 
     insertText(table->cellAt(5, 0), tr("Active Area"));
-    insertText(table->cellAt(5, 1), tr("m2"));
+    insertText(table->cellAt(5, 1), tr("m²"));
 
     insertText(table->cellAt(6, 0), tr("Average Flux"));
     insertText(table->cellAt(6, 1), roUnitsText->fluxUnitText(roUnits->fluxUnits()));
@@ -531,7 +531,7 @@ void ROReportBuilder::insertElementsDesignDetails() {
         QTextTable *table = insertDataTable(5, elementsCount); // не делим, т.к. не более 8 стадий по условию
 
         insertText(table->cellAt(2, 0), tr("Active Area"));
-        insertText(table->cellAt(2, 1), tr("m2"));
+        insertText(table->cellAt(2, 1), tr("m²"));
 
         insertText(table->cellAt(3, 0), tr("Average Flux"));
         insertText(table->cellAt(3, 1), roUnitsText->fluxUnitText(roUnits->fluxUnits()));
@@ -768,7 +768,7 @@ void ROReportBuilder::insertCostsTotalsDetails() {
     storeFormat();
     _tcf.setFontWeight(QFont::Bold);
     //_tcf.setUnderlineStyle(QTextCharFormat::DashUnderline);
-    insertText(tr("Total Costs (%1 rub/year, %2 rub/m3)")
+    insertText(tr("Total Costs (%1 rub/year, %2 rub/m³)")
                .arg(double2Str(costs->totalCostsYear()))
                .arg(double2Str(costs->totalWaterCostsYear())));
     restoreFormat();
@@ -785,7 +785,7 @@ void ROReportBuilder::insertCostsTotalsDetails() {
     QTextTable *table = _cursor.insertTable(4, 2, tableFormat);
 
     // vertical headers
-    insertText(table->cellAt(0, 0), tr("Year permeate (m3)"));
+    insertText(table->cellAt(0, 0), tr("Year permeate (m³)"));
     insertText(table->cellAt(1, 0), tr("System cost (rub)"));
     insertText(table->cellAt(2, 0), tr("System set cost (rub)"));
     insertText(table->cellAt(3, 0), tr("System with set cost (rub)"));
@@ -806,7 +806,7 @@ void ROReportBuilder::insertCostsSystemDesignDetails() {
     storeFormat();
     _tcf.setFontWeight(QFont::Bold);
     //_tcf.setUnderlineStyle(QTextCharFormat::DashUnderline);
-    insertText(tr("System Design Costs (%1 rub/year, %2 rub/m3)")
+    insertText(tr("System Design Costs (%1 rub/year, %2 rub/m³)")
                .arg(double2Str(costs->totalCostsYearSystem()))
                .arg(double2Str(costs->totalWaterCostsYearSystem())));
     restoreFormat();
@@ -848,7 +848,7 @@ void ROReportBuilder::insertCostsSystemDesignDetails() {
     insertText(table->cellAt(2, 5), costs->membraneCost());
     insertText(table->cellAt(2, 6), costs->membranesYearCost());
 
-    insertText(table->cellAt(3, 1), tr("Energy by 1 m3 (kW/h)"));
+    insertText(table->cellAt(3, 1), tr("Energy by 1 m³ (kW/h)"));
     insertText(table->cellAt(3, 2), tr("Energy by system (kW/h)"));
     insertText(table->cellAt(3, 4), tr("Energy of a year"));
     insertText(table->cellAt(3, 5), tr("Energy cost (rub/(kW/h))"));
@@ -869,7 +869,7 @@ void ROReportBuilder::insertCostsChemistryDetails() {
     storeFormat();
     _tcf.setFontWeight(QFont::Bold);
     //_tcf.setUnderlineStyle(QTextCharFormat::DashUnderline);
-    insertText(tr("Chemistry Costs (%1 rub/year, %2 rub/m3)")
+    insertText(tr("Chemistry Costs (%1 rub/year, %2 rub/m³)")
                .arg(double2Str(costs->totalCostsYearScaling()))
                .arg(double2Str(costs->totalWaterCostsYearScaling())));
     restoreFormat();
@@ -894,7 +894,7 @@ void ROReportBuilder::insertCostsChemistryDetails() {
     insertText(table->cellAt(7, 0), tr("Acid-antiscalant requirement"));
 
     _tbf.setAlignment(Qt::AlignRight);
-    insertText(table->cellAt(0, 1), tr("Sink (m3)"));
+    insertText(table->cellAt(0, 1), tr("Sink (m³)"));
     insertText(table->cellAt(0, 2), tr("Sink (kg)"));
     insertText(table->cellAt(0, 3), tr("Sink times a year"));
     insertText(table->cellAt(0, 4), tr("Mass of a year (kg)"));
@@ -954,7 +954,7 @@ void ROReportBuilder::insertCostsWaterDetails() {
     storeFormat();
     _tcf.setFontWeight(QFont::Bold);
     //_tcf.setUnderlineStyle(QTextCharFormat::DashUnderline);
-    insertText(tr("Water Costs (%1 rub/year, %2 rub/m3)")
+    insertText(tr("Water Costs (%1 rub/year, %2 rub/m³)")
                .arg(double2Str(costs->totalCostsYearWater()))
                .arg(double2Str(costs->totalWaterCostsYearWater())));
     restoreFormat();
@@ -975,9 +975,9 @@ void ROReportBuilder::insertCostsWaterDetails() {
     insertText(table->cellAt(2, 0), tr("Concentrate drop"));
 
     _tbf.setAlignment(Qt::AlignRight);
-    insertText(table->cellAt(0, 1), tr("Rate (m3/h)"));
-    insertText(table->cellAt(0, 2), tr("Volume by year (m3)"));
-    insertText(table->cellAt(0, 3), tr("Cost (rub/m3)"));
+    insertText(table->cellAt(0, 1), tr("Rate (m³/h)"));
+    insertText(table->cellAt(0, 2), tr("Volume by year (m³)"));
+    insertText(table->cellAt(0, 3), tr("Cost (rub/m³)"));
     insertText(table->cellAt(0, 4), tr("Year costs (rub)"));
 
     insertText(table->cellAt(1, 1), case_()->sys()->feed()->rate());
@@ -1000,7 +1000,7 @@ void ROReportBuilder::insertCostsMaintenanceDetails() {
     storeFormat();
     _tcf.setFontWeight(QFont::Bold);
     //_tcf.setUnderlineStyle(QTextCharFormat::DashUnderline);
-    insertText(tr("Maintenance Costs (%1 rub/year, %2 rub/m3)")
+    insertText(tr("Maintenance Costs (%1 rub/year, %2 rub/m³)")
                .arg(double2Str(costs->totalCostsYearMaintenance()))
                .arg(double2Str(costs->totalWaterCostsYearMaintenance())));
     restoreFormat();
