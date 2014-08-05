@@ -185,10 +185,29 @@ SPmCoeffsStruct ROMembrane::_SPmCoeffs[] = {
     { 3.367e-08, -3.704e-07, 0.003 } //SiO2
 };
 
+
+SPmCoeffsStruct ROMembrane::_PhSPmCoeffs[] = {
+    {-0.00103265, -0.0083931 ,  0.21441973 + 0.111 }, // KM-C
+    {-0.01260302,  0.09874292,  0.39390192 + 0.468 }, // K
+    { 0.00222204, -0.11831597,  1.2028585  + 0.5   }, // KH
+    {-0.00101148, -0.04442393,  0.95257235 + 0.6   }, // KCH
+    { 0.0, 0.0, 0.7 },                                // NF
+    {-0.01260302,  0.09874292,  0.39190192 + 0.467 }, // KC
+    {-0.00103265, -0.0083931 ,  0.21441973 + 0.1105}  // KM-S
+};
+
+
 SPmCoeffsStruct ROMembrane::SPmCoeffs(int series, int si) {
     int index = series * 17 + si;
     if (0 <= index && index < 7*17)
         return _SPmCoeffs[index];
+    SPmCoeffsStruct none = {0,0,0};
+    return none;
+}
+
+SPmCoeffsStruct ROMembrane::PhSPmCoeffs(int series) {
+    if (0 <= series && series < 7)
+        return _PhSPmCoeffs[series];
     SPmCoeffsStruct none = {0,0,0};
     return none;
 }

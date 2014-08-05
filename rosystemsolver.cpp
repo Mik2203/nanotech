@@ -543,7 +543,13 @@ void ROSystemSolver::initPass(int pi) {
             int si = _usedSolutes[sii];
             esCp(pi, ei, sii) = esCf(pi, 0, sii) * 0.01;
             esCc(pi, ei, sii) = esCf(pi, 0, sii) * 1.1;
-            esSPm(pi, ei, sii) = pSPI[pi] * SPm(MSi(pi, ei), si, esCf(pi, 0, sii));
+            if (si != ROSolutes::CO3) {
+                if (si == ROSolutes::B)
+                    esSPm(pi, ei, sii) = pSPI[pi] * SPmPh(MSi(pi, ei), ePHf(pi, ei));
+                else
+                    esSPm(pi, ei, sii) = pSPI[pi] * SPm(MSi(pi, ei), si, esCf(pi, 0, sii));
+            }
+
         }
         eCp(pi, ei) = s1Cf(pi) * 0.01;
         eCc(pi, ei) = s1Cf(pi) * 1.1;
@@ -702,7 +708,9 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                         //Cc
                         J(iesCc(pi, ei, sii), iesCc(pi, ei, sii)) = 1;
                         F[iesCc(pi, ei, sii)] = esCc(pi, ei, sii) - syssCaf(sii); //- esCf(pi, ei, sii);
-                    } else */if (si == ROSolutes::CO3) {
+                    } else */
+
+                    if (si == ROSolutes::CO3) {
 
                         //Cp
                         J(iesCp(pi, ei, sii), iesCp(pi, ei, sii)) = 1;
@@ -719,12 +727,19 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                     } else {
 
                         //SPm
-                        J(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
-                        J(iesSPm(pi, ei, sii), iesCf(pi, ei, sii)) = - pSPI[pi] * dSPm(MSi(pi, ei), si, esCf(pi, ei, sii));
-                        F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - pSPI[pi] * SPm(MSi(pi, ei), si, esCf(pi, ei, sii));
+                        if (si == ROSolutes::B) {
+                            J(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
+                            J(iesSPm(pi, ei, sii), iePHf(pi, ei)) = - pSPI[pi] * dSPmPh(MSi(pi, ei), ePHf(pi, ei));
+                            F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - pSPI[pi] * SPmPh(MSi(pi, ei), ePHf(pi, ei));
+                            qDebug() << "SPm B" << esSPm(pi, ei, sii) << pSPI[pi] * SPmPh(MSi(pi, ei), ePHf(pi, ei));
+                            qDebug() << "SPm B params: " << ePHf(pi, ei) << SPmPh(MSi(pi, ei), ePHf(pi, ei));
+                        } else {
+                            J(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
+                            J(iesSPm(pi, ei, sii), iesCf(pi, ei, sii)) = - pSPI[pi] * dSPm(MSi(pi, ei), si, esCf(pi, ei, sii));
+                            F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - pSPI[pi] * SPm(MSi(pi, ei), si, esCf(pi, ei, sii));
+                        }
 
                         //Cp
-
                         if (ei > 0) {
                             J(iesCp(pi, ei, sii), ievQf(pi, ei)) = -esCf(pi, ei, sii) * dKpQf(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
                         }
@@ -735,7 +750,6 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                         F[iesCp(pi, ei, sii)] = esCp(pi, ei, sii) - Kp(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii)) * esCf(pi, ei, sii);
 
                         //Cc
-
                         J(iesCc(pi, ei, sii), iesCc(pi, ei, sii)) = eQc(pi, ei);
                         J(iesCc(pi, ei, sii), iesCp(pi, ei, sii)) = eQp(pi, ei);
                         J(iesCc(pi, ei, sii), ieQp(pi, ei)) = esCp(pi, ei, sii);
@@ -1078,7 +1092,7 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
     }
 
-        logValues();
+//        logValues();
 
 #ifdef QT_DEBUG
 

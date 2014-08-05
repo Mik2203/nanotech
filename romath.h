@@ -575,14 +575,24 @@ static double dphi(double i) {
 
 static double SPm(int series, int si, double c) {
     SPmCoeffsStruct spmc = ROMembrane::SPmCoeffs(series, si);
-//    if (series == 3 && si == ROSolutes::HCO3)
-//        qDebug() << "SPM" << spmc.a * c * c + spmc.b * c + spmc.c;
-    return spmc.a * c * c + spmc.b * c + spmc.c;
+    return poly(c, reinterpret_cast<double *>(&spmc), 2);
 }
 
 static double dSPm(int series, int si, double c) {
     SPmCoeffsStruct spmc = ROMembrane::SPmCoeffs(series, si);
-    return 2 * spmc.a * c + spmc.b;
+    return dpoly(c, reinterpret_cast<double *>(&spmc), 2);
+}
+
+static double SPmPh(int series, double ph) {
+    SPmCoeffsStruct spmph = ROMembrane::PhSPmCoeffs(series);
+    double * sa = reinterpret_cast<double *>(&spmph);
+    qDebug() << "SA VALS:" << sa[0] << sa[1] << sa[2];
+    return poly(ph, reinterpret_cast<double *>(&spmph), 2);
+}
+
+static double dSPmPh(int series, double ph) {
+    SPmCoeffsStruct spmph = ROMembrane::PhSPmCoeffs(series);
+    return dpoly(ph, reinterpret_cast<double *>(&spmph), 2);
 }
 
 #endif // ROMATH_H

@@ -36,6 +36,7 @@ public:
     double pressure() const;
 
     static SPmCoeffsStruct SPmCoeffs(int series, int si);
+    static SPmCoeffsStruct PhSPmCoeffs(int series);
     static double aCoeff(int series);
 private:
     QString _series;
@@ -47,6 +48,7 @@ private:
     double _pressure;
 
     static SPmCoeffsStruct _SPmCoeffs[];
+    static SPmCoeffsStruct _PhSPmCoeffs[];
     static double _aCoeff[];
 };
 
