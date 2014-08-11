@@ -187,15 +187,34 @@ SPmCoeffsStruct ROMembrane::_SPmCoeffs[] = {
 
 
 SPmCoeffsStruct ROMembrane::_PhSPmCoeffs[] = {
-    {-0.00103265, -0.0083931 ,  0.21441973 + 0.111 }, // KM-C
-    {-0.01260302,  0.09874292,  0.39390192 + 0.468 }, // K
-    { 0.00222204, -0.11831597,  1.2028585  + 0.5   }, // KH
-    {-0.00101148, -0.04442393,  0.95257235 + 0.6   }, // KCH
-    { 0.0, 0.0, 0.7 },                                // NF
-    {-0.01260302,  0.09874292,  0.39190192 + 0.467 }, // KC
-    {-0.00103265, -0.0083931 ,  0.21441973 + 0.1105}  // KM-S
+    {-0.00103265, -0.0083931 ,  0.21441973 }, // KM-C
+    {-0.01260302,  0.09874292,  0.39390192 }, // K
+    { 0.00222204, -0.11831597,  1.2028585  }, // KH
+    {-0.00101148, -0.04442393,  0.95257235 }, // KCH
+    { 0.0, 0.0, 0.7 },                        // NF
+    {-0.01260302,  0.09874292,  0.39190192 }, // KC
+    {-0.00103265, -0.0083931 ,  0.21441973 }  // KM-S
 };
 
+double ROMembrane::_PhSPmMin[] = {
+    0.0,     // KM-C
+    0.023,   // K
+    0.02,    // KH
+    0.37,    // KCH
+    0.0,     // NF
+    0.021,   // KC
+    0.0      // KM-S
+};
+
+double ROMembrane::_PhSPmMax[] = {
+    1.0,     // KM-C
+    0.46,    // K
+    0.48,    // KH
+    0.58,    // KCH
+    1.0,     // NF
+    0.45,    // KC
+    1.0      // KM-S
+};
 
 SPmCoeffsStruct ROMembrane::SPmCoeffs(int series, int si) {
     int index = series * 17 + si;
@@ -212,8 +231,24 @@ SPmCoeffsStruct ROMembrane::PhSPmCoeffs(int series) {
     return none;
 }
 
+double ROMembrane::PhSPmMax(int series)
+{
+    if (0 <= series && series < 7)
+        return _PhSPmMax[series];
+    return 0.0;
+}
+
+double ROMembrane::PhSPmMin(int series)
+{
+    if (0 <= series && series < 7)
+        return _PhSPmMin[series];
+    return 0.0;
+}
+
 double ROMembrane::aCoeff(int series) {
     if (0 <= series && series < 7)
         return _aCoeff[series];
     return 0.0;
 }
+
+

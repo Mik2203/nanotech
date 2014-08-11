@@ -586,13 +586,18 @@ static double dSPm(int series, int si, double c) {
 static double SPmPh(int series, double ph) {
     SPmCoeffsStruct spmph = ROMembrane::PhSPmCoeffs(series);
     double * sa = reinterpret_cast<double *>(&spmph);
-    qDebug() << "SA VALS:" << sa[0] << sa[1] << sa[2];
-    return poly(ph, reinterpret_cast<double *>(&spmph), 2);
+//    qDebug() << "SA VALS:" << sa[0] << sa[1] << sa[2];
+    return qBound(ROMembrane::PhSPmMin(series),
+                  poly(ph, reinterpret_cast<double *>(&spmph), 2),
+                  ROMembrane::PhSPmMax(series));
 }
 
 static double dSPmPh(int series, double ph) {
-    SPmCoeffsStruct spmph = ROMembrane::PhSPmCoeffs(series);
-    return dpoly(ph, reinterpret_cast<double *>(&spmph), 2);
+    double spmph = poly(ph, reinterpret_cast<double *>(&spmph), 2);
+    if (spmph < ROMembrane::PhSPmMin(series) || ROMembrane::PhSPmMax(series) < spmph)
+        return 0.0;  // no d
+    SPmCoeffsStruct spmphcs = ROMembrane::PhSPmCoeffs(series);
+    return dpoly(ph, reinterpret_cast<double *>(&spmphcs), 2);
 }
 
 #endif // ROMATH_H

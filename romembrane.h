@@ -37,6 +37,8 @@ public:
 
     static SPmCoeffsStruct SPmCoeffs(int series, int si);
     static SPmCoeffsStruct PhSPmCoeffs(int series);
+    static double PhSPmMax(int series);
+    static double PhSPmMin(int series);
     static double aCoeff(int series);
 private:
     QString _series;
@@ -49,6 +51,8 @@ private:
 
     static SPmCoeffsStruct _SPmCoeffs[];
     static SPmCoeffsStruct _PhSPmCoeffs[];
+    static double _PhSPmMax[];
+    static double _PhSPmMin[];
     static double _aCoeff[];
 };
 

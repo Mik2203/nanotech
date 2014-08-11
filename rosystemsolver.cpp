@@ -731,8 +731,6 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                             J(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
                             J(iesSPm(pi, ei, sii), iePHf(pi, ei)) = - pSPI[pi] * dSPmPh(MSi(pi, ei), ePHf(pi, ei));
                             F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - pSPI[pi] * SPmPh(MSi(pi, ei), ePHf(pi, ei));
-                            qDebug() << "SPm B" << esSPm(pi, ei, sii) << pSPI[pi] * SPmPh(MSi(pi, ei), ePHf(pi, ei));
-                            qDebug() << "SPm B params: " << ePHf(pi, ei) << SPmPh(MSi(pi, ei), ePHf(pi, ei));
                         } else {
                             J(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
                             J(iesSPm(pi, ei, sii), iesCf(pi, ei, sii)) = - pSPI[pi] * dSPm(MSi(pi, ei), si, esCf(pi, ei, sii));
