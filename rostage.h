@@ -35,8 +35,8 @@ class ROStage: public ROAbstractElement {
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
 
     // MEMBRANE
-    Q_PROPERTY(int membraneIndex READ membraneIndex WRITE setMembraneIndex NOTIFY membraneIndexChanged)
-    Q_PROPERTY(ROMembrane* membrane READ membrane NOTIFY membraneIndexChanged)
+    Q_PROPERTY(int membraneId READ membraneId WRITE setMembraneId NOTIFY membraneIdChanged)
+    Q_PROPERTY(ROMembrane* membrane READ membrane NOTIFY membraneIdChanged)
 
     // VESSELS
     Q_PROPERTY(int vesselCount READ vesselCount WRITE setVesselCount NOTIFY vesselsCountChanged)
@@ -70,7 +70,7 @@ public:
     int elementsPerVesselCount() const;
     int elementsCount() const;
     ROMembrane* const membrane() const;
-    int membraneIndex() const;
+    int membraneId() const;
 
 
     void setVesselCount(int vesselCount);
@@ -82,7 +82,7 @@ public:
     ROElement* const lastElement() const;
 
 
-    void setMembraneIndex(int membraneIndex);
+    void setMembraneId(int membraneId);
     void setFeed(ROFlow* const newFeed);
 
     ROPass* const pass() const;
@@ -110,7 +110,7 @@ private:
     ROPass* _pass;
     int _vesselCount;
     QList<ROElement*> _elements;
-    int _membraneIndex;
+    int _membraneId;
     double _preStagePressure;
     double _backPressure;
 
@@ -124,7 +124,7 @@ signals:
     void preStagePressureChanged();
     void backPressureChanged();
     void numberChanged();
-    void membraneIndexChanged();
+    void membraneIdChanged();
     void averageFluxChanged();
 
 public slots:

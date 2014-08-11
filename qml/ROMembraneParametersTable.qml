@@ -8,7 +8,7 @@ ROWidgets.SimpleListView {
     focus: true
     model: db.membranes
     //selectedIndex: stage.membraneIndex
-    onSelect: stage.membraneIndex = index
+    onSelect: stage.membraneId = model.get(index, "id")
     onClose: mainWindow.hidePopup()
     headerDelegate: Row {
 //        height: 20

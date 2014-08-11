@@ -21,10 +21,10 @@ ROElementController::ROElementController(ROElement *element, ROStageController* 
                 [this]() { return this->stageC()->passC()->sysC()->sysSS()->solved() &&
                                           //this->checkVar(this->element()->stage()->pass()->system()->MEMBRANES_MODEL()->get(this->element()->stage()->membraneIndex(), "max_feed_pressure").toDouble()) &&
                                           (
-                                              roDB->membranes()->get(this->element()->stage()->membraneIndex(), "max_feed_pressure").toDouble() < this->element()->feed()->pressure()); },
+                                              roDB->membranes()->get(roDB->membranes()->indexById(this->element()->stage()->membraneId()), "max_feed_pressure").toDouble() < this->element()->feed()->pressure()); },
     ROWarning::WarningCaution,
     [this]() -> QString {
-        double maxFeedPressureBar = roDB->membranes()->get(this->element()->stage()->membraneIndex(), "max_feed_pressure").toDouble();
+        double maxFeedPressureBar = roDB->membranes()->get(roDB->membranes()->indexById(this->element()->stage()->membraneId()), "max_feed_pressure").toDouble();
         double maxFeedPressure = ROUnits::convertPressureUnits(maxFeedPressureBar, ROUnits::bar, roUnits->pressureUnits());
         return tr("Feed pressure should be less than %1 %2").arg(QString::number(maxFeedPressure, 'f', 2)).arg(roUnitsText->pressureUnitText(roUnits->pressureUnits()));
     },
@@ -36,13 +36,13 @@ ROElementController::ROElementController(ROElement *element, ROStageController* 
 
     _checkMaxPressureDrop = new ROWarning([this]() -> bool {
             if (!this->stageC()->passC()->sysC()->sysSS()->solved()) return false;
-            double maxDrop = roDB->membranes()->get(this->element()->stage()->membraneIndex(), "max_pressure_drop").toDouble();
+            double maxDrop = roDB->membranes()->get(roDB->membranes()->indexById(this->element()->stage()->membraneId()), "max_pressure_drop").toDouble();
             double curDrop = dPfc(this->element()->feed()->rate(), this->element()->concentrate()->rate());
             return curDrop > maxDrop;
     },
     ROWarning::WarningCaution,
     [this]() -> QString {
-        double maxPressureDropBar = roDB->membranes()->get(this->element()->stage()->membraneIndex(), "max_pressure_drop").toDouble();
+        double maxPressureDropBar = roDB->membranes()->get(roDB->membranes()->indexById(this->element()->stage()->membraneId()), "max_pressure_drop").toDouble();
         double maxPressureDrop = ROUnits::convertPressureUnits(maxPressureDropBar, ROUnits::bar, roUnits->pressureUnits());
         return tr("Pressure drop should be less than %1 %2").arg(QString::number(maxPressureDrop, 'f', 2)).arg(roUnitsText->pressureUnitText(roUnits->pressureUnits()));
     },
@@ -53,10 +53,10 @@ ROElementController::ROElementController(ROElement *element, ROStageController* 
 
 
     _checkMaxFeedRate = new ROWarning([this]() { return this->stageC()->passC()->sysC()->sysSS()->solved() &&
-                                              roDB->membranes()->get(this->element()->stage()->membraneIndex(), "max_feed_rate").toDouble() < this->element()->feed()->rate(); },
+                                              roDB->membranes()->get(roDB->membranes()->indexById(this->element()->stage()->membraneId()), "max_feed_rate").toDouble() < this->element()->feed()->rate(); },
     ROWarning::WarningCaution,
     [this]() -> QString {
-        double maxFeedRateM3h = roDB->membranes()->get(this->element()->stage()->membraneIndex(), "max_feed_rate").toDouble();
+        double maxFeedRateM3h = roDB->membranes()->get(roDB->membranes()->indexById(this->element()->stage()->membraneId()), "max_feed_rate").toDouble();
         double maxFeedRate = ROUnits::convertFlowUnits(maxFeedRateM3h, ROUnits::m3h, roUnits->flowUnits());
         return tr("Feed rate should be less than %1 %2").arg(QString::number(maxFeedRate, 'f', 2)).arg(roUnitsText->flowUnitText(roUnits->flowUnits()));
     },
@@ -71,7 +71,7 @@ ROElementController::ROElementController(ROElement *element, ROStageController* 
                 if (!this->stageC()->passC()->sysC()->sysSS()->solved()) return false;
                 int waterTypeIndex = this->element()->stage()->pass()->system()->passIndex(this->element()->stage()->pass()) > 0 ? 0 : this->element()->stage()->pass()->system()->waterTypeIndex();
                 double minConcentrate = roDB->waterTypes()->get(waterTypeIndex, "min_concentrate").toDouble();
-                double membraneArea = roDB->membranes()->get(this->element()->stage()->membraneIndex(), "area").toDouble();
+                double membraneArea = roDB->membranes()->get(roDB->membranes()->indexById(this->element()->stage()->membraneId()), "area").toDouble();
                 if (membraneArea > 30.0) ; // 8040
                 else if (membraneArea > 7.0) minConcentrate /= 4; // 4040
                 else if (membraneArea > 2.0) minConcentrate /= 8; // 2540
@@ -85,7 +85,7 @@ ROElementController::ROElementController(ROElement *element, ROStageController* 
         int waterTypeIndex = this->element()->stage()->pass()->system()->passIndex(this->element()->stage()->pass()) > 0 ? 0 : this->element()->stage()->pass()->system()->waterTypeIndex();
         double minConcentrateM3h = roDB->waterTypes()->get(waterTypeIndex, "min_concentrate").toDouble();
 
-        double membraneArea = roDB->membranes()->get(this->element()->stage()->membraneIndex(), "area").toDouble();
+        double membraneArea = roDB->membranes()->get(roDB->membranes()->indexById(this->element()->stage()->membraneId()), "area").toDouble();
         if (membraneArea > 30.0) ; // 8040
         else if (membraneArea > 7.0) minConcentrateM3h /= 4; // 4040
         else if (membraneArea > 2.0) minConcentrateM3h /= 8; // 2540

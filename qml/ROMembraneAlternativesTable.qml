@@ -6,9 +6,9 @@ ROWidgets.SimpleListView {
     id: membraneModelView
     focus: true
     model: db.membraneAlternatives
-    selectedIndex: stage.membraneIndex
+    selectedIndex: db.membranes.indexById(stage.membraneId)
     //        enableHorizontalScrollBar: true
-    onSelect: stage.membraneIndex = db.membranes.indexById(db.membraneAlternatives.get(index, "id"))
+    onSelect: stage.membraneId = db.membraneAlternatives.get(index, "id")
     onClose: mainWindow.hidePopup()
     headerDelegate: Row {
         height: 20

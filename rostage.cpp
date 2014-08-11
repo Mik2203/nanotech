@@ -25,7 +25,7 @@ ROStage::ROStage(ROPass* pass, ROFlow* feed,
     _permeate(new ROFlow()),
     _firstElementFeed(new ROFlow()),
     _concentrate(new ROFlow()),
-    _membraneIndex(-1),
+    _membraneId(-1),
     _preStagePressure(0.0),
     _backPressure(0.0),
     ROAbstractElement() {
@@ -41,7 +41,7 @@ ROStage::ROStage(ROPass* pass, ROFlow* feed,
     //TOTAL ACTIVE AREA
     connect(this, SIGNAL(elementsPerVesselCountChanged()), this, SIGNAL(totalActiveAreaChanged()));
     connect(this, SIGNAL(vesselsCountChanged()), this, SIGNAL(totalActiveAreaChanged()));
-    connect(this, SIGNAL(membraneIndexChanged()), this, SIGNAL(totalActiveAreaChanged()));
+    connect(this, SIGNAL(membraneIdChanged()), this, SIGNAL(totalActiveAreaChanged()));
 
     // RECOVERY
     connect(permeate(), SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged()));
@@ -84,7 +84,7 @@ void ROStage::setVesselCount(int vesselCount) {
     Q_EMIT vesselsCountChanged();
 }
 
-int ROStage::membraneIndex() const { return _membraneIndex; }
+int ROStage::membraneId() const { return _membraneId; }
 
 void ROStage::setElementsPerVesselCount(int elementsPerVessel) {
 
@@ -102,11 +102,11 @@ void ROStage::setElementsPerVesselCount(int elementsPerVessel) {
 }
 
 
-void ROStage::setMembraneIndex(int membraneIndex) {
-    RODatabase::instance()->membranes()->getMembraneData(_membrane, membraneIndex);
+void ROStage::setMembraneId(int membraneId) {
+    roDB->membranes()->getMembraneData(_membrane, roDB->membranes()->indexById(membraneId));
 
-    _membraneIndex = membraneIndex;
-    Q_EMIT membraneIndexChanged();
+    _membraneId = membraneId;
+    Q_EMIT membraneIdChanged();
 }
 
 void ROStage::setFeed(ROFlow* const newFeed) {
@@ -122,7 +122,7 @@ ROStage* ROStage::clone(/*int newStageNumber, */ROFlow* newFeed) {
 }
 
 void ROStage::copyDataFrom(const ROStage* const other) {
-    this->setMembraneIndex(other->membraneIndex());
+    this->setMembraneId(other->membraneId());
     this->setPreStagePressure(other->preStagePressure());
     this->setElementsPerVesselCount(other->elementsPerVesselCount());
     this->setVesselCount(other->vesselCount());
@@ -156,7 +156,7 @@ ROElement* const ROStage::lastElement() const { return _elements.last();  }
 
 
 void ROStage::reset() {
-    setMembraneIndex(-1);
+    setMembraneId(-1);
     setVesselCount(1);
     setElementsPerVesselCount(1);
 }

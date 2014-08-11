@@ -81,6 +81,7 @@ Item {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
+                font.italic: true
                 text: app.translator.emptyString + qsTr("Total elements count: ")
             }
 
@@ -89,6 +90,7 @@ Item {
                 anchors.rightMargin: 5 + 30 + parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
+                font.italic: true
                 text: stage.elementsCount
                 width: 50
             }
@@ -199,8 +201,8 @@ Item {
                 }
 
                 model: db.membranes
-                onSelect: stage.membraneIndex = selectIndex
-                selectedIndex: stage.membraneIndex
+                onSelect: stage.membraneId = model.get(selectIndex, "id")
+                selectedIndex: db.membranes.indexById(stage.membraneId)
             }
 
             ROWidgets.Button {
@@ -215,7 +217,7 @@ Item {
                 text: "..."
 
                 // TODO
-                onClicked: mainWindow.popupWindow(membraneModelContainer, app.translator.emptyString + qsTr("Choose membrane") ,mainWindow, mainWindow.width/2 - 200, mainWindow.height/2 - 150)
+                onClicked: mainWindow.popupWindow(membraneModelContainer, app.translator.emptyString + qsTr("Choose membrane element") ,mainWindow, mainWindow.width/2 - 200, mainWindow.height/2 - 150)
 
                 Component {
                     id: membraneModelContainer

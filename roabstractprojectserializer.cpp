@@ -359,15 +359,23 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                                         }
 
                                         // OPTIONAL membrane Index
-                                        if (_curElementType == StartElement && _curText == "membraneIndex") {
+                                        if (_curElementType == StartElement && _curText == "membraneId") {
                                             if (!readElement()) return;
                                             if (_curElementType == TextElement) {
-                                                int membraneIndex = _curText.toInt(&convertSuccess);
-                                                if (convertSuccess) stage->setMembraneIndex(membraneIndex);
+                                                int membraneId = _curText.toInt(&convertSuccess);
+                                                if (convertSuccess) stage->setMembraneId(membraneId);
                                                 if (!readElement()) return;
                                             }
-                                            if (_curElementType != EndElement || _curText != "membraneIndex") return;
+                                            if (_curElementType != EndElement || _curText != "membraneId") return;
                                             if (!readElement()) return;
+                                        }
+
+                                        // начиная с версии 1.2.1 используется id элемента, а не индекс
+                                        // для поддержки совместимости индекс просто пропускается
+                                        if (_curElementType == StartElement && _curText == "membraneIndex") {
+                                            readElement();
+                                            readElement();
+                                            readElement();
                                         }
 
                                         if (_curElementType != EndElement || _curText != "Stage" ||
@@ -633,7 +641,7 @@ bool ROAbstractProjectSerializer::serialize(const ROProject *const proj, QTextSt
                                                 writeElement("elementsPerVesselCount", int2Str(stage->elementsPerVesselCount()));
                                                 writeElement("preStagePressure", double2Str(stage->preStagePressure()));
                                                 writeElement("backPressure", double2Str(stage->backPressure()));
-                                                writeElement("membraneIndex", int2Str(stage->membraneIndex()));
+                                                writeElement("membraneId", int2Str(stage->membraneId()));
                                             } writeEndElement(); // Stage
                                         }
                                     } writeEndElement(); // Stages

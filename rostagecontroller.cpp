@@ -7,12 +7,12 @@
 ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
     _stage(stage), _passC(passC),  QObject(stage) {
 
-    _membraneChosen = new ROWarning([this]() { return this->stage()->membraneIndex() < 0; },
+    _membraneChosen = new ROWarning([this]() { return this->stage()->membraneId() < 0; },
     ROWarning::WarningCritical,
     [this]() { return tr("Membrane is not chosen"); },
     this);
 
-    connect(stage, SIGNAL(membraneIndexChanged()), _membraneChosen, SLOT(update()));
+    connect(stage, SIGNAL(membraneIdChanged()), _membraneChosen, SLOT(update()));
 
 
     connect(_stage, SIGNAL(elementsPerVesselCountChanged()), this, SLOT(updateElements()));
@@ -25,7 +25,7 @@ ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
 
 
     // INPUT CHANGES
-    connect(_stage, SIGNAL(membraneIndexChanged()), this, SIGNAL(inputChanged()));
+    connect(_stage, SIGNAL(membraneIdChanged()), this, SIGNAL(inputChanged()));
     connect(_stage, SIGNAL(elementsPerVesselCountChanged()), this, SIGNAL(inputChanged()));
     connect(_stage, SIGNAL(vesselsCountChanged()), this, SIGNAL(inputChanged()));
     connect(_stage, SIGNAL(feedChanged()), this, SIGNAL(inputChanged()));

@@ -19,7 +19,7 @@ ROElement::ROElement(ROStage* stage, ROFlow* feed):
     setFeed(feed);
 
     // TOTAL ACTIVE AREA
-    connect(stage, SIGNAL(membraneIndexChanged()), this, SIGNAL(activeAreaChanged()));
+    connect(stage, SIGNAL(membraneIdChanged()), this, SIGNAL(activeAreaChanged()));
 
     // RECOVERY
     connect(permeate(), SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged()));
