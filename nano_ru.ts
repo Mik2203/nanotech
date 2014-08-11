@@ -5,9 +5,9 @@
     <name>AboutWindow</name>
     <message>
         <location filename="qml/AboutWindow.qml" line="30"/>
-        <source>NanoTechPRO 1.0.1 from 03.10.2013</source>
-        <oldsource>NanoTechPRO 1.0.0 from 09.09.2013</oldsource>
-        <translation>NanoTechPRO 1.0.1 от 03.10.2013</translation>
+        <source>NanoTechPRO %1 from %2</source>
+        <oldsource>NanoTechPRO 1.0.1 from 03.10.2013</oldsource>
+        <translation>NanoTechPRO %1 от %2</translation>
     </message>
     <message>
         <location filename="qml/AboutWindow.qml" line="36"/>
@@ -109,9 +109,9 @@
     </message>
     <message>
         <location filename="qml/HelloWindow.qml" line="47"/>
-        <source>NanoTechPRO 1.0.1 from 03.10.2013</source>
-        <oldsource>NanoTechPRO 1.0.0 from 09.09.2013</oldsource>
-        <translation>NanoTechPRO 1.0.1 от 03.10.2013</translation>
+        <source>NanoTechPRO %1 from %2</source>
+        <oldsource>NanoTechPRO 1.0.1 from 03.10.2013</oldsource>
+        <translation>NanoTechPRO %1 от %2</translation>
     </message>
     <message>
         <location filename="qml/HelloWindow.qml" line="53"/>
@@ -422,13 +422,13 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Коэффициент загрязнения: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="296"/>
+        <location filename="qml/ROConfPass.qml" line="297"/>
         <source>Average flux:</source>
         <oldsource>Average flux: </oldsource>
         <translation>Средний съем:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="323"/>
+        <location filename="qml/ROConfPass.qml" line="325"/>
         <source>Blend permeate (B%1):</source>
         <oldsource>Blend permeate: </oldsource>
         <translation>Подмешивание (П%1):</translation>
@@ -444,50 +444,50 @@ Do you want to save your changes?</source>
         <translation>Объем вх. потока:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="411"/>
+        <location filename="qml/ROConfPass.qml" line="414"/>
         <source>Permeate from stages (SP%1):</source>
         <oldsource>Permeate from stages:</oldsource>
         <translation>Фильтрат со стадий (ФС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="449"/>
+        <location filename="qml/ROConfPass.qml" line="453"/>
         <source>Recycles:</source>
         <translation>Рециклы:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="468"/>
+        <location filename="qml/ROConfPass.qml" line="472"/>
         <source>Self Recycle (SR%1):</source>
         <oldsource>Self Recycle: </oldsource>
         <translation>Собств. рецикл (СР%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="520"/>
+        <location filename="qml/ROConfPass.qml" line="525"/>
         <source>Concentrate from stages (SC%1):</source>
         <translation>Концентрат со стадий (КС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="560"/>
+        <location filename="qml/ROConfPass.qml" line="566"/>
         <source>Pass %1 (R%2-%1):</source>
         <oldsource>Pass %1: </oldsource>
         <translation>Ступень %1 (Р%2-%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="621"/>
+        <location filename="qml/ROConfPass.qml" line="627"/>
         <source>Max</source>
         <translation>Максимум</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="643"/>
+        <location filename="qml/ROConfPass.qml" line="649"/>
         <source>Original feed flow (F%1):</source>
         <translation>Исходный вх. поток (И%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="684"/>
+        <location filename="qml/ROConfPass.qml" line="690"/>
         <source>Feed on first stage (SF%1):</source>
         <translation>Вх. поток на стадию (ИС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="732"/>
+        <location filename="qml/ROConfPass.qml" line="738"/>
         <source>Stage:</source>
         <translation>Стадия:</translation>
     </message>
@@ -541,38 +541,42 @@ Do you want to save your changes?</source>
         <translation>Кол-во элементов: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="84"/>
+        <location filename="qml/ROConfStage.qml" line="85"/>
         <source>Total elements count: </source>
         <translation>Общее кол-во элементов: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="106"/>
+        <location filename="qml/ROConfStage.qml" line="108"/>
         <source>Pre stage pressure: </source>
         <translation>Перепад давления: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="143"/>
+        <location filename="qml/ROConfStage.qml" line="145"/>
         <source>Back pressure: </source>
         <translation>Давление фильтрата: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="178"/>
+        <location filename="qml/ROConfStage.qml" line="180"/>
         <source>Membrane element:</source>
         <oldsource>Membrane model: </oldsource>
         <translation>Мембранный элемент:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="218"/>
-        <source>Choose membrane</source>
-        <translation>Выберите мембрану</translation>
+        <location filename="qml/ROConfStage.qml" line="220"/>
+        <source>Choose membrane element</source>
+        <translation>Выберите мембранный элемент</translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="230"/>
+        <source>Choose membrane</source>
+        <translation type="obsolete">Выберите мембрану</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfStage.qml" line="232"/>
         <source>Elements alternatives</source>
         <translation>Замена элементов</translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="230"/>
+        <location filename="qml/ROConfStage.qml" line="232"/>
         <source>Elements parameters</source>
         <translation>Параметры элементов</translation>
     </message>
@@ -627,12 +631,14 @@ Do you want to save your changes?</source>
         <location filename="qml/ROCosts.qml" line="166"/>
         <location filename="qml/ROCosts.qml" line="179"/>
         <location filename="qml/ROCosts.qml" line="192"/>
-        <source>rub/m³</source>
+        <source>rub/mВі</source>
+        <oldsource>rub/m³</oldsource>
         <translation>руб/м³</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="217"/>
-        <source>Year permeate (m³)</source>
+        <source>Year permeate (mВі)</source>
+        <oldsource>Year permeate (m³)</oldsource>
         <translation>Фильтрат за год (м³)</translation>
     </message>
     <message>
@@ -699,7 +705,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="302"/>
-        <source>Energy by 1m³ (kW/h)</source>
+        <source>Energy by 1mВі (kW/h)</source>
+        <oldsource>Energy by 1m³ (kW/h)</oldsource>
         <translation>Энергия на 1м³ (кВт/ч)</translation>
     </message>
     <message>
@@ -732,7 +739,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="350"/>
-        <source>Sink (m³)</source>
+        <source>Sink (mВі)</source>
+        <oldsource>Sink (m³)</oldsource>
         <translation>Объем на мойку (м³)</translation>
     </message>
     <message>
@@ -797,18 +805,20 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="466"/>
-        <source>Rate (m³/h)</source>
+        <source>Rate (mВі/h)</source>
         <oldsource>Rate (m³/h)</oldsource>
         <translation>Кол-во (м³/ч)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="467"/>
-        <source>Volume by year (m³)</source>
+        <source>Volume by year (mВі)</source>
+        <oldsource>Volume by year (m³)</oldsource>
         <translation>Объем в год (м³)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="468"/>
-        <source>Cost (rub/m³)</source>
+        <source>Cost (rub/mВі)</source>
+        <oldsource>Cost (rub/m³)</oldsource>
         <translation>Затраты (руб/м³)</translation>
     </message>
     <message>
@@ -1937,7 +1947,8 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROResults.qml" line="339"/>
-        <source>kWh/m³</source>
+        <source>kWh/mВі</source>
+        <oldsource>kWh/m³</oldsource>
         <translation>кВтч/м³</translation>
     </message>
     <message>
