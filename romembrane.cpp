@@ -1,10 +1,22 @@
+//#ifdef QT_DEBUG
+#include <QDebug>
+//#endif
+
 #include "romembrane.h"
 
-ROMembrane::ROMembrane(const QString& series, const QString& model, const ROMembraneSize& membraneSize,
+ROMembrane::ROMembrane(int seriesIndex, const QString& series,
+                       const QString& model, const ROMembraneSize& membraneSize,
                        double activeArea, double productivity,
                        double rejection, double pressure)
-    : _series(series), _model(model), _membraneSize(membraneSize), _activeArea(activeArea),
-      _productivity(productivity), _rejection(rejection), _pressure(pressure), QObject() {}
+    : _seriesIndex(seriesIndex),
+      _series(series),
+      _model(model),
+      _membraneSize(membraneSize),
+      _activeArea(activeArea),
+      _productivity(productivity),
+      _rejection(rejection),
+      _pressure(pressure),
+      QObject() {}
 
 ROMembrane::ROMembrane() : _series("None"), _model("None"), _membraneSize(ROMembraneSize(0.0, 0.0)), _activeArea(0.0),
     _productivity(0.0), _rejection(0.0), _pressure(0.0) {}
@@ -21,17 +33,7 @@ _series(membrane.series()), _model(membrane.model()),
 
 const QString& ROMembrane::series() const { return _series; }
 const QString& ROMembrane::model() const { return _model; }
-
-int ROMembrane::seriesIndex() const {
-    if (series() == "KM-C") return 0;
-    if (series() == "K") return 1;
-    if (series() == "KH") return 2;
-    if (series() == "KCH") return 3;
-    if (series() == "NF") return 4;
-    if (series() == "KC") return 5;
-    if (series() == "KM-S") return 6;
-    return -1;
-}
+int ROMembrane::seriesIndex() const { return _seriesIndex; }
 const QString ROMembrane::seriesAndModel() const { return QString("%1 %2").arg(_series, _model); }
 const ROMembraneSize ROMembrane::membraneSize() const { return _membraneSize; }
 double ROMembrane::activeArea() const { return _activeArea; }
@@ -218,8 +220,12 @@ double ROMembrane::_PhSPmMax[] = {
 
 SPmCoeffsStruct ROMembrane::SPmCoeffs(int series, int si) {
     int index = series * 17 + si;
-    if (0 <= index && index < 7*17)
+//    qDebug() << "INDEX:" << index << series << si;
+    if (0 <= index && index < 7*17) {
+//        qDebug() << "GOOD INDEX:" << index << _SPmCoeffs[index].a;
         return _SPmCoeffs[index];
+    }
+//    qDebug() << "BAD INDEX";
     SPmCoeffsStruct none = {0,0,0};
     return none;
 }

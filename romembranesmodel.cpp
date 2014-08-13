@@ -12,6 +12,7 @@ ROMembranesModel::ROMembranesModel(QObject *parent):
     QSqlQueryModel(parent) {
 
     _roleNames[IdRole] = "id";
+    _roleNames[SeriesIdRole] = "series_id";
     _roleNames[SeriesRole] = "series";
     _roleNames[ModelRole] = "model_";
     _roleNames[DiameterRole] = "diameter";
@@ -30,7 +31,8 @@ ROMembranesModel::ROMembranesModel(QObject *parent):
 #if QT_VERSION < 0x050000
     setRoleNames(_roleNames);
 #endif
-    setQuery("SELECT ROMembranes.id as id, ROMembranesSeries.series as series, model, diameter, length, area, productivity, rejection, "
+    setQuery("SELECT ROMembranes.id as id, ROMembranesSeries.id as series_id, ROMembranesSeries.series as series, "
+             "model, diameter, length, area, productivity, rejection, "
              "max_feed_pressure, max_pressure_drop, max_feed_rate, min_concentrate, "
              "ROMembranesTests.solution_short_name as test_solution_name, "
              "ROMembranesTests.solution_concentration as test_solution_concentration, "
@@ -49,7 +51,7 @@ ROMembranesModel::ROMembranesModel(QObject *parent):
 }
 
 QVariant ROMembranesModel::data( const QModelIndex & index, int role) const {
-    if (SeriesRole <= role && role <= TestRecoveryRole)
+    if (SeriesIdRole <= role && role <= TestRecoveryRole)
         return QSqlQueryModel::data(this->index(index.row(), role-IdRole));
 
     return QSqlQueryModel::data(index, role);
@@ -76,14 +78,16 @@ void ROMembranesModel::getMembraneData(ROMembrane*& membrane, int row) const {
 
     QSqlRecord membraneRecord = record(row);
     if (!membraneRecord.isEmpty()) {
-        membrane = new ROMembrane(membraneRecord.value("series").toString(), // Series
-                                  membraneRecord.value("model").toString(), // Model
-                                  ROMembraneSize(membraneRecord.value("diameter").toDouble(), // Diameter
-                                                 membraneRecord.value("length").toDouble()), // Length
-                                  membraneRecord.value("area").toDouble(), // Area
-                                  membraneRecord.value("productivity").toDouble(), // Productivity
-                                  membraneRecord.value("rejection").toDouble(), // Rejection
-                                  membraneRecord.value("test_pressure").toDouble()); // Pressure
+        membrane = new ROMembrane(
+                    membraneRecord.value("series_id").toInt()-1, // Series id
+                    membraneRecord.value("series").toString(), // Series
+                    membraneRecord.value("model").toString(), // Model
+                    ROMembraneSize(membraneRecord.value("diameter").toDouble(), // Diameter
+                                   membraneRecord.value("length").toDouble()), // Length
+                    membraneRecord.value("area").toDouble(), // Area
+                    membraneRecord.value("productivity").toDouble(), // Productivity
+                    membraneRecord.value("rejection").toDouble(), // Rejection
+                    membraneRecord.value("test_pressure").toDouble()); // Pressure
     }
 
 }

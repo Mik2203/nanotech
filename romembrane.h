@@ -20,7 +20,7 @@ class ROMembrane : public QObject {
     Q_PROPERTY(double pressure READ pressure CONSTANT)
 
 public:
-    explicit ROMembrane(const QString& series, const QString& model, const ROMembraneSize& membraneSize,
+    explicit ROMembrane(int seriesIndex, const QString& series, const QString& model, const ROMembraneSize& membraneSize,
                double activeArea, double productivity,
                double rejection, double pressure);
     ROMembrane(); // for QML
@@ -41,6 +41,7 @@ public:
     static double PhSPmMin(int series);
     static double aCoeff(int series);
 private:
+    int _seriesIndex;
     QString _series;
     QString _model;
     ROMembraneSize _membraneSize;

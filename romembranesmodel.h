@@ -19,6 +19,7 @@ public:
 
     enum MembraneRoles  {
         IdRole = Qt::UserRole + 1,
+        SeriesIdRole,
         SeriesRole,
         ModelRole,
         DiameterRole,
