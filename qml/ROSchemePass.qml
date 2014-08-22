@@ -15,8 +15,9 @@ Item {
     property int passIndex: sys.passIndex(pass)
     width: stages.width
     height: stages.height + pFlow.height
+    property bool passHasIncomingRecycles: __updatePassHasIncomingRecycles()
 
-    function __passHasIncomingRecycles() {
+    function __updatePassHasIncomingRecycles() {
         for (var pi=passIndex+1; pi<sys.passCount; ++pi) {
             if (sys.pass(pi).hasRecycle(passIndex))
                 return true;
@@ -25,15 +26,11 @@ Item {
     }
 
     Repeater {
-//        id: recycleObserver
         model: sys.passCount
 
         Connections {
             target: sys.pass(index)
-            onRecycleChanged: {
-                feedLabel.visible = __passHasIncomingRecycles()
-                feedStageLabel.visible = __passHasIncomingRecycles() || pass.hasSelfRecycle || pass.hasBlendPermeate
-            }
+            onRecycleChanged: passHasIncomingRecycles = __updatePassHasIncomingRecycles()
         }
     }
 
@@ -52,7 +49,7 @@ Item {
             ROWidgets.BorderText {  // feed to stages label
                 id: feedStageLabel
                 opacity: 0.85
-                visible: __passHasIncomingRecycles() || pass.hasSelfRecycle || pass.hasBlendPermeate
+                visible: passHasIncomingRecycles || pass.hasSelfRecycle || pass.hasBlendPermeate
                 anchors.right: parent.right
                 anchors.rightMargin: 15
                 anchors.bottom: parent.top
@@ -63,7 +60,7 @@ Item {
             ROWidgets.BorderText {  // feed label
                 id: feedLabel
                 opacity: 0.85
-                visible: __passHasIncomingRecycles()
+                visible: passHasIncomingRecycles
                 anchors.left: parent.left
                 anchors.leftMargin: 5
                 anchors.top: parent.top
@@ -112,6 +109,7 @@ Item {
         height: width
         onClicked: { pass.addStage(pass.stageCount); selectedPass = pass; selectedStage = pass.lastStage;  }
         visible: schemeContainer.editable && pass.stageCount < pass.MAX_STAGES_COUNT
+        tooltip: qsTr("Add stage")
     }
 
     Line { // SELF RECYCLE

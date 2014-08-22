@@ -23,12 +23,12 @@ Rectangle {
     width: 50
     height: 20
     color: editable ? "white" : "lightgrey"
-    radius: 2
+//    radius: 2
     border.width: 1
 
     border.color: {
         if (active) {
-            if (focused) return focusedBorderColor
+            if (input.activeFocus) return focusedBorderColor
             if (hovered) return hoveredBorderColor
             if (editable) return editableBorderColor
             else return notEditableBorderColor
@@ -37,8 +37,8 @@ Rectangle {
         }
     }
 
-    onValueChanged: if (value != undefined) _inputText = value
-    onInputChanged: { if (value != undefined && value != changedValue) _inputText = value }
+    onValueChanged: if (value !== undefined) _inputText = value
+    onInputChanged: { if (value !== undefined && value !== changedValue) _inputText = value }
 
     MouseArea {
         id: mouseArea
@@ -51,7 +51,7 @@ Rectangle {
         id: input
         selectByMouse: true
         clip: true
-        focus: container.activeFocus
+//        focus: container.activeFocus
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 3
@@ -59,19 +59,22 @@ Rectangle {
         readOnly: !editable
 
         onActiveFocusChanged: {
+//            console.log("active focus changed!", activeFocus, text);
             if (activeFocus) selectAll()
         }
 
         onCursorVisibleChanged: {
             if (!cursorVisible) {
-                if (value != text && editable) {
+                if (value !== text && editable) {
+//                    console.log("input changed!", text);
                     inputChanged(text)
                 }
             }
         }
 
         onAccepted: {
-            if (value != text && editable) {
+            if (value !== text && editable) {
+//                console.log("input changed!", text);
                 inputChanged(text)
             }
         }

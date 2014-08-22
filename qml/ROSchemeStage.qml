@@ -112,11 +112,13 @@ Item {
 
         MouseArea {
             anchors.fill: parent
+            focus: true
             enabled: schemeContainer.editable && selectedStage != stage
             onClicked: {
-                selectedPass = pass
-                selectedStage = stage
+                selectedPass = pass;
+                selectedStage = stage;
             }
+            onPressed: forceActiveFocus()
         }
 
         Line {

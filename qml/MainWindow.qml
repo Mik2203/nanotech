@@ -28,10 +28,7 @@ ROWidgets.ExternalWindow {
 
     property ROProject proj: app.projectManager.proj
     property ROCase case_: proj.firstCase
-    Connections { target: app.projectManager; onProjChanged: case_ = proj.firstCase }
-    Connections { target: proj; onCaseCountChanged: { if (proj.caseIndex(case_) == -1) case_ = proj.firstCase } }
     property ROProjectInfo projInfo: proj.info
-
     property ROSystem sys: case_.sys
     property ROSystemSolveScheduler sysSS: case_.sysSS
     property ROSystemSolver sysS: sysSS.solver
@@ -39,11 +36,18 @@ ROWidgets.ExternalWindow {
     property ROPass selectedPass: sys.firstPass
     property ROStage selectedStage: selectedPass.firstStage
 
+    // Обработчики изменений, которые необходимо отслеживать вручную
+    onSysChanged: selectedPass = sys.firstPass
+    Connections { target: app.projectManager; onProjChanged: case_ = proj.firstCase }
+    Connections { target: proj; onCaseCountChanged: { if (proj.caseIndex(case_) === -1) case_ = proj.firstCase } }
+    Connections { target: sys; onPassCountChanged: { if (sys.passIndex(selectedPass) === -1) selectedPass = sys.firstPass } } // undefined, reselect
+    Connections { target: selectedPass; onStageCountChanged: { if (selectedPass.stageIndex(selectedStage) === -1) selectedStage = selectedPass.firstStage } } // undefined, reselect
+
     onBeforeClosed: closeByUser = app.projectManager.maybeSave();
 
     Component.onCompleted: {
         if (app.showHelloMessage)
-            mainWindow.popupWindow(Qt.createComponent("HelloWindow.qml"), app.translator.emptyString + qsTr("Hello!"), mainWindow, mainWindow.width/2 - 200, mainWindow.height/2 - 150, true)
+            mainWindow.popupWindow(Qt.createComponent("HelloWindow.qml"), app.translator.emptyString + qsTr("Hello!"), mainWindow, undefined, undefined, true)
     }
 
 

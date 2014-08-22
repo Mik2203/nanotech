@@ -728,7 +728,7 @@ Item {
                 border.color: "grey"
                 border.width: 1
                 color: "white"
-                radius: 3
+//                radius: 3
                 anchors.fill: parent
                 anchors.topMargin: stageBar.height / 2
             }
