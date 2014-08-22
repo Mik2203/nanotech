@@ -54,7 +54,7 @@ bool ROProjectManager::saveProject() {
 }
 
 bool ROProjectManager::saveProjectAs() {
-    QString fileName = QFileDialog::getSaveFileName(0, tr("Save Project"), "",
+    QString fileName = QFileDialog::getSaveFileName(0, tr("Save Project"), "projects/",
                                                     tr("Nanotech Project Files (*.ntp)"));
     if (!fileName.isEmpty()) {
         _projFile.close();
