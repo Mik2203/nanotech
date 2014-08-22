@@ -25,7 +25,7 @@
         <translation>Центр технической поддержки</translation>
     </message>
     <message>
-        <location filename="qml/AboutWindow.qml" line="84"/>
+        <location filename="qml/AboutWindow.qml" line="80"/>
         <source>Show this message on start up</source>
         <translation>Показывать это сообщение при старте программы</translation>
     </message>
@@ -130,12 +130,12 @@
         <translation>Центр технической поддержки</translation>
     </message>
     <message>
-        <location filename="qml/HelloWindow.qml" line="101"/>
+        <location filename="qml/HelloWindow.qml" line="97"/>
         <source>Show this message on start up</source>
         <translation>Показывать это сообщение при старте программы</translation>
     </message>
     <message>
-        <location filename="qml/HelloWindow.qml" line="106"/>
+        <location filename="qml/HelloWindow.qml" line="102"/>
         <source>Continue</source>
         <translation>Продолжить</translation>
     </message>
@@ -143,7 +143,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="qml/MainWindow.qml" line="92"/>
+        <location filename="qml/MainWindow.qml" line="96"/>
         <source>Feedwater</source>
         <translation>Входная вода</translation>
     </message>
@@ -152,22 +152,22 @@
         <translation type="obsolete">Осадкообразование</translation>
     </message>
     <message>
-        <location filename="qml/MainWindow.qml" line="46"/>
+        <location filename="qml/MainWindow.qml" line="50"/>
         <source>Hello!</source>
         <translation>Здравствуйте!</translation>
     </message>
     <message>
-        <location filename="qml/MainWindow.qml" line="101"/>
+        <location filename="qml/MainWindow.qml" line="105"/>
         <source>System</source>
         <translation>Система</translation>
     </message>
     <message>
-        <location filename="qml/MainWindow.qml" line="110"/>
+        <location filename="qml/MainWindow.qml" line="114"/>
         <source>Results</source>
         <translation>Результаты</translation>
     </message>
     <message>
-        <location filename="qml/MainWindow.qml" line="125"/>
+        <location filename="qml/MainWindow.qml" line="129"/>
         <source>Costs</source>
         <translation>Затраты</translation>
     </message>
@@ -190,9 +190,8 @@
         <translation>Вычисление</translation>
     </message>
     <message>
-        <location filename="qml/MenuPanel/MenuPanel.qml" line="77"/>
         <source>Tolerance: %1</source>
-        <translation>Точность: %1</translation>
+        <translation type="obsolete">Точность: %1</translation>
     </message>
     <message>
         <location filename="qml/MenuPanel/MenuPanel.qml" line="153"/>
@@ -588,12 +587,12 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Ступень</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="28"/>
+        <location filename="qml/ROConfSystem.qml" line="25"/>
         <source>Element lifetime:</source>
         <translation>Срок службы элементов:</translation>
     </message>
     <message numerus="yes">
-        <location filename="qml/ROConfSystem.qml" line="54"/>
+        <location filename="qml/ROConfSystem.qml" line="51"/>
         <source>year(s)</source>
         <oldsource>years</oldsource>
         <translation>
@@ -603,22 +602,22 @@ Do you want to save your changes?</source>
         </translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="84"/>
+        <location filename="qml/ROConfSystem.qml" line="81"/>
         <source>Pass:</source>
         <translation>Ступень:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="113"/>
+        <location filename="qml/ROConfSystem.qml" line="110"/>
         <source>Generic schemes</source>
         <translation>Варианты схем</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="114"/>
+        <location filename="qml/ROConfSystem.qml" line="111"/>
         <source>Choose generic scheme</source>
         <translation>Выберите схему</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="118"/>
+        <location filename="qml/ROConfSystem.qml" line="115"/>
         <source>Reset scheme</source>
         <translation>Сбросить схему</translation>
     </message>
@@ -997,29 +996,75 @@ Cannot open database.
 <context>
     <name>ROGenericSchemesModel</name>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="68"/>
+        <location filename="rogenericschemesmodel.cpp" line="45"/>
         <source>Energetics</source>
         <translation>Энергетика</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="69"/>
+        <location filename="rogenericschemesmodel.cpp" line="46"/>
         <source>Medicine</source>
         <translation>Медицина</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="70"/>
+        <location filename="rogenericschemesmodel.cpp" line="47"/>
         <source>Electronics</source>
         <translation>Электроника</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="71"/>
+        <location filename="rogenericschemesmodel.cpp" line="48"/>
         <source>Beverages</source>
         <translation>Напитки</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="72"/>
+        <location filename="rogenericschemesmodel.cpp" line="49"/>
         <source>Desalination</source>
         <translation>Опреснение</translation>
+    </message>
+    <message>
+        <location filename="rogenericschemesmodel.cpp" line="92"/>
+        <source>M150-54</source>
+        <translation>М150-54</translation>
+    </message>
+    <message>
+        <location filename="rogenericschemesmodel.cpp" line="93"/>
+        <source>Energo-48</source>
+        <translation>Энерго-48</translation>
+    </message>
+    <message>
+        <location filename="rogenericschemesmodel.cpp" line="94"/>
+        <source>Energo-25</source>
+        <translation>Энерго-25</translation>
+    </message>
+    <message>
+        <location filename="rogenericschemesmodel.cpp" line="96"/>
+        <location filename="rogenericschemesmodel.cpp" line="97"/>
+        <source>Purified water %1 %2</source>
+        <translation>Очищенная вода %1 %2</translation>
+    </message>
+    <message>
+        <location filename="rogenericschemesmodel.cpp" line="99"/>
+        <source>Electronics-1</source>
+        <translation>Электроника-1</translation>
+    </message>
+    <message>
+        <location filename="rogenericschemesmodel.cpp" line="101"/>
+        <source>Food industry</source>
+        <translation>Пищевая промышленность</translation>
+    </message>
+    <message>
+        <location filename="rogenericschemesmodel.cpp" line="102"/>
+        <source>Softening</source>
+        <translation>Умягчение</translation>
+    </message>
+    <message>
+        <location filename="rogenericschemesmodel.cpp" line="104"/>
+        <source>Seawater</source>
+        <translation>Морская вода</translation>
+    </message>
+    <message>
+        <location filename="rogenericschemesmodel.cpp" line="105"/>
+        <source>Caspian sea</source>
+        <translation>Каспийское море</translation>
     </message>
 </context>
 <context>
@@ -1187,22 +1232,27 @@ Cannot open database.
         <translation type="obsolete">Заметки</translation>
     </message>
     <message>
-        <location filename="qml/ROProjectInfoWindow.qml" line="28"/>
+        <location filename="qml/ROProjectInfoWindow.qml" line="23"/>
+        <source>Project info</source>
+        <translation>Информация о проекте</translation>
+    </message>
+    <message>
+        <location filename="qml/ROProjectInfoWindow.qml" line="35"/>
         <source>Name: </source>
         <translation>Имя: </translation>
     </message>
     <message>
-        <location filename="qml/ROProjectInfoWindow.qml" line="54"/>
+        <location filename="qml/ROProjectInfoWindow.qml" line="61"/>
         <source>Author: </source>
         <translation>Автор: </translation>
     </message>
     <message>
-        <location filename="qml/ROProjectInfoWindow.qml" line="80"/>
+        <location filename="qml/ROProjectInfoWindow.qml" line="87"/>
         <source>Company: </source>
         <translation>Компания: </translation>
     </message>
     <message>
-        <location filename="qml/ROProjectInfoWindow.qml" line="107"/>
+        <location filename="qml/ROProjectInfoWindow.qml" line="115"/>
         <source>Notes: </source>
         <translation>Заметки: </translation>
     </message>
@@ -2111,51 +2161,52 @@ Do you want to save your changes?</source>
 <context>
     <name>ROSchemePass</name>
     <message>
+        <location filename="qml/ROSchemePass.qml" line="112"/>
         <source>Add stage</source>
-        <translation type="obsolete">Добавить стадию</translation>
+        <translation>Добавить стадию</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="71"/>
+        <location filename="qml/ROSchemePass.qml" line="68"/>
         <source>F%1</source>
         <translation>И%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="101"/>
+        <location filename="qml/ROSchemePass.qml" line="98"/>
         <source>P%1</source>
         <translation>Ф%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="106"/>
+        <location filename="qml/ROSchemePass.qml" line="103"/>
         <source>+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="138"/>
+        <location filename="qml/ROSchemePass.qml" line="136"/>
         <source>SR%1</source>
         <translation>СР%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="147"/>
+        <location filename="qml/ROSchemePass.qml" line="145"/>
         <source>SC%1</source>
         <translation>КС%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="170"/>
+        <location filename="qml/ROSchemePass.qml" line="168"/>
         <source>B%1</source>
         <translation>П%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="179"/>
+        <location filename="qml/ROSchemePass.qml" line="177"/>
         <source>SP%1</source>
         <translation>ФС%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="60"/>
+        <location filename="qml/ROSchemePass.qml" line="57"/>
         <source>SF%1</source>
         <translation>ИС%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="210"/>
+        <location filename="qml/ROSchemePass.qml" line="208"/>
         <source>R%1-%2</source>
         <translation>Р%1-%2</translation>
     </message>
@@ -2163,8 +2214,9 @@ Do you want to save your changes?</source>
 <context>
     <name>ROSchemeSystem</name>
     <message>
+        <location filename="qml/ROSchemeSystem.qml" line="99"/>
         <source>Add pass</source>
-        <translation type="obsolete">Добавить ступень</translation>
+        <translation>Добавить ступень</translation>
     </message>
     <message>
         <location filename="qml/ROSchemeSystem.qml" line="90"/>

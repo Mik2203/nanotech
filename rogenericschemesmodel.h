@@ -18,8 +18,16 @@ class ROGenericSchemesModel : public QAbstractListModel {
     Q_PROPERTY(int count READ count CONSTANT)
 public:
     explicit ROGenericSchemesModel(QObject *parent = 0);
+    enum SchemeGroup {
+        EnergeticsGroup,
+        MedicineGroup,
+        ElectronicsGroup,
+        BeveragesGroup,
+        DesalinationGroup,
+        SCHEME_GROUP_COUNT
+    };
 
-    enum MembraneRoles  {
+    enum MembraneRole  {
         GroupRole = Qt::UserRole + 1,
         SchemesRole
     };
@@ -31,23 +39,13 @@ public:
     int count() const { return rowCount(); }
     QHash<int, QByteArray> roleNames() const;
     
-signals:
-    
-public slots:
-
 private:
-    struct DataRecord {
-        explicit DataRecord(int groupIndex_, const QStringList& schemes_, const QStringList& filePaths_):
-            groupIndex(groupIndex_), schemes(schemes_), filePaths(filePaths_) {}
-        int groupIndex;
-        QStringList schemes;
-        QStringList filePaths;
-    };
+    QStringList schemeNames(SchemeGroup group) const;
 
-    QList<DataRecord> _data;
     QHash<int, QByteArray> _roleNames;
 
     static const char * _groupNames[];
+    static const QVector<QStringList> _filePaths;
     
 };
 

@@ -51,7 +51,7 @@ ROMembranesModel::ROMembranesModel(QObject *parent):
 }
 
 QVariant ROMembranesModel::data( const QModelIndex & index, int role) const {
-    if (SeriesIdRole <= role && role <= TestRecoveryRole)
+    if (IdRole <= role && role <= TestRecoveryRole)
         return QSqlQueryModel::data(this->index(index.row(), role-IdRole));
 
     return QSqlQueryModel::data(index, role);

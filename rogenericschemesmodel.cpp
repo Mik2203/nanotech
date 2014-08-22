@@ -1,8 +1,35 @@
 #include "rogenericschemesmodel.h"
 
+#ifdef QT_DEBUG
 #include <QDebug>
+#endif
+
 #include <QFile>
 #include "roxmlprojectserializer.h"
+#include "rounits.h"
+#include "rounitstext.h"
+
+
+const QVector<QStringList> ROGenericSchemesModel::_filePaths =
+        QVector<QStringList>() << (QStringList() <<  // Energetics
+                                   ":/generic_schemes/energo/m150-54.ntp" <<
+                                   ":/generic_schemes/energo/energo-48.ntp" <<
+                                   ":/generic_schemes/energo/energo-25.ntp") <<
+
+                                  (QStringList() <<  // Medicine
+                                   ":/generic_schemes/medicine/purified_water-0.5.ntp" <<
+                                   ":/generic_schemes/medicine/purified_water-0.25.ntp") <<
+
+                                  (QStringList() <<  // Electronics
+                                   ":/generic_schemes/electronics/electronics-1.ntp") <<
+
+                                  (QStringList() <<  // Beverages
+                                   ":/generic_schemes/beverages/food_processing.ntp" <<
+                                   ":/generic_schemes/beverages/softening.ntp") <<
+
+                                  (QStringList() <<  // Desalination
+                                   ":/generic_schemes/desalination/seawater.ntp" <<
+                                   ":/generic_schemes/desalination/caspian.ntp");
 
 
 ROGenericSchemesModel::ROGenericSchemesModel(QObject *parent) :
@@ -12,56 +39,6 @@ ROGenericSchemesModel::ROGenericSchemesModel(QObject *parent) :
 #if QT_VERSION < 0x050000
     setRoleNames(_roleNames);
 #endif
-
-    if (_data.count() == 0) { // STATIC INITIALIZER
-
-        QStringList schemes;
-        QStringList filePaths;
-
-        // ENERGO
-        schemes << QString::fromUtf8("M150-54")
-                << QString::fromUtf8("Энерго-48")
-                << QString::fromUtf8("Энерго-25");
-
-        filePaths << ":/generic_schemes/energo/m150-54.ntp"
-                  << ":/generic_schemes/energo/energo-48.ntp"
-                  << ":/generic_schemes/energo/energo-25.ntp";
-        _data << DataRecord(0, schemes, filePaths);
-
-        schemes.clear(); filePaths.clear();
-
-        // Medicine
-        schemes << QString::fromUtf8("Вода очищенная 0.5 м3/ч")
-                << QString::fromUtf8("Вода очищенная.0.25 м3/ч");
-        filePaths << ":/generic_schemes/medicine/purified_water-0.5.ntp"
-                  << ":/generic_schemes/medicine/purified_water-0.25.ntp";
-        _data << DataRecord(1, schemes, filePaths);
-
-        schemes.clear(); filePaths.clear();
-
-        // Electronics
-        schemes << QString::fromUtf8("Электроника-1");
-        filePaths << ":/generic_schemes/electronics/electronics-1.ntp";
-        _data << DataRecord(2, schemes, filePaths);
-
-        schemes.clear(); filePaths.clear();
-
-        // Beverages
-        schemes << QString::fromUtf8("Пищевая промышленность")
-                << QString::fromUtf8("Умягчение");
-        filePaths << ":/generic_schemes/beverages/food_processing.ntp"
-                  << ":/generic_schemes/beverages/softening.ntp";
-        _data << DataRecord(3, schemes, filePaths);
-
-        schemes.clear(); filePaths.clear();
-
-        // Desalination
-        schemes << QString::fromUtf8("Морская вода")
-                << QString::fromUtf8("Каспийское море");
-        filePaths << ":/generic_schemes/desalination/seawater.ntp"
-                  << ":/generic_schemes/desalination/caspian.ntp";
-        _data << DataRecord(4, schemes, filePaths);
-    }
 }
 
 const char * ROGenericSchemesModel::_groupNames[] = {
@@ -73,17 +50,17 @@ const char * ROGenericSchemesModel::_groupNames[] = {
 };
 
 QVariant ROGenericSchemesModel::data(const QModelIndex &index, int role) const {
-    int row = qBound(0, index.row(), _data.count()-1);
+    SchemeGroup group = static_cast<SchemeGroup>(qBound(0, index.row(), static_cast<int>(SCHEME_GROUP_COUNT)));
     switch(role) {
-    case GroupRole: return tr(_groupNames[_data[row].groupIndex]);
-    case SchemesRole: return _data[row].schemes;
+    case GroupRole: return tr(_groupNames[group]);
+    case SchemesRole: return schemeNames(group);
     }
     return QVariant();
 }
 
 QStringList ROGenericSchemesModel::schemesByIndex(int index) const {
-    int row = qBound(0, index, _data.count()-1);
-    return _data[row].schemes;
+    SchemeGroup group = static_cast<SchemeGroup>(qBound(0, index, static_cast<int>(SCHEME_GROUP_COUNT)));
+    return schemeNames(group);
 }
 
 void ROGenericSchemesModel::loadScheme(ROCase* case_, int groupIndex, int schemeIndex) {
@@ -92,19 +69,40 @@ void ROGenericSchemesModel::loadScheme(ROCase* case_, int groupIndex, int scheme
     // TODO CHECK!!!
 
     // TODO in PROJECT SERIALIZER - LOAD ONLY SYSTEM!!!
-    schemeFile.setFileName(_data[groupIndex].filePaths[schemeIndex]);
+    schemeFile.setFileName(_filePaths[groupIndex][schemeIndex]);
     schemeFile.open(QFile::ReadOnly);
     ROXMLProjectSerializer ps;
     ROProject* loadProj = new ROProject();
     ps.deserialize(loadProj, QTextStream(&schemeFile));
-    case_->sys()->resetSystem();
-    case_->sys()->copySystemDataFrom(loadProj->firstCase()->sys());
-    case_->sysC()->copyDataFrom(loadProj->firstCase()->sysC());
+    case_->reset();
+    case_->copyDataFrom(loadProj->firstCase());
 
     delete loadProj;
     schemeFile.close();
 }
 
-int ROGenericSchemesModel::rowCount(const QModelIndex &parent) const { Q_UNUSED(parent); return _data.count(); }
+int ROGenericSchemesModel::rowCount(const QModelIndex &parent) const { Q_UNUSED(parent); return SCHEME_GROUP_COUNT; }
 
 QHash<int, QByteArray> ROGenericSchemesModel::roleNames() const { return _roleNames; }
+
+QStringList ROGenericSchemesModel::schemeNames(ROGenericSchemesModel::SchemeGroup group) const
+{
+    switch (group) {
+    case EnergeticsGroup:
+        return QStringList() << tr("M150-54") <<
+                                tr("Energo-48") <<
+                                tr("Energo-25");
+    case MedicineGroup:
+        return QStringList() << tr("Purified water %1 %2").arg(ROUnits::convertFlowUnits(0.5)).arg(roUnitsText->flowUnitText(roUnits->flowUnits())) <<
+                                tr("Purified water %1 %2").arg(ROUnits::convertFlowUnits(0.25)).arg(roUnitsText->flowUnitText(roUnits->flowUnits()));
+    case ElectronicsGroup:
+        return QStringList() << tr("Electronics-1");
+    case BeveragesGroup:
+        return QStringList() << tr("Food industry") <<
+                                tr("Softening");
+    case DesalinationGroup:
+        return QStringList() << tr("Seawater") <<
+                                tr("Caspian sea");
+    }
+    return QStringList();
+}
