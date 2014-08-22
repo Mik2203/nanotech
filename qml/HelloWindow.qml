@@ -75,11 +75,7 @@ Column {
             id: infoCol
             anchors.right: parent.right
             Text {
-                text: "+7(4922)475-465"
-                anchors.right: parent.right
-            }
-            Text {
-                text: "+7(4922)475-479"
+                text: "+7(4922)474-001"
                 anchors.right: parent.right
             }
             Text {
