@@ -5,7 +5,7 @@ Rectangle {
     property int verticalMargin: 3
     property int horizontalMargin: 3
 
-    radius: 4
+//    radius: 4
     border.color: "lightgrey"
     border.width: 1
     width: label.width + horizontalMargin * 2

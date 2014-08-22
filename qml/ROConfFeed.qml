@@ -198,7 +198,7 @@ Item {
             width: 50
             active: editable
 
-            onClicked: mainWindow.popupWindow(Qt.createComponent("ROSolutesTreeView.qml"), app.translator.emptyString + qsTr("Choose water"), mainWindow, mainWindow.width/2 - 200, mainWindow.height/2 - 150)
+            onClicked: mainWindow.popupWindow(Qt.createComponent("ROSolutesTreeView.qml"), app.translator.emptyString + qsTr("Choose water"), mainWindow, undefined, undefined, true)
 
         }
     }

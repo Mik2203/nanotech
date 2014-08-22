@@ -12,7 +12,7 @@ Rectangle {
     width: 50
     height: 20
     color: editable ? "white" : "lightgrey"
-    radius: 2
+//    radius: 2
     border.color: getBorderColor()
     border.width: 1
 

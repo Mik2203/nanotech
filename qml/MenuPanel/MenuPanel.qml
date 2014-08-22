@@ -33,62 +33,18 @@ Item {
 
     }
 
-
-//    ROWidgets.DoubleInput {
-//        anchors.right: calculateButton.left
-//        anchors.rightMargin: 5
-//        onInputChanged: sysS.setQp0AndCalc(0, changedValue)
-//    }
-
     ROWidgets.Button {
         id: calculateButton
         text: sysSS.calculating ? app.translator.emptyString + qsTr("Calculating") : app.translator.emptyString + qsTr("Calculate")
-        anchors.right: toleranceCoeff.left
-        anchors.rightMargin: 5
-        width: 100
-        height: 30
+        anchors.right: unitsGrid.left
+        width: 150
+        height: unitsGrid.height
         textFont.bold: true
         textFont.pixelSize: 16
         anchors.verticalCenter: parent.verticalCenter
         onClicked: sysSS.startSolving();
         active: ((!sysSS.calculated && !sysSS.calculating && !sysC.hasAnyCriticalWarnings) || (sysSS.calculated && sysSS.needUpdate))
 
-    }
-
-
-//    ROWidgets.DoubleInput {
-//        id: toleranceCoeff
-//        fixedPrecision: 4
-//        anchors.right: unitsLabel.left
-//        anchors.rightMargin: 10
-//        anchors.verticalCenter: parent.verticalCenter
-//        horizontalAlignment: TextInput.AlignRight
-//        height: 20
-//        width: 50
-//        value: sysS.tolerance
-//        onInputChanged: sysS.tolerance = changedValue
-//    }
-
-    ROWidgets.Slider {
-        id: toleranceCoeff
-        min: 0.01
-        max: 0.5
-        init: sysS.tolerance.toFixed(2)
-        tooltip: app.translator.emptyString + qsTr("Tolerance: %1").arg(value.toFixed(2))
-        anchors.right: unitsLabel.left
-        anchors.rightMargin: 5
-        anchors.verticalCenter: parent.verticalCenter
-        height: 20
-        width: 90
-        onValueChanged: sysS.tolerance = value.toFixed(2)
-    }
-
-    Text {
-        id: unitsLabel
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: unitsGrid.left
-//        text: app.translator.emptyString + qsTr("Units: ")
-        font.bold: true
     }
 
     UnitsGrid {
@@ -150,7 +106,7 @@ Item {
         }
 
         onClicked: {
-            mainWindow.popupWindow(Qt.createComponent("../AboutWindow.qml"), app.translator.emptyString + qsTr("About"), mainWindow, mainWindow.width/2 - 200, mainWindow.height/2 - 150, true)
+            mainWindow.popupWindow(Qt.createComponent("../AboutWindow.qml"), app.translator.emptyString + qsTr("About"), mainWindow, undefined, undefined, true)
         }
 
         tooltip: app.translator.emptyString + qsTr("About")

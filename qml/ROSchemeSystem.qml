@@ -91,11 +91,12 @@ Item {
                         anchors.top: parent.bottom
                         anchors.topMargin: 5
                         anchors.left: parent.left
-                        anchors.leftMargin: elWidth - width / 2
+                        anchors.leftMargin: -(width - linkThickness) /2
                         width: 18
                         height: width
                         onClicked: { sys.addPass(index+1); selectedPass = sys.pass(index+1) }
                         visible: schemeContainer.editable && index == sys.passCount-1 && sys.passCount < sys.MAX_PASSES_COUNT
+                        tooltip: qsTr("Add pass")
                     }
                 }
             }

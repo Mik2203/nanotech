@@ -21,7 +21,7 @@ Item {
 
     Row {
         id: mainRow
-        spacing: 2
+//        spacing: 2
         anchors.verticalCenter: parent.verticalCenter
 
         Rectangle {
@@ -46,7 +46,7 @@ Item {
                 id: elementButton
 
                 height: 20
-                radius: 4
+//                radius: 4
                 width: toggled ? 50 : 40
                 border.color: "lightgrey"
 
@@ -113,7 +113,8 @@ Item {
             id: newButton
             height: 20
             width: 40
-            radius: 4
+//            radius: 4
+//            anchors.leftMargin: 5
             border.color: "lightgrey"
             visible: /*container.deletable &&*/ elementsCount < elementsCountMax
             text: "+"

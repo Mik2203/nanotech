@@ -8,7 +8,7 @@ Rectangle {
     color: index == listView.currentIndex ? "lightblue" : "white"
     border.width: 1
     border.color: "grey"
-    radius: 2
+//    radius: 2
 
     property alias text: label.text
     property alias textFont: label.font

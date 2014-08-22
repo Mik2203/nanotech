@@ -150,7 +150,7 @@ Item {
                 id: expandAllButton
                 width: height;
                 height: rowHeight;
-                radius: 0
+//                radius: 0
                 onClicked: setAllExpanded(true)
 
                 Image {

@@ -5,7 +5,7 @@ Rectangle { // BORDER
     border.width: 1
     color: "transparent"
     property string headerLabel
-    radius: 3
+//    radius: 3
 
     Rectangle {
         anchors.verticalCenter: parent.top

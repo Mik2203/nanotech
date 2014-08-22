@@ -19,7 +19,7 @@ Item {
         color: "lightgrey"
         border.color: "grey"
         border.width: 1
-        radius: 2
+//        radius: 2
         smooth: true
         width: orientation == Qt.Horizontal ? scrollbar.width
                                             : internal.containsMouse || internal.pressed ? barExpandWidth : barCompactWidth
@@ -70,7 +70,7 @@ Item {
         Rectangle {
             id: sliderBar
             color: "grey"
-            radius: 2
+//            radius: 2
             smooth: true
             width: orientation == Qt.Horizontal ? scrollbar.width*scrollbar.width / (scrollbar.width + scrollbar.maximumValue)
                                                 : internal.containsMouse || internal.pressed ? barExpandWidth : barCompactWidth

@@ -3,7 +3,7 @@ import QtQuick 1.1
 
 Item {
     id: iwnd
-    width: 400//windowStack.width
+    width: 600//windowStack.width
     height: 300//windowStack.height
     clip: true
 
@@ -19,7 +19,7 @@ Item {
         id: border
         anchors.fill: parent
         anchors.margins: 1
-        radius: 4
+//        radius: 4
         border.color: "grey"
     }
 

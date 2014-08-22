@@ -6,4 +6,5 @@ Text {
     width: 80
     clip: true
     elide: Text.ElideRight
+    color: stage.membraneId === model.id ? "white" : "black"
 }

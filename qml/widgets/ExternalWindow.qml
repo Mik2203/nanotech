@@ -23,6 +23,8 @@ Window {
     function popup(component, offsetSourceItem, x, y) {
         if (popupField.popupComponent && popupType != "none") return
         popupField.popupComponent = component
+        if (x === undefined) x = (offsetSourceItem.width - popupField.popupItem.width) / 2
+        if (y === undefined) y = (offsetSourceItem.height - popupField.popupItem.height) / 2
         var mapper = offsetSourceItem.mapToItem(popupField, x, y);
         // set pos with align if outside of window
         popupField.popupItem.x = Math.max(Math.min(mapper.x, width - popupField.popupItem.width), 0)

@@ -3,25 +3,32 @@ import QtQuick 1.1
 import "widgets" as ROWidgets
 
 Rectangle {
-    id: container
     width: 300
-    height: 150
-    color: "white"
+    height: layout.height + layout.anchors.topMargin + layout.anchors.bottomMargin
     border.color: "lightgray"
-    radius: 4
+    color: "white"
+
     property real rowHeight: 20
     property real paramNameWidth: 80
 
-    Item {
-        id: internalArea
+    Column {
+        id: layout
         anchors.margins: 4
-        anchors.fill: parent
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        spacing: 5
+
+        Text {
+            text: qsTr("Project info")
+            font.bold: true
+        }
 
         Item {
             id: nameEditorRow
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: parent.top
+            //            anchors.top: parent.top
             height: rowHeight
 
             Text {
@@ -46,8 +53,8 @@ Rectangle {
             id: authorEditorRow
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: nameEditorRow.bottom
-            anchors.topMargin: 5
+            //            anchors.top: nameEditorRow.bottom
+            //            anchors.topMargin: 5
             height: rowHeight
 
             Text {
@@ -72,8 +79,8 @@ Rectangle {
             id: companyEditorRow
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: authorEditorRow.bottom
-            anchors.topMargin: 5
+            //            anchors.top: authorEditorRow.bottom
+            //            anchors.topMargin: 5
             height: rowHeight
 
             Text {
@@ -98,10 +105,11 @@ Rectangle {
             id: notesEditorRow
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: companyEditorRow.bottom
-            anchors.topMargin: 5
-            anchors.bottom: parent.bottom
+            //            anchors.top: companyEditorRow.bottom
+            //            anchors.topMargin: 5
+            //            anchors.bottom: parent.bottom
             //height: rowHeight
+            height: 4 * rowHeight // TODO columnlayout
 
             Text {
                 text: app.translator.emptyString + qsTr("Notes: ")
@@ -125,5 +133,7 @@ Rectangle {
         }
     }
 
+
+    //}
 
 }

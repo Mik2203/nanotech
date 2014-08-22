@@ -7,9 +7,6 @@ Rectangle {
         anchors.fill: parent
         frame: false
 
-        Connections { target: mainWindow; onSysChanged: selectedPass = sys.firstPass }
-        Connections { target: sys; onPassCountChanged: { if (sys.passIndex(selectedPass) == -1) selectedPass = sys.firstPass } } // pass is undefined, so reselect
-
 
         Row {
             spacing: 50
@@ -69,7 +66,7 @@ Rectangle {
                         border.color: "grey"
                         border.width: 1
                         color: "white"
-                        radius: 3
+//                        radius: 3
                         anchors.fill: parent
                         anchors.topMargin: passBar.height / 2
                     }
@@ -111,7 +108,7 @@ Rectangle {
 
                     ROWidgets.Button {
                         text: app.translator.emptyString + qsTr("Generic schemes")
-                        onClicked: mainWindow.popupWindow(Qt.createComponent("ROGenericSchemesTreeView.qml"), app.translator.emptyString + qsTr("Choose generic scheme"), mainWindow, mainWindow.width/2 - 200, mainWindow.height/2 - 150)
+                        onClicked: mainWindow.popupWindow(Qt.createComponent("ROGenericSchemesTreeView.qml"), app.translator.emptyString + qsTr("Choose generic scheme"), mainWindow, undefined, undefined, true)
                     }
 
                     ROWidgets.Button {

@@ -73,7 +73,7 @@ Item {
                 textHorizontalAlignment: (img.status == Image.Ready) ? Qt.AlignRight : Qt.AlignHCenter
                 textRightMargin: (img.status == Image.Ready) ? 5 : 0
                 width: textWidth + 20 + (img.status == Image.Ready ? img.width - 5 : 0)
-                radius: 0
+//                radius: 0
 
                 Image {
                     id: img

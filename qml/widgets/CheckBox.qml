@@ -12,7 +12,7 @@ Rectangle {
     border.color: mouseArea.containsMouse ? "grey" : "lightgrey"
     border.width: 3
     property color checkedColor: "#015287"
-    radius: 2
+//    radius: 2
 
 
 

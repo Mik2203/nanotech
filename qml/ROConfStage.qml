@@ -31,7 +31,7 @@ Item {
 
             ROWidgets.TextInput {
                 anchors.right: parent.right
-                anchors.rightMargin: 5 + 30 + parent.height-3
+                anchors.rightMargin: 5 + 30
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
                 validator: IntValidator {}
@@ -58,7 +58,7 @@ Item {
 
             ROWidgets.TextInput {
                 anchors.right: parent.right
-                anchors.rightMargin: 5 + 30 + parent.height-3
+                anchors.rightMargin: 5 + 30
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
                 validator: IntValidator {}
@@ -87,7 +87,7 @@ Item {
 
             Text {
                 anchors.right: parent.right
-                anchors.rightMargin: 5 + 30 + parent.height-3
+                anchors.rightMargin: 5 + 30
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
                 font.italic: true
@@ -122,7 +122,7 @@ Item {
             Text {
                 id: stagePreStagePressureUnits
                 anchors.right: parent.right
-                anchors.rightMargin: parent.height-3
+//                anchors.rightMargin: parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 text: app.translator.emptyString + unitsText.pressureUnitText(app.units.pressureUnits)
                 font.italic: true
@@ -159,7 +159,7 @@ Item {
             Text {
                 id: stageBackPressureUnits
                 anchors.right: parent.right
-                anchors.rightMargin: parent.height-3
+//                anchors.rightMargin: parent.height-3
                 anchors.verticalCenter: parent.verticalCenter
                 text: app.translator.emptyString + unitsText.pressureUnitText(app.units.pressureUnits)
                 font.italic: true
@@ -217,7 +217,7 @@ Item {
                 text: "..."
 
                 // TODO
-                onClicked: mainWindow.popupWindow(membraneModelContainer, app.translator.emptyString + qsTr("Choose membrane element") ,mainWindow, mainWindow.width/2 - 200, mainWindow.height/2 - 150)
+                onClicked: mainWindow.popupWindow(membraneModelContainer, app.translator.emptyString + qsTr("Choose membrane element"), mainWindow, undefined, undefined, true)
 
                 Component {
                     id: membraneModelContainer

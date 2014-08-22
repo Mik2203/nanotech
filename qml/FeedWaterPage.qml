@@ -111,7 +111,7 @@ Rectangle {
             width: feedConf.width + 20
             x: feedBar.x-10
             z: -1
-            radius: 3
+//            radius: 3
         }
 
         FeedBar {

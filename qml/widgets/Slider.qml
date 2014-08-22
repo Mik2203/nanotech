@@ -27,19 +27,19 @@ Item {
             anchors.left: parent.left
             anchors.right: bar.horizontalCenter
             color: "#caebff"
-            radius: 3
+//            radius: 3
         }
         Rectangle {
             height: parent.height
             anchors.left: bar.horizontalCenter
             anchors.right: parent.right
             color: "lightgrey"
-            radius: 3
+//            radius: 3
         }
         Rectangle {
             anchors.fill: parent
             color: "transparent"
-            radius: 3
+//            radius: 3
             border.width: 1
             border.color: "grey"
         }
@@ -50,7 +50,7 @@ Item {
             smooth: true
             width: 15
             height: 15
-            radius: 15
+//            radius: 15
 
             property color enabledColor: "white"
             property color disabledColor: "lightgrey"

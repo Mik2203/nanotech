@@ -55,18 +55,18 @@ Item {
                         ROWidgets.DoubleInput {
                             id: partEditor
                             height: 20
-                            radius: 4
+//                            radius: 4
                             width: parent.width
                             horizontalAlignment: TextInput.AlignHCenter
-                            value: sys.partFeed(index).part
-                            onInputChanged: sys.partFeed(index).part = changedValue
+                            value: sys.partFeed(index).part * 100
+                            onInputChanged: sys.partFeed(index).part = changedValue / 100.0
                         }
 
                         ROWidgets.Button {
                             id: feedButton
 
                             height: 20
-                            radius: 4
+//                            radius: 4
                             width: parent.width
                             border.color: "lightgrey"
 
@@ -186,7 +186,7 @@ Item {
                 height: 20
                 width: elementsRow.width
                 toggled: selectedIndex == -1
-                radius: 4
+//                radius: 4
                 border.color: "lightgrey"
                 text: app.translator.emptyString + qsTr("Total")
                 enabledTextColor: "grey"
@@ -253,7 +253,7 @@ Item {
                 height: 20
                 width: elementsRow.width
                 toggled: selectedIndex == -2
-                radius: 4
+//                radius: 4
                 border.color: "lightgrey"
                 text: app.translator.emptyString + qsTr("Adj")
                 enabledTextColor: "grey"
@@ -333,7 +333,7 @@ Item {
                 id: newButton
                 height: 20
                 width: 40
-                radius: 4
+//                radius: 4
                 border.color: "lightgrey"
                 visible: elementsCount < elementsCountMax
                 text: "+"

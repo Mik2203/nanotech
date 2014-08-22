@@ -54,6 +54,9 @@ ROWidgets.SimpleListView {
             ROMembraneParametersCell { text: app.units.convertPressureUnits(model.test_pressure, ROUnits.DEFAULT_PRESSURE_UNITS, app.units.pressureUnits).toFixed(2); width: 70 }
             ROMembraneParametersCell { text: model.test_recovery * 100; width: 70 }
         }
+
+        color: stage.membraneId === model.id ? "#018CD1" :
+                                               (index === listView.currentIndex ? "#caebff" : "white")
     }
 }
 //}

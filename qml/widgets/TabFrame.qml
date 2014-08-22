@@ -51,7 +51,7 @@ Item {
         border.color: "grey"
         border.width: frameWidth
         color: "transparent"
-        radius: 4
+//        radius: 4
 
 
         Item {

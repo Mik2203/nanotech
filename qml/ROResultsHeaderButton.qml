@@ -9,7 +9,7 @@ ROWidgets.Button {
     height: rowHeight;
     togglable: true
     textHorizontalAlignment: Text.AlignHCenter
-    radius: 0
+//    radius: 0
 
     Image {
         id: dropdownIcon

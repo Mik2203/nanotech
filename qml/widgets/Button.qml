@@ -50,7 +50,7 @@ Rectangle {
     width: label.paintedWidth + 20
 
     border.width: 1
-    radius: 4
+//    radius: 4
     //smooth: true
     focus:true
 
