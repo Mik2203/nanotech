@@ -287,7 +287,10 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                                     if (!readElement()) return;
                                     if (_curElementType == TextElement) {
                                         double blendPermeate = _curText.toDouble(&convertSuccess);
-                                        if (convertSuccess) pass->setBlendPermeate(blendPermeate);
+                                        if (convertSuccess) {
+                                            pass->setBlendPermeate(blendPermeate);
+                                            sys->setHasBlendPermeate(true);
+                                        }
                                         if (!readElement()) return;
                                     }
                                     if (_curElementType != EndElement || _curText != "blendPermeate") return;

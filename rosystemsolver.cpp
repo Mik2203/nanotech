@@ -338,7 +338,7 @@ bool ROSystemSolver::init() {
     for (int pi=0; pi < _sys->passCount(); ++pi) {
         const ROPass* const pass = _sys->pass(pi);
 
-        pQsr[pi] = pass->selfRecycle();
+        pQsr[pi] = pass->hasSelfRecycle() ? pass->selfRecycle() : 0.0;
         pQr(pi) = 0.0;
         Q_FOREACH(const double& r, pass->incomingRecycles()) pQr[pi] += r;
         pQp(pi) = pass->permeate()->rate();
@@ -346,7 +346,7 @@ bool ROSystemSolver::init() {
         pQf[pi] = pQf_user - pQr(pi);
         pFF[pi] = pass->flowFactor();
         pSPI[pi] = pow(1.0 + pass->saltPassageYearIncrease(), _sys->elementLifetime());
-        pQb[pi] = pass->blendPermeate();
+        pQb[pi] = pass->hasBlendPermeate() ? pass->blendPermeate() : 0.0;
         pQfr[pi] = pQf_user - pQb[pi];
         pQfb[pi] = pQf[pi] - pQb[pi];
         e1vQf[pi] = (pQfr[pi] + pQsr[pi]); // / pass->firstStage()->vesselCount(); // TODO nano ne nado delit' - ne pomnu

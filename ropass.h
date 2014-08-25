@@ -45,7 +45,7 @@ class ROPass : public ROAbstractElement {
 
     // FLOWS
     Q_PROPERTY(ROFlow* feed READ feed WRITE setFeed NOTIFY feedChanged)
-    Q_PROPERTY(ROFlow* blendedRecycledFeed READ blendedRecycledFeed CONSTANT)
+//    Q_PROPERTY(ROFlow* blendedRecycledFeed READ blendedRecycledFeed CONSTANT)
     Q_PROPERTY(ROFlow* firstStageFeed READ firstStageFeed CONSTANT)
     Q_PROPERTY(ROFlow* permeate READ permeate CONSTANT)
     Q_PROPERTY(ROFlow* totalStagesPermeate READ totalStagesPermeate CONSTANT)
@@ -54,7 +54,7 @@ class ROPass : public ROAbstractElement {
 
     // RECYCLE
     Q_PROPERTY(double selfRecycle READ selfRecycle WRITE setSelfRecycle NOTIFY selfRecycleChanged)
-    Q_PROPERTY(bool hasSelfRecycle READ hasSelfRecycle NOTIFY hasSelfRecycleChanged)
+    Q_PROPERTY(bool hasSelfRecycle READ hasSelfRecycle WRITE setHasSelfRecycle NOTIFY hasSelfRecycleChanged)
 
     // BLEND PERMEATE
     Q_PROPERTY(double blendPermeate READ blendPermeate WRITE setBlendPermeate NOTIFY blendPermeateChanged)
@@ -80,7 +80,7 @@ public:
     ROSystem* system() const;
 
     ROFlow* const feed() const;
-    ROFlow* const blendedRecycledFeed() const;
+//    ROFlow* const blendedRecycledFeed() const;
     ROFlow* const firstStageFeed() const;
     ROFlow* const permeate() const;
     ROFlow* const totalStagesPermeate() const;
@@ -109,7 +109,9 @@ public:
     // void setFlowFactor(double value);
     void setBlendPermeate(double value);
     void setSelfRecycle(double value);
-    Q_INVOKABLE void removeBlendPermeate();
+//    Q_INVOKABLE void removeBlendPermeate();
+//    void setHasBlendPermeate(bool hasBlendPermeate);
+    void setHasSelfRecycle(bool hasSelfRecycle);
 
 
     const QMap<int, double> outgoingRecycles() const;
@@ -123,7 +125,7 @@ public:
     bool hasSelfRecycle() const;
     Q_INVOKABLE bool hasRecycle(int toPassIdx) const;
     Q_INVOKABLE bool hasRecycle(const ROPass* const toPass) const;
-    Q_INVOKABLE void removeSelfRecycle();
+//    Q_INVOKABLE void removeSelfRecycle();
 
 
     bool hasBlendPermeate() const;
@@ -137,7 +139,7 @@ private:
     bool _flowChanging;
     bool _permeateChanging;
     ROFlow* _feed;
-    ROFlow* const _blendedRecycledFeed;
+//    ROFlow* const _blendedRecycledFeed;
     ROFlow* const _firstStageFeed;
     ROFlow* const _permeate;
     ROFlow* const _totalStagesPermeate;
@@ -146,7 +148,7 @@ private:
     double _blendPermeate;
 
     bool _hasSelfRecycle;
-    bool _hasBlendPermeate;
+//    bool _hasBlendPermeate;
 
     // CONSTANTS
     static const int _MAX_STAGES_COUNT;

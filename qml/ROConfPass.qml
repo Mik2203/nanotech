@@ -318,6 +318,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: 20
+                property bool editable: passIndex == sys.passCount-1  // is last pass
 
                 Text {
                     anchors.left: parent.left
@@ -330,8 +331,10 @@ Item {
                     anchors.right: blendPermeateEditor.left
                     anchors.rightMargin: 5
                     anchors.verticalCenter: parent.verticalCenter
+                    enabled: parent.editable
+
                     checked: pass.hasBlendPermeate
-                    onToggle: state ? pass.blendPermeate = blendPermeateEditor.value: pass.removeBlendPermeate()
+                    onToggle: sys.hasBlendPermeate = state
                 }
 
                 ROWidgets.DoubleInput {
@@ -342,8 +345,14 @@ Item {
                     horizontalAlignment: TextInput.AlignRight
                     height: parent.height-3
                     width: 50
+                    editable: parent.editable
+
                     value: app.units.convertFlowUnits(pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits)
-                    onInputChanged: pass.blendPermeate = app.units.convertFlowUnits(changedValue, app.units.flowUnits, ROUnits.DEFAULT_FLOW_UNITS)
+                    onInputChanged: {
+                        if (!sys.hasBlendPermeate)
+                            sys.hasBlendPermeate = true;
+                        pass.blendPermeate = app.units.convertFlowUnits(changedValue, app.units.flowUnits, ROUnits.DEFAULT_FLOW_UNITS)
+                    }
 //                    KeyNavigation.backtab: passFlowFactorInput
                 }
 
@@ -478,7 +487,7 @@ Item {
                     anchors.rightMargin: 5
                     anchors.verticalCenter: parent.verticalCenter
                     checked: pass.hasSelfRecycle
-                    onToggle: state ? pass.selfRecycle = selfRecycleEditor.value : pass.removeSelfRecycle()
+                    onToggle: pass.hasSelfRecycle = state
                 }
 
                 ROWidgets.DoubleInput {
@@ -490,7 +499,11 @@ Item {
                     height: parent.height-3
                     width: 50
                     value: app.units.convertFlowUnits(pass.selfRecycle, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits)
-                    onInputChanged: pass.selfRecycle = app.units.convertFlowUnits(changedValue, app.units.flowUnits, ROUnits.DEFAULT_FLOW_UNITS)
+                    onInputChanged: {
+                        if (!pass.hasSelfRecycle)
+                            pass.hasSelfRecycle = true;
+                        pass.selfRecycle = app.units.convertFlowUnits(changedValue, app.units.flowUnits, ROUnits.DEFAULT_FLOW_UNITS)
+                    }
 //                    KeyNavigation.backtab: passFlowFactorInput
                 }
 

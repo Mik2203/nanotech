@@ -43,6 +43,9 @@ class ROSystem: public ROAbstractElement {
     Q_PROPERTY(double flowFactor READ flowFactor NOTIFY waterTypeIndexChanged)
     Q_PROPERTY(double saltPassageYearIncrease READ saltPassageYearIncrease NOTIFY elementLifetimeChanged)
 
+    Q_PROPERTY(double blendPermeate READ blendPermeate WRITE setBlendPermeate NOTIFY blendPermeateChanged)
+    Q_PROPERTY(bool hasBlendPermeate READ hasBlendPermeate WRITE setHasBlendPermeate NOTIFY hasBlendPermeateChanged)
+
     Q_PROPERTY(ROPass* firstPass READ firstPass NOTIFY firstPassChanged)
     Q_PROPERTY(ROPass* lastPass READ lastPass NOTIFY lastPassChanged)
 
@@ -141,6 +144,13 @@ public:
     QVector<int> filledIons() const;
     QVector<int> saturatedCompounds() const;
 
+    double blendPermeate() const;
+    void setBlendPermeate(double value);
+
+    bool hasBlendPermeate() const;
+    bool passHasBlendPermeate(const ROPass* const pass) const;
+    void setHasBlendPermeate(bool hasBlendPermeate);
+
 public slots:
     static int MAX_PASSES_COUNT() { return _MAX_PASSES_COUNT; }
     static int MIN_PASSES_COUNT() { return _MIN_PASSES_COUNT; }
@@ -162,6 +172,9 @@ private:
     int _waterTypeIndex;
 
     int _lifetime;
+
+    bool _hasBlendPermeate;
+    double _blendPermeate;
 
     static const int _MAX_PASSES_COUNT;
     static const int _MIN_PASSES_COUNT;
@@ -190,8 +203,12 @@ signals:
 
     void elementLifetimeChanged();
 
+    void hasBlendPermeateChanged();
+    void blendPermeateChanged();
+
 private slots:
     void refreshPermeate();
+    void updateHasBlend();
 
 public slots:
     void reset();

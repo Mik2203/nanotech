@@ -21,6 +21,7 @@ ROSystem::ROSystem() :
     _resultFeed(new ROFlow()),
     _waterTypeIndex(-1),
     _lifetime(1),
+    _hasBlendPermeate(false),
     ROAbstractElement(){
 
     ROFeed* feed = new ROFeed();
@@ -68,6 +69,10 @@ ROSystem::ROSystem() :
 
     // first pass flow factor
     connect(this, SIGNAL(waterTypeIndexChanged()), pass, SIGNAL(flowFactorChanged()));
+
+    // смешения
+    connect(this, SIGNAL(lastPassChanged()), this, SLOT(updateHasBlend()));
+    updateHasBlend();
 
     Q_EMIT totalActiveAreaChanged();
 }
@@ -142,10 +147,10 @@ ROPass* ROSystem::addPass(int copyFromPassNumber) {
         ROFlow* feed = _passes.last()->permeate();
         ROPass* newPass;
         if (0 <= copyFromPassNumber && copyFromPassNumber < _passes.count()) {
-            newPass = pass(copyFromPassNumber)->clone(/*_passes.count(), */feed);
+            newPass = pass(copyFromPassNumber)->clone(feed);
         }
         else
-            newPass = new ROPass(this,/* _passes.count(), */feed);
+            newPass = new ROPass(this, feed);
         _passes.append(newPass);
         Q_EMIT lastPassChanged();
 
@@ -159,7 +164,7 @@ ROPass* ROSystem::addPass(int copyFromPassNumber) {
         connect(newPass, SIGNAL(stageCountChanged()), this, SIGNAL(stagesCountChanged()));
 
 
-        emit passCountChanged();
+        Q_EMIT passCountChanged();
         return newPass;
     }
     return 0;
@@ -251,6 +256,19 @@ bool ROSystem::removePartFeed(int feedIndex) {
 ROFlow* const ROSystem::permeate() const { return lastPass()->permeate(); }
 void ROSystem::refreshPermeate() { connect(lastPass()->permeate(), SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged())); Q_EMIT permeateChanged();}
 
+void ROSystem::updateHasBlend()
+{
+    setHasBlendPermeate(false);
+
+    Q_FOREACH(ROPass * pass, _passes)
+        disconnect(pass, SIGNAL(blendPermeateChanged()), this, SIGNAL(blendPermeateChanged()));
+    connect(lastPass(), SIGNAL(blendPermeateChanged()), this, SIGNAL(blendPermeateChanged()));
+
+    Q_EMIT hasBlendPermeateChanged();  // обновить прошлую последнюю ступень перед отключением
+    disconnect(SIGNAL(hasBlendPermeateChanged()));  // отключение прошлой последней ступени
+    connect(this, SIGNAL(hasBlendPermeateChanged()), lastPass(), SIGNAL(hasBlendPermeateChanged()));
+}
+
 void ROSystem::reset() {
 
     setFeedCount(1);
@@ -264,7 +282,10 @@ void ROSystem::reset() {
 
 void ROSystem::resetSystem() {
     setPassCount(1);
+    setElementLifetime(1);
     firstPass()->reset();
+    setHasBlendPermeate(false);
+    setBlendPermeate(0.0);
     _passRecycles.clear();
 }
 
@@ -325,6 +346,32 @@ QVector<int> ROSystem::saturatedCompounds() const {
         return adjustedFeed()->solutes()->saturatedCompounds();
     else
         return feed()->solutes()->saturatedCompounds();
+}
+
+double ROSystem::blendPermeate() const
+{
+    return lastPass()->blendPermeate();
+}
+
+void ROSystem::setBlendPermeate(double value)
+{
+    lastPass()->setBlendPermeate(value);
+}
+
+bool ROSystem::hasBlendPermeate() const { return _hasBlendPermeate; }
+
+bool ROSystem::passHasBlendPermeate(const ROPass * const pass) const
+{
+    return hasBlendPermeate() && pass == lastPass();
+}
+
+void ROSystem::setHasBlendPermeate(bool hasBlendPermeate)
+{
+    if (_hasBlendPermeate == hasBlendPermeate)
+        return;
+
+    _hasBlendPermeate = hasBlendPermeate;
+    Q_EMIT hasBlendPermeateChanged();
 }
 
 double ROSystem::activeArea() const {
