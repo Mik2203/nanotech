@@ -48,7 +48,7 @@ class ROPass : public ROAbstractElement {
 //    Q_PROPERTY(ROFlow* blendedRecycledFeed READ blendedRecycledFeed CONSTANT)
     Q_PROPERTY(ROFlow* firstStageFeed READ firstStageFeed CONSTANT)
     Q_PROPERTY(ROFlow* permeate READ permeate CONSTANT)
-    Q_PROPERTY(ROFlow* totalStagesPermeate READ totalStagesPermeate CONSTANT)
+    Q_PROPERTY(ROFlow* totalProduct READ totalProduct CONSTANT)
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
 
 
@@ -83,7 +83,7 @@ public:
 //    ROFlow* const blendedRecycledFeed() const;
     ROFlow* const firstStageFeed() const;
     ROFlow* const permeate() const;
-    ROFlow* const totalStagesPermeate() const;
+    ROFlow* const totalProduct() const;
     ROFlow* const concentrate() const;
     double recovery() const;
     double flowFactor() const;
@@ -142,7 +142,7 @@ private:
 //    ROFlow* const _blendedRecycledFeed;
     ROFlow* const _firstStageFeed;
     ROFlow* const _permeate;
-    ROFlow* const _totalStagesPermeate;
+    ROFlow* const _totalProduct;
     ROFlow* const _concentrate;
     double _selfRecycle;
     double _blendPermeate;

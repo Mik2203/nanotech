@@ -61,8 +61,8 @@ private:
     Eigen::VectorXd pQfb;
     Eigen::VectorXd pQf;
     Eigen::VectorXd pQfr;
-    Eigen::VectorXd pQts;
     Eigen::VectorXd pQp;
+    Eigen::VectorXd pQpb;
     Eigen::VectorXd pQsr;
     Eigen::VectorXd pQr;
     Eigen::VectorXd e1vQf;
@@ -122,22 +122,22 @@ private:
     inline int ie1vQc(int pi) { return ievQc(pi, 0); }
     inline int is1Cp(int pi) { return ieCp(pi, 0); }
     inline int is1Cc(int pi) { return ieCc(pi, 0); }
-    inline int ipsCts(int pi, int si) { return ipOff(pi) + 2 * _usedSolutes.count() + 2 + si; }
-    inline int ipCts(int pi) { return ipOff(pi) + 3 * _usedSolutes.count() + 2; }
-    inline int ipsCp(int pi, int si) { return ipOff(pi) + 3 * _usedSolutes.count() + 3 + si; }
-    inline int ipCp(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 3; }
+    inline int ipsCp(int pi, int si) { return ipOff(pi) + 2 * _usedSolutes.count() + 2 + si; }
+    inline int ipCp(int pi) { return ipOff(pi) + 3 * _usedSolutes.count() + 2; }
+    inline int ipsCpb(int pi, int si) { return ipOff(pi) + 3 * _usedSolutes.count() + 3 + si; }
+    inline int ipCpb(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 3; }
     inline int ipPHfr(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 4; }
     inline int is1PHf(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 5; }
-    inline int ipPHts(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 6; }
-    inline int ipPHp(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 7; }
+    inline int ipPHp(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 6; }
+    inline int ipPHpb(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 7; }
     inline int ipIfr(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 8; }
     inline int is1If(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 9; }
     inline int is1PIf(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 10; }
     inline int is1PIp(int pi) { return iePIp(pi, 0); }
     inline int is1PIc(int pi) { return iePIc(pi, 0); }
     inline int is1Pf(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 11; }
-    inline int ipIts(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 12; }
-    inline int ipIp(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 13; }
+    inline int ipIp(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 12; }
+    inline int ipIpb(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 13; }
 
     inline int iesCf(int pi, int ei, int si) { return ei == 0 ? is1sCf(pi, si) : iesCc(pi, ei-1, si); }      // only for ei > 0
     inline int ieCf(int pi, int ei) { return ei == 0 ? is1Cf(pi) : ieCc(pi, ei-1); }
@@ -176,15 +176,15 @@ private:
     inline double& pCfr(int pi) { return X[ipCfr(pi)]; }
     inline double& s1sCf(int pi, int si) { return X[is1sCf(pi, si)]; }
     inline double& s1Cf(int pi) { return X[is1Cf(pi)]; }
-    inline double& psCts(int pi, int si) { return X[ipsCts(pi, si)]; }
-    inline double& pCts(int pi) { return X[ipCts(pi)]; }
-    inline double& psCp(int pi, int si)  { return X[ipsCp(pi, si)]; }
-    inline double& pCp(int pi)  { return X[ipCp(pi)]; }
+    inline double& psCp(int pi, int si) { return X[ipsCp(pi, si)]; }
+    inline double& pCp(int pi) { return X[ipCp(pi)]; }
+    inline double& psCpb(int pi, int si)  { return X[ipsCpb(pi, si)]; }
+    inline double& pCpb(int pi)  { return X[ipCpb(pi)]; }
 
     inline double& pPHfr(int pi) { return X[ipPHfr(pi)]; }
     inline double& s1PHf(int pi) { return X[is1PHf(pi)]; }
-    inline double& pPHts(int pi) { return X[ipPHts(pi)]; }
     inline double& pPHp(int pi) { return X[ipPHp(pi)]; }
+    inline double& pPHpb(int pi) { return X[ipPHpb(pi)]; }
 
     inline double& pIfr(int pi) { return X[ipIfr(pi)]; }
     inline double& s1If(int pi) { return X[is1If(pi)]; }
@@ -200,13 +200,13 @@ private:
     inline double& s1PIc(int pi) { return X[is1PIc(pi)]; }
     inline double& s1PIf(int pi) { return X[is1PIf(pi)]; }
     inline double& s1Pf(int pi) { return X[is1Pf(pi)]; }
-    inline double& pIts(int pi) { return X[ipIts(pi)]; }
     inline double& pIp(int pi) { return X[ipIp(pi)]; }
+    inline double& pIpb(int pi) { return X[ipIpb(pi)]; }
 
-    inline double& psCf(int pi, int si) { return pi == 0 ? syssCaf(si) : psCp(pi-1, si); } // on the first pass feed = sys feed, on the others feed = previous permeate
-    inline double& pCf(int pi) { return pi == 0 ? sysCaf : pCp(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
-    inline double& pIf(int pi) { return pi == 0 ? sysIaf : pIp(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
-    inline double& pPHf(int pi) { return pi == 0 ? sysPHaf : pPHp(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
+    inline double& psCf(int pi, int si) { return pi == 0 ? syssCaf(si) : psCpb(pi-1, si); } // on the first pass feed = sys feed, on the others feed = previous permeate
+    inline double& pCf(int pi) { return pi == 0 ? sysCaf : pCpb(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
+    inline double& pIf(int pi) { return pi == 0 ? sysIaf : pIpb(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
+    inline double& pPHf(int pi) { return pi == 0 ? sysPHaf : pPHpb(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
 
     // constant values
     inline int& MSi(int pi, int ei) { return msi[peOff[pi]+ei]; }

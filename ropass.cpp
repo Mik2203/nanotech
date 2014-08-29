@@ -13,7 +13,7 @@ ROPass::ROPass(ROSystem* system, ROFlow* feed) :
     _system(system),
     _hasSelfRecycle(false),
 //    _blendedRecycledFeed(new ROFlow()),
-    _totalStagesPermeate(new ROFlow()),
+    _totalProduct(new ROFlow()),
     _firstStageFeed(new ROFlow()),
     _flowChanging(false), _permeateChanging(false),
     _feed(0), _permeate(new ROFlow()),
@@ -103,7 +103,7 @@ ROPass::ROPass():
     _feed(0),
     _system(0), _concentrate(0),
     _permeate(0), _firstStageFeed(0),
-    /*_blendedRecycledFeed(0),*/ _totalStagesPermeate(0),
+    /*_blendedRecycledFeed(0),*/ _totalProduct(0),
     _selfRecycle(0) {}
 
 ROPass::~ROPass() {
@@ -111,13 +111,13 @@ ROPass::~ROPass() {
     delete _firstStageFeed;
     delete _concentrate;
     delete _permeate;
-    delete _totalStagesPermeate;
+    delete _totalProduct;
     qDeleteAll(_stages); _stages.clear();
 }
 
 ROSystem* ROPass::system() const { return _system; }
 ROFlow* const ROPass::permeate() const { return _permeate; }
-ROFlow* const ROPass::totalStagesPermeate() const { return _totalStagesPermeate; }
+ROFlow* const ROPass::totalProduct() const { return _totalProduct; }
 ROFlow* const ROPass::concentrate() const { return _concentrate; }
 ROFlow* const ROPass::feed() const { return _feed; }
 //ROFlow* const ROPass::blendedRecycledFeed() const { return _blendedRecycledFeed; }
