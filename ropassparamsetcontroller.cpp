@@ -96,15 +96,16 @@ void ROPassParamSetController::setPrevController(ROPassParamSetController* const
 }
 
 bool ROPassParamSetController::allSet() const {
-    return ((feedSetState() == ParamSetExplicit || feedSetState() == ParamSetImplicit || feedSetState() == ParamSetAuto) &&
-            (recoverySetState() == ParamSetExplicit || recoverySetState() == ParamSetImplicit || recoverySetState() == ParamSetAuto) &&
-            (permeateSetState() == ParamSetExplicit || permeateSetState() == ParamSetImplicit || permeateSetState() == ParamSetAuto));
+    return ((feedSetState() != ParamSetUndefined) &&
+            (recoverySetState() != ParamSetUndefined) &&
+            (permeateSetState() != ParamSetUndefined));
 
 }
 
 void ROPassParamSetController::setFeedSetState(ParamSetState state) { // TODO CHECK!
+    if (_feedSetState == state)
+        return;
 
-    if (_feedSetState == state) return;
     _feedSetState = state;
     if (state == ParamSetExplicit || state == ParamSetImplicit || state == ParamSetAuto) {
         if (permeateSetState() == ParamSetUndefined &&

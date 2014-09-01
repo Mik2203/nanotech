@@ -90,11 +90,14 @@ Item {
 
         lineEndType: passIndex == sys.passCount-1 ? Line.LineEndArrow : Line.LineEndNone
 
-        ROWidgets.BorderText {  // total permeate label
-            anchors.left: parent.left
+        ROWidgets.BorderText {  // permeate from stages label
             opacity: 0.85
-            anchors.leftMargin: -width / 2
-            anchors.verticalCenter: parent.verticalCenter
+
+            anchors.left: parent.left
+            anchors.leftMargin: passFeedArrowLength * 0.7
+
+            anchors.bottom: parent.top
+            anchors.bottomMargin: -height / 2
             text: app.translator.emptyString + qsTr("P%1").arg(passIndex+1)
         }
     }
@@ -168,13 +171,13 @@ Item {
             text: app.translator.emptyString + qsTr("B%1").arg(passIndex+1)
         }
 
-        ROWidgets.BorderText {  // permeate from stages label
+        ROWidgets.BorderText {  // total product label
             opacity: 0.85
-            anchors.left: parent.left
-            anchors.leftMargin: 15
+            anchors.right: parent.left
+            anchors.rightMargin: passBlendArrowRightOffset - width/2
             anchors.top: parent.bottom
-            anchors.topMargin: -height/2
-            text: app.translator.emptyString + qsTr("SP%1").arg(passIndex+1)
+            anchors.topMargin: 20
+            text: app.translator.emptyString + qsTr("TP%1").arg(passIndex+1)
         }
     }
 

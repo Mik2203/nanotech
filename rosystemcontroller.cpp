@@ -20,7 +20,9 @@ ROSystemController::~ROSystemController() {
 }
 
 ROSystemController::ROSystemController(ROSystem* sys, ROSystemSolveScheduler* sysSS, QObject *parent) :
-    QObject(parent), _sys(sys)/*, _calculated(false), _solved(false)*/ , _sysSS(sysSS){
+    QObject(parent),
+    _sys(sys),
+    _sysSS(sysSS){
 
 
 

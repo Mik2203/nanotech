@@ -21,6 +21,12 @@
 
 class ROSystem;
 class ROPass : public ROAbstractElement {
+    // поток blending нужен только для внутренних операций с потоками,
+    // но он не должен быть доступен публично.
+    // его объем устанавливается через blendPermeate.
+    // все маниапуляции с потоками находятся в классе ROPassController,
+    // ему нужен объект blending, поэтому он объявлен как friend для данного класса.
+    friend class ROPassController;
 
     Q_OBJECT
     Q_ENUMS(ParamSetState)
@@ -44,7 +50,9 @@ class ROPass : public ROAbstractElement {
 
 
     // FLOWS
-    Q_PROPERTY(ROFlow* feed READ feed WRITE setFeed NOTIFY feedChanged)
+    Q_PROPERTY(ROFlow* feed READ feed CONSTANT)
+    Q_PROPERTY(ROFlow* rawWater READ rawWater WRITE setRawWater NOTIFY rawWaterChanged)
+//    Q_PROPERTY(ROFlow* blending READ blending CONSTANT)
 //    Q_PROPERTY(ROFlow* blendedRecycledFeed READ blendedRecycledFeed CONSTANT)
     Q_PROPERTY(ROFlow* firstStageFeed READ firstStageFeed CONSTANT)
     Q_PROPERTY(ROFlow* permeate READ permeate CONSTANT)
@@ -81,8 +89,10 @@ public:
 
     ROFlow* const feed() const;
 //    ROFlow* const blendedRecycledFeed() const;
+//    ROFlow* const blending() const;
     ROFlow* const firstStageFeed() const;
     ROFlow* const permeate() const;
+    ROFlow* const rawWater() const;
     ROFlow* const totalProduct() const;
     ROFlow* const concentrate() const;
     double recovery() const;
@@ -105,7 +115,7 @@ public:
 
 
     void setRecovery(double value);
-    void setFeed(ROFlow* const newFeed);
+    void setRawWater(ROFlow* const rawWater);
     // void setFlowFactor(double value);
     void setBlendPermeate(double value);
     void setSelfRecycle(double value);
@@ -138,14 +148,16 @@ private:
     // double _flowFactor;
     bool _flowChanging;
     bool _permeateChanging;
-    ROFlow* _feed;
+    ROFlow* const _feed;
+    ROFlow* const _blending;
+    ROFlow* _rawWater;
 //    ROFlow* const _blendedRecycledFeed;
     ROFlow* const _firstStageFeed;
     ROFlow* const _permeate;
     ROFlow* const _totalProduct;
     ROFlow* const _concentrate;
     double _selfRecycle;
-    double _blendPermeate;
+//    double _blendPermeate;
 
     bool _hasSelfRecycle;
 //    bool _hasBlendPermeate;
@@ -173,8 +185,8 @@ signals:
     void powerChanged();
     void specificEnergyChanged();
     void stageCountChanged();
-    void beginFeedChange();
-    void feedChanged();
+    void rawWaterChangeBegan();
+    void rawWaterChanged();
 
     void firstStageChanged();
     void lastStageChanged();
@@ -182,7 +194,7 @@ signals:
     void elementsCountChanged();
 
 private slots:
-    void updateBlendPermeate();
+
     void updateRecycles();
 
 public slots:

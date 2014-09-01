@@ -366,6 +366,41 @@ Item {
                     horizontalAlignment: Text.AlignLeft
                     width: 30
                 }
+
+                Image {
+                    id: blendInfo
+
+                    height: 15
+                    width: 15
+
+                    source: "../images/warning_info.png"
+                    smooth: true
+                    visible: !parent.editable
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        onHoveredChanged: {
+                            if (containsMouse) {
+                                mainWindow.autoPopup(popupComponent, blendInfo)
+                            } else if (mainWindow.popupComponent == popupComponent) {
+                                mainWindow.hidePopup()
+                            }
+                        }
+
+                        Component {
+                            id: popupComponent
+                            ROWidgets.BorderText {
+                                text: qsTr("Blending is possible only on last pass");
+                            }
+                        }
+
+                    }
+                }
+
             }
 
             Column {
@@ -420,7 +455,7 @@ Item {
                         anchors.left: parent.left
                         anchors.verticalCenter: parent.verticalCenter
                         font.italic: true
-                        text: app.translator.emptyString + qsTr("Permeate from stages (SP%1):").arg(passIndex+1)
+                        text: app.translator.emptyString + qsTr("Total product (TP%1):").arg(passIndex+1)
                     }
 
                     Text {
@@ -433,7 +468,7 @@ Item {
                         height: parent.height-3
                         width: 50
                         font.italic: true
-                        text: app.units.convertFlowUnits(pass.permeate.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+                        text: app.units.convertFlowUnits(pass.totalProduct.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
                         // KeyNavigation.backtab: passFlowFactorInput
                     }
 
@@ -517,53 +552,6 @@ Item {
                     horizontalAlignment: Text.AlignLeft
                     width: 30
                 }
-            }
-
-            Column {
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                anchors.right: parent.right
-
-                visible: pass.hasSelfRecycle
-
-                Item {
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: 20
-
-                    Text {
-                        anchors.left: parent.left
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.italic: true
-                        text: app.translator.emptyString + qsTr("Concentrate from stages (SC%1):").arg(passIndex+1)
-                    }
-
-                    Text {
-                        id: concentrateFromLastStageValue
-                        anchors.right: concentrateFromLastStageUnit.left
-                        anchors.rightMargin: 5
-                        anchors.verticalCenter: parent.verticalCenter
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        height: parent.height-3
-                        width: 50
-                        font.italic: true
-                        text: app.units.convertFlowUnits(pass.feed.rate - pass.permeate.rate + pass.selfRecycle, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
-                        // KeyNavigation.backtab: passFlowFactorInput
-                    }
-
-                    Text {
-                        id: concentrateFromLastStageUnit
-                        anchors.right: parent.right
-                        anchors.rightMargin: parent.height-3
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
-                        font.italic: true
-                        horizontalAlignment: Text.AlignLeft
-                        width: 30
-                    }
-                }
-
             }
 
 
@@ -654,7 +642,7 @@ Item {
                 anchors.right: parent.right
                 visible: __passHasIncomingRecycles()
                 height: 20
-                property real originalFeed: pass.feed.rate - pass.recycle(1).rate
+                property real originalFeed: pass.feed.rate - pass.recycle(1).rate // TODO!!!!!!!!?????????????????? че за единица?? посчитать все потоки, не только 1
 
                 Text {
                     anchors.left: parent.left
@@ -695,7 +683,7 @@ Item {
                 anchors.right: parent.right
                 visible: __passHasIncomingRecycles() || pass.hasSelfRecycle || pass.hasBlendPermeate
                 height: 20
-                property real stageFeed: pass.feed.rate - (pass.hasBlendPermeate ? pass.blendPermeate : 0.0) + (pass.hasSelfRecycle ? pass.selfRecycle : 0.0)
+                property real stageFeed: pass.feed.rate + (pass.hasSelfRecycle ? pass.selfRecycle : 0.0)
 
                 Text {
                     anchors.left: parent.left

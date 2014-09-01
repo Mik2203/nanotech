@@ -26,7 +26,7 @@ public:
         FlowPressure = 0x10
     };
 
-    ROFlowMixer(unsigned filter);
+    ROFlowMixer(unsigned filter); // TODO typedef
     ~ROFlowMixer();
 
     ROFlow* outputFlow() const;
@@ -38,6 +38,9 @@ public:
     bool removeFeed(ROFeed* feed);
     bool removeFeed(ROFlow* flow);
     bool removeFeed(int feedIndex);
+    void clearFeeds();
+
+    void reset();
 
     int feedCount() const;
     void setOutputFlow(ROFlow* flow);

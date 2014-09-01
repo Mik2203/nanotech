@@ -180,12 +180,12 @@
         <translation>Вариант:</translation>
     </message>
     <message>
-        <location filename="qml/MenuPanel/MenuPanel.qml" line="45"/>
+        <location filename="qml/MenuPanel/MenuPanel.qml" line="38"/>
         <source>Calculate</source>
         <translation>Рассчитать</translation>
     </message>
     <message>
-        <location filename="qml/MenuPanel/MenuPanel.qml" line="45"/>
+        <location filename="qml/MenuPanel/MenuPanel.qml" line="38"/>
         <source>Calculating</source>
         <translation>Вычисление</translation>
     </message>
@@ -194,8 +194,8 @@
         <translation type="obsolete">Точность: %1</translation>
     </message>
     <message>
-        <location filename="qml/MenuPanel/MenuPanel.qml" line="153"/>
-        <location filename="qml/MenuPanel/MenuPanel.qml" line="156"/>
+        <location filename="qml/MenuPanel/MenuPanel.qml" line="109"/>
+        <location filename="qml/MenuPanel/MenuPanel.qml" line="112"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
@@ -204,7 +204,7 @@
         <translation type="obsolete">Ед. изм.:</translation>
     </message>
     <message>
-        <location filename="qml/MenuPanel/MenuPanel.qml" line="131"/>
+        <location filename="qml/MenuPanel/MenuPanel.qml" line="87"/>
         <source>Help me!</source>
         <translation>Справка</translation>
     </message>
@@ -427,7 +427,7 @@ Do you want to save your changes?</source>
         <translation>Средний съем:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="325"/>
+        <location filename="qml/ROConfPass.qml" line="326"/>
         <source>Blend permeate (B%1):</source>
         <oldsource>Blend permeate: </oldsource>
         <translation>Подмешивание (П%1):</translation>
@@ -443,50 +443,59 @@ Do you want to save your changes?</source>
         <translation>Объем вх. потока:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="414"/>
         <source>Permeate from stages (SP%1):</source>
         <oldsource>Permeate from stages:</oldsource>
-        <translation>Фильтрат со стадий (ФС%1):</translation>
+        <translation type="obsolete">Фильтрат со стадий (ФС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="453"/>
+        <location filename="qml/ROConfPass.qml" line="397"/>
+        <source>Blending is possible only on last pass</source>
+        <translation>Подмешивание возможно только на последней ступени</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfPass.qml" line="458"/>
+        <source>Total product (TP%1):</source>
+        <translation>Выход со ступени (ВС%1):</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfPass.qml" line="497"/>
         <source>Recycles:</source>
         <translation>Рециклы:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="472"/>
+        <location filename="qml/ROConfPass.qml" line="516"/>
         <source>Self Recycle (SR%1):</source>
         <oldsource>Self Recycle: </oldsource>
         <translation>Собств. рецикл (СР%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="525"/>
+        <location filename="qml/ROConfPass.qml" line="573"/>
         <source>Concentrate from stages (SC%1):</source>
         <translation>Концентрат со стадий (КС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="566"/>
+        <location filename="qml/ROConfPass.qml" line="614"/>
         <source>Pass %1 (R%2-%1):</source>
         <oldsource>Pass %1: </oldsource>
         <translation>Ступень %1 (Р%2-%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="627"/>
+        <location filename="qml/ROConfPass.qml" line="675"/>
         <source>Max</source>
         <translation>Максимум</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="649"/>
+        <location filename="qml/ROConfPass.qml" line="697"/>
         <source>Original feed flow (F%1):</source>
         <translation>Исходный вх. поток (И%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="690"/>
+        <location filename="qml/ROConfPass.qml" line="738"/>
         <source>Feed on first stage (SF%1):</source>
         <translation>Вх. поток на стадию (ИС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="738"/>
+        <location filename="qml/ROConfPass.qml" line="786"/>
         <source>Stage:</source>
         <translation>Стадия:</translation>
     </message>
@@ -2161,7 +2170,7 @@ Do you want to save your changes?</source>
 <context>
     <name>ROSchemePass</name>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="112"/>
+        <location filename="qml/ROSchemePass.qml" line="115"/>
         <source>Add stage</source>
         <translation>Добавить стадию</translation>
     </message>
@@ -2171,34 +2180,33 @@ Do you want to save your changes?</source>
         <translation>И%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="98"/>
+        <location filename="qml/ROSchemePass.qml" line="101"/>
         <source>P%1</source>
         <translation>Ф%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="103"/>
+        <location filename="qml/ROSchemePass.qml" line="106"/>
         <source>+</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="136"/>
+        <location filename="qml/ROSchemePass.qml" line="139"/>
         <source>SR%1</source>
         <translation>СР%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="145"/>
+        <location filename="qml/ROSchemePass.qml" line="148"/>
         <source>SC%1</source>
         <translation>КС%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="168"/>
+        <location filename="qml/ROSchemePass.qml" line="171"/>
         <source>B%1</source>
         <translation>П%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="177"/>
         <source>SP%1</source>
-        <translation>ФС%1</translation>
+        <translation type="obsolete">ФС%1</translation>
     </message>
     <message>
         <location filename="qml/ROSchemePass.qml" line="57"/>
@@ -2206,7 +2214,12 @@ Do you want to save your changes?</source>
         <translation>ИС%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="208"/>
+        <location filename="qml/ROSchemePass.qml" line="180"/>
+        <source>TP%1</source>
+        <translation>ВС%1</translation>
+    </message>
+    <message>
+        <location filename="qml/ROSchemePass.qml" line="211"/>
         <source>R%1-%2</source>
         <translation>Р%1-%2</translation>
     </message>

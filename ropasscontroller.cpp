@@ -13,22 +13,28 @@ ROPassController::ROPassController(ROPass* pass, ROSystemController* sysC) :
     _paramSetC(new ROPassParamSetController()),
     _calculated(false),
     _solved(false),
+    _aboutBlend_R(new ROFlowMixer(ROFlowMixer::FlowRate)),
+    _toTotalProduct_RS(new ROFlowMixer(ROFlowMixer::FlowRate | ROFlowMixer::FlowSolutes)),
+    _toBlending_S(new ROFlowMixer(ROFlowMixer::FlowSolutes)),
     QObject(pass) {
 
     connect(_paramSetC, SIGNAL(anySetStateChanged()), this, SLOT(updateFlowParams()));
     connect(_pass->permeate(), SIGNAL(rateChanged()), this, SLOT(updateFlowParams()));
+    connect(_pass->feed(), SIGNAL(rateChanged()), this, SLOT(updateFlowParams()));
     connect(_pass, SIGNAL(recoveryChanged()), this, SLOT(updateFlowParams()));
-    connect(_pass, SIGNAL(beginFeedChange()), this, SLOT(disconnectFeed()));
-    connect(_pass, SIGNAL(feedChanged()), this, SLOT(updateFeed()));
-    updateFeed();
+    updateFlowParams();
+
+    connect(_pass, SIGNAL(rawWaterChangeBegan()), this, SLOT(disconnectRawWater()));
 
     connect(_pass, SIGNAL(stageCountChanged()), this, SLOT(updateStages()));
     updateStages();
 
+    connect(_pass, SIGNAL(hasBlendPermeateChanged()), this, SLOT(updateBlend()));
+
     // ON ANY PASS PARAM CHANGED
     // ... PASS
     connect(_pass, SIGNAL(stageCountChanged()), this, SIGNAL(inputChanged()));
-    connect(_pass, SIGNAL(feedChanged()), this, SIGNAL(inputChanged()));
+    connect(_pass, SIGNAL(rawWaterChanged()), this, SIGNAL(inputChanged()));
     connect(_pass, SIGNAL(flowFactorChanged()), this, SIGNAL(inputChanged()));
     connect(_pass, SIGNAL(recycleChanged()), this, SIGNAL(inputChanged()));
     connect(_pass, SIGNAL(hasBlendPermeateChanged()), this, SIGNAL(inputChanged()));
@@ -36,9 +42,19 @@ ROPassController::ROPassController(ROPass* pass, ROSystemController* sysC) :
     connect(_pass, SIGNAL(hasSelfRecycleChanged()), this, SIGNAL(inputChanged()));
     connect(_pass, SIGNAL(selfRecycleChanged()), this, SIGNAL(inputChanged()));
     connect(_pass->permeate(), SIGNAL(rateChanged()), this, SIGNAL(inputChanged()));
+    connect(_pass->feed(), SIGNAL(rateChanged()), this, SIGNAL(inputChanged()));
 
     // ... PARAM SETS
     connect(_paramSetC, SIGNAL(anySetStateChanged()), this, SIGNAL(inputChanged()));
+
+    // потоки
+    _toTotalProduct_RS->addFeed(_pass->permeate(), ROFlowMixer::FlowAdd);
+    _toTotalProduct_RS->setOutputFlow(pass->totalProduct());
+
+    _toBlending_S->addFeed(_pass->rawWater(), ROFlowMixer::FlowAdd);
+    _toBlending_S->setOutputFlow(_pass->_blending);
+
+    connect(_pass->rawWater(), SIGNAL(rateChanged()), this, SLOT(updateBlendPermeate()));
 
 
     // WARNINGS
@@ -88,15 +104,15 @@ void ROPassController::updateFlowParams() {
 
 }
 
-void ROPassController::updateFeed() {
-    if (_pass->feed()) {
-        connect(_pass->feed(), SIGNAL(rateChanged()), this, SLOT(updateFlowParams()));
+//void ROPassController::updateFeed() {
+//    if (_pass->feed()) {
+//        connect(_pass->feed(), SIGNAL(rateChanged()), this, SLOT(updateFlowParams()));
 
-        // FEED INPUT CHANGES
-        connect(_pass->feed(), SIGNAL(rateChanged()), this, SIGNAL(inputChanged()));
-        updateFlowParams();
-    }
-}
+//        // FEED INPUT CHANGES
+//        connect(_pass->feed(), SIGNAL(rateChanged()), this, SIGNAL(inputChanged()));
+//        updateFlowParams();
+//    }
+//}
 
 bool ROPassController::hasAnyCriticalWarnings() const {
     bool hasW = _fillFlowData->enabled() || _checkRecovery->enabled() /*|| _badInputData->enabled()*/;
@@ -151,6 +167,30 @@ void ROPassController::updateStages() {
     // TODO recalc pass
 }
 
+void ROPassController::updateBlend()
+{
+    ROPass * blendPass = pass();
+    // reset blend mixer
+
+
+    if (blendPass->hasBlendPermeate()) {
+        if (blendPass == pass()->system()->firstPass()) {
+            _aboutBlend_R->addFeed(blendPass->feed(), ROFlowMixer::FlowAdd);
+            _aboutBlend_R->addFeed(blendPass->_blending, ROFlowMixer::FlowAdd);
+            _aboutBlend_R->setOutputFlow(blendPass->rawWater());
+        } else {
+            _aboutBlend_R->addFeed(blendPass->rawWater(), ROFlowMixer::FlowAdd);
+            _aboutBlend_R->addFeed(blendPass->_blending, ROFlowMixer::FlowSubtract);
+            _aboutBlend_R->setOutputFlow(blendPass->feed());
+        }
+
+        _toTotalProduct_RS->addFeed(_pass->_blending, ROFlowMixer::FlowAdd);
+    } else {
+        _aboutBlend_R->reset();
+        _toTotalProduct_RS->removeFeed(_pass->_blending);
+    }
+}
+
 
 
 ROWarning* const ROPassController::fillFlowData() const { return _fillFlowData; }
@@ -165,13 +205,18 @@ ROPassController::~ROPassController() {
     // WARNINGS
     delete _fillFlowData;
     delete _checkRecovery;
+
+    // mixers
+    delete _aboutBlend_R;
+    delete _toTotalProduct_RS;
+    delete _toBlending_S;
 }
 
 void ROPassController::copyDataFrom(const ROPassController *const from) {
     this->paramSetC()->copyDataFrom(from->paramSetC());
 }
 
-void ROPassController::disconnectFeed() { disconnect(_pass->feed(), 0, this, 0); }
+void ROPassController::disconnectRawWater() { disconnect(_pass->rawWater(), 0, this, 0); }
 
 
 void ROPassController::updateWarnings() {
@@ -184,4 +229,13 @@ void ROPassController::updateWarnings() {
 
 void ROPassController::reset() {
     paramSetC()->reset();
+}
+
+
+// пересчет значения смешения при изменении входной воды (rawWater)
+// для учета ограничений в setBlendPermeate.
+// если ступень - первая, то смешение не ограничевается, т.к. не зависит от входного потока.
+void ROPassController::updateBlendPermeate() {
+    if (_pass->hasBlendPermeate() && _pass != _pass->system()->firstPass())
+        _pass->setBlendPermeate(_pass->_blending->rate());
 }

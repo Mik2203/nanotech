@@ -37,11 +37,11 @@ public:
 
     void copyDataFrom(const ROPassController* const from);
 
-    Q_INVOKABLE ROStageController* stageC(int stageCIndex) const;
-    Q_INVOKABLE ROStageController* stageC(ROStage* stage) const;
+    Q_INVOKABLE ROStageController * stageC(int stageCIndex) const;
+    Q_INVOKABLE ROStageController * stageC(ROStage * stage) const;
 
     ROPassParamSetController* const paramSetC() const;
-    ROPass* const pass() const;
+    ROPass * const pass() const;
 
     ROSystemController* const sysC() const;
 
@@ -67,15 +67,22 @@ public slots:
 
 
 private slots:
-    void updateFeed();
-    void disconnectFeed();
+//    void updateFeed();
+    void disconnectRawWater();
     void updateFlowParams();
     void updateStages();
+    void updateBlend();
+    void updateBlendPermeate();
 
 private:
      ROPass* const _pass;
      ROPassParamSetController* const _paramSetC;
      QList<ROStageController*> _stageControllers;
+
+
+     ROFlowMixer * _aboutBlend_R;
+     ROFlowMixer * _toTotalProduct_RS;
+     ROFlowMixer * _toBlending_S;
 
 
      ROSystemController* const _sysC;

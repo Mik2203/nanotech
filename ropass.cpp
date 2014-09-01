@@ -9,23 +9,27 @@
 
 //#include "rostage.h"
 
-ROPass::ROPass(ROSystem* system, ROFlow* feed) :
+ROPass::ROPass(ROSystem* system, ROFlow* rawWater) :
     _system(system),
     _hasSelfRecycle(false),
 //    _blendedRecycledFeed(new ROFlow()),
-    _totalProduct(new ROFlow()),
     _firstStageFeed(new ROFlow()),
-    _flowChanging(false), _permeateChanging(false),
-    _feed(0), _permeate(new ROFlow()),
+    _flowChanging(false),
+    _permeateChanging(false),
+    _feed(new ROFlow()),
+    _blending(new ROFlow()),
+    _rawWater(nullptr),
+    _totalProduct(new ROFlow()),
+    _permeate(new ROFlow()),
     _concentrate(new ROFlow()),
     _selfRecycle(0.0),
     _recovery(0.0),
-    _blendPermeate(0.0),
+//    _blendPermeate(0.0),
     ROAbstractElement() {
 
     ROStage* firstStage = new ROStage(this, _firstStageFeed);
     _stages << firstStage;
-    setFeed(feed);
+    setRawWater(rawWater);
 
     // TOTAL ACTIVE AREA
     connect(firstStage, SIGNAL(totalActiveAreaChanged()), this, SIGNAL(totalActiveAreaChanged()));
@@ -47,7 +51,11 @@ ROPass::ROPass(ROSystem* system, ROFlow* feed) :
 
 
     connect(permeate(), SIGNAL(rateChanged()), this, SLOT(updateRecycles()));
-    connect(permeate(), SIGNAL(rateChanged()), this, SLOT(updateBlendPermeate()));
+
+    // рециклы
+    connect(_feed, SIGNAL(rateChanged()), this, SLOT(updateRecycles()));
+
+    connect(_blending, SIGNAL(rateChanged()), this, SIGNAL(blendPermeateChanged()));
 
     Q_EMIT totalActiveAreaChanged();
 }
@@ -70,6 +78,7 @@ ROPass* ROPass::clone(ROFlow* const newFeed) {
 
 void ROPass::copyDataFrom(const ROPass* const from) {
     // this->setFlowFactor(from->flowFactor());
+    this->rawWater()->setRate(from->rawWater()->rate());
     this->feed()->setRate(from->feed()->rate());
     this->permeate()->setRate(from->permeate()->rate());
     this->setRecovery(from->recovery());
@@ -84,43 +93,40 @@ void ROPass::copyDataFrom(const ROPass* const from) {
     // other recycles are copied by system, because system is owner
 }
 
-void ROPass::setFeed(ROFlow* newFeed) {
-    if (_feed) {
-        disconnect(_feed, 0, this, 0);
+void ROPass::setRawWater(ROFlow* rawWater) {
+    if (_rawWater) {
+        disconnect(_rawWater, 0, this, 0);
     }
-    Q_EMIT beginFeedChange();
-    _feed = newFeed;
-    if (_feed) {
-        connect(_feed, SIGNAL(rateChanged()), this, SLOT(updateRecycles()));
-    } else {
-        // TODO LOG
-    }
+    Q_EMIT rawWaterChangeBegan();
+    _rawWater = rawWater;
 
-    Q_EMIT feedChanged();
+    Q_EMIT rawWaterChanged();
 }
 
 ROPass::ROPass():
     _feed(0),
     _system(0), _concentrate(0),
     _permeate(0), _firstStageFeed(0),
-    /*_blendedRecycledFeed(0),*/ _totalProduct(0),
+    _totalProduct(0),
+    _blending(nullptr),
     _selfRecycle(0) {}
 
 ROPass::~ROPass() {
-//    delete _blendedRecycledFeed;
     delete _firstStageFeed;
     delete _concentrate;
     delete _permeate;
     delete _totalProduct;
+    delete _feed;
+    delete _blending;
     qDeleteAll(_stages); _stages.clear();
 }
 
 ROSystem* ROPass::system() const { return _system; }
 ROFlow* const ROPass::permeate() const { return _permeate; }
+ROFlow * const ROPass::rawWater() const { return _rawWater; }
 ROFlow* const ROPass::totalProduct() const { return _totalProduct; }
 ROFlow* const ROPass::concentrate() const { return _concentrate; }
 ROFlow* const ROPass::feed() const { return _feed; }
-//ROFlow* const ROPass::blendedRecycledFeed() const { return _blendedRecycledFeed; }
 ROFlow* const ROPass::firstStageFeed() const { return _firstStageFeed; }
 double ROPass::recovery() const { return _recovery; }
 int ROPass::stageCount() const { return _stages.count(); }
@@ -262,15 +268,6 @@ double ROPass::activeArea() const {
 bool ROPass::hasSelfRecycle() const { return _hasSelfRecycle; }
 double ROPass::selfRecycle() const { return _selfRecycle; }
 
-//void ROPass::removeSelfRecycle() {
-//    if (_hasSelfRecycle) {
-//        _hasSelfRecycle = false;
-//        Q_EMIT hasSelfRecycleChanged();
-//    }
-//    _selfRecycle = 0.0;
-//    Q_EMIT selfRecycleChanged();
-//}
-
 bool ROPass::hasBlendPermeate() const { return system()->passHasBlendPermeate(this); }
 
 double ROPass::flowFactor() const {
@@ -286,7 +283,7 @@ double ROPass::saltPassageYearIncrease() const
     return system()->saltPassageYearIncrease();
 }
 
-double ROPass::blendPermeate() const { return _blendPermeate; }
+double ROPass::blendPermeate() const { return _blending->rate(); }
 
 double ROPass::power() const {
     return firstStageFeed()->pressure() * firstStageFeed()->rate() * 0.03472222222;
@@ -296,47 +293,18 @@ double ROPass::specificEnergy() const {
     return permeate()->rate() > 0.0 ? power() / permeate()->rate() : 0.0;
 }
 
-//void ROPass::setFlowFactor(double value) {
-//    // TODO bounds to properties
-//    _flowFactor = qBound(0.01, value, 1.0); // TODO CONSTS
-//    Q_EMIT flowFactorChanged();
-//}
-
 void ROPass::setBlendPermeate(double value) {
-    double newValue = qBound(0.0, value, permeate()->rate());
-    if (_blendPermeate != newValue) {
-        _blendPermeate = newValue;
-        Q_EMIT blendPermeateChanged();
-    }
+    double maxBlending = this == system()->firstPass() ? value: rawWater()->rate();
+    _blending->setRate(qBound(0.0, value, maxBlending));
 }
 
 void ROPass::setSelfRecycle(double value) {
-//    if (!_hasSelfRecycle) {
-//        _hasSelfRecycle = true;
-//        Q_EMIT hasSelfRecycleChanged();
-//    }
     double boundValue = qMax(0.0, value);
     if (_selfRecycle == boundValue)
         return;
     _selfRecycle = boundValue;
     Q_EMIT selfRecycleChanged();
 }
-
-//void ROPass::removeBlendPermeate() {
-//    if (_hasBlendPermeate) {
-//        _hasBlendPermeate = false;
-//        Q_EMIT hasBlendPermeateChanged();
-//    }
-//}
-
-//void ROPass::setHasBlendPermeate(bool hasBlendPermeate)
-//{
-//    if (_hasBlendPermeate == hasBlendPermeate)
-//        return;
-
-//    _hasBlendPermeate = hasBlendPermeate;
-//    Q_EMIT hasBlendPermeateChanged();
-//}
 
 void ROPass::setHasSelfRecycle(bool hasSelfRecycle)
 {
@@ -358,11 +326,6 @@ const QMap<int, double> ROPass::incomingRecycles() const {
 ROStage* const ROPass::firstStage() const { return _stages.first(); }
 ROStage* const ROPass::lastStage() const { return _stages.last(); }
 
-
-void ROPass::updateBlendPermeate() {
-    if (hasBlendPermeate())
-        setBlendPermeate(_blendPermeate);
-}
 
 void ROPass::updateRecycles() {
     double totalRecycles = 0.0;
@@ -394,7 +357,8 @@ void ROPass::reset() {
     setSelfRecycle(0.0);
     setStageCount(1);
     firstStage()->reset();
-    feed()->setRate(0.0);
+    feed()->reset();
     setRecovery(0.0);
-    permeate()->setRate(0.0);
+    permeate()->reset();
+    _blending->reset();
 }

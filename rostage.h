@@ -95,7 +95,6 @@ public:
     void setBackPressure(double value);
 
     double activeArea() const;
-    double recovery() const;
 
     ROStage* clone(ROFlow* newFeed = 0);
     void copyDataFrom(const ROStage* const);

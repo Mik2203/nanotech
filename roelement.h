@@ -40,7 +40,6 @@ public:
     ROStage* const stage() const;
 
     double activeArea() const;
-    double recovery() const;
 
     ROElement* clone(ROFlow* newFeed = 0);
     //void copyDataFrom(const ROStage* const);

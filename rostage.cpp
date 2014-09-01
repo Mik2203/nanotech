@@ -69,7 +69,6 @@ ROStage::~ROStage() {
 ROFlow* const ROStage::feed() const { return _feed; }
 ROFlow* const ROStage::permeate() const { return _permeate; }
 ROFlow* const ROStage::concentrate() const { return _concentrate; }
-double ROStage::recovery() const { return feed() ? permeate()->rate() / feed()->rate() : 0.0; }
 
 int ROStage::vesselCount() const { return _vesselCount; }
 int ROStage::elementsPerVesselCount() const { return _elements.count(); }

@@ -39,7 +39,6 @@ ROElement::~ROElement() {
 ROFlow* const ROElement::feed() const { return _feed; }
 ROFlow* const ROElement::permeate() const { return _permeate; }
 ROFlow* const ROElement::concentrate() const { return _concentrate; }
-double ROElement::recovery() const { return feed() ? permeate()->rate() / feed()->rate() : 0.0; }
 ROStage* const ROElement::stage() const { return _stage; }
 void ROElement::setFeed(ROFlow* const newFeed) { _feed = newFeed; emit feedChanged(); }
 double ROElement::activeArea() const { return stage()->membrane() ? stage()->membrane()->activeArea() : 0.0; }

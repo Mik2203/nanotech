@@ -62,6 +62,18 @@ bool ROFlowMixer::removeFeed(int feedIndex)  {
     }
     return false;
 }
+
+void ROFlowMixer::clearFeeds()
+{
+    while (_inputFeeds.count())
+        removeFeed(0);
+}
+
+void ROFlowMixer::reset()
+{
+    clearFeeds();
+    setOutputFlow(nullptr);
+}
 int ROFlowMixer::feedCount() const { return _inputFeeds.count(); }
 
 void ROFlowMixer::mixRate() {
@@ -181,7 +193,7 @@ void ROFlowMixer::setOutputFlow(ROFlow* flow) {
 
     recalculate();
 
-    emit outputFlowChanged();
+    Q_EMIT outputFlowChanged();
 }
 
 void ROFlowMixer::recalculate() {

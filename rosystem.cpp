@@ -144,7 +144,7 @@ int ROSystem::partFeedIndex(ROFeed* feed) const { return _feeds.indexOf(feed); }
 
 ROPass* ROSystem::addPass(int copyFromPassNumber) {
     if (_passes.count() < _MAX_PASSES_COUNT) {
-        ROFlow* feed = _passes.last()->permeate();
+        ROFlow* feed = _passes.last()->totalProduct();
         ROPass* newPass;
         if (0 <= copyFromPassNumber && copyFromPassNumber < _passes.count()) {
             newPass = pass(copyFromPassNumber)->clone(feed);
@@ -179,19 +179,19 @@ bool ROSystem::removePass(int passIndex) {
 
         if (passIndex == 0) {  // first pass
             ROPass* newFirstPass = _passes[passIndex];
-            newFirstPass->setFeed(adjustedFeed());
+            newFirstPass->setRawWater(adjustedFeed());
 
             // first pass flow factor
             connect(this, SIGNAL(waterTypeIndexChanged()), newFirstPass, SIGNAL(flowFactorChanged()));
-            Q_EMIT waterTypeIndexChanged(); // TODO how to do it like this: newFirstPass->flowFactorChanged() ?
+            Q_EMIT waterTypeIndexChanged();
 
             // first pass SP increase
             connect(this, SIGNAL(elementLifetimeChanged()), newFirstPass, SIGNAL(saltPassageYearIncreaseChanged()));
-            Q_EMIT elementLifetimeChanged(); // TODO how to do it like this: newFirstPass->flowFactorChanged() ?
+            Q_EMIT elementLifetimeChanged();
 
             Q_EMIT firstPassChanged();
         } else if (passIndex < _passes.count()){
-            _passes[passIndex]->setFeed(_passes[passIndex-1]->permeate());
+            _passes[passIndex]->setRawWater(_passes[passIndex-1]->totalProduct());
         } else { // last pass has been removed
             Q_EMIT lastPassChanged();
         }
@@ -254,7 +254,7 @@ bool ROSystem::removePartFeed(int feedIndex) {
 }
 
 ROFlow* const ROSystem::permeate() const { return lastPass()->totalProduct(); }
-void ROSystem::refreshPermeate() { connect(lastPass()->permeate(), SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged())); Q_EMIT permeateChanged();}
+void ROSystem::refreshPermeate() { connect(lastPass()->totalProduct(), SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged())); Q_EMIT permeateChanged();}
 
 void ROSystem::updateHasBlend()
 {
@@ -268,6 +268,11 @@ void ROSystem::updateHasBlend()
     disconnect(SIGNAL(hasBlendPermeateChanged()));  // отключение прошлой последней ступени
     connect(this, SIGNAL(hasBlendPermeateChanged()), lastPass(), SIGNAL(hasBlendPermeateChanged()));
 }
+
+//void ROSystem::updateBlend()
+//{
+
+//}
 
 void ROSystem::reset() {
 
@@ -286,15 +291,10 @@ void ROSystem::resetSystem() {
     firstPass()->reset();
     setHasBlendPermeate(false);
     setBlendPermeate(0.0);
+    _concentrate->reset();
     _passRecycles.clear();
 }
 
-
-double ROSystem::recovery() const {
-    double inputRate = feed()->rate();
-    double outputRate = permeate()->rate();
-    return outputRate / inputRate;
-}
 
 double ROSystem::power() const {
     double sysPower = 0.0;
@@ -371,6 +371,7 @@ void ROSystem::setHasBlendPermeate(bool hasBlendPermeate)
         return;
 
     _hasBlendPermeate = hasBlendPermeate;
+
     Q_EMIT hasBlendPermeateChanged();
 }
 
@@ -456,7 +457,7 @@ void ROSystem::copyDataFrom(const ROSystem* const from) {
 
 void ROSystem::copySystemDataFrom(const ROSystem *const from) {
     this->concentrate()->copyDataFrom(from->concentrate());
-    this->permeate()->copyDataFrom(from->permeate());
+//    this->permeate()->copyDataFrom(from->permeate());
 
     // COPY PASSES
     this->setPassCount(from->passCount());

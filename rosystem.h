@@ -105,7 +105,6 @@ public:
 
     double temperature() const;
     double pH() const;
-    double recovery() const;
     double power() const;
     double specificEnergy() const;
     ROFlow* const permeate() const;
@@ -132,6 +131,7 @@ public:
     double recycle(int fromPassIdx, int toPassIdx) const;
     double recycle(const ROPass* const fromPass, const ROPass* const toPass) const;
 
+    // TODO здесь нет проверки значений как ROPass::addRecycle. надо закрыть метод или сделать проверку. Лучше перенести всю логику сюда из ступени.
     void setPassRecycle(int fromPassIdx, int toPassIdx, double value);
     void setPassRecycle(const ROPass* const fromPass, const ROPass* const toPass, double value);
 
@@ -176,6 +176,8 @@ private:
     bool _hasBlendPermeate;
     double _blendPermeate;
 
+    ROFlowMixer * _aboutBlend_R;
+
     static const int _MAX_PASSES_COUNT;
     static const int _MIN_PASSES_COUNT;
     static const int _MAX_FEEDS_COUNT;
@@ -209,6 +211,7 @@ signals:
 private slots:
     void refreshPermeate();
     void updateHasBlend();
+//    void updateBlend();
 
 public slots:
     void reset();

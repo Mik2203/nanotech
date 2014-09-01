@@ -17,7 +17,7 @@ public:
     virtual ROFlow* const concentrate() const =0;
 
     virtual double activeArea() const =0;
-    virtual double recovery() const =0;
+    virtual double recovery() const;
     virtual double averageFlux() const;
 signals:
     

@@ -28,12 +28,22 @@ double ROFlow::osmoticPressure() const {
 
 ROSolutes* const ROFlow::solutes() const { return _solutes; }
 
-void ROFlow::setRate(double rate) { _rate = rate; emit rateChanged(); }//TODO CHECK CONSTS
+void ROFlow::setRate(double rate) {
+    if (_rate == rate)
+        return;
+    _rate = rate;
+    Q_EMIT rateChanged();
+}//TODO CHECK > 0!
 
-void ROFlow::setPressure(double value) { _pressure = value; emit pressureChanged(); }
+void ROFlow::setPressure(double value) {
+    if (_pressure == value)
+        return;
+    _pressure = value;
+    Q_EMIT pressureChanged();
+}
 void ROFlow::updateOsmoticPressure() {
     _osmoticPressure = PI(solutes(), temperature());
-    emit osmoticPressureChanged();
+    Q_EMIT osmoticPressureChanged();
 }
 
 void ROFlow::mix(const ROFlow* other) {
