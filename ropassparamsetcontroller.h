@@ -34,9 +34,6 @@ public:
     void setRecoverySetState(ParamSetState state);
     void setPermeateSetState(ParamSetState state);
 
-    void setNextController(ROPassParamSetController* const next);
-    void setPrevController(ROPassParamSetController* const prev);
-
     bool allSet() const;
 
 signals:
@@ -55,11 +52,7 @@ private:
     ParamSetState _feedSetState;
     ParamSetState _recoverySetState;
     ParamSetState _permeateSetState;
-    bool _statesChanging;
-
-    ROPassParamSetController* _prev;
-    ROPassParamSetController* _next;
-    
+    bool _statesChanging;    
 };
 
 #endif // ROPASSPARAMSETCONTROLLER_H

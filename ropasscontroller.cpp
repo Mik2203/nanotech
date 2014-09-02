@@ -30,6 +30,7 @@ ROPassController::ROPassController(ROPass* pass, ROSystemController* sysC) :
     updateStages();
 
     connect(_pass, SIGNAL(hasBlendPermeateChanged()), this, SLOT(updateBlend()));
+    updateBlend();
 
     // ON ANY PASS PARAM CHANGED
     // ... PASS
@@ -104,16 +105,6 @@ void ROPassController::updateFlowParams() {
 
 }
 
-//void ROPassController::updateFeed() {
-//    if (_pass->feed()) {
-//        connect(_pass->feed(), SIGNAL(rateChanged()), this, SLOT(updateFlowParams()));
-
-//        // FEED INPUT CHANGES
-//        connect(_pass->feed(), SIGNAL(rateChanged()), this, SIGNAL(inputChanged()));
-//        updateFlowParams();
-//    }
-//}
-
 bool ROPassController::hasAnyCriticalWarnings() const {
     bool hasW = _fillFlowData->enabled() || _checkRecovery->enabled() /*|| _badInputData->enabled()*/;
     for (int scIdx = 0; scIdx < _stageControllers.count(); ++scIdx) {
@@ -170,24 +161,32 @@ void ROPassController::updateStages() {
 void ROPassController::updateBlend()
 {
     ROPass * blendPass = pass();
-    // reset blend mixer
+
+    _aboutBlend_R->reset();
 
 
-    if (blendPass->hasBlendPermeate()) {
-        if (blendPass == pass()->system()->firstPass()) {
-            _aboutBlend_R->addFeed(blendPass->feed(), ROFlowMixer::FlowAdd);
-            _aboutBlend_R->addFeed(blendPass->_blending, ROFlowMixer::FlowAdd);
-            _aboutBlend_R->setOutputFlow(blendPass->rawWater());
-        } else {
-            _aboutBlend_R->addFeed(blendPass->rawWater(), ROFlowMixer::FlowAdd);
-            _aboutBlend_R->addFeed(blendPass->_blending, ROFlowMixer::FlowSubtract);
-            _aboutBlend_R->setOutputFlow(blendPass->feed());
-        }
-
+    // totalProduct
+    if (blendPass->hasBlendPermeate())
         _toTotalProduct_RS->addFeed(_pass->_blending, ROFlowMixer::FlowAdd);
-    } else {
-        _aboutBlend_R->reset();
+    else
         _toTotalProduct_RS->removeFeed(_pass->_blending);
+
+
+    // feed|blend|raw
+    if (blendPass == pass()->system()->firstPass() && blendPass->hasBlendPermeate()) {
+        // смешение на 1 ступени - модель, когда feed и blending являются независимыми,
+        // а объем входного потока rawWater является зависимым и увеличивается.
+        _aboutBlend_R->addFeed(blendPass->feed(), ROFlowMixer::FlowAdd);
+        _aboutBlend_R->addFeed(blendPass->_blending, ROFlowMixer::FlowAdd);
+        _aboutBlend_R->setOutputFlow(blendPass->rawWater());
+    } else {
+        // модель когда feed является зависимым, blending, если есть, ограничивается,
+        // а rawWater - независим.
+        _aboutBlend_R->addFeed(blendPass->rawWater(), ROFlowMixer::FlowAdd);
+        _aboutBlend_R->setOutputFlow(blendPass->feed());
+
+        if (blendPass->hasBlendPermeate())
+            _aboutBlend_R->addFeed(blendPass->_blending, ROFlowMixer::FlowSubtract);
     }
 }
 

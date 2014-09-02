@@ -6,8 +6,6 @@ ROPassParamSetController::ROPassParamSetController(QObject *parent) :
     _recoverySetState(ParamSetUndefined),
     _permeateSetState(ParamSetUndefined),
     _statesChanging(false),
-    _next(0),
-    _prev(0),
     QObject(parent)
 {
 
@@ -29,71 +27,6 @@ ROPassParamSetController::ParamSetState ROPassParamSetController::feedSetState()
 ROPassParamSetController::ParamSetState ROPassParamSetController::recoverySetState() const { return _recoverySetState; }
 ROPassParamSetController::ParamSetState ROPassParamSetController::permeateSetState() const { return _permeateSetState; }
 
-void ROPassParamSetController::setNextController(ROPassParamSetController* const next) {
-    if (next == _next) return;
-    _next = next;
-    if (!next) {
-        if (this->permeateSetState() == ParamSetAuto) {
-            this->setPermeateSetState(ParamSetUndefined);
-            return;
-        }
-    } else {
-        next->setPrevController(this);
-    }
-}
-
-void ROPassParamSetController::setPrevController(ROPassParamSetController* const prev) {
-    if (prev == _prev) return;
-    _prev = prev;
-    if (!prev){
-        if (this->feedSetState() == ParamSetAuto) {
-            this->setFeedSetState(ParamSetUndefined);
-            return;
-        }
-    } else {
-
-        switch (prev->permeateSetState()) {
-        case ParamSetUndefined:
-            switch(this->feedSetState()) {
-            case ParamSetExplicit: prev->setPermeateSetState(ParamSetExplicit); break;
-            case ParamSetImplicit: prev->setPermeateSetState(ParamSetAuto); break;
-            case ParamSetAuto: this->setFeedSetState(ParamSetUndefined); break;
-            }
-            break;
-        case ParamSetExplicit:
-            switch(this->feedSetState()) {
-            case ParamSetUndefined: this->setFeedSetState(ParamSetExplicit); break;
-            case ParamSetImplicit: prev->setPermeateSetState(ParamSetAuto); break;
-            case ParamSetAuto: this->setFeedSetState(ParamSetExplicit); break;
-            }
-            break;
-        case ParamSetImplicit:
-            switch(this->feedSetState()) {
-            case ParamSetUndefined:
-            case ParamSetExplicit: this->setFeedSetState(ParamSetAuto); break;
-            case ParamSetImplicit:
-                this->setRecoverySetState(ParamSetUndefined);
-                this->setFeedSetState(ParamSetAuto);
-                break;
-            case ParamSetAuto: break;
-            }
-
-            break;
-        case ParamSetAuto:
-            switch(this->feedSetState()) {
-            case ParamSetUndefined: prev->setPermeateSetState(ParamSetUndefined); break;
-            case ParamSetExplicit: prev->setPermeateSetState(ParamSetExplicit); break;
-            case ParamSetImplicit: break;
-            case ParamSetAuto:
-                prev->setPermeateSetState(ParamSetUndefined);
-                this->setFeedSetState(ParamSetUndefined);
-                break;
-            }
-
-        }
-        prev->_next = this;
-    }
-}
 
 bool ROPassParamSetController::allSet() const {
     return ((feedSetState() != ParamSetUndefined) &&
@@ -119,19 +52,13 @@ void ROPassParamSetController::setFeedSetState(ParamSetState state) { // TODO CH
                     permeateSetState() == ParamSetAuto))  {
             setRecoverySetState(ParamSetImplicit);
         }
-        if (_prev) {
-            if (state == ParamSetExplicit) _prev->setPermeateSetState(ParamSetExplicit);
-            if (state == ParamSetImplicit) _prev->setPermeateSetState(ParamSetAuto);
-        }
     } else {
         if (recoverySetState() == ParamSetImplicit) setRecoverySetState(ParamSetUndefined);
         else if (permeateSetState() == ParamSetImplicit) setPermeateSetState(ParamSetUndefined);
-
-        if (_prev)  _prev->setPermeateSetState(ParamSetUndefined);
     }
 
 
-    emit feedSetStateChanged();
+    Q_EMIT feedSetStateChanged();
 }
 void ROPassParamSetController::setRecoverySetState(ParamSetState state) {
     if (_recoverySetState == state) return;
@@ -153,7 +80,7 @@ void ROPassParamSetController::setRecoverySetState(ParamSetState state) {
         else if (permeateSetState() == ParamSetImplicit) setPermeateSetState(ParamSetUndefined);
     }
 
-    emit recoverySetStateChanged();
+    Q_EMIT recoverySetStateChanged();
 }
 void ROPassParamSetController::setPermeateSetState(ParamSetState state) {
     if (_permeateSetState == state) return;
@@ -170,17 +97,12 @@ void ROPassParamSetController::setPermeateSetState(ParamSetState state) {
                     recoverySetState() == ParamSetAuto))  {
             setFeedSetState(ParamSetImplicit);
         }
-        if (_next) {
-            if (state == ParamSetExplicit) _next->setFeedSetState(ParamSetExplicit);
-            if (state == ParamSetImplicit) _next->setFeedSetState(ParamSetAuto);
-        }
     } else {
-            if (feedSetState() == ParamSetImplicit) setFeedSetState(ParamSetUndefined);
-            else if (recoverySetState() == ParamSetImplicit) setRecoverySetState(ParamSetUndefined);
-        if (_next) _next->setFeedSetState(ParamSetUndefined);
+        if (feedSetState() == ParamSetImplicit) setFeedSetState(ParamSetUndefined);
+        else if (recoverySetState() == ParamSetImplicit) setRecoverySetState(ParamSetUndefined);
     }
 
-    emit permeateSetStateChanged();
+    Q_EMIT permeateSetStateChanged();
 }
 
 

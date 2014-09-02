@@ -93,11 +93,12 @@ void ROSystemController::updatePasses() {
             if (_sys->passIndex(_passControllers[pcIdx]->pass()) == -1) { // this pass has been removed
                 _passControllers.removeAt(pcIdx);
                 if (pcIdx == 0) {
-                    _passControllers.first()->paramSetC()->setPrevController(0);
+                    _passControllers.first()->paramSetC()->setFeedSetState(ROPassParamSetController::ParamSetExplicit);
+//                    _passControllers.first()->paramSetC()->setPrevController(0);
                 } else if (pcIdx < _passControllers.count()) {
-                    _passControllers[pcIdx]->paramSetC()->setPrevController(_passControllers[pcIdx-1]->paramSetC());
+//                    _passControllers[pcIdx]->paramSetC()->setPrevController(_passControllers[pcIdx-1]->paramSetC());
                 } else if (pcIdx == _passControllers.count()) {
-                    _passControllers.last()->paramSetC()->setNextController(0);
+//                    _passControllers.last()->paramSetC()->setNextController(0);
                 }
                 if (_sys->passCount() >= _passControllers.count()) break;
             }
@@ -107,7 +108,9 @@ void ROSystemController::updatePasses() {
             ROPassController* addedPC = new ROPassController(_sys->lastPass(), this);
             connect(addedPC, SIGNAL(hasAnyCriticalWarningsChanged()), this, SIGNAL(hasAnyCriticalWarningsChanged()));
             connect(addedPC, SIGNAL(hasAnyCautionWarningsChanged()), this, SIGNAL(hasAnyCautionWarningsChanged()));
-            if (_passControllers.count() > 0) addedPC->paramSetC()->setPrevController(_passControllers.last()->paramSetC());
+            if (_passControllers.count() > 0) {
+                addedPC->paramSetC()->setFeedSetState(ROPassParamSetController::ParamSetAuto);
+            }
             _passControllers.append(addedPC);
 
             connect(_passControllers.last(), SIGNAL(inputChanged()), this, SIGNAL(inputChanged()));
