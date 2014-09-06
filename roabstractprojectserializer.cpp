@@ -540,21 +540,24 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
 
                             // OPTIONAL permeate Set State
                             if (_curElementType == StartElement && _curText == "permeateSetState") {
-                                passC->paramSetC()->setPermeateSetState(ROPassParamSetController::ParamSetExplicit);
+                                if (passC->paramSetC()->permeateSetState() == ROPassParamSetController::ParamSetUndefined)
+                                    passC->paramSetC()->setPermeateSetState(ROPassParamSetController::ParamSetExplicit);
                                 if (!readElement() || _curElementType != EndElement || _curText != "permeateSetState" ||
                                         !readElement()) return;
                             }
 
                             // OPTIONAL recovery Set State
                             if (_curElementType == StartElement && _curText == "recoverySetState") {
-                                passC->paramSetC()->setRecoverySetState(ROPassParamSetController::ParamSetExplicit);
+                                if (passC->paramSetC()->recoverySetState() == ROPassParamSetController::ParamSetUndefined)
+                                    passC->paramSetC()->setRecoverySetState(ROPassParamSetController::ParamSetExplicit);
                                 if (!readElement() || _curElementType != EndElement || _curText != "recoverySetState" ||
                                         !readElement()) return;
                             }
 
                             // OPTIONAL feed Set State
                             if (_curElementType == StartElement && _curText == "feedSetState") {
-                                passC->paramSetC()->setFeedSetState(ROPassParamSetController::ParamSetExplicit);
+                                if (passC->paramSetC()->feedSetState() == ROPassParamSetController::ParamSetUndefined)
+                                    passC->paramSetC()->setFeedSetState(ROPassParamSetController::ParamSetExplicit);
                                 if (!readElement() || _curElementType != EndElement || _curText != "feedSetState" ||
                                         !readElement()) return;
                             }

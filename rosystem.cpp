@@ -15,7 +15,7 @@ const int ROSystem::_MAX_FEEDS_COUNT = 4;
 const int ROSystem::_MIN_FEEDS_COUNT = 1;
 
 ROSystem::ROSystem() :
-    _feedsToResultFeed_STH(new ROFlowMixer(ROFlowMixer::FlowTemperature | ROFlowMixer::FlowSolutes/* | ROFlowMixer::FlowPH*/)),
+    _feedsToResultFeed_STH(new ROFlowMixer(ROFlowMixer::FlowTemperature | ROFlowMixer::FlowSolutes)),
     _adjustedFeedToResultFeed_R(new ROFlowMixer(ROFlowMixer::FlowRate)),
     _concentrate(new ROFlow()),
     _resultFeed(new ROFlow()),
@@ -80,11 +80,11 @@ ROSystem::ROSystem() :
 ROSystem::~ROSystem() {
     qDeleteAll(_passes); _passes.clear();
     qDeleteAll(_feeds); _feeds.clear();
-    delete _concentrate;
-    delete _resultFeed;
-    delete _feedsToResultFeed_STH;
-    delete _adjustedFeedToResultFeed_R;
-    delete _scalingElement;
+    delete _concentrate; const_cast<ROFlow*>(_concentrate) = nullptr;
+    delete _resultFeed; const_cast<ROFlow*>(_resultFeed) = nullptr;
+    delete _feedsToResultFeed_STH; const_cast<ROFlowMixer*>(_feedsToResultFeed_STH) = nullptr;
+    delete _adjustedFeedToResultFeed_R; const_cast<ROFlowMixer*>(_adjustedFeedToResultFeed_R) = nullptr;
+    delete _scalingElement; _scalingElement = nullptr;
 }
 
 ROFlow* const ROSystem::feed() const { return _resultFeed; }
@@ -123,6 +123,7 @@ double ROSystem::recycle(const ROPass *const fromPass, const ROPass *const toPas
 void ROSystem::setPassRecycle(int fromPassIdx, int toPassIdx, double value) {
     if (0 <= fromPassIdx && fromPassIdx < passCount() && toPassIdx < fromPassIdx) {
         _passRecycles[fromPassIdx][toPassIdx] = value;
+        notifyPassIncomingRecyclesChanged(toPassIdx);
     }
 }
 
@@ -144,6 +145,8 @@ int ROSystem::partFeedIndex(ROFeed* feed) const { return _feeds.indexOf(feed); }
 
 ROPass* ROSystem::addPass(int copyFromPassNumber) {
     if (_passes.count() < _MAX_PASSES_COUNT) {
+        Q_EMIT beforeAddPass();
+
         ROFlow* feed = _passes.last()->totalProduct();
         ROPass* newPass;
         if (0 <= copyFromPassNumber && copyFromPassNumber < _passes.count()) {
@@ -164,6 +167,7 @@ ROPass* ROSystem::addPass(int copyFromPassNumber) {
         connect(newPass, SIGNAL(stageCountChanged()), this, SIGNAL(stagesCountChanged()));
 
 
+        Q_EMIT afterAddPass();
         Q_EMIT passCountChanged();
         return newPass;
     }
@@ -175,6 +179,7 @@ bool ROSystem::removePass(int passIndex) {
     if (_passes.count() > _MIN_PASSES_COUNT &&
             (0 <= passIndex && passIndex < _passes.count())) {
 
+        Q_EMIT beforePassRemoved(passIndex);
         ROPass* removingPass = _passes.takeAt(passIndex);
 
         if (passIndex == 0) {  // first pass
@@ -199,14 +204,15 @@ bool ROSystem::removePass(int passIndex) {
 
         delete removingPass;
 
-        emit passCountChanged();
+        Q_EMIT afterPassRemoved(passIndex);
+        Q_EMIT passCountChanged();
         return true;
     }
     return false;
 }
 
 bool ROSystem::setPassCount(int passCount) {
-    if (_MIN_PASSES_COUNT <= passCount && passCount <= _MAX_PASSES_COUNT) {
+    if (_MIN_PASSES_COUNT <= passCount && passCount <= _MAX_PASSES_COUNT) { // TODO qbound
         while (passCount > _passes.count()) addPass();
         while (passCount < _passes.count()) removePass();
         return true;
@@ -291,7 +297,7 @@ void ROSystem::resetSystem() {
     firstPass()->reset();
     setHasBlendPermeate(false);
     setBlendPermeate(0.0);
-    _concentrate->reset();
+//    _concentrate->reset();
     _passRecycles.clear();
 }
 
@@ -317,8 +323,14 @@ double ROSystem::pH() const { return feed()->pH(); }
 
 void ROSystem::removePassRecycle(int fromPassIdx, int toPassIdx) {
     if (_passRecycles.contains(fromPassIdx)) {
-        if (toPassIdx == -1) _passRecycles.remove(fromPassIdx);
-        else _passRecycles[fromPassIdx].remove(toPassIdx);
+        if (toPassIdx == -1) {
+            Q_FOREACH(int toP, _passRecycles.take(fromPassIdx)) {
+                notifyPassIncomingRecyclesChanged(toP);
+            }
+        } else {
+            _passRecycles[fromPassIdx].remove(toPassIdx);
+            notifyPassIncomingRecyclesChanged(toPassIdx);
+        }
     }
 }
 
@@ -373,6 +385,13 @@ void ROSystem::setHasBlendPermeate(bool hasBlendPermeate)
     _hasBlendPermeate = hasBlendPermeate;
 
     Q_EMIT hasBlendPermeateChanged();
+}
+
+void ROSystem::notifyPassIncomingRecyclesChanged(int passIndex)
+{
+    connect(this, SIGNAL(passIncomingRecyclesChangedEmitter()), pass(passIndex), SIGNAL(incomingRecyclesChanged()));
+    Q_EMIT passIncomingRecyclesChangedEmitter();
+    disconnect(this, SIGNAL(passIncomingRecyclesChangedEmitter()), pass(passIndex), SIGNAL(incomingRecyclesChanged()));
 }
 
 double ROSystem::activeArea() const {

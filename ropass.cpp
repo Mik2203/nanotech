@@ -94,12 +94,8 @@ void ROPass::copyDataFrom(const ROPass* const from) {
 }
 
 void ROPass::setRawWater(ROFlow* rawWater) {
-    if (_rawWater) {
-        disconnect(_rawWater, 0, this, 0);
-    }
     Q_EMIT rawWaterChangeBegan();
     _rawWater = rawWater;
-
     Q_EMIT rawWaterChanged();
 }
 
@@ -109,15 +105,16 @@ ROPass::ROPass():
     _permeate(0), _firstStageFeed(0),
     _totalProduct(0),
     _blending(nullptr),
+    _rawWater(nullptr),
     _selfRecycle(0) {}
 
 ROPass::~ROPass() {
-    delete _firstStageFeed;
-    delete _concentrate;
-    delete _permeate;
-    delete _totalProduct;
-    delete _feed;
-    delete _blending;
+    delete _firstStageFeed;     const_cast<ROFlow*>(_firstStageFeed) = nullptr;
+    delete _concentrate;        const_cast<ROFlow*>(_concentrate) = nullptr;
+    delete _permeate;           const_cast<ROFlow*>(_permeate) = nullptr;
+    delete _totalProduct;       const_cast<ROFlow*>(_totalProduct) = nullptr;
+    delete _feed;               const_cast<ROFlow*>(_feed) = nullptr;
+    delete _blending;           const_cast<ROFlow*>(_blending) = nullptr;
     qDeleteAll(_stages); _stages.clear();
 }
 
@@ -210,7 +207,7 @@ void ROPass::addRecycle(const ROPass *const toPass, double rate) {
         auto passOutRecycles = outgoingRecycles();
         auto ro = passOutRecycles.constBegin();
         int toPassIndex = system()->passIndex(toPass);
-        double recycleValue = -1.0; // means does not exists
+        double recycleValue = -1.0; // means does not exists TODO а где это учитывается?
         while (ro != passOutRecycles.constEnd()) {
             int rpo = ro.key(); // recycle pass index
             if (toPassIndex != rpo) totalRecycles += ro.value();
@@ -323,6 +320,15 @@ const QMap<int, double> ROPass::incomingRecycles() const {
     return system()->passIncomingRecycles(system()->passIndex(this));
 }
 
+double ROPass::incomingRecyclesRate() const
+{
+    double totalRate =0.0;
+    Q_FOREACH(double r, incomingRecycles().values()) {
+        totalRate += r;
+    }
+    return totalRate;
+}
+
 ROStage* const ROPass::firstStage() const { return _stages.first(); }
 ROStage* const ROPass::lastStage() const { return _stages.last(); }
 
@@ -361,4 +367,5 @@ void ROPass::reset() {
     setRecovery(0.0);
     permeate()->reset();
     _blending->reset();
+    setRawWater(rawWater());  // reset raw water
 }

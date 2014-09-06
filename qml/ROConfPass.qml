@@ -16,15 +16,19 @@ Item {
     property ROPassController passC: sysC.passC(pass)
     height: column_panel.height
     onPassChanged: selectedStage = pass.firstStage
+    property bool passHasIncomingRecycles: __calcPassHasIncomingRecycles()
+    property real passIncomingRecyclesRate: __calcPassIncomingRecyclesRate()
 
-    function __passHasIncomingRecycles() {
+
+    function __calcPassHasIncomingRecycles() {
         for (var pi=passIndex+1; pi<sys.passCount; ++pi) {
             if (sys.pass(pi).hasRecycle(passIndex))
                 return true;
         }
         return false;
     }
-    function __passIncomingRecyclesRate() {
+
+    function __calcPassIncomingRecyclesRate() {
         var rate = 0.0;
         for (var pi=passIndex+1; pi<sys.passCount; ++pi) {
             if (sys.pass(pi).hasRecycle(passIndex))
@@ -32,23 +36,22 @@ Item {
         }
         return rate;
     }
-    function __updateRowsVisibility() {
-        originalFeedRow.visible = __passHasIncomingRecycles()
-        if (originalFeedRow.visible)
-            originalFeedRow.originalFeed = pass.feed.rate - __passIncomingRecyclesRate()
-        stageFeedRow.visible = __passHasIncomingRecycles() || pass.hasSelfRecycle || pass.hasBlendPermeate
+    function __updatePassIncomingRecycles() {
+        passHasIncomingRecycles = __calcPassHasIncomingRecycles();
+        passIncomingRecyclesRate = __calcPassIncomingRecyclesRate();
     }
-    onPassIndexChanged: __updateRowsVisibility()
-    Connections {
-        target: pass
-        onHasSelfRecycleChanged: __updateRowsVisibility()
-        onHasBlendPermeateChanged: __updateRowsVisibility()
-    }
+
+    onPassIndexChanged: __updatePassIncomingRecycles()
+//    Connections {
+//        target: pass
+//        onHasSelfRecycleChanged: __updatePassIncomingRecycles()
+//        onHasBlendPermeateChanged: __updatePassIncomingRecycles()
+//    }
     Repeater {
         model: sys.passCount
         Connections {
             target: sys.pass(index)
-            onRecycleChanged: __updateRowsVisibility()
+            onRecycleChanged: __updatePassIncomingRecycles()
         }
     }
 
@@ -192,7 +195,7 @@ Item {
             Text {
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                text: app.translator.emptyString + qsTr("Feed flow:")
+                text: app.translator.emptyString + qsTr("Feed flow (F%1):").arg(passIndex+1)
             }
 
             ROWidgets.CheckBox {
@@ -347,7 +350,7 @@ Item {
                     width: 50
                     editable: parent.editable
 
-                    value: app.units.convertFlowUnits(pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits)
+                    value: editable ? app.units.convertFlowUnits(pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits) : 0.0
                     onInputChanged: {
                         if (!sys.hasBlendPermeate)
                             sys.hasBlendPermeate = true;
@@ -403,87 +406,46 @@ Item {
 
             }
 
-            Column {
+            Item { // PASS BLEND PERMEATE EDITOR ROW
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.right: parent.right
+                height: 20
 
-                visible: pass.hasBlendPermeate// && pass.blendPermeate > 0.0
+                visible: pass.hasBlendPermeate
 
-//                Item {
-//                    anchors.left: parent.left
-//                    anchors.right: parent.right
-//                    height: 20
-
-//                    Text {
-//                        anchors.left: parent.left
-//                        anchors.verticalCenter: parent.verticalCenter
-//                        text: app.translator.emptyString + qsTr("Feed on stages (SF%1):").arg(passIndex+1)
-//                    }
-
-//                    Text {
-//                        id: feedOnStageValue
-//                        anchors.right: feedOnStageUnits.left
-//                        anchors.rightMargin: 5
-//                        anchors.verticalCenter: parent.verticalCenter
-//                        horizontalAlignment: Text.AlignRight
-//                        verticalAlignment: Text.AlignVCenter
-//                        height: parent.height-3
-//                        width: 50
-//                        text: app.units.convertFlowUnits(pass.feed.rate - pass.blendPermeate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
-//                        // KeyNavigation.backtab: passFlowFactorInput
-//                    }
-
-//                    Text {
-//                        id: feedOnStageUnits
-//                        anchors.right: parent.right
-//                        anchors.rightMargin: parent.height-3
-//                        anchors.verticalCenter: parent.verticalCenter
-//                        text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
-//                        font.italic: true
-//                        horizontalAlignment: Text.AlignLeft
-//                        width: 30
-//                    }
-//                }
-
-                Item { // PASS BLEND PERMEATE EDITOR ROW
+                Text {
                     anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: 20
-
-                    Text {
-                        anchors.left: parent.left
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.italic: true
-                        text: app.translator.emptyString + qsTr("Total product (TP%1):").arg(passIndex+1)
-                    }
-
-                    Text {
-                        id: permeateFromStagesValue
-                        anchors.right: permeateFromStagesUnits.left
-                        anchors.rightMargin: 5
-                        anchors.verticalCenter: parent.verticalCenter
-                        horizontalAlignment: Text.AlignRight
-                        verticalAlignment: Text.AlignVCenter
-                        height: parent.height-3
-                        width: 50
-                        font.italic: true
-                        text: app.units.convertFlowUnits(pass.totalProduct.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
-                        // KeyNavigation.backtab: passFlowFactorInput
-                    }
-
-                    Text {
-                        id: permeateFromStagesUnits
-                        anchors.right: parent.right
-                        anchors.rightMargin: parent.height-3
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
-                        font.italic: true
-                        horizontalAlignment: Text.AlignLeft
-                        width: 30
-                    }
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.italic: true
+                    font.underline: true
+                    text: app.translator.emptyString + qsTr("Total product (TP%1):").arg(passIndex+1)
                 }
 
+                Text {
+                    id: permeateFromStagesValue
+                    anchors.right: permeateFromStagesUnits.left
+                    anchors.rightMargin: 5
+                    anchors.verticalCenter: parent.verticalCenter
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignVCenter
+                    height: parent.height-3
+                    width: 50
+                    font.italic: true
+                    text: app.units.convertFlowUnits(pass.totalProduct.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+                    // KeyNavigation.backtab: passFlowFactorInput
+                }
+
+                Text {
+                    id: permeateFromStagesUnits
+                    anchors.right: parent.right
+                    anchors.rightMargin: parent.height-3
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+                    font.italic: true
+                    horizontalAlignment: Text.AlignLeft
+                    width: 30
+                }
             }
         }
 
@@ -551,6 +513,94 @@ Item {
                     font.italic: true
                     horizontalAlignment: Text.AlignLeft
                     width: 30
+                }
+            }
+
+            Column {
+                visible: pass.hasSelfRecycle
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.right: parent.right
+
+                Item {
+                    id: stageFeedRow
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 20
+                    property real stageFeed: pass.feed.rate + (pass.hasSelfRecycle ? pass.selfRecycle : 0.0)
+
+                    Text {
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: app.translator.emptyString + qsTr("Feed on first stage (SF%1):").arg(passIndex+1)
+                        font.italic: true
+                        font.underline: true
+                    }
+
+                    Text {
+                        id: feedOnFirstStageValue
+                        anchors.right: feedOnFirstStageUnits.left
+                        anchors.rightMargin: 5
+                        anchors.verticalCenter: parent.verticalCenter
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                        height: parent.height-3
+                        width: 50
+                        text: app.units.convertFlowUnits(stageFeedRow.stageFeed, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+                        font.italic: true
+                        // KeyNavigation.backtab: passFlowFactorInput
+                    }
+
+                    Text {
+                        id: feedOnFirstStageUnits
+                        anchors.right: parent.right
+                        anchors.rightMargin: parent.height-3
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+                        font.italic: true
+                        horizontalAlignment: Text.AlignLeft
+                        width: 30
+                    }
+                }
+
+
+                Item {
+                    id: averageStagesRecoveryRow
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 20
+
+                    Text {
+                        anchors.left: parent.left
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: app.translator.emptyString + qsTr("Average stages recovery:")
+                        font.italic: true
+                        font.underline: true
+                    }
+
+                    Text {
+                        id: averageStagesRecoveryValue
+                        anchors.right: averageStagesRecoveryUnits.left
+                        anchors.rightMargin: 5
+                        anchors.verticalCenter: parent.verticalCenter
+                        horizontalAlignment: Text.AlignRight
+                        verticalAlignment: Text.AlignVCenter
+                        height: parent.height-3
+                        width: 50
+                        text: (pass.permeate.rate/(pass.feed.rate+pass.selfRecycle) * 100).toFixed(2)
+                        font.italic: true
+                    }
+
+                    Text {
+                        id: averageStagesRecoveryUnits
+                        anchors.right: parent.right
+                        anchors.rightMargin: parent.height-3
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: "%"
+                        font.italic: true
+                        horizontalAlignment: Text.AlignLeft
+                        width: 30
+                    }
                 }
             }
 
@@ -635,89 +685,48 @@ Item {
                 model: passIndex
                 delegate: recyclesDelegate
             }
-
-            Item {
-                id: originalFeedRow
-                anchors.left: parent.left
-                anchors.right: parent.right
-                visible: __passHasIncomingRecycles()
-                height: 20
-                property real originalFeed: pass.feed.rate - pass.recycle(1).rate // TODO!!!!!!!!?????????????????? че за единица?? посчитать все потоки, не только 1
-
-                Text {
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: app.translator.emptyString + qsTr("Original feed flow (F%1):").arg(passIndex+1)
-                    font.italic: true
-                }
-
-                Text {
-                    id: originalFeedRowValue
-                    anchors.right: originalFeedRowUnits.left
-                    anchors.rightMargin: 5
-                    anchors.verticalCenter: parent.verticalCenter
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
-                    height: parent.height-3
-                    width: 50
-                    text: app.units.convertFlowUnits(originalFeedRow.originalFeed, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
-                    font.italic: true
-                    // KeyNavigation.backtab: passFlowFactorInput
-                }
-
-                Text {
-                    id: originalFeedRowUnits
-                    anchors.right: parent.right
-                    anchors.rightMargin: parent.height-3
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
-                    font.italic: true
-                    horizontalAlignment: Text.AlignLeft
-                    width: 30
-                }
-            }
-
-            Item {
-                id: stageFeedRow
-                anchors.left: parent.left
-                anchors.right: parent.right
-                visible: __passHasIncomingRecycles() || pass.hasSelfRecycle || pass.hasBlendPermeate
-                height: 20
-                property real stageFeed: pass.feed.rate + (pass.hasSelfRecycle ? pass.selfRecycle : 0.0)
-
-                Text {
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: app.translator.emptyString + qsTr("Feed on first stage (SF%1):").arg(passIndex+1)
-                    font.italic: true
-                }
-
-                Text {
-                    id: feedOnFirstStageValue
-                    anchors.right: feedOnFirstStageUnits.left
-                    anchors.rightMargin: 5
-                    anchors.verticalCenter: parent.verticalCenter
-                    horizontalAlignment: Text.AlignRight
-                    verticalAlignment: Text.AlignVCenter
-                    height: parent.height-3
-                    width: 50
-                    text: app.units.convertFlowUnits(stageFeedRow.stageFeed, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
-                    font.italic: true
-                    // KeyNavigation.backtab: passFlowFactorInput
-                }
-
-                Text {
-                    id: feedOnFirstStageUnits
-                    anchors.right: parent.right
-                    anchors.rightMargin: parent.height-3
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
-                    font.italic: true
-                    horizontalAlignment: Text.AlignLeft
-                    width: 30
-                }
-            }
         }
+
+//        Item {
+//            id: originalFeedRow
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            visible: passHasIncomingRecycles || pass.hasBlendPermeate
+//            height: 20
+//            property real originalFeed: pass.rawWater.rate - passIncomingRecyclesRate // TODO!!!!!!!!?????????????????? че за единица?? посчитать все потоки, не только 1
+
+//            Text {
+//                anchors.left: parent.left
+//                anchors.verticalCenter: parent.verticalCenter
+//                text: app.translator.emptyString + qsTr("Raw water (RW%1):").arg(passIndex+1)
+//                font.italic: true
+//            }
+
+//            Text {
+//                id: originalFeedRowValue
+//                anchors.right: originalFeedRowUnits.left
+//                anchors.rightMargin: 5
+//                anchors.verticalCenter: parent.verticalCenter
+//                horizontalAlignment: Text.AlignRight
+//                verticalAlignment: Text.AlignVCenter
+//                height: parent.height-3
+//                width: 50
+//                text: app.units.convertFlowUnits(originalFeedRow.originalFeed, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+//                font.italic: true
+//                // KeyNavigation.backtab: passFlowFactorInput
+//            }
+
+//            Text {
+//                id: originalFeedRowUnits
+//                anchors.right: parent.right
+//                anchors.rightMargin: parent.height-3
+//                anchors.verticalCenter: parent.verticalCenter
+//                text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+//                font.italic: true
+//                horizontalAlignment: Text.AlignLeft
+//                width: 30
+//            }
+//        }
 
         Item {
             id: stageContainer

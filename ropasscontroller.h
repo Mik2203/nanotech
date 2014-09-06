@@ -64,15 +64,19 @@ signals:
 public slots:
     void updateWarnings();
     void reset();
+    void updateBlend();
+
+
 
 
 private slots:
 //    void updateFeed();
-    void disconnectRawWater();
+    void processRawWaterBeforeChanged();
+    void processRawWaterAfterChanged();
     void updateFlowParams();
     void updateStages();
-    void updateBlend();
     void updateBlendPermeate();
+    void updateRawWater();
 
 private:
      ROPass* const _pass;
@@ -81,8 +85,11 @@ private:
 
 
      ROFlowMixer * _aboutBlend_R;
-     ROFlowMixer * _toTotalProduct_RS;
-     ROFlowMixer * _toBlending_S;
+     ROFlowMixer * _toTotalProduct_RST;
+     ROFlowMixer * _toBlending_ST;
+     ROFlowMixer * _toFeed_ST;
+
+     ROFlow * const _incomingRecycles_R;
 
 
      ROSystemController* const _sysC;

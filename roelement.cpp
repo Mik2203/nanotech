@@ -32,8 +32,8 @@ ROElement::ROElement(ROStage* stage, ROFlow* feed):
 ROElement::ROElement(): _feed(0), _permeate(0),_concentrate(0) {}
 
 ROElement::~ROElement() {
-    delete _permeate;
-    delete _concentrate;
+    delete _permeate; const_cast<ROFlow*>(_permeate) = nullptr;
+    delete _concentrate; const_cast<ROFlow*>(_concentrate) = nullptr;
 }
 
 ROFlow* const ROElement::feed() const { return _feed; }

@@ -70,7 +70,7 @@ void ROSystemSolver::setSystemValues() {
 
     Eigen::VectorXd sysCcQc = Eigen::VectorXd::Zero(_usedSolutes.count()); // els count
     double sysPf = 0.0;
-    double sysPc = 0.0;
+//    double sysPc = 0.0;
     for (int pi=0; pi<_sys->passCount(); ++pi) {
         ROPass* pass = _sys->pass(pi);
         ROStage* firstStage = pass->firstStage();
@@ -80,7 +80,9 @@ void ROSystemSolver::setSystemValues() {
             int si = _usedSolutes[sii];
             firstStage->feed()->solutes()->setMeql(si, s1sCf(pi, sii));
         }
+        qDebug() << "S1 ph:" << s1PHf(pi);
         firstStage->feed()->solutes()->setPH(s1PHf(pi));
+        firstStage->feed()->setTemperature(T);
         firstStage->feed()->solutes()->endChange();
 
 
@@ -98,6 +100,7 @@ void ROSystemSolver::setSystemValues() {
 
             ROElement* firstElement = stage->firstElement();
             firstElement->feed()->setRate(eQf(pi, ei));
+            firstElement->feed()->setTemperature(T);
             firstElement->feed()->copySolutesFrom(stage->feed());
 
 
@@ -125,6 +128,9 @@ void ROSystemSolver::setSystemValues() {
                 stage->element(ei2)->permeate()->setPH(ePHp(pi, ei));
                 stage->element(ei2)->concentrate()->setPH(ePHc(pi, ei));
 
+                stage->element(ei2)->permeate()->setTemperature(T);
+                stage->element(ei2)->concentrate()->setTemperature(T);
+
                 stage->element(ei2)->permeate()->solutes()->endChange();
                 stage->element(ei2)->concentrate()->solutes()->endChange();
 
@@ -148,14 +154,16 @@ void ROSystemSolver::setSystemValues() {
             int hco3i = _usedSolutes.indexOf(ROSolutes::HCO3);
             int co2i = _usedSolutes.indexOf(ROSolutes::CO2);
             double sPHp = (hco3i >= 0) ? ph(stage->permeate()->solutes()->meql(ROSolutes::HCO3),
-                                           esCp(pi, ei, co2i),
+                                           sCPQP(co2i) / sQP, // esCp(pi, ei, co2i),
                                            T,
                                            stage->permeate()->solutes()->ionicStrength()) : sysPHaf;
             stage->permeate()->solutes()->setPH(sPHp);
+            stage->permeate()->setTemperature(T);
 
             stage->permeate()->solutes()->endChange();
 
             stage->concentrate()->copySolutesFrom(stage->lastElement()->concentrate());
+            stage->concentrate()->setTemperature(T);
 
             // Rates
 
@@ -176,30 +184,32 @@ void ROSystemSolver::setSystemValues() {
 
 
         pass->concentrate()->copySolutesFrom(lastStage->concentrate());
+        pass->concentrate()->setTemperature(T);
         double pQtr = pQsr(pi);
         Q_FOREACH(const double& r, pass->outgoingRecycles()) pQtr += r;
         pass->concentrate()->setRate(lastStage->concentrate()->rate() - pQtr);
-        pass->totalProduct()->setRate(pQpb(pi));
+//        pass->totalProduct()->setRate(pQpb(pi));
 
         // pass solutes
         pass->permeate()->solutes()->beginChange();
-        pass->totalProduct()->solutes()->beginChange();
+//        pass->totalProduct()->solutes()->beginChange();
 
         pass->permeate()->solutes()->reset();//copySolutesFrom(pass->feed());
-        pass->totalProduct()->solutes()->reset();//copySolutesFrom(pass->feed());
+//        pass->totalProduct()->solutes()->reset();//copySolutesFrom(pass->feed());
 
         pass->permeate()->setPH(pPHp(pi));
-        pass->totalProduct()->setPH(pPHpb(pi));
+        pass->permeate()->setTemperature(T);
+//        pass->totalProduct()->setPH(pPHpb(pi));
 
         for (int sii=0; sii<_usedSolutes.count(); ++sii) {
             int si = _usedSolutes[sii];
             pass->permeate()->solutes()->setMeql(si, psCp(pi, sii));
-            pass->totalProduct()->solutes()->setMeql(si, psCpb(pi, sii));
+//            pass->totalProduct()->solutes()->setMeql(si, psCpb(pi, sii));
 
             sysCcQc(sii) += pass->concentrate()->solutes()->meql(si) * pass->concentrate()->rate();
         }
         pass->permeate()->solutes()->endChange();
-        pass->totalProduct()->solutes()->endChange();
+//        pass->totalProduct()->solutes()->endChange();
 
         // pass pressures
         pass->feed()->setPressure(firstStage->feed()->pressure());
@@ -207,29 +217,10 @@ void ROSystemSolver::setSystemValues() {
         pass->concentrate()->setPressure(lastStage->concentrate()->pressure());
 
         sysPf += pass->feed()->pressure();
-        sysPc += pass->concentrate()->pressure();
     }
-
-    double sysQc = _sys->feed()->rate() - _sys->permeate()->rate(); // sys permeate = last pass permeate
-    _sys->concentrate()->setRate(sysQc);
-    _sys->concentrate()->solutes()->beginChange();
-    _sys->concentrate()->solutes()->reset(); //copySolutesFrom(sys->adjustedFeed());
-
-    for (int sii=0; sii<_usedSolutes.count(); ++sii) {
-        int si = _usedSolutes[sii];
-        _sys->concentrate()->solutes()->setMeql(si, sysCcQc(sii) / sysQc);
-    }
-    int hco3i = _usedSolutes.indexOf(ROSolutes::HCO3);
-    int co2i = _usedSolutes.indexOf(ROSolutes::CO2);
-    double sysPHc = (hco3i >= 0) ? ph(_sys->concentrate()->solutes()->meql(ROSolutes::HCO3),
-                                     esCp(0, 0, co2i),
-                                     T,
-                                     _sys->concentrate()->solutes()->ionicStrength()) : sysPHaf;
-    _sys->concentrate()->solutes()->setPH(sysPHc);
-    _sys->concentrate()->solutes()->endChange();
 
     _sys->feed()->setPressure(sysPf);
-    _sys->concentrate()->setPressure(sysPc);
+//    _sys->feed()->setRate();
 }
 
 
@@ -311,8 +302,8 @@ bool ROSystemSolver::init() {
     // Подсчет количества элементов в ступени
     pQb = Eigen::VectorXd::Zero(_sys->passCount()); // blending rates
     pQfb = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates after blend
-    pQf = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates on pass
-    pQfr = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates after big recycles
+    pQraw = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates on pass
+    pQf = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates after big recycles
 
     sysCaf = _sys->adjustedFeed()->solutes()->totalValue(ROSolutes::Meql); // sys adjusted feed concentration
     sysIaf = _sys->adjustedFeed()->solutes()->ionicStrength();
@@ -322,7 +313,7 @@ bool ROSystemSolver::init() {
     for (int sii=0; sii<_usedSolutes.count(); ++sii) {
         int si = _usedSolutes[sii];
         syssCaf(sii) = _sys->adjustedFeed()->solutes()->meql(si);
-        _preComputedICoeffs(sii) = -ROSolutes::ionicCharge(si) * ROSolutes::ionicCharge(si) * lToKg / 2;
+        _preComputedICoeffs(sii) = -abs(ROSolutes::ionicCharge(si)) * lToKg / 2;
     }
     sysQaf = _sys->adjustedFeed()->rate(); // sys adjusted feed concentration
 
@@ -342,14 +333,13 @@ bool ROSystemSolver::init() {
         pQr(pi) = 0.0;
         Q_FOREACH(const double& r, pass->incomingRecycles()) pQr[pi] += r;
         pQp(pi) = pass->permeate()->rate();
-        double pQf_user = pass->feed()->rate();
-        pQf[pi] = pQf_user - pQr(pi);
+        pQraw[pi] = pass->rawWater()->rate();
         pFF[pi] = pass->flowFactor();
         pSPI[pi] = pow(1.0 + pass->saltPassageYearIncrease(), _sys->elementLifetime());
         pQb[pi] = pass->hasBlendPermeate() ? pass->blendPermeate() : 0.0;
-        pQfr[pi] = pQf_user - pQb[pi];
-        pQfb[pi] = pQf[pi] - pQb[pi];
-        e1vQf[pi] = (pQfr[pi] + pQsr[pi]); // / pass->firstStage()->vesselCount(); // TODO nano ne nado delit' - ne pomnu
+        pQf[pi] = pass->feed()->rate();
+        pQfb[pi] = pass->feed()->rate() - pQr(pi);
+        e1vQf[pi] = (pQf[pi] + pQsr[pi]); // / pass->firstStage()->vesselCount(); // TODO nano ne nado delit' - ne pomnu
         pQpb(pi) = pQp(pi) + pQb(pi);
     }
 
@@ -491,8 +481,8 @@ void ROSystemSolver::initPass(int pi) {
 
 //    const ROPass* const pass = _sys->pass(pi);
     e1Qp(pi) = pQp(pi) / eV(pi, 0) * 0.25; // pass->elementsCount();
-    pCfr(pi) = pCf(pi); // real = ((pQfr-pQb)*pCf + sum(QRi*CRi)) / pQf
-    s1Cf(pi) = (pQfr(pi) * pCfr(pi) + pQsr(pi) * pCf(pi)) / e1Qf(pi);
+    pCf(pi) = pCraw(pi); // real = ((pQfr-pQb)*pCf + sum(QRi*CRi)) / pQf
+    s1Cf(pi) = (pQf(pi) * pCf(pi) + pQsr(pi) * pCraw(pi)) / e1Qf(pi);
     // Инициализация вектора переменных
     s1Cp(pi) = s1Cf(pi) * 0.01;
     s1Cc(pi) = s1Cf(pi) * 1.1;
@@ -506,34 +496,34 @@ void ROSystemSolver::initPass(int pi) {
     int hco3i = _usedSolutes.indexOf(ROSolutes::HCO3);
     int co2i = _usedSolutes.indexOf(ROSolutes::CO2);
     for (int si=0; si<_usedSolutes.count(); ++si) {
-        psCfr(pi, si) = psCf(pi, si);
-        s1sCf(pi, si) = (pQfr(pi) * psCfr(pi, si) + pQsr(pi) * psCf(pi, si)) / e1vQf(pi);
+        psCf(pi, si) = psCraw(pi, si);
+        s1sCf(pi, si) = (pQf(pi) * psCf(pi, si) + pQsr(pi) * psCraw(pi, si)) / e1vQf(pi);
         psCp(pi, si) = s1sCf(pi, si) * 0.01;
-        psCpb(pi, si)  = (pQp(pi)*psCp(pi, si) + pQb(pi)*psCf(pi, si)) / pQpb(pi);
+        psCpb(pi, si)  = (pQp(pi)*psCp(pi, si) + pQb(pi)*psCraw(pi, si)) / pQpb(pi);
         if (si != co2i) {
             pIpb(pi) += psCpb(pi, si) * _preComputedICoeffs(si);
             pIp(pi) += psCp(pi, si) * _preComputedICoeffs(si);
             s1If(pi) += s1sCf(pi, si) * _preComputedICoeffs(si);
-            pIfr(pi) += psCfr(pi, si) * _preComputedICoeffs(si);
+            pIf(pi) += psCf(pi, si) * _preComputedICoeffs(si);
         }
     }
 
     if (hco3i >= 0) {
-        pPHfr(pi) = ph(psCfr(pi, hco3i), psCfr(pi, co2i), T, pIfr(pi));
+        pPHf(pi) = ph(psCf(pi, hco3i), psCf(pi, co2i), T, pIf(pi));
         s1PHf(pi) = ph(s1sCf(pi, hco3i), s1sCf(pi, co2i), T, s1If(pi));
         pPHp(pi) = ph(psCp(pi, hco3i), psCp(pi, co2i), T, pIp(pi));
         pPHpb(pi) = ph(psCpb(pi, hco3i), psCpb(pi, co2i), T, pIpb(pi));
-        pPHf(pi) = ph(psCf(pi, hco3i), psCf(pi, co2i), T, pIf(pi));
+        pPHraw(pi) = ph(psCraw(pi, hco3i), psCraw(pi, co2i), T, pIraw(pi));
     } else {
-        pPHfr(pi) = s1PHf(pi) = pPHp(pi) = pPHpb(pi) = pPHf(pi);
+        pPHf(pi) = s1PHf(pi) = pPHp(pi) = pPHpb(pi) = pPHraw(pi);
     }
 
     pCp(pi) = 0.0;
 
     for(int ei = 0; ei < peCount[pi]; ++ei) {
 
-        ePHp(pi, ei) = ePHc(pi, ei) = pPHf(pi);
-        eIp(pi, ei) = eIc(pi, ei) = pIf(pi);
+        ePHp(pi, ei) = ePHc(pi, ei) = pPHraw(pi);
+        eIp(pi, ei) = eIc(pi, ei) = pIraw(pi);
 
         if (ei > 0) {
             eQp(pi, ei) = eQp(pi, ei-1) * 0.7;
@@ -564,7 +554,7 @@ void ROSystemSolver::initPass(int pi) {
     evQc(pi, LAST_ei(pi)) = e1vQf(pi) - pQp(pi);
 
     pCp(pi) /= pQp(pi);
-    pCpb(pi)  = (pQp(pi)*pCp(pi) + pQb(pi)*pCf(pi)) / pQpb(pi); // real = pCp: (pQts-pQb)*pCts + pQb*pCf = pQts*pCp
+    pCpb(pi)  = (pQp(pi)*pCp(pi) + pQb(pi)*pCraw(pi)) / pQpb(pi); // real = pCp: (pQts-pQb)*pCts + pQb*pCf = pQts*pCp
 }
 
 
@@ -782,18 +772,19 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
 
 
-
-            // pPHfr
-            F[ipPHfr(pi)] = pPHfr(pi);
-            J(ipPHfr(pi), ipPHfr(pi)) = 1;
+            // pPHf
+            F[ipPHf(pi)] = pPHf(pi);
+            J(ipPHf(pi), ipPHf(pi)) = 1;
             if (hco3i >= 0) {
-                J(ipPHfr(pi), ipsCfr(pi, hco3i)) = -dphhco3(psCfr(pi, hco3i));
-                J(ipPHfr(pi), ipsCfr(pi, co2i)) = -dphco2(psCfr(pi, co2i));
-                J(ipPHfr(pi), ipIfr(pi)) = -dphi(pIfr(pi));
-                F[ipPHfr(pi)] = pPHfr(pi) - ph(psCfr(pi, hco3i), psCfr(pi, co2i), T, pIfr(pi));
+                J(ipPHf(pi), ipsCf(pi, hco3i)) = -dphhco3(psCf(pi, hco3i));
+                J(ipPHf(pi), ipsCf(pi, co2i)) = -dphco2(psCf(pi, co2i));
+                J(ipPHf(pi), ipIf(pi)) = -dphi(pIf(pi));
+                F[ipPHf(pi)] = pPHf(pi) - ph(psCf(pi, hco3i), psCf(pi, co2i), T, pIf(pi));
             } else {
-                F[ipPHfr(pi)] = pPHfr(pi) - sysPHaf; //ePHf(pi, ei);
+                F[ipPHf(pi)] = pPHf(pi) - sysPHaf; //ePHf(pi, ei);
             }
+
+//            qDebug() << "pPHf" << pPHf(pi) << psCf(pi, hco3i) << psCf(pi, co2i) << pIf(pi) << k1(T) << ph(psCf(pi, hco3i), psCf(pi, co2i), T, pIf(pi));
 
             // s1PHf
             F[is1PHf(pi)] = s1PHf(pi);
@@ -832,23 +823,23 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
             }
 
             // I
-            F[ipIfr(pi)] = pIfr(pi);
+            F[ipIf(pi)] = pIf(pi);
             F[is1If(pi)] = s1If(pi);
             F[ipIp(pi)] = pIp(pi);
             F[ipIpb(pi)] = pIpb(pi);
 
-            J(ipIfr(pi), ipIfr(pi)) = 1;
+            J(ipIf(pi), ipIf(pi)) = 1;
             J(is1If(pi), is1If(pi)) = 1;
             J(ipIp(pi), ipIp(pi)) = 1;
             J(ipIpb(pi), ipIpb(pi)) = 1;
 
             // C
-            F[ipCfr(pi)] = -pCfr(pi);
+            F[ipCf(pi)] = -pCf(pi);
             F[is1Cf(pi)] = -s1Cf(pi);
             F[ipCp(pi)] = -pCp(pi);
             F[ipCpb(pi)] = -pCpb(pi);
 
-            J(ipCfr(pi), ipCfr(pi)) = -1;
+            J(ipCf(pi), ipCf(pi)) = -1;
             J(is1Cf(pi), is1Cf(pi)) = -1;
             J(ipCp(pi), ipCp(pi)) = -1;
             J(ipCpb(pi), ipCpb(pi)) = -1;
@@ -900,13 +891,13 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                     J(ipsCp(pi, sii), ipsCp(pi, sii)) = 1;
                     F[ipsCp(pi, sii)] = psCp(pi, sii) - syssCaf(sii); //esCf(pi, sii);
 
-                } else */if (si == ROSolutes::CO3) {
+                } else *//*if (si == ROSolutes::CO3) {
 
                     // psCfr
-                    J(ipsCfr(pi, sii), ipsCfr(pi, sii)) = 1;
-                    J(ipsCfr(pi, sii), ipsCfr(pi, hco3i)) = -dco3hco3(T, pPHfr(pi));
-                    J(ipsCfr(pi, sii), ipPHfr(pi)) = -dco3ph(psCfr(pi, hco3i), T, pPHfr(pi));
-                    F[ipsCfr(pi, sii)] = psCfr(pi, sii) - co3(psCfr(pi, hco3i), T, pPHfr(pi));
+                    J(ipsCf(pi, sii), ipsCf(pi, sii)) = 1;
+                    J(ipsCf(pi, sii), ipsCf(pi, hco3i)) = -dco3hco3(T, pPHf(pi));
+                    J(ipsCf(pi, sii), ipPHf(pi)) = -dco3ph(psCf(pi, hco3i), T, pPHf(pi));
+                    F[ipsCf(pi, sii)] = psCf(pi, sii) - co3(psCf(pi, hco3i), T, pPHf(pi));
 
                     // s1sCf
                     J(is1sCf(pi, sii), is1sCf(pi, sii)) = 1;
@@ -925,31 +916,32 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                     J(ipsCpb(pi, sii), ipsCpb(pi, hco3i)) = -dco3hco3(T, pPHpb(pi));
                     J(ipsCpb(pi, sii), ipPHpb(pi)) = -dco3ph(psCpb(pi, hco3i), T, pPHpb(pi));
                     F[ipsCpb(pi, sii)] = psCpb(pi, sii) - co3(psCpb(pi, hco3i), T, pPHpb(pi));
-                } else {
+                } else {*/
                     // pass Cfr
-                    J(ipsCfr(pi, sii), ipsCfr(pi, sii)) = -pQfr(pi);
+                    J(ipsCf(pi, sii), ipsCf(pi, sii)) = -pQf(pi);
                     if(pi>0)
-                        J(ipsCfr(pi, sii), ipsCpb(pi-1, sii)) = pQfb(pi);
-                    F[ipsCfr(pi, sii)] = pQfb(pi) * psCf(pi, sii) - psCfr(pi, sii) * pQfr(pi);
+                        J(ipsCf(pi, sii), ipsCpb(pi-1, sii)) = pQfb(pi);
+                    F[ipsCf(pi, sii)] = pQfb(pi) * psCraw(pi, sii) - psCf(pi, sii) * pQf(pi);
                     auto passInRecycles = pass->incomingRecycles(); // TODO move to Eigen vector
                     auto ri = passInRecycles.constBegin();
                     while (ri != passInRecycles.constEnd()) {
                         int rpi = ri.key(); // recycle pi
-                        J(ipsCfr(pi, sii), iesCc(rpi, LAST_ei(rpi), sii)) = ri.value();
-                        F[ipsCfr(pi, sii)] += esCc(rpi, LAST_ei(rpi), sii) * ri.value(); // CR*QR
+                        J(ipsCf(pi, sii), iesCc(rpi, LAST_ei(rpi), sii)) = ri.value();
+                        F[ipsCf(pi, sii)] += esCc(rpi, LAST_ei(rpi), sii) * ri.value(); // CR*QR
                         ++ri;
                     }
 
 
-                    J(ipCfr(pi), ipsCfr(pi, sii)) = 1;
-                    F[ipCfr(pi)] += psCfr(pi, sii);
+
+                    J(ipCf(pi), ipsCf(pi, sii)) = 1;
+                    F[ipCf(pi)] += psCf(pi, sii);
 
 
                     // pass stage 1 Cf
                     J(is1sCf(pi, sii), is1sCf(pi, sii)) = -e1vQf(pi);
-                    J(is1sCf(pi, sii), ipsCfr(pi, sii)) = pQfr(pi);
+                    J(is1sCf(pi, sii), ipsCf(pi, sii)) = pQf(pi);
                     J(is1sCf(pi, sii), iesCc(pi, LAST_ei(pi), sii)) = pQsr(pi);
-                    F[is1sCf(pi, sii)] = pQfr(pi)*psCfr(pi, sii) + pQsr(pi)*esCc(pi, LAST_ei(pi), sii) - e1vQf(pi) * s1sCf(pi, sii);
+                    F[is1sCf(pi, sii)] = pQf(pi)*psCf(pi, sii) + pQsr(pi)*esCc(pi, LAST_ei(pi), sii) - e1vQf(pi) * s1sCf(pi, sii);
 
                     J(is1Cf(pi), is1sCf(pi, sii)) = 1;
                     F[is1Cf(pi)] += s1sCf(pi, sii);
@@ -974,16 +966,16 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                     J(ipsCpb(pi, sii), ipsCp(pi, sii)) = pQp(pi);
                     if(pi>0)
                         J(ipsCpb(pi, sii), ipsCpb(pi-1, sii)) = pQb[pi];
-                    F[ipsCpb(pi, sii)] = pQp(pi) * psCp(pi, sii) + pQb(pi) * psCf(pi, sii) - pQpb(pi) * psCpb(pi, sii);
+                    F[ipsCpb(pi, sii)] = pQp(pi) * psCp(pi, sii) + pQb(pi) * psCraw(pi, sii) - pQpb(pi) * psCpb(pi, sii);
 
                     J(ipCpb(pi), ipsCpb(pi, sii)) = 1;
                     F[ipCpb(pi)] += psCpb(pi, sii);
-                }
+//                }
 
                 if (si != ROSolutes::CO2) {
                     // pIfr
-                    J(ipIfr(pi), ipsCfr(pi, sii)) = _preComputedICoeffs(sii);
-                    F[ipIfr(pi)] += psCfr(pi, sii) * _preComputedICoeffs(sii);
+                    J(ipIf(pi), ipsCf(pi, sii)) = _preComputedICoeffs(sii);
+                    F[ipIf(pi)] += psCf(pi, sii) * _preComputedICoeffs(sii);
 
                     // s1If
                     J(is1If(pi), is1sCf(pi, sii)) = _preComputedICoeffs(sii);
@@ -1110,18 +1102,18 @@ void ROSystemSolver::initSystem() {
 void ROSystemSolver::logValues() {
     for (int pi=0; pi<_sys->passCount(); ++pi) {
         qDebug() << "pQp:" << pQp(pi);
-        qDebug() << "pCfr:" << pCfr(pi);
+        qDebug() << "pCfr:" << pCf(pi);
         qDebug() << "s1Cf:" << s1Cf(pi);
         qDebug() << "s1Qf:" << e1vQf(pi);
         qDebug() << "pCp:" << pCp(pi);
         qDebug() << "pCpb:" << pCpb(pi);
 
-        qDebug() << "pPHfr:" << pPHfr(pi);
+        qDebug() << "pPHfr:" << pPHf(pi);
         qDebug() << "s1PHf:" << s1PHf(pi);
         qDebug() << "pPHp:" << pPHp(pi);
         qDebug() << "pPHpb:" << pPHpb(pi);
 
-        qDebug() << "pIfr:" << pIfr(pi);
+        qDebug() << "pIfr:" << pIf(pi);
         qDebug() << "s1If:" << s1If(pi);
         qDebug() << "pIp:" << pIp(pi);
         qDebug() << "pIpb:" << pIpb(pi);

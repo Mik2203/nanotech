@@ -59,9 +59,9 @@ ROStage::ROStage(): _feed(0), _permeate(0),_concentrate(0), _firstElementFeed(0)
 ROPass* const ROStage::pass() const { return _pass; }
 
 ROStage::~ROStage() {
-    delete _permeate;
-    delete _concentrate;
-    delete _firstElementFeed;
+    delete _permeate;           const_cast<ROFlow*>(_permeate) = nullptr;
+    delete _concentrate;        const_cast<ROFlow*>(_concentrate) = nullptr;
+    delete _firstElementFeed;   const_cast<ROFlow*>(_firstElementFeed) = nullptr;
     qDeleteAll(_elements); _elements.clear();
 }
 

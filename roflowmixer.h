@@ -38,6 +38,7 @@ public:
     bool removeFeed(ROFeed* feed);
     bool removeFeed(ROFlow* flow);
     bool removeFeed(int feedIndex);
+//    void removeDeadFeed(int feedIndex);
     void clearFeeds();
 
     void reset();

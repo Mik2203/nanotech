@@ -126,6 +126,7 @@ public:
 
     const QMap<int, double> outgoingRecycles() const;
     const QMap<int, double> incomingRecycles() const;
+    double incomingRecyclesRate() const;
     Q_INVOKABLE double recycle(int recyclePassNumber) const;
     Q_INVOKABLE void addRecycle(int toPassIdx, double rate);
     Q_INVOKABLE void addRecycle(const ROPass* const toPass, double rate);
@@ -176,7 +177,9 @@ signals:
 
     void hasSelfRecycleChanged();
     void hasBlendPermeateChanged();
-    void recycleChanged(); // любые изменения в рециклах, кроме собственного
+    void recycleChanged(); // любые изменения в рециклах (выходных), кроме собственного
+
+    void incomingRecyclesChanged();
 
     void flowFactorChanged();
     void saltPassageYearIncreaseChanged();

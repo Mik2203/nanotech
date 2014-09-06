@@ -3,7 +3,9 @@
 ROFlowMixer::ROFlowMixer(unsigned filter):
     _outputFlow(0), _filter(filter) {}
 
-ROFlowMixer::~ROFlowMixer() { }
+ROFlowMixer::~ROFlowMixer() {
+
+}
 
 
 
@@ -55,7 +57,8 @@ bool ROFlowMixer::removeFeed(int feedIndex)  {
     if (0 <= feedIndex && feedIndex < _inputFeeds.count()) {
         ROFeed* removingFeed = _inputFeeds.takeAt(feedIndex);
         _inputOps.removeAt(feedIndex);
-        disconnect(removingFeed->flow(), 0, this, 0);
+        if (removingFeed->flow())
+            disconnect(removingFeed->flow(), 0, this, 0);
         //delete removingFeed; // auto disconnects partChanged
         recalculate();
         return true;
@@ -63,10 +66,22 @@ bool ROFlowMixer::removeFeed(int feedIndex)  {
     return false;
 }
 
+//void ROFlowMixer::removeDeadFeed(int feedIndex)
+//{
+//    _inputFeeds.removeAt(feedIndex);
+//    _inputOps.removeAt(feedIndex);
+//    recalculate();
+//}
+
 void ROFlowMixer::clearFeeds()
 {
-    while (_inputFeeds.count())
-        removeFeed(0);
+    while (_inputFeeds.count()) {
+        _inputOps.removeAt(0);
+        ROFeed* removingFeed = _inputFeeds.takeAt(0);
+        if (removingFeed->flow()) {
+             disconnect(removingFeed->flow(), 0, this, 0);
+        }
+    }
 }
 
 void ROFlowMixer::reset()

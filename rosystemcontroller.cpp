@@ -17,46 +17,42 @@ ROSystemController::ROSystemController() {;}
 ROSystemController::~ROSystemController() {
     delete _waterTypeChosen;
     delete _badInputData;
+
+    delete _toConcentrate_RSTP;
 }
 
 ROSystemController::ROSystemController(ROSystem* sys, ROSystemSolveScheduler* sysSS, QObject *parent) :
     QObject(parent),
     _sys(sys),
+    _toConcentrate_RSTP(new ROFlowMixer(ROFlowMixer::FlowRate | ROFlowMixer::FlowSolutes | ROFlowMixer::FlowPressure | ROFlowMixer::FlowTemperature)),
     _sysSS(sysSS){
 
+//    _toConcentrate_RSTP->setOutputFlow(_sys->concentrate());
 
 
-    connect(_sys, SIGNAL(passCountChanged()), this, SLOT(updatePasses()));
-    connect(_sys, SIGNAL(feedCountChanged()), this, SLOT(updateFeeds()));
-    updatePasses();
-    updateFeeds();
 
     // RESET CALCULATED
     _waterTypeChosen = new ROWarning([this]() { return this->sys()->waterTypeIndex() == -1; },
     ROWarning::WarningCritical,
     [this]() { return tr("Water type must be chosen"); },
     this);
-    connect(_sys, SIGNAL(waterTypeIndexChanged()), _waterTypeChosen, SLOT(update()));
 
     _badInputData = new ROWarning([this]() { return this->sysSS()->calculated() && !this->sysSS()->solved(); },
     ROWarning::WarningCritical,
     [this]() {  return tr("System can not be calculated. Please change your system design to reduce recovery or permeate flow."); },
     this);
-    connect(this->sysSS(), SIGNAL(statusChanged()), _badInputData, SLOT(update()));
+
 
     // UPDATE WARNINGS STATE
     // ... CRITICAL
     connect(_waterTypeChosen, SIGNAL(enabledChanged()), this, SIGNAL(hasAnyCriticalWarningsChanged()));
     connect(_badInputData, SIGNAL(enabledChanged()), this, SIGNAL(hasAnyCriticalWarningsChanged()));
 
-    // INPUT CHANGES
-    connect(_sys, SIGNAL(feedCountChanged()), this, SIGNAL(inputChanged()));
-    connect(_sys, SIGNAL(passCountChanged()), this, SIGNAL(inputChanged()));
-    connect(_sys, SIGNAL(waterTypeIndexChanged()), this, SIGNAL(inputChanged()));
-    connect(_sys, SIGNAL(elementLifetimeChanged()), this, SIGNAL(inputChanged()));
-
     // Translation
     connect(roApp->translator(), SIGNAL(currentLanguageChanged()), this, SLOT(updateWarnings()));
+
+    setSystemInternal(sys);
+    updateSystem();
 }
 
 
@@ -88,36 +84,33 @@ void ROSystemController::reset() {
 
 void ROSystemController::updatePasses() {
     // TODO beauty
-    if (_sys->passCount() < _passControllers.count()) { // pass has been removed
-        for (int pcIdx = 0; pcIdx < _passControllers.count(); ++pcIdx) {
-            if (_sys->passIndex(_passControllers[pcIdx]->pass()) == -1) { // this pass has been removed
-                _passControllers.removeAt(pcIdx);
-                if (pcIdx == 0) {
-                    _passControllers.first()->paramSetC()->setFeedSetState(ROPassParamSetController::ParamSetExplicit);
-//                    _passControllers.first()->paramSetC()->setPrevController(0);
-                } else if (pcIdx < _passControllers.count()) {
-//                    _passControllers[pcIdx]->paramSetC()->setPrevController(_passControllers[pcIdx-1]->paramSetC());
-                } else if (pcIdx == _passControllers.count()) {
-//                    _passControllers.last()->paramSetC()->setNextController(0);
-                }
-                if (_sys->passCount() >= _passControllers.count()) break;
-            }
-        }
-    } else {
+//    if (_sys->passCount() < _passControllers.count()) { // pass has been removed
+//        for (int pcIdx = 0; pcIdx < _passControllers.count(); ++pcIdx) {
+//            if (_sys->passIndex(_passControllers[pcIdx]->pass()) == -1) { // this pass has been removed
+
+//                if (_sys->passCount() >= _passControllers.count()) break;
+//            }
+//        }
+//    } else {
+    bool updated = _sys->passCount() > _passControllers.count();
         while (_sys->passCount() > _passControllers.count()) { // pass has been added
             ROPassController* addedPC = new ROPassController(_sys->lastPass(), this);
             connect(addedPC, SIGNAL(hasAnyCriticalWarningsChanged()), this, SIGNAL(hasAnyCriticalWarningsChanged()));
             connect(addedPC, SIGNAL(hasAnyCautionWarningsChanged()), this, SIGNAL(hasAnyCautionWarningsChanged()));
             if (_passControllers.count() > 0) {
+                // на ступенях после первой нельзя менять feed вручную, он высчитывается автоматически
                 addedPC->paramSetC()->setFeedSetState(ROPassParamSetController::ParamSetAuto);
             }
             _passControllers.append(addedPC);
-
+            _toConcentrate_RSTP->addFeed(_sys->lastPass()->concentrate(), ROFlowMixer::FlowAdd);
             connect(_passControllers.last(), SIGNAL(inputChanged()), this, SIGNAL(inputChanged()));
+            updated = true;
         }
+//    }
+    if (updated) {
+        Q_EMIT hasAnyCriticalWarningsChanged();
+        Q_EMIT hasAnyCautionWarningsChanged();
     }
-    Q_EMIT hasAnyCriticalWarningsChanged();
-    Q_EMIT hasAnyCautionWarningsChanged();
     // TODO recalc - если делать неявный апдейт системы, а не по кнопке calculate
 }
 
@@ -142,6 +135,64 @@ void ROSystemController::updateFeeds() {
     Q_EMIT hasAnyCriticalWarningsChanged();
     Q_EMIT hasAnyCautionWarningsChanged();
     // TODO recalc ?
+}
+
+void ROSystemController::processBeforeRemovePass(int passIndex)
+{
+    _toConcentrate_RSTP->removeFeed(_sys->pass(passIndex)->concentrate());
+}
+
+void ROSystemController::processAfterRemovePass(int passIndex)
+{
+    _passControllers.removeAt(passIndex);
+    if (passIndex == 0) {
+        _passControllers.first()->paramSetC()->setFeedSetState(ROPassParamSetController::ParamSetExplicit);
+    }
+}
+
+void ROSystemController::processAfterAddPass()
+{
+
+}
+
+void ROSystemController::setSystemInternal(ROSystem* const newSys)
+{
+    // TODO: setPass(), not delete and create
+
+    // disconnect old sys
+    if (_sys) {
+        disconnect(_sys, 0, this, 0);
+        disconnect(_sys, 0, _waterTypeChosen, 0);
+    }
+    qDeleteAll(_passControllers); _passControllers.clear();
+
+    _sys = newSys;
+
+    _toConcentrate_RSTP->setOutputFlow(_sys->concentrate());
+    // connect new sys
+    connect(_sys, SIGNAL(waterTypeIndexChanged()), _waterTypeChosen, SLOT(update()));
+    connect(this->sysSS(), SIGNAL(statusChanged()), _badInputData, SLOT(update()));
+
+    connect(_sys, SIGNAL(passCountChanged()), this, SLOT(updatePasses()));
+    connect(_sys, SIGNAL(feedCountChanged()), this, SLOT(updateFeeds()));
+
+    connect(_sys, SIGNAL(beforePassRemoved(int)), this, SLOT(processBeforeRemovePass(int)));
+    connect(_sys, SIGNAL(afterPassRemoved(int)), this, SLOT(processAfterRemovePass(int)));
+
+    // INPUT CHANGES
+    connect(_sys, SIGNAL(feedCountChanged()), this, SIGNAL(inputChanged()));
+    connect(_sys, SIGNAL(passCountChanged()), this, SIGNAL(inputChanged()));
+    connect(_sys, SIGNAL(waterTypeIndexChanged()), this, SIGNAL(inputChanged()));
+    connect(_sys, SIGNAL(elementLifetimeChanged()), this, SIGNAL(inputChanged()));
+}
+
+void ROSystemController::updateSystem()
+{
+    _waterTypeChosen->update();
+    _badInputData->update();
+
+    updatePasses();
+    updateFeeds();
 }
 
 ROWarning* const ROSystemController::waterTypeChosen() const { return _waterTypeChosen; }
@@ -193,22 +244,8 @@ bool ROSystemController::hasAnyCautionWarnings() const {
 
 
 void ROSystemController::setSys(ROSystem* const newSys) {
-    // TODO: setPass(), not delete and create
-
-    // disconnect old sys
-    disconnect(_sys, 0, this, 0);
-    disconnect(_sys, 0, _waterTypeChosen, 0);
-    qDeleteAll(_passControllers); _passControllers.clear();
-
-    _sys = newSys;
-
-    // connect new sys
-    connect(_sys, SIGNAL(waterTypeIndexChanged()), _waterTypeChosen, SLOT(update()));
-    _waterTypeChosen->update();
-    connect(_sys, SIGNAL(passCountChanged()), this, SLOT(updatePasses()));
-    connect(_sys, SIGNAL(feedCountChanged()), this, SLOT(updateFeeds()));
-    updatePasses();
-    updateFeeds();
+    setSystemInternal(newSys);
+    updateSystem();
 }
 
 

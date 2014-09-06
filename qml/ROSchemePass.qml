@@ -57,16 +57,16 @@ Item {
                 text: app.translator.emptyString + qsTr("SF%1").arg(passIndex+1)
             }
 
-            ROWidgets.BorderText {  // feed label
-                id: feedLabel
-                opacity: 0.85
-                visible: passHasIncomingRecycles
-                anchors.left: parent.left
-                anchors.leftMargin: 5
-                anchors.top: parent.top
-                anchors.topMargin: -(height + linkThickness) / 2
-                text: app.translator.emptyString + qsTr("F%1").arg(passIndex+1)
-            }
+//            ROWidgets.BorderText {  // raw water label
+//                id: rawWaterLabel
+//                opacity: 0.85
+//                visible: passHasIncomingRecycles || pass.hasBlendPermeate
+//                anchors.left: parent.left
+//                anchors.leftMargin: 5
+//                anchors.top: parent.top
+//                anchors.topMargin: -(height + linkThickness) / 2
+//                text: app.translator.emptyString + qsTr("RW%1").arg(passIndex+1)
+//            }
         }
 
         Repeater {
@@ -139,14 +139,14 @@ Item {
             text: app.translator.emptyString + qsTr("SR%1").arg(passIndex+1)
         }
 
-        ROWidgets.BorderText {  // concentrate from stages label
-            opacity: 0.85
-            anchors.right: parent.right
-            anchors.rightMargin: 10
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: -(height - linkThickness * 2) / 2
-            text: app.translator.emptyString + qsTr("SC%1").arg(passIndex+1)
-        }
+//        ROWidgets.BorderText {  // concentrate from stages label
+//            opacity: 0.85
+//            anchors.right: parent.right
+//            anchors.rightMargin: 10
+//            anchors.bottom: parent.bottom
+//            anchors.bottomMargin: -(height - linkThickness * 2) / 2
+//            text: app.translator.emptyString + qsTr("SC%1").arg(passIndex+1)
+//        }
     }
 
     Line { // BLEND

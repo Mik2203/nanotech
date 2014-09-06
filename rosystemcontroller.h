@@ -63,12 +63,23 @@ public slots:
 private slots:
     void updatePasses();
     void updateFeeds();
+
+    void processBeforeRemovePass(int passIndex);
+    void processAfterRemovePass(int passIndex);
+
+    void processAfterAddPass();
+//    void updateFirstPassRawWater();
+
+    void setSystemInternal(ROSystem* const);
+    void updateSystem();
     
 private:
     ROSystem* _sys;
     ROSystemSolveScheduler* _sysSS;
     QList<ROPassController*> _passControllers;
     QList<ROFeedController*> _feedControllers;
+
+    ROFlowMixer * _toConcentrate_RSTP;
 
     // WARNINGS
     ROWarning* _waterTypeChosen;

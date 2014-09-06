@@ -59,8 +59,8 @@ private:
     Eigen::MatrixXd _preComputedICoeffs;
     Eigen::VectorXd pQb;
     Eigen::VectorXd pQfb;
+    Eigen::VectorXd pQraw;
     Eigen::VectorXd pQf;
-    Eigen::VectorXd pQfr;
     Eigen::VectorXd pQp;
     Eigen::VectorXd pQpb;
     Eigen::VectorXd pQsr;
@@ -115,8 +115,8 @@ private:
     inline int ievQf(int pi, int ei) { return ievQc(pi, ei-1); } // ONLY FOR ei > 0
 
     inline int ipOff(int pi) { return piOff(pi) + peCount(pi) * _elementEquationCount; }
-    inline int ipsCfr(int pi, int si) { return ipOff(pi) + si; }
-    inline int ipCfr(int pi) { return ipOff(pi) + _usedSolutes.count(); }
+    inline int ipsCf(int pi, int si) { return ipOff(pi) + si; }
+    inline int ipCf(int pi) { return ipOff(pi) + _usedSolutes.count(); }
     inline int is1sCf(int pi, int si) { return ipOff(pi) + _usedSolutes.count() + 1 + si; }
     inline int is1Cf(int pi) { return ipOff(pi) + 2 * _usedSolutes.count() + 1; }
     inline int ie1vQc(int pi) { return ievQc(pi, 0); }
@@ -126,11 +126,11 @@ private:
     inline int ipCp(int pi) { return ipOff(pi) + 3 * _usedSolutes.count() + 2; }
     inline int ipsCpb(int pi, int si) { return ipOff(pi) + 3 * _usedSolutes.count() + 3 + si; }
     inline int ipCpb(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 3; }
-    inline int ipPHfr(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 4; }
+    inline int ipPHf(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 4; }
     inline int is1PHf(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 5; }
     inline int ipPHp(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 6; }
     inline int ipPHpb(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 7; }
-    inline int ipIfr(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 8; }
+    inline int ipIf(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 8; }
     inline int is1If(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 9; }
     inline int is1PIf(int pi) { return ipOff(pi) + 4 * _usedSolutes.count() + 10; }
     inline int is1PIp(int pi) { return iePIp(pi, 0); }
@@ -172,8 +172,8 @@ private:
     inline double& eCf(int pi, int ei) { return X[ieCf(pi, ei)]; }
     inline double& ePHf(int pi, int ei) { return X[iePHf(pi, ei)]; }
     inline double& eIf(int pi, int ei) { return X[ieIf(pi, ei)]; }
-    inline double& psCfr(int pi, int si) { return X[ipsCfr(pi, si)]; }
-    inline double& pCfr(int pi) { return X[ipCfr(pi)]; }
+    inline double& psCf(int pi, int si) { return X[ipsCf(pi, si)]; }
+    inline double& pCf(int pi) { return X[ipCf(pi)]; }
     inline double& s1sCf(int pi, int si) { return X[is1sCf(pi, si)]; }
     inline double& s1Cf(int pi) { return X[is1Cf(pi)]; }
     inline double& psCp(int pi, int si) { return X[ipsCp(pi, si)]; }
@@ -181,12 +181,12 @@ private:
     inline double& psCpb(int pi, int si)  { return X[ipsCpb(pi, si)]; }
     inline double& pCpb(int pi)  { return X[ipCpb(pi)]; }
 
-    inline double& pPHfr(int pi) { return X[ipPHfr(pi)]; }
+    inline double& pPHf(int pi) { return X[ipPHf(pi)]; }
     inline double& s1PHf(int pi) { return X[is1PHf(pi)]; }
     inline double& pPHp(int pi) { return X[ipPHp(pi)]; }
     inline double& pPHpb(int pi) { return X[ipPHpb(pi)]; }
 
-    inline double& pIfr(int pi) { return X[ipIfr(pi)]; }
+    inline double& pIf(int pi) { return X[ipIf(pi)]; }
     inline double& s1If(int pi) { return X[is1If(pi)]; }
     inline double& e1Qp(int pi) { return eQp(pi, 0); }
     inline double e1vQp(int pi) { return e1Qp(pi) * eV(pi, 0); }
@@ -203,10 +203,10 @@ private:
     inline double& pIp(int pi) { return X[ipIp(pi)]; }
     inline double& pIpb(int pi) { return X[ipIpb(pi)]; }
 
-    inline double& psCf(int pi, int si) { return pi == 0 ? syssCaf(si) : psCpb(pi-1, si); } // on the first pass feed = sys feed, on the others feed = previous permeate
-    inline double& pCf(int pi) { return pi == 0 ? sysCaf : pCpb(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
-    inline double& pIf(int pi) { return pi == 0 ? sysIaf : pIpb(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
-    inline double& pPHf(int pi) { return pi == 0 ? sysPHaf : pPHpb(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
+    inline double& psCraw(int pi, int si) { return pi == 0 ? syssCaf(si) : psCpb(pi-1, si); } // on the first pass feed = sys feed, on the others feed = previous permeate
+    inline double& pCraw(int pi) { return pi == 0 ? sysCaf : pCpb(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
+    inline double& pIraw(int pi) { return pi == 0 ? sysIaf : pIpb(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
+    inline double& pPHraw(int pi) { return pi == 0 ? sysPHaf : pPHpb(pi-1); } // on the first pass feed = sys feed, on the others feed = previous permeate
 
     // constant values
     inline int& MSi(int pi, int ei) { return msi[peOff[pi]+ei]; }

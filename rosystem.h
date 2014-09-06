@@ -160,12 +160,12 @@ public slots:
 private:
     QList<ROFeed*> _feeds;
     QList<ROPass*> _passes;
-    ROFlowMixer* _feedsToResultFeed_STH;
-    ROFlowMixer* _adjustedFeedToResultFeed_R;
+    ROFlowMixer* const _feedsToResultFeed_STH;
+    ROFlowMixer* const _adjustedFeedToResultFeed_R;
     ROScalingElement* _scalingElement;
 
     ROFlow* const _concentrate;
-    ROFlow* _resultFeed;
+    ROFlow* const _resultFeed;
 
     QMap<int, QMap<int, double> > _passRecycles; // from, to; лучше бы сделать структурой
 
@@ -176,12 +176,14 @@ private:
     bool _hasBlendPermeate;
     double _blendPermeate;
 
-    ROFlowMixer * _aboutBlend_R;
+//    ROFlowMixer * _aboutBlend_R;
 
     static const int _MAX_PASSES_COUNT;
     static const int _MIN_PASSES_COUNT;
     static const int _MAX_FEEDS_COUNT;
     static const int _MIN_FEEDS_COUNT;
+
+    void notifyPassIncomingRecyclesChanged(int passIndex);
 
 signals:
     void temperatureChanged();
@@ -192,6 +194,10 @@ signals:
     void powerChanged();
     void specificEnergyChanged();
     void pHChanged();
+    void beforeAddPass();
+    void afterAddPass();
+    void beforePassRemoved(int index);
+    void afterPassRemoved(int index);
     void passCountChanged();
     void feedCountChanged();
     void permeateChanged();
@@ -207,6 +213,8 @@ signals:
 
     void hasBlendPermeateChanged();
     void blendPermeateChanged();
+
+    void passIncomingRecyclesChangedEmitter();
 
 private slots:
     void refreshPermeate();
