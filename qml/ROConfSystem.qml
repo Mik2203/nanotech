@@ -1,4 +1,5 @@
 import QtQuick 1.1
+import ROUnits 1.0
 import "widgets" as ROWidgets
 
 Rectangle {
@@ -13,47 +14,162 @@ Rectangle {
 
             Column {
 
-                Item {
-                    anchors.left: parent.left
+                Column { // system params
                     anchors.leftMargin: 16
+                    anchors.rightMargin: 16
+                    anchors.left: parent.left
                     anchors.right: parent.right
-                    height: 18
 
-                    Text {
+                    Item {
                         anchors.left: parent.left
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + qsTr("Element lifetime:")
-                    }
-
-                    ROWidgets.ComboBox {
-                        id: elementLifetimeEditor
-                        anchors.right: elementLifetimeUnits.left
-                        anchors.rightMargin: 5
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        anchors.topMargin: 2
-                        anchors.bottomMargin: 2
-                        textHorizontalAlignment: Text.AlignLeft
-                        textVerticalAlignment: Text.AlignVCenter
-                        width: 40
-                        //height: 25
-//                        selectedText: sys.lifetime
-                        selectedIndex: sys.elementLifetime-1
-                        model: [1,2,3,4,5] // TODO from sys consts
-                        onSelect: sys.elementLifetime = selectIndex+1
-                    }
-
-                    Text {
-                        id: elementLifetimeUnits
                         anchors.right: parent.right
-                        anchors.rightMargin: 32
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: app.translator.emptyString + qsTr("year(s)", "", sys.elementLifetime)
-                        font.italic: true
-                        horizontalAlignment: Text.AlignLeft
-                        width: 30
+                        height: 18
+
+                        Text {
+                            anchors.left: parent.left
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: app.translator.emptyString + qsTr("Element lifetime:")
+                        }
+
+                        ROWidgets.ComboBox {
+                            id: elementLifetimeEditor
+                            anchors.right: elementLifetimeUnits.left
+                            anchors.rightMargin: 5
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            anchors.topMargin: 2
+                            anchors.bottomMargin: 2
+                            textHorizontalAlignment: Text.AlignLeft
+                            textVerticalAlignment: Text.AlignVCenter
+                            width: 40
+                            //height: 25
+    //                        selectedText: sys.lifetime
+                            selectedIndex: sys.elementLifetime-1
+                            model: [1,2,3,4,5] // TODO from sys consts
+                            onSelect: sys.elementLifetime = selectIndex+1
+                        }
+
+                        Text {
+                            id: elementLifetimeUnits
+                            anchors.right: parent.right
+                            anchors.rightMargin: parent.height-3
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: app.translator.emptyString + qsTr("year(s)", "", sys.elementLifetime)
+                            font.italic: true
+                            horizontalAlignment: Text.AlignLeft
+                            width: 30
+                        }
+                    }
+
+                    Column {  // read-only system params
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10
+                        anchors.right: parent.right
+
+                        Item {
+                            id: systemRawWaterRow
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: 20
+
+                            Text {
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: app.translator.emptyString + qsTr("System raw water:")
+                                font.italic: true
+                            }
+
+                            Text {
+                                anchors.right: systemRawWaterUnits.left
+                                anchors.rightMargin: 5
+                                anchors.verticalCenter: parent.verticalCenter
+                                horizontalAlignment: Text.AlignRight
+                                verticalAlignment: Text.AlignVCenter
+                                height: parent.height-3
+                                width: 50
+                                text: app.units.convertFlowUnits(sys.feed.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits).toFixed(2)
+                                font.italic: true
+                            }
+
+                            Text {
+                                id: systemRawWaterUnits
+                                anchors.right: parent.right
+                                anchors.rightMargin: parent.height-3
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
+                                font.italic: true
+                                horizontalAlignment: Text.AlignLeft
+                                width: 30
+                            }
+                        }
+
+                        Item {
+                            id: totalElementsRow
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: 20
+
+                            Text {
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: app.translator.emptyString + qsTr("Total elements in system:")
+                                font.italic: true
+                            }
+
+                            Text {
+                                anchors.right: parent.right
+                                anchors.rightMargin: 5 + 30 + parent.height-3
+                                anchors.verticalCenter: parent.verticalCenter
+                                horizontalAlignment: Text.AlignRight
+                                verticalAlignment: Text.AlignVCenter
+                                height: parent.height-3
+                                width: 50
+                                text: sys.elementsCount
+                                font.italic: true
+                            }
+                        }
+
+                        Item {
+                            id: systemRecoveryRow
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: 20
+
+                            Text {
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: app.translator.emptyString + qsTr("System recovery:")
+                                font.italic: true
+                            }
+
+                            Text {
+                                anchors.right: systemRecoveryUnits.left
+                                anchors.rightMargin: 5
+                                anchors.verticalCenter: parent.verticalCenter
+                                horizontalAlignment: Text.AlignRight
+                                verticalAlignment: Text.AlignVCenter
+                                height: parent.height-3
+                                width: 50
+                                text: (sys.recovery * 100).toFixed(2)
+                                font.italic: true
+                            }
+
+                            Text {
+                                id: systemRecoveryUnits
+                                anchors.right: parent.right
+                                anchors.rightMargin: parent.height-3
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: "%"
+                                font.italic: true
+                                horizontalAlignment: Text.AlignLeft
+                                width: 30
+                            }
+                        }
                     }
                 }
+
+
+
 
 
                 Item {
