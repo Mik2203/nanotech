@@ -6,8 +6,7 @@ ROCase::ROCase() :
     _sysSS = new ROSystemSolveScheduler(_sys);
     _sysC = new ROSystemController(_sys, _sysSS);
 
-    connect(_sysC, SIGNAL(inputChanged()), this, SIGNAL(inputChanged()));
-    connect(_sysC, SIGNAL(inputChanged()), _sysSS, SLOT(resetCalculated()));
+    bindInputChanged();
 }
 
 ROCase::~ROCase() {
@@ -21,6 +20,12 @@ void ROCase::copyDataFrom(const ROCase* const from) {
     this->sys()->copyDataFrom(from->sys());
     this->sysC()->copyDataFrom(from->sysC());
     this->costs()->copyDataFrom(from->costs());
+}
+
+void ROCase::bindInputChanged()
+{
+    connect(_sysC, SIGNAL(inputChanged()), this, SIGNAL(inputChanged()));
+    connect(_sysC, SIGNAL(inputChanged()), _sysSS, SLOT(resetCalculated()));
 }
 
 

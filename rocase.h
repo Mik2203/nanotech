@@ -41,6 +41,8 @@ private:
     ROSystemController* _sysC;
     ROSystemSolveScheduler* _sysSS;
 
+    void bindInputChanged();
+
 signals:
     void inputChanged();
 

@@ -389,7 +389,39 @@ private:
 
     double _systemLifetime;
 
+    void bindSystem();
+    void bindInternal();
 
+    void bindPermeateYearAmount();
+
+    // general
+    void bindSystemCost();
+
+    // system
+    void bindSystemSection();
+    void bindMicrofilters();
+    void bindMembranes();
+    void bindEnergy();
+
+    // scaling
+    void bindScalingSection();
+    void bindCitricAcid();
+    void bindH2SO4();
+    void bindTrilonB();
+    void bindAlkali();
+    void bindAntiscalant();
+    void bindAcidAntiscalant();
+
+    // water
+    void bindWaterSection();
+    void bindRawWater();
+    void bindConcentrateDrop();
+
+    // maintainance
+    void bindMaintainanceSection();
+    void bindStaff();
+    void bindAccruals();
+    void bindDeductions();
 };
 
 #endif // ROCOSTS_H

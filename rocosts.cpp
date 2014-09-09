@@ -1,5 +1,7 @@
 #include "rocosts.h"
 
+// TODO CONSTS!
+
 ROCosts::ROCosts(const ROSystem* const sys, QObject *parent) :
     _sys(sys),
     _systemCost(0.0),
@@ -38,162 +40,8 @@ ROCosts::ROCosts(const ROSystem* const sys, QObject *parent) :
     QObject(parent) {
 
 
-    // SYSTEM
-    // General
-    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(permeateYearAmountChanged()));
-    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SLOT(updateSystemCost()));
-
-    connect(this, SIGNAL(microfiltersYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
-    connect(this, SIGNAL(citricAcidYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
-    connect(this, SIGNAL(H2SO4YearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
-    connect(this, SIGNAL(trilonBYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
-    connect(this, SIGNAL(alkaliYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
-    connect(this, SIGNAL(antiscalantYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
-    connect(this, SIGNAL(acidAntiscalantYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
-
-    connect(this, SIGNAL(systemCostChanged()), this, SIGNAL(systemWithYearSetCostChanged()));
-    connect(this, SIGNAL(systemCostSetYearChanged()), this, SIGNAL(systemWithYearSetCostChanged()));
-
-
-
-    // Microfilters
-    connect(this, SIGNAL(microfiltersMembraneCountChanged()), this, SIGNAL(microfiltersSystemCountChanged()));
-    connect(_sys, SIGNAL(elementsCountChanged()), this, SIGNAL(microfiltersSystemCountChanged()));
-
-    connect(this, SIGNAL(microfiltersSystemCountChanged()), this, SIGNAL(microfiltersYearCountChanged()));
-    connect(this, SIGNAL(microfiltersYearChangeFrequencyChanged()), this, SIGNAL(microfiltersYearCountChanged()));
-
-    connect(this, SIGNAL(microfiltersYearCountChanged()), this, SIGNAL(microfiltersYearCostChanged()));
-    connect(this, SIGNAL(microfilterCostChanged()), this, SIGNAL(microfiltersYearCostChanged()));
-
-    // Membranes
-    connect(this, SIGNAL(membranesYearChangeFrequencyChanged()), this, SIGNAL(membranesYearCountChanged()));
-    connect(_sys, SIGNAL(elementsCountChanged()), this, SIGNAL(membranesYearCountChanged()));
-
-    connect(this, SIGNAL(membranesYearCountChanged()), this, SIGNAL(membranesYearCostChanged()));
-    connect(this, SIGNAL(membraneCostChanged()), this, SIGNAL(membranesYearCostChanged()));
-
-    // Energy
-    connect(_sys, SIGNAL(powerChanged()), this, SIGNAL(electricEnergyYearAmountChanged()));
-
-    connect(this, SIGNAL(electricEnergyYearAmountChanged()), this, SIGNAL(electricEnergyYearCostChanged()));
-    connect(this, SIGNAL(electricEnergyCostChanged()), this, SIGNAL(electricEnergyYearCostChanged()));
-
-    // TOtal
-    connect(this, SIGNAL(microfiltersYearCostChanged()), this, SIGNAL(totalCostsYearSystemChanged()));
-    connect(this, SIGNAL(membranesYearCostChanged()), this, SIGNAL(totalCostsYearSystemChanged()));
-    connect(this, SIGNAL(electricEnergyYearCostChanged()), this, SIGNAL(totalCostsYearSystemChanged()));
-
-    connect(this, SIGNAL(totalCostsYearSystemChanged()), this, SIGNAL(totalWaterCostsYearSystemChanged()));
-    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearSystemChanged()));
-
-    // ACID
-    connect(_sys, SIGNAL(elementsCountChanged()), this, SIGNAL(washingSolutionVolumeChanged()));
-
-    connect(this, SIGNAL(washingSolutionVolumeChanged()), this, SIGNAL(citricAcidYearAmountChanged()));
-    connect(this, SIGNAL(washingFrequencyChanged()), this, SIGNAL(citricAcidYearAmountChanged()));
-
-    connect(this, SIGNAL(washingSolutionVolumeChanged()), this, SIGNAL(H2SO4YearAmountChanged()));
-    connect(this, SIGNAL(washingFrequencyChanged()), this, SIGNAL(H2SO4YearAmountChanged()));
-
-    connect(this, SIGNAL(washingSolutionVolumeChanged()), this, SIGNAL(trilonBYearAmountChanged()));
-    connect(this, SIGNAL(washingFrequencyChanged()), this, SIGNAL(trilonBYearAmountChanged()));
-
-    connect(this, SIGNAL(washingSolutionVolumeChanged()), this, SIGNAL(alkaliYearAmountChanged()));
-    connect(this, SIGNAL(washingFrequencyChanged()), this, SIGNAL(alkaliYearAmountChanged()));
-
-
-    connect(this, SIGNAL(citricAcidYearAmountChanged()), this, SIGNAL(citricAcidYearCostChanged()));
-    connect(this, SIGNAL(citricAcidCostChanged()), this, SIGNAL(citricAcidYearCostChanged()));
-
-    connect(this, SIGNAL(H2SO4YearAmountChanged()), this, SIGNAL(H2SO4YearCostChanged()));
-    connect(this, SIGNAL(H2SO4CostChanged()), this, SIGNAL(H2SO4YearCostChanged()));
-
-    connect(this, SIGNAL(trilonBYearAmountChanged()), this, SIGNAL(trilonBYearCostChanged()));
-    connect(this, SIGNAL(trilonBCostChanged()), this, SIGNAL(trilonBYearCostChanged()));
-
-    connect(this, SIGNAL(alkaliYearAmountChanged()), this, SIGNAL(alkaliYearCostChanged()));
-    connect(this, SIGNAL(alkaliCostChanged()), this, SIGNAL(alkaliYearCostChanged()));
-
-
-    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(antiscalantSystemAmountChanged()));
-    connect(this, SIGNAL(antiscalantAmountChanged()), this, SIGNAL(antiscalantSystemAmountChanged()));
-
-
-    connect(this, SIGNAL(antiscalantSystemAmountChanged()), this, SIGNAL(antiscalantYearCostChanged()));
-    connect(this, SIGNAL(antiscalantCostChanged()), this, SIGNAL(antiscalantYearCostChanged()));
-
-
-    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(acidAntiscalantSystemAmountChanged()));
-    connect(this, SIGNAL(acidAntiscalantAmountChanged()), this, SIGNAL(acidAntiscalantSystemAmountChanged()));
-
-
-    connect(this, SIGNAL(acidAntiscalantSystemAmountChanged()), this, SIGNAL(acidAntiscalantYearCostChanged()));
-    connect(this, SIGNAL(acidAntiscalantCostChanged()), this, SIGNAL(acidAntiscalantYearCostChanged()));
-
-    // TOTAL
-    connect(this, SIGNAL(citricAcidYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
-    connect(this, SIGNAL(H2SO4YearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
-    connect(this, SIGNAL(trilonBYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
-    connect(this, SIGNAL(alkaliYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
-    connect(this, SIGNAL(antiscalantYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
-    connect(this, SIGNAL(acidAntiscalantYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
-
-    connect(this, SIGNAL(totalCostsYearScalingChanged()), this, SIGNAL(totalWaterCostsYearScalingChanged()));
-    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearScalingChanged()));
-
-    // WATER
-    connect(_sys->feed(), SIGNAL(rateChanged()), this, SIGNAL(rawWaterYearAmountChanged()));
-
-    connect(this, SIGNAL(rawWaterCostChanged()), this, SIGNAL(rawWaterYearCostChanged()));
-    connect(this, SIGNAL(rawWaterYearAmountChanged()), this, SIGNAL(rawWaterYearCostChanged()));
-
-    connect(_sys->concentrate(), SIGNAL(rateChanged()), this, SIGNAL(concentrateDropYearAmountChanged()));
-
-    connect(this, SIGNAL(concentrateDropCostChanged()), this, SIGNAL(concentrateDropYearCostChanged()));
-    connect(this, SIGNAL(concentrateDropYearAmountChanged()), this, SIGNAL(concentrateDropYearCostChanged()));
-
-    // total
-    connect(this, SIGNAL(rawWaterYearCostChanged()), this, SIGNAL(totalCostsYearWaterChanged()));
-    connect(this, SIGNAL(concentrateDropYearCostChanged()), this, SIGNAL(totalCostsYearWaterChanged()));
-
-    connect(this, SIGNAL(totalCostsYearWaterChanged()), this, SIGNAL(totalWaterCostsYearWaterChanged()));
-    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearWaterChanged()));
-
-    // MAINTENANCE
-    connect(this, SIGNAL(staffCountChanged()), this, SIGNAL(staffYearSalaryChanged()));
-    connect(this, SIGNAL(staffSalaryChanged()), this, SIGNAL(staffYearSalaryChanged()));
-
-    connect(this, SIGNAL(staffYearSalaryChanged()), this, SIGNAL(staffYearCostChanged()));
-    connect(this, SIGNAL(overheadRateChanged()), this, SIGNAL(staffYearCostChanged()));
-
-    connect(this, SIGNAL(staffCountChanged()), this, SIGNAL(accrualsYearChanged()));
-    connect(this, SIGNAL(accrualsChanged()), this, SIGNAL(accrualsYearChanged()));
-
-    connect(this, SIGNAL(accrualsYearChanged()), this, SIGNAL(accrualsYearCostChanged()));
-    connect(this, SIGNAL(overheadRateChanged()), this, SIGNAL(accrualsYearCostChanged()));
-
-    connect(this, SIGNAL(systemCostChanged()), this, SIGNAL(deductionsYearCostChanged()));
-    connect(this, SIGNAL(systemLifetimeChanged()), this, SIGNAL(deductionsYearCostChanged()));
-
-    // total
-    connect(this, SIGNAL(staffYearCostChanged()), this, SIGNAL(totalCostsYearMaintenanceChanged()));
-    connect(this, SIGNAL(accrualsYearCostChanged()), this, SIGNAL(totalCostsYearMaintenanceChanged()));
-    connect(this, SIGNAL(deductionsYearCostChanged()), this, SIGNAL(totalCostsYearMaintenanceChanged()));
-
-    connect(this, SIGNAL(totalCostsYearMaintenanceChanged()), this, SIGNAL(totalWaterCostsYearMaintenanceChanged()));
-    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearMaintenanceChanged()));
-
-
-
-    // TOTAL
-    connect(this, SIGNAL(totalCostsYearSystemChanged()), this, SIGNAL(totalCostsYearChanged()));
-    connect(this, SIGNAL(totalCostsYearScalingChanged()), this, SIGNAL(totalCostsYearChanged()));
-    connect(this, SIGNAL(totalCostsYearWaterChanged()), this, SIGNAL(totalCostsYearChanged()));
-    connect(this, SIGNAL(totalCostsYearMaintenanceChanged()), this, SIGNAL(totalCostsYearChanged()));
-
-    connect(this, SIGNAL(totalCostsYearChanged()), this, SIGNAL(totalWaterCostsYearChanged()));
-    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearChanged()));
+    bindSystem();
+    bindInternal();
 }
 
 ROCosts::ROCosts(): _sys(nullptr) { }
@@ -383,6 +231,234 @@ void ROCosts::setSystemCost(double value) {
 void ROCosts::updateSystemCost() {
     _systemCost = _sys->permeate()->rate() * 90000.0;
     Q_EMIT systemCostChanged();
+}
+
+void ROCosts::bindSystem()
+{
+    connect(_sys->feed(), SIGNAL(rateChanged()), this, SIGNAL(rawWaterYearAmountChanged()));
+    connect(_sys->concentrate(), SIGNAL(rateChanged()), this, SIGNAL(concentrateDropYearAmountChanged()));
+    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(permeateYearAmountChanged()));
+    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SLOT(updateSystemCost()));
+    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(antiscalantSystemAmountChanged()));
+    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(acidAntiscalantSystemAmountChanged()));
+    connect(_sys, SIGNAL(elementsCountChanged()), this, SIGNAL(microfiltersSystemCountChanged()));
+    connect(_sys, SIGNAL(elementsCountChanged()), this, SIGNAL(membranesYearCountChanged()));
+    connect(_sys, SIGNAL(elementsCountChanged()), this, SIGNAL(washingSolutionVolumeChanged()));
+    connect(_sys, SIGNAL(powerChanged()), this, SIGNAL(electricEnergyYearAmountChanged()));
+}
+
+void ROCosts::bindPermeateYearAmount()
+{
+    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearSystemChanged()));
+    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearScalingChanged()));
+    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearWaterChanged()));
+    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearMaintenanceChanged()));
+    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(totalWaterCostsYearChanged()));
+}
+
+void ROCosts::bindSystemCost()
+{
+    connect(this, SIGNAL(systemCostChanged()), this, SIGNAL(systemWithYearSetCostChanged()));
+    connect(this, SIGNAL(systemCostSetYearChanged()), this, SIGNAL(systemWithYearSetCostChanged()));
+}
+
+void ROCosts::bindSystemSection()
+{
+    bindMicrofilters();
+    bindMembranes();
+    bindEnergy();
+
+    connect(this, SIGNAL(totalCostsYearSystemChanged()), this, SIGNAL(totalWaterCostsYearSystemChanged()));
+    connect(this, SIGNAL(totalCostsYearSystemChanged()), this, SIGNAL(totalCostsYearChanged()));
+}
+
+void ROCosts::bindMicrofilters()
+{
+    connect(this, SIGNAL(microfiltersMembraneCountChanged()), this, SIGNAL(microfiltersSystemCountChanged()));
+
+    connect(this, SIGNAL(microfiltersSystemCountChanged()), this, SIGNAL(microfiltersYearCountChanged()));
+    connect(this, SIGNAL(microfiltersYearChangeFrequencyChanged()), this, SIGNAL(microfiltersYearCountChanged()));
+
+    connect(this, SIGNAL(microfiltersYearCountChanged()), this, SIGNAL(microfiltersYearCostChanged()));
+    connect(this, SIGNAL(microfilterCostChanged()), this, SIGNAL(microfiltersYearCostChanged()));
+
+    connect(this, SIGNAL(microfiltersYearCostChanged()), this, SIGNAL(totalCostsYearSystemChanged()));
+    connect(this, SIGNAL(microfiltersYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
+}
+
+void ROCosts::bindMembranes()
+{
+    connect(this, SIGNAL(membranesYearChangeFrequencyChanged()), this, SIGNAL(membranesYearCountChanged()));
+
+    connect(this, SIGNAL(membranesYearCountChanged()), this, SIGNAL(membranesYearCostChanged()));
+    connect(this, SIGNAL(membraneCostChanged()), this, SIGNAL(membranesYearCostChanged()));
+
+    connect(this, SIGNAL(membranesYearCostChanged()), this, SIGNAL(totalCostsYearSystemChanged()));
+}
+
+void ROCosts::bindEnergy()
+{
+    connect(this, SIGNAL(electricEnergyYearAmountChanged()), this, SIGNAL(electricEnergyYearCostChanged()));
+    connect(this, SIGNAL(electricEnergyCostChanged()), this, SIGNAL(electricEnergyYearCostChanged()));
+
+    connect(this, SIGNAL(electricEnergyYearCostChanged()), this, SIGNAL(totalCostsYearSystemChanged()));
+}
+
+void ROCosts::bindScalingSection()
+{
+    bindCitricAcid();
+    bindH2SO4();
+    bindTrilonB();
+    bindAlkali();
+    bindAntiscalant();
+    bindAcidAntiscalant();
+
+    connect(this, SIGNAL(totalCostsYearScalingChanged()), this, SIGNAL(totalWaterCostsYearScalingChanged()));
+    connect(this, SIGNAL(totalCostsYearScalingChanged()), this, SIGNAL(totalCostsYearChanged()));
+}
+
+void ROCosts::bindCitricAcid()
+{
+    connect(this, SIGNAL(washingSolutionVolumeChanged()), this, SIGNAL(citricAcidYearAmountChanged()));
+    connect(this, SIGNAL(washingFrequencyChanged()), this, SIGNAL(citricAcidYearAmountChanged()));
+
+    connect(this, SIGNAL(citricAcidYearAmountChanged()), this, SIGNAL(citricAcidYearCostChanged()));
+    connect(this, SIGNAL(citricAcidCostChanged()), this, SIGNAL(citricAcidYearCostChanged()));
+
+    connect(this, SIGNAL(citricAcidYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
+    connect(this, SIGNAL(citricAcidYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
+}
+
+void ROCosts::bindH2SO4()
+{
+    connect(this, SIGNAL(washingSolutionVolumeChanged()), this, SIGNAL(H2SO4YearAmountChanged()));
+    connect(this, SIGNAL(washingFrequencyChanged()), this, SIGNAL(H2SO4YearAmountChanged()));
+
+    connect(this, SIGNAL(H2SO4YearAmountChanged()), this, SIGNAL(H2SO4YearCostChanged()));
+    connect(this, SIGNAL(H2SO4CostChanged()), this, SIGNAL(H2SO4YearCostChanged()));
+
+    connect(this, SIGNAL(H2SO4YearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
+    connect(this, SIGNAL(H2SO4YearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
+}
+
+void ROCosts::bindTrilonB()
+{
+    connect(this, SIGNAL(washingSolutionVolumeChanged()), this, SIGNAL(trilonBYearAmountChanged()));
+    connect(this, SIGNAL(washingFrequencyChanged()), this, SIGNAL(trilonBYearAmountChanged()));
+
+    connect(this, SIGNAL(trilonBYearAmountChanged()), this, SIGNAL(trilonBYearCostChanged()));
+    connect(this, SIGNAL(trilonBCostChanged()), this, SIGNAL(trilonBYearCostChanged()));
+
+    connect(this, SIGNAL(trilonBYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
+    connect(this, SIGNAL(trilonBYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
+}
+
+void ROCosts::bindAlkali()
+{
+    connect(this, SIGNAL(washingSolutionVolumeChanged()), this, SIGNAL(alkaliYearAmountChanged()));
+    connect(this, SIGNAL(washingFrequencyChanged()), this, SIGNAL(alkaliYearAmountChanged()));
+
+    connect(this, SIGNAL(alkaliYearAmountChanged()), this, SIGNAL(alkaliYearCostChanged()));
+    connect(this, SIGNAL(alkaliCostChanged()), this, SIGNAL(alkaliYearCostChanged()));
+
+    connect(this, SIGNAL(alkaliYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
+    connect(this, SIGNAL(alkaliYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
+}
+
+void ROCosts::bindAntiscalant()
+{
+    connect(this, SIGNAL(antiscalantAmountChanged()), this, SIGNAL(antiscalantSystemAmountChanged()));
+    connect(this, SIGNAL(antiscalantSystemAmountChanged()), this, SIGNAL(antiscalantYearCostChanged()));
+    connect(this, SIGNAL(antiscalantCostChanged()), this, SIGNAL(antiscalantYearCostChanged()));
+
+    connect(this, SIGNAL(antiscalantYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
+    connect(this, SIGNAL(antiscalantYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
+}
+
+void ROCosts::bindAcidAntiscalant()
+{
+
+    connect(this, SIGNAL(acidAntiscalantAmountChanged()), this, SIGNAL(acidAntiscalantSystemAmountChanged()));
+    connect(this, SIGNAL(acidAntiscalantSystemAmountChanged()), this, SIGNAL(acidAntiscalantYearCostChanged()));
+    connect(this, SIGNAL(acidAntiscalantCostChanged()), this, SIGNAL(acidAntiscalantYearCostChanged()));
+
+    connect(this, SIGNAL(acidAntiscalantYearCostChanged()), this, SIGNAL(totalCostsYearScalingChanged()));
+    connect(this, SIGNAL(acidAntiscalantYearCostChanged()), this, SIGNAL(systemCostSetYearChanged()));
+}
+
+void ROCosts::bindWaterSection()
+{
+    bindRawWater();
+    bindConcentrateDrop();
+
+    connect(this, SIGNAL(totalCostsYearWaterChanged()), this, SIGNAL(totalWaterCostsYearWaterChanged()));
+    connect(this, SIGNAL(totalCostsYearWaterChanged()), this, SIGNAL(totalCostsYearChanged()));
+}
+
+void ROCosts::bindRawWater()
+{
+    connect(this, SIGNAL(rawWaterCostChanged()), this, SIGNAL(rawWaterYearCostChanged()));
+    connect(this, SIGNAL(rawWaterYearAmountChanged()), this, SIGNAL(rawWaterYearCostChanged()));
+
+    connect(this, SIGNAL(rawWaterYearCostChanged()), this, SIGNAL(totalCostsYearWaterChanged()));
+}
+
+void ROCosts::bindConcentrateDrop()
+{
+    connect(this, SIGNAL(concentrateDropCostChanged()), this, SIGNAL(concentrateDropYearCostChanged()));
+    connect(this, SIGNAL(concentrateDropYearAmountChanged()), this, SIGNAL(concentrateDropYearCostChanged()));
+
+    connect(this, SIGNAL(concentrateDropYearCostChanged()), this, SIGNAL(totalCostsYearWaterChanged()));
+}
+
+void ROCosts::bindMaintainanceSection()
+{
+    bindStaff();
+    bindAccruals();
+    bindDeductions();
+
+    connect(this, SIGNAL(totalCostsYearMaintenanceChanged()), this, SIGNAL(totalWaterCostsYearMaintenanceChanged()));
+    connect(this, SIGNAL(totalCostsYearMaintenanceChanged()), this, SIGNAL(totalCostsYearChanged()));
+}
+
+void ROCosts::bindStaff()
+{
+    connect(this, SIGNAL(staffCountChanged()), this, SIGNAL(staffYearSalaryChanged()));
+    connect(this, SIGNAL(staffSalaryChanged()), this, SIGNAL(staffYearSalaryChanged()));
+
+    connect(this, SIGNAL(staffYearSalaryChanged()), this, SIGNAL(staffYearCostChanged()));
+    connect(this, SIGNAL(overheadRateChanged()), this, SIGNAL(staffYearCostChanged()));
+
+    connect(this, SIGNAL(staffYearCostChanged()), this, SIGNAL(totalCostsYearMaintenanceChanged()));
+}
+
+void ROCosts::bindAccruals()
+{
+    connect(this, SIGNAL(staffCountChanged()), this, SIGNAL(accrualsYearChanged()));
+    connect(this, SIGNAL(accrualsChanged()), this, SIGNAL(accrualsYearChanged()));
+
+    connect(this, SIGNAL(accrualsYearChanged()), this, SIGNAL(accrualsYearCostChanged()));
+    connect(this, SIGNAL(overheadRateChanged()), this, SIGNAL(accrualsYearCostChanged()));
+
+    connect(this, SIGNAL(accrualsYearCostChanged()), this, SIGNAL(totalCostsYearMaintenanceChanged()));
+}
+
+void ROCosts::bindDeductions()
+{
+    connect(this, SIGNAL(systemCostChanged()), this, SIGNAL(deductionsYearCostChanged()));
+    connect(this, SIGNAL(systemLifetimeChanged()), this, SIGNAL(deductionsYearCostChanged()));
+    connect(this, SIGNAL(deductionsYearCostChanged()), this, SIGNAL(totalCostsYearMaintenanceChanged()));
+}
+
+void ROCosts::bindInternal()
+{
+    bindPermeateYearAmount();
+    bindSystemCost();
+    bindSystemSection();
+    bindScalingSection();
+    bindWaterSection();
+    bindMaintainanceSection();
+    connect(this, SIGNAL(totalCostsYearChanged()), this, SIGNAL(totalWaterCostsYearChanged()));
 }
 
 
