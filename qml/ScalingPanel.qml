@@ -194,7 +194,7 @@ Item {  // нужен внешний элемент, т.к. Connections не м�
                         Text {
                             anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
-                            text: app.translator.emptyString + qsTr("Acid concentration:")
+                            text: app.translator.emptyString + qsTr("Reagent concentration:")
                         }
 
                         ROWidgets.DoubleInput {

@@ -57,10 +57,25 @@ void ROScalingElement::setMgLeakage(double value) {
 
 double ROScalingElement::targetPh() const { return _targetPh; }
 
-void ROScalingElement::setTargetPh(double value) {
-    value = qBound(1.0, value, 15.0); // TODO
-    if (_targetPh != value) {
-        _targetPh = value;
+void ROScalingElement::setTargetPh(double targetPh) {
+    targetPh = qBound(1.0, targetPh, 15.0); // TODO CONSTS
+
+    if (adjustment() == pHAdjustment) {
+        // при дозировании щелочи (NaOH) pH не может быть меньше исходного значения
+        // при дозировании кислоты (H2SO4, HCl) pH не может быть больше исходного значения
+        switch (dosingAcid()) {
+        case NaOH:
+            targetPh = qMax(feed()->pH(), targetPh);
+            break;
+        case H2SO4:
+        case HCl:
+            targetPh = qMin(feed()->pH(), targetPh);
+            break;
+        }
+    }
+
+    if (_targetPh != targetPh) {
+        _targetPh = targetPh;
         adjust();
         Q_EMIT targetPhChanged();
     }
