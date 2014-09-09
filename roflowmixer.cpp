@@ -25,17 +25,12 @@ ROFeed* ROFlowMixer::addFeed(ROFeed* feed, FlowOperation op) {
         connect(feed, SIGNAL(partChanged()), this, SLOT(mixTemperature()));
 
     }
-//    if (_filter & ROFlowMixer::FlowPH) {
-//        connect(feed->flow(), SIGNAL(pHChanged()), this, SLOT(mixPH()));
-//        connect(feed, SIGNAL(partChanged()), this, SLOT(mixPH()));
-//    }
     if (_filter & ROFlowMixer::FlowSolutes) {
         connect(feed->flow(), SIGNAL(solutesChanged()), this, SLOT(mixSolutes()));
         connect(feed, SIGNAL(partChanged()), this, SLOT(mixSolutes()));
     }
     if (_filter & ROFlowMixer::FlowSolutes) {
         connect(feed->flow(), SIGNAL(pressureChanged()), this, SLOT(mixPressure()));
-        connect(feed->flow(), SIGNAL(osmoticPressureChanged()), this, SLOT(mixPressure()));
         connect(feed, SIGNAL(partChanged()), this, SLOT(mixPressure()));
     }
     recalculate();
@@ -113,7 +108,6 @@ void ROFlowMixer:: mixPressure() {
     if (_outputFlow) {
 
         double newPressure = 0.0;
-        double newOsmPressure = 0.0;
         double totalPart = 0.0;
         for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) totalPart += feed(feedIdx)->part();
 
@@ -121,18 +115,15 @@ void ROFlowMixer:: mixPressure() {
             switch(_inputOps.at(feedIdx)) {
             case FlowAdd: {
                 newPressure += feed(feedIdx)->flow()->pressure() * feed(feedIdx)->part();
-                newOsmPressure += feed(feedIdx)->flow()->osmoticPressure() * feed(feedIdx)->part();
                 break;
             }
             case FlowSubtract: {
                 newPressure -= feed(feedIdx)->flow()->pressure() * feed(feedIdx)->part();
-                newOsmPressure -= feed(feedIdx)->flow()->osmoticPressure() * feed(feedIdx)->part();
                 break;
             }
             }
         }
         outputFlow()->setPressure(newPressure);
-        //outputFlow()->updateOsmoticPressure(newOsmPressure);
     }
 }
 
