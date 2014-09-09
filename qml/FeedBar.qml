@@ -58,8 +58,8 @@ Item {
 //                            radius: 4
                             width: parent.width
                             horizontalAlignment: TextInput.AlignHCenter
-                            value: sys.partFeed(index).part * 100
-                            onInputChanged: sys.partFeed(index).part = changedValue / 100.0
+                            value: sys.partFeed(index).part
+                            onInputChanged: sys.partFeed(index).part = changedValue
                         }
 
                         ROWidgets.Button {
@@ -321,7 +321,7 @@ Item {
             spacing: 2
 
             Text {
-                text: "%"//app.translator.emptyString + qsTr("part")
+                text: app.translator.emptyString + qsTr("part")
                 font.italic: true
                 height: 20
                 width: newButton.width
