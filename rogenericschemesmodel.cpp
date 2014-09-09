@@ -74,8 +74,13 @@ void ROGenericSchemesModel::loadScheme(ROCase* case_, int groupIndex, int scheme
     ROXMLProjectSerializer ps;
     ROProject* loadProj = new ROProject();
     ps.deserialize(loadProj, QTextStream(&schemeFile));
-    case_->reset();
-    case_->copyDataFrom(loadProj->firstCase());
+    case_->sys()->resetSystem();
+    case_->sysC()->reset();
+    case_->costs()->reset();
+
+    case_->sys()->copySystemDataFrom(loadProj->firstCase()->sys());
+    case_->sysC()->copyDataFrom(loadProj->firstCase()->sysC());
+    case_->costs()->copyDataFrom(loadProj->firstCase()->costs());
 
     delete loadProj;
     schemeFile.close();

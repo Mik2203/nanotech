@@ -530,6 +530,7 @@ static double ph(double hco3, double co2, double t, double i) {
 #endif
         return 0;
     }
+//    qDebug() << "calc ph" << hco3 << co2 << t << i;
     return log10(hco3 / (co2 * k1(t))) - sqrt(i);
 }
 
@@ -585,7 +586,7 @@ static double dSPm(int series, int si, double c) {
 
 static double SPmPh(int series, double ph) {
     SPmCoeffsStruct spmph = ROMembrane::PhSPmCoeffs(series);
-    double * sa = reinterpret_cast<double *>(&spmph);
+//    double * sa = reinterpret_cast<double *>(&spmph);
 //    qDebug() << "SA VALS:" << sa[0] << sa[1] << sa[2];
     return qBound(ROMembrane::PhSPmMin(series),
                   poly(ph, reinterpret_cast<double *>(&spmph), 2),
