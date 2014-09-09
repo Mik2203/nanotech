@@ -74,8 +74,9 @@
         <translation>Корр.</translation>
     </message>
     <message>
+        <location filename="qml/FeedBar.qml" line="324"/>
         <source>part</source>
-        <translation type="obsolete">доля</translation>
+        <translation>часть</translation>
     </message>
 </context>
 <context>
@@ -400,34 +401,35 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Стадия</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="68"/>
+        <location filename="qml/ROConfPass.qml" line="71"/>
         <source>Permeate flow (P%1):</source>
         <oldsource>Permeate flow: </oldsource>
         <translation>Поток фильтрата (Ф%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="128"/>
+        <location filename="qml/ROConfPass.qml" line="131"/>
         <source>Recovery:</source>
         <oldsource>Recovery: </oldsource>
         <translation>СИФ:</translation>
     </message>
     <message>
+        <location filename="qml/ROConfPass.qml" line="198"/>
         <source>Feed flow (F%1):</source>
         <oldsource>Feed flow: </oldsource>
-        <translation type="obsolete">Входной поток (И%1):</translation>
+        <translation>Входной поток (И%1):</translation>
     </message>
     <message>
         <source>Flow factor: </source>
         <translation type="obsolete">Коэффициент загрязнения: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="297"/>
+        <location filename="qml/ROConfPass.qml" line="300"/>
         <source>Average flux:</source>
         <oldsource>Average flux: </oldsource>
         <translation>Средний съем:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="326"/>
+        <location filename="qml/ROConfPass.qml" line="329"/>
         <source>Blend permeate (B%1):</source>
         <oldsource>Blend permeate: </oldsource>
         <translation>Подмешивание (П%1):</translation>
@@ -438,9 +440,8 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Вх. поток на стадии (ИС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="195"/>
         <source>Feed flow:</source>
-        <translation>Объем вх. потока:</translation>
+        <translation type="obsolete">Объем вх. потока:</translation>
     </message>
     <message>
         <source>Permeate from stages (SP%1):</source>
@@ -448,54 +449,57 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Фильтрат со стадий (ФС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="397"/>
+        <location filename="qml/ROConfPass.qml" line="400"/>
         <source>Blending is possible only on last pass</source>
         <translation>Подмешивание возможно только на последней ступени</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="458"/>
+        <location filename="qml/ROConfPass.qml" line="422"/>
         <source>Total product (TP%1):</source>
         <translation>Выход со ступени (ВС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="497"/>
+        <location filename="qml/ROConfPass.qml" line="459"/>
         <source>Recycles:</source>
         <translation>Рециклы:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="516"/>
+        <location filename="qml/ROConfPass.qml" line="478"/>
         <source>Self Recycle (SR%1):</source>
         <oldsource>Self Recycle: </oldsource>
         <translation>Собств. рецикл (СР%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="573"/>
         <source>Concentrate from stages (SC%1):</source>
-        <translation>Концентрат со стадий (КС%1):</translation>
+        <translation type="obsolete">Концентрат со стадий (КС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="614"/>
+        <location filename="qml/ROConfPass.qml" line="617"/>
         <source>Pass %1 (R%2-%1):</source>
         <oldsource>Pass %1: </oldsource>
         <translation>Ступень %1 (Р%2-%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="675"/>
+        <location filename="qml/ROConfPass.qml" line="678"/>
         <source>Max</source>
         <translation>Максимум</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="697"/>
         <source>Original feed flow (F%1):</source>
-        <translation>Исходный вх. поток (И%1):</translation>
+        <translation type="obsolete">Исходный вх. поток (И%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="738"/>
+        <location filename="qml/ROConfPass.qml" line="535"/>
         <source>Feed on first stage (SF%1):</source>
         <translation>Вх. поток на стадию (ИС%1):</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="786"/>
+        <location filename="qml/ROConfPass.qml" line="576"/>
+        <source>Average stages recovery:</source>
+        <translation>Средний СИФ стадий:</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfPass.qml" line="748"/>
         <source>Stage:</source>
         <translation>Стадия:</translation>
     </message>
@@ -596,12 +600,12 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Ступень</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="25"/>
+        <location filename="qml/ROConfSystem.qml" line="31"/>
         <source>Element lifetime:</source>
         <translation>Срок службы элементов:</translation>
     </message>
     <message numerus="yes">
-        <location filename="qml/ROConfSystem.qml" line="51"/>
+        <location filename="qml/ROConfSystem.qml" line="57"/>
         <source>year(s)</source>
         <oldsource>years</oldsource>
         <translation>
@@ -611,22 +615,37 @@ Do you want to save your changes?</source>
         </translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="81"/>
+        <location filename="qml/ROConfSystem.qml" line="78"/>
+        <source>System raw water:</source>
+        <translation>Входной поток на систему:</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfSystem.qml" line="115"/>
+        <source>Total elements in system:</source>
+        <translation>Общее ко-во элеметов в системе:</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfSystem.qml" line="141"/>
+        <source>System recovery:</source>
+        <translation>СИФ системы:</translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfSystem.qml" line="197"/>
         <source>Pass:</source>
         <translation>Ступень:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="110"/>
+        <location filename="qml/ROConfSystem.qml" line="226"/>
         <source>Generic schemes</source>
         <translation>Варианты схем</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="111"/>
+        <location filename="qml/ROConfSystem.qml" line="227"/>
         <source>Choose generic scheme</source>
         <translation>Выберите схему</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="115"/>
+        <location filename="qml/ROConfSystem.qml" line="231"/>
         <source>Reset scheme</source>
         <translation>Сбросить схему</translation>
     </message>
@@ -639,13 +658,13 @@ Do you want to save your changes?</source>
         <location filename="qml/ROCosts.qml" line="166"/>
         <location filename="qml/ROCosts.qml" line="179"/>
         <location filename="qml/ROCosts.qml" line="192"/>
-        <source>rub/mВі</source>
+        <source>rub/m³</source>
         <oldsource>rub/m³</oldsource>
         <translation>руб/м³</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="217"/>
-        <source>Year permeate (mВі)</source>
+        <source>Year permeate (m³)</source>
         <oldsource>Year permeate (m³)</oldsource>
         <translation>Фильтрат за год (м³)</translation>
     </message>
@@ -713,7 +732,7 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="302"/>
-        <source>Energy by 1mВі (kW/h)</source>
+        <source>Energy by 1m³ (kW/h)</source>
         <oldsource>Energy by 1m³ (kW/h)</oldsource>
         <translation>Энергия на 1м³ (кВт/ч)</translation>
     </message>
@@ -747,7 +766,7 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="350"/>
-        <source>Sink (mВі)</source>
+        <source>Sink (m³)</source>
         <oldsource>Sink (m³)</oldsource>
         <translation>Объем на мойку (м³)</translation>
     </message>
@@ -813,19 +832,19 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="466"/>
-        <source>Rate (mВі/h)</source>
+        <source>Rate (m³/h)</source>
         <oldsource>Rate (m³/h)</oldsource>
         <translation>Кол-во (м³/ч)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="467"/>
-        <source>Volume by year (mВі)</source>
+        <source>Volume by year (m³)</source>
         <oldsource>Volume by year (m³)</oldsource>
         <translation>Объем в год (м³)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="468"/>
-        <source>Cost (rub/mВі)</source>
+        <source>Cost (rub/m³)</source>
         <oldsource>Cost (rub/m³)</oldsource>
         <translation>Затраты (руб/м³)</translation>
     </message>
@@ -1030,48 +1049,48 @@ Cannot open database.
         <translation>Опреснение</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="92"/>
+        <location filename="rogenericschemesmodel.cpp" line="97"/>
         <source>M150-54</source>
         <translation>М150-54</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="93"/>
+        <location filename="rogenericschemesmodel.cpp" line="98"/>
         <source>Energo-48</source>
         <translation>Энерго-48</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="94"/>
+        <location filename="rogenericschemesmodel.cpp" line="99"/>
         <source>Energo-25</source>
         <translation>Энерго-25</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="96"/>
-        <location filename="rogenericschemesmodel.cpp" line="97"/>
+        <location filename="rogenericschemesmodel.cpp" line="101"/>
+        <location filename="rogenericschemesmodel.cpp" line="102"/>
         <source>Purified water %1 %2</source>
         <translation>Очищенная вода %1 %2</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="99"/>
+        <location filename="rogenericschemesmodel.cpp" line="104"/>
         <source>Electronics-1</source>
         <translation>Электроника-1</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="101"/>
+        <location filename="rogenericschemesmodel.cpp" line="106"/>
         <source>Food industry</source>
         <translation>Пищевая промышленность</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="102"/>
+        <location filename="rogenericschemesmodel.cpp" line="107"/>
         <source>Softening</source>
         <translation>Умягчение</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="104"/>
+        <location filename="rogenericschemesmodel.cpp" line="109"/>
         <source>Seawater</source>
         <translation>Морская вода</translation>
     </message>
     <message>
-        <location filename="rogenericschemesmodel.cpp" line="105"/>
+        <location filename="rogenericschemesmodel.cpp" line="110"/>
         <source>Caspian sea</source>
         <translation>Каспийское море</translation>
     </message>
@@ -1186,19 +1205,19 @@ Cannot open database.
 <context>
     <name>ROPassController</name>
     <message>
-        <location filename="ropasscontroller.cpp" line="47"/>
+        <location filename="ropasscontroller.cpp" line="73"/>
         <source>You must complete 2 of 3 values</source>
         <translation>Заполните любые 2 из 3 значений</translation>
     </message>
     <message>
-        <location filename="ropasscontroller.cpp" line="54"/>
+        <location filename="ropasscontroller.cpp" line="80"/>
         <source>Recovery should be more than %2% and less than %1%</source>
         <translation>СИФ должна быть больше чем %2% и меньше чем %1%</translation>
     </message>
     <message>
-        <location filename="ropasscontroller.cpp" line="121"/>
-        <location filename="ropasscontroller.cpp" line="122"/>
-        <location filename="ropasscontroller.cpp" line="127"/>
+        <location filename="ropasscontroller.cpp" line="137"/>
+        <location filename="ropasscontroller.cpp" line="138"/>
+        <location filename="ropasscontroller.cpp" line="143"/>
         <source>Pass %1: %2</source>
         <translation>Ступень %1: %2</translation>
     </message>
@@ -2006,7 +2025,7 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROResults.qml" line="339"/>
-        <source>kWh/mВі</source>
+        <source>kWh/m³</source>
         <oldsource>kWh/m³</oldsource>
         <translation>кВтч/м³</translation>
     </message>
@@ -2175,9 +2194,9 @@ Do you want to save your changes?</source>
         <translation>Добавить стадию</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="68"/>
-        <source>F%1</source>
-        <translation>И%1</translation>
+        <source>RW%1</source>
+        <oldsource>F%1</oldsource>
+        <translation type="obsolete">И%1</translation>
     </message>
     <message>
         <location filename="qml/ROSchemePass.qml" line="101"/>
@@ -2195,9 +2214,8 @@ Do you want to save your changes?</source>
         <translation>СР%1</translation>
     </message>
     <message>
-        <location filename="qml/ROSchemePass.qml" line="148"/>
         <source>SC%1</source>
-        <translation>КС%1</translation>
+        <translation type="obsolete">КС%1</translation>
     </message>
     <message>
         <location filename="qml/ROSchemePass.qml" line="171"/>
@@ -2357,12 +2375,12 @@ Do you want to save your changes?</source>
 <context>
     <name>ROSystemController</name>
     <message>
-        <location filename="rosystemcontroller.cpp" line="35"/>
+        <location filename="rosystemcontroller.cpp" line="37"/>
         <source>Water type must be chosen</source>
         <translation>Необходимо выбрать тип воды</translation>
     </message>
     <message>
-        <location filename="rosystemcontroller.cpp" line="41"/>
+        <location filename="rosystemcontroller.cpp" line="42"/>
         <source>System can not be calculated. Please change your system design to reduce recovery or permeate flow.</source>
         <translation>Невозможно рассчитать систему с заданными параметрами. Попробуйте уменьшить СИФ или производительность системы.</translation>
     </message>
@@ -2371,10 +2389,10 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Невозможно рассчитать систему с заданными параметрами</translation>
     </message>
     <message>
-        <location filename="rosystemcontroller.cpp" line="148"/>
-        <location filename="rosystemcontroller.cpp" line="149"/>
-        <location filename="rosystemcontroller.cpp" line="155"/>
-        <location filename="rosystemcontroller.cpp" line="161"/>
+        <location filename="rosystemcontroller.cpp" line="213"/>
+        <location filename="rosystemcontroller.cpp" line="214"/>
+        <location filename="rosystemcontroller.cpp" line="220"/>
+        <location filename="rosystemcontroller.cpp" line="226"/>
         <source>System: %1</source>
         <translation>Система: %1</translation>
     </message>
@@ -2575,8 +2593,9 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ScalingPanel.qml" line="197"/>
-        <source>Acid concentration:</source>
-        <translation>Концентрация кислоты:</translation>
+        <source>Reagent concentration:</source>
+        <oldsource>Acid concentration:</oldsource>
+        <translation>Концентрация реагента:</translation>
     </message>
     <message>
         <location filename="qml/ScalingPanel.qml" line="216"/>
