@@ -184,6 +184,15 @@ void ROSystemController::setSystemInternal(ROSystem* const newSys)
     connect(_sys, SIGNAL(passCountChanged()), this, SIGNAL(inputChanged()));
     connect(_sys, SIGNAL(waterTypeIndexChanged()), this, SIGNAL(inputChanged()));
     connect(_sys, SIGNAL(elementLifetimeChanged()), this, SIGNAL(inputChanged()));
+
+    ROScalingElement * const se = _sys->scalingElement();
+    connect(se, SIGNAL(acidConcentrationChanged()), this, SIGNAL(inputChanged()));
+    connect(se, SIGNAL(adjustmentChanged()), this, SIGNAL(inputChanged()));
+    connect(se, SIGNAL(caLeakageChanged()), this, SIGNAL(inputChanged()));
+    connect(se, SIGNAL(mgLeakageChanged()), this, SIGNAL(inputChanged()));
+    connect(se, SIGNAL(dosingAcidChanged()), this, SIGNAL(inputChanged()));
+    connect(se, SIGNAL(feedChanged()), this, SIGNAL(inputChanged()));
+    connect(se, SIGNAL(targetPhChanged()), this, SIGNAL(inputChanged()));
 }
 
 void ROSystemController::updateSystem()

@@ -2,7 +2,8 @@
 
 ROWarning::ROWarning(std::function<bool()> updateFunc, WarningType type, std::function<QString()> updateWhatFunc, QObject *parent):
     _updateFunc(updateFunc), _type(type), _what(""), _updateWhatFunc(updateWhatFunc), _enabled(false), QObject(parent) {
-    update();
+    _enabled = _updateFunc();
+    _what = _updateWhatFunc();
 }
 
 ROWarning::ROWarning(QObject *parent):
