@@ -37,8 +37,8 @@ Rectangle {
         }
     }
 
-    onValueChanged: if (value !== undefined) _inputText = value
-    onInputChanged: { if (value !== undefined && value !== changedValue) _inputText = value }
+    onValueChanged: if (value != undefined) _inputText = value
+    onInputChanged: { if (value != undefined && value != changedValue) _inputText = value }
 
     MouseArea {
         id: mouseArea
@@ -65,7 +65,7 @@ Rectangle {
 
         onCursorVisibleChanged: {
             if (!cursorVisible) {
-                if (value !== text && editable) {
+                if (value != text && editable) {
 //                    console.log("input changed!", text);
                     inputChanged(text)
                 }
@@ -73,7 +73,7 @@ Rectangle {
         }
 
         onAccepted: {
-            if (value !== text && editable) {
+            if (value != text && editable) {
 //                console.log("input changed!", text);
                 inputChanged(text)
             }

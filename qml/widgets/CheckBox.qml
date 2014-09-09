@@ -53,5 +53,6 @@ Rectangle {
             toggle(!checked)
             container.forceActiveFocus()
         }
+        onPressed: container.forceActiveFocus()
     }
 }
