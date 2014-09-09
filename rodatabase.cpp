@@ -42,11 +42,7 @@ bool RODatabase::setInstanceDatabase(const QString &dbname) {
     }
 
     _membranesModel = new ROMembranesModel(this);
-//    _membranesModel->populate();
-
-    _waterTypeModel = new ROWaterTypeModel(_db, this);
-    _waterTypeModel->populate();
-
+    _waterTypeModel = new ROWaterTypeModel(this);
     _membraneAlternativesModel = new ROMembranesAlternativesModel(this);
     _genericSchemesModel = new ROGenericSchemesModel(this);
 

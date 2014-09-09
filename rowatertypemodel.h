@@ -25,9 +25,7 @@ public:
         FlowFactor,
         SaltPassage
     };
-    explicit ROWaterTypeModel(QSqlDatabase db = QSqlDatabase(), QObject *parent = 0);
-
-    void populate(); // заполнить содержимым
+    explicit ROWaterTypeModel(QObject *parent = 0);
     QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
     Q_INVOKABLE QVariant get(int row, const QString & field_name) const;
     int count() const;
@@ -36,7 +34,6 @@ public:
     static const size_t WATER_TYPE_PERMEATE = 0;
 
 private:
-    bool _populated;
     QHash<int, QByteArray> _roleNames;
 
     static const char * _typeNames[];

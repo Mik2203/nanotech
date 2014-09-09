@@ -21,7 +21,7 @@ const char * ROWaterTypeModel::_typeNames[] = {
     QT_TR_NOOP("Seawater (Open intake) [SDI < 5]")
 };
 
-ROWaterTypeModel::ROWaterTypeModel(QSqlDatabase db, QObject *parent): QSqlRelationalTableModel(parent, db), _populated(false) {
+ROWaterTypeModel::ROWaterTypeModel(QObject *parent): QSqlRelationalTableModel(parent) {
     _roleNames[NameRole] = "name";
     _roleNames[MinFluxRole] = "min_flux";
     _roleNames[MaxFluxRole] = "max_flux";
@@ -33,6 +33,9 @@ ROWaterTypeModel::ROWaterTypeModel(QSqlDatabase db, QObject *parent): QSqlRelati
     setRoleNames(_roleNames);
 #endif
 
+    setTable("ROWaterType");
+    select();
+
     connect(roApp->translator(), SIGNAL(currentLanguageChanged()), this, SLOT(updateModel()));
 }
 
@@ -43,13 +46,6 @@ QVariant ROWaterTypeModel::data( const QModelIndex & index, int role) const {
         return QSqlRelationalTableModel::data(this->index(index.row(), role-NameRole+1));
     else
         return QSqlRelationalTableModel::data(index);
-}
-
-void ROWaterTypeModel::populate() {
-    if (_populated) return;
-    setTable("ROWaterType");
-    select();
-    _populated = true;
 }
 
 QVariant ROWaterTypeModel::get(int row, const QString & field_name) const {
