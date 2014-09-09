@@ -51,6 +51,13 @@ private:
 
     ROStage* _stage;
 
+    void bind();
+    void bindStage();
+    void bindPermeate();
+    void bindFeed();
+
+    void unbindFeed();
+
 signals:
     void activeAreaChanged();
     void recoveryChanged();
