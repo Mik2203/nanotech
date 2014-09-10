@@ -38,7 +38,7 @@ ROCase *ROProject::addCase(int copyFromCaseIndex) {
         Q_EMIT lastCaseChanged();
         return newCase;
     }
-    return 0;
+    return nullptr;
 }
 
 int ROProject::caseIndex(ROCase* sysCase) const { return _cases.indexOf(sysCase); }

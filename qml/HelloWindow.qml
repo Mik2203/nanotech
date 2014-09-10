@@ -44,7 +44,7 @@ Column {
     }
 
     Text {
-        text: app.translator.emptyString + qsTr("NanoTechPRO %1 from %2").arg("1.2.2").arg("01.08.2014")
+        text: app.translator.emptyString + qsTr("NanoTechPRO %1 from %2").arg("1.2.4").arg("10.09.2014")
     }
 
     Text {
