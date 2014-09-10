@@ -188,7 +188,7 @@ void ROReportBuilder::insertSystemDesignDetails() {
 
     // init table
     storeFormat();
-    QTextTable *table = insertDataTable(7, 1 + case_()->sys()->passCount());
+    QTextTable *table = insertDataTable(8, 1 + case_()->sys()->passCount());
 
     // vertical headers
     insertText(table->cellAt(1, 0), tr("Power"));
@@ -200,13 +200,15 @@ void ROReportBuilder::insertSystemDesignDetails() {
     insertText(table->cellAt(3, 0), tr("Flow Factor"));
 
     insertText(table->cellAt(4, 0), tr("Active Area"));
-    insertText(table->cellAt(4, 1), tr("m²"));
+    insertText(table->cellAt(4, 1), roUnitsText->areaUnitText(roUnits->areaUnits()));
 
     insertText(table->cellAt(5, 0), tr("Average Flux"));
     insertText(table->cellAt(5, 1), roUnitsText->fluxUnitText(roUnits->fluxUnits()));
 
     insertText(table->cellAt(6, 0), tr("Recovery"));
     insertText(table->cellAt(6, 1), tr("%"));
+
+    insertText(table->cellAt(7, 0), tr("Total elements count"));
 
 
 
@@ -217,20 +219,23 @@ void ROReportBuilder::insertSystemDesignDetails() {
     insertText(table->cellAt(0, col), tr("System"));
     insertText(table->cellAt(1, col), sys->power());
     insertText(table->cellAt(2, col), sys->specificEnergy());
-    insertText(table->cellAt(4, col), sys->activeArea());
+    insertText(table->cellAt(4, col), ROUnits::convertAreaUnits(sys->activeArea()));
     insertText(table->cellAt(5, col), ROUnits::convertFluxUnits(sys->averageFlux()));
     insertText(table->cellAt(6, col), sys->recovery() * 100.0);
+    insertText(table->cellAt(7, col), sys->elementsCount());
 
     ++col;
     for (int pi=0; pi<sys->passCount(); ++pi) {
         ROPass* pass = sys->pass(pi);
-        insertText(table->cellAt(0, col), tr("Pass %1").arg(pi+1));
-        insertText(table->cellAt(1, col), pass->power());
-        insertText(table->cellAt(2, col), pass->specificEnergy());
-        insertText(table->cellAt(3, col), pass->flowFactor());
-        insertText(table->cellAt(4, col), pass->activeArea());
-        insertText(table->cellAt(5, col), ROUnits::convertFluxUnits(pass->averageFlux()));
-        insertText(table->cellAt(6, col), pass->recovery() * 100.0);
+        int row = 0;
+        insertText(table->cellAt(row++, col), tr("Pass %1").arg(pi+1));
+        insertText(table->cellAt(row++, col), pass->power());
+        insertText(table->cellAt(row++, col), pass->specificEnergy());
+        insertText(table->cellAt(row++, col), pass->flowFactor());
+        insertText(table->cellAt(row++, col), ROUnits::convertAreaUnits(pass->activeArea()));
+        insertText(table->cellAt(row++, col), ROUnits::convertFluxUnits(pass->averageFlux()));
+        insertText(table->cellAt(row++, col), pass->recovery() * 100.0);
+        insertText(table->cellAt(row++, col), pass->elementsCount());
         ++col;
     }
 
@@ -271,9 +276,9 @@ void ROReportBuilder::insertSystemFlowDetails() {
 
     auto insertFlowData = [this, &table, &filledIons](int col, ROFlow* flow) {
         int row=2;
-        insertText(table->cellAt(row++, col), flow->rate());
-        insertText(table->cellAt(row++, col), flow->osmoticPressure());
-        insertText(table->cellAt(row++, col), flow->pressure());
+        insertText(table->cellAt(row++, col), ROUnits::convertFlowUnits(flow->rate()));
+        insertText(table->cellAt(row++, col), ROUnits::convertPressureUnits(flow->osmoticPressure()));
+        insertText(table->cellAt(row++, col), ROUnits::convertPressureUnits(flow->pressure()));
         insertText(table->cellAt(row++, col), flow->solutes()->totalValueMgl());
 
         Q_FOREACH(const int& si, filledIons)
@@ -392,7 +397,7 @@ void ROReportBuilder::insertStagesDesignDetails() {
     insertText(table->cellAt(4, 0), tr("Elements count"));
 
     insertText(table->cellAt(5, 0), tr("Active Area"));
-    insertText(table->cellAt(5, 1), tr("m²"));
+    insertText(table->cellAt(5, 1), roUnitsText->areaUnitText(roUnits->areaUnits()));
 
     insertText(table->cellAt(6, 0), tr("Average Flux"));
     insertText(table->cellAt(6, 1), roUnitsText->fluxUnitText(roUnits->fluxUnits()));
@@ -417,7 +422,7 @@ void ROReportBuilder::insertStagesDesignDetails() {
             insertText(table->cellAt(2, col), stage->membrane()->seriesAndModel());
             insertText(table->cellAt(3, col), stage->vesselCount());
             insertText(table->cellAt(4, col), stage->elementsPerVesselCount());
-            insertText(table->cellAt(5, col), stage->activeArea());
+            insertText(table->cellAt(5, col), ROUnits::convertAreaUnits(stage->activeArea()));
             insertText(table->cellAt(6, col), ROUnits::convertFluxUnits(stage->averageFlux()));
             insertText(table->cellAt(7, col), stage->recovery() * 100.0);
             ++col;
@@ -531,7 +536,7 @@ void ROReportBuilder::insertElementsDesignDetails() {
         QTextTable *table = insertDataTable(5, elementsCount); // не делим, т.к. не более 8 стадий по условию
 
         insertText(table->cellAt(2, 0), tr("Active Area"));
-        insertText(table->cellAt(2, 1), tr("m²"));
+        insertText(table->cellAt(2, 1), roUnitsText->areaUnitText(roUnits->areaUnits()));
 
         insertText(table->cellAt(3, 0), tr("Average Flux"));
         insertText(table->cellAt(3, 1), roUnitsText->fluxUnitText(roUnits->fluxUnits()));
@@ -570,7 +575,7 @@ void ROReportBuilder::insertElementsDesignDetails() {
 
                 insertText(table->cellAt(1, col), tr("Element %1").arg(ei+1));
                 _tbf.setAlignment(Qt::AlignRight);
-                insertText(table->cellAt(2, col), element->activeArea());
+                insertText(table->cellAt(2, col), ROUnits::convertAreaUnits(element->activeArea()));
                 insertText(table->cellAt(3, col), ROUnits::convertFluxUnits(element->averageFlux()));
                 insertText(table->cellAt(4, col), element->recovery() * 100.0);
 
@@ -714,9 +719,9 @@ void ROReportBuilder::insertFlowData(QTextTable *table, const QTextTableCell &st
     ROSystem* sys = case_()->sys();
     QVector<int> filledIons = sys->filledIons();
 
-    insertText(table->cellAt(row++, col), flow->rate());
-    insertText(table->cellAt(row++, col), flow->osmoticPressure());
-    insertText(table->cellAt(row++, col), flow->pressure());
+    insertText(table->cellAt(row++, col), ROUnits::convertFlowUnits(flow->rate()));
+    insertText(table->cellAt(row++, col), ROUnits::convertPressureUnits(flow->osmoticPressure()));
+    insertText(table->cellAt(row++, col), ROUnits::convertPressureUnits(flow->pressure()));
     insertText(table->cellAt(row++, col), flow->solutes()->totalValueMgl());
 
     if (ions) {
