@@ -40,6 +40,8 @@ ROWidgets.SimpleListView {
             ROMembraneParametersCell { text: model.koch }
             ROMembraneParametersCell { text: model.desalGE }
         }
+
+        selected: stage.membraneId == model.id
     }
 }
 //}

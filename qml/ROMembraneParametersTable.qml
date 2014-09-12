@@ -55,8 +55,7 @@ ROWidgets.SimpleListView {
             ROMembraneParametersCell { text: model.test_recovery * 100; width: 70 }
         }
 
-        color: stage.membraneId === model.id ? "#018CD1" :
-                                               (index === listView.currentIndex ? "#caebff" : "white")
+        selected: stage.membraneId == model.id
     }
 }
 //}

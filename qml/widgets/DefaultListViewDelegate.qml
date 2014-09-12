@@ -5,9 +5,12 @@ Rectangle {
     id: delegateRectangle
     width: 100
     height: 18
-    color: index == listView.currentIndex ? "lightblue" : "white"
+    color: selected ? "#018CD1" : (hovered ? "#caebff" : "white")
     border.width: 1
     border.color: "grey"
+
+    property bool hovered: index == listView.currentIndex
+    property bool selected: false
 //    radius: 2
 
     property alias text: label.text
