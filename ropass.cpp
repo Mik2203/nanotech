@@ -147,9 +147,9 @@ ROStage* ROPass::addStage(int copyFromStageNumber) {
         ROFlow* feed = _stages.last()->concentrate();
         ROStage* newStage;
         if (0 <= copyFromStageNumber && copyFromStageNumber < _stages.count())
-            newStage = stage(copyFromStageNumber)->clone(/*_stages.count(), */feed);
+            newStage = stage(copyFromStageNumber)->clone(feed);
         else
-            newStage = new ROStage(this, /*_stages.count(),*/ feed);
+            newStage = new ROStage(this, feed);
 
         _stages.append(newStage);
         connect(newStage, SIGNAL(totalActiveAreaChanged()), this, SIGNAL(totalActiveAreaChanged()));

@@ -42,7 +42,7 @@ double ROMembrane::rejection() const { return _rejection; }
 double ROMembrane::pressure() const { return _pressure; }
 
 double ROMembrane::_aCoeff[] = {
-    0.079, // KM-C
+    0.0875, // KM-C
     0.123,  // K
     0.202,  // KH
     0.295,  // KCH

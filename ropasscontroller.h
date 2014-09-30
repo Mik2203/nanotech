@@ -84,7 +84,7 @@ private:
      QList<ROStageController*> _stageControllers;
 
 
-     ROFlowMixer * _aboutBlend_R;
+     ROFlowMixer * _aboutBlend_R;  // см. updateBlend()
      ROFlowMixer * _toTotalProduct_RST;
      ROFlowMixer * _toBlending_ST;
      ROFlowMixer * _toFeed_ST;
