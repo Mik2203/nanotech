@@ -275,7 +275,10 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                                     if (!readElement()) return;
                                     if (_curElementType == TextElement) {
                                         double selfRecycle = _curText.toDouble(&convertSuccess);
-                                        if (convertSuccess) pass->setSelfRecycle(selfRecycle);
+                                        if (convertSuccess) {
+                                            pass->setSelfRecycle(selfRecycle);
+                                            pass->setHasSelfRecycle(true);
+                                        }
                                         if (!readElement()) return;
                                     }
                                     if (_curElementType != EndElement || _curText != "selfRecycle") return;
