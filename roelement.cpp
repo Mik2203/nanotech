@@ -28,12 +28,7 @@ ROFlow* const ROElement::feed() const { return _feed; }
 ROFlow* const ROElement::permeate() const { return _permeate; }
 ROFlow* const ROElement::concentrate() const { return _concentrate; }
 ROStage* const ROElement::stage() const { return _stage; }
-void ROElement::setFeed(ROFlow* const newFeed) {
-    unbindFeed();
-    _feed = newFeed;
-    bindFeed();
-    Q_EMIT feedChanged();
-}
+
 double ROElement::activeArea() const { return stage()->membrane() ? stage()->membrane()->activeArea() : 0.0; }
 ROElement* ROElement::clone(ROFlow *newFeed) { return new ROElement(this->stage(), newFeed); }
 
@@ -62,8 +57,4 @@ void ROElement::bindFeed()
     connect(_feed, SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged()));
 }
 
-void ROElement::unbindFeed()
-{
-    if (_feed) disconnect(_feed, 0, this, 0);
-}
 

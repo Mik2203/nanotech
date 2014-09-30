@@ -169,10 +169,10 @@ bool ROPass::removeStage(int stageIndex) {
     if (_stages.count() > _MIN_STAGES_COUNT && (0 <= stageIndex && stageIndex < _stages.count())) {
         ROStage *removingStage = _stages.takeAt(stageIndex);
         if (stageIndex == 0) {
-            _stages[stageIndex]->setFeed(_firstStageFeed);
+            _stages[stageIndex]->setRawWater(_firstStageFeed);
             Q_EMIT firstStageChanged();
         } else if (stageIndex < _stages.count()){
-            _stages[stageIndex]->setFeed(_stages[stageIndex-1]->concentrate());
+            _stages[stageIndex]->setRawWater(_stages[stageIndex-1]->concentrate());
         } else { // last stage has been removed
             Q_EMIT lastStageChanged();
         }

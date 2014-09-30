@@ -23,19 +23,17 @@ class ROElement : public ROAbstractElement
 
     // FLOWS
     Q_PROPERTY(ROFlow* permeate READ permeate CONSTANT)
-    Q_PROPERTY(ROFlow* feed READ feed WRITE setFeed NOTIFY feedChanged)
+    Q_PROPERTY(ROFlow* feed READ feed NOTIFY feedChanged)
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
 
 public:
-    explicit ROElement(ROStage* stage, ROFlow* feed = 0);
+    explicit ROElement(ROStage* stage, ROFlow* feed);
     ROElement(); // Только для QML
     ~ROElement();
     
     ROFlow* const feed() const;
     ROFlow* const permeate() const;
     ROFlow* const concentrate() const;
-
-    void setFeed(ROFlow* const newFeed);
 
     ROStage* const stage() const;
 
@@ -55,8 +53,6 @@ private:
     void bindStage();
     void bindPermeate();
     void bindFeed();
-
-    void unbindFeed();
 
 signals:
     void activeAreaChanged();

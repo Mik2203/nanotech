@@ -56,11 +56,14 @@ public slots:
 
 private slots:
     void updateElements();
+    void updateRawWater();
 
 
 private:
     ROStage* const _stage;
     ROPassController* const _passC;
+
+    ROFlowMixer* const _rawWaterToFeed_SRT;
 
     QList<ROElementController*> _elementControllers;
 

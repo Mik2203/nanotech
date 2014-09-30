@@ -31,7 +31,8 @@ class ROStage: public ROAbstractElement {
 
     // FLOWS
     Q_PROPERTY(ROFlow* permeate READ permeate CONSTANT)
-    Q_PROPERTY(ROFlow* feed READ feed WRITE setFeed NOTIFY feedChanged)
+    Q_PROPERTY(ROFlow* rawWater READ rawWater WRITE setRawWater NOTIFY rawWaterChanged)
+    Q_PROPERTY(ROFlow* feed READ feed CONSTANT)
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
 
     // MEMBRANE
@@ -62,6 +63,10 @@ public:
     ROStage(); // Только для QML
 
     ~ROStage();
+    // feed копирует все параметры rawWater кроме давления.
+    // В многостадийной системе концентрат одной стадии является входом для другой.
+    // Но нужно также учитывать
+    ROFlow* const rawWater() const;
     ROFlow* const feed() const;
     ROFlow* const permeate() const;
     ROFlow* const concentrate() const;
@@ -83,7 +88,7 @@ public:
 
 
     void setMembraneId(int membraneId);
-    void setFeed(ROFlow* const newFeed);
+    void setRawWater(ROFlow* const rw);
 
     ROPass* const pass() const;
 
@@ -100,7 +105,8 @@ public:
     void copyDataFrom(const ROStage* const);
 
 private:
-    ROFlow* _feed;
+    ROFlow* _rawWater;
+    ROFlow* const _feed;
     ROFlow* const _firstElementFeed;
     ROFlow* const _permeate;
     ROFlow* const _concentrate;
@@ -119,7 +125,7 @@ signals:
     void vesselsCountChanged();
     void elementsPerVesselCountChanged();
     void elementsCountChanged();
-    void feedChanged();
+    void rawWaterChanged();
     void preStagePressureChanged();
     void backPressureChanged();
     void numberChanged();

@@ -85,7 +85,7 @@ private:
 
 
      ROFlowMixer * _aboutBlend_R;  // см. updateBlend()
-     ROFlowMixer * _toTotalProduct_RST;
+     ROFlowMixer * _toTotalProduct_RSTP;
      ROFlowMixer * _toBlending_ST;
      ROFlowMixer * _toFeed_ST;
 

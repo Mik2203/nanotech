@@ -14,7 +14,7 @@ ROPassController::ROPassController(ROPass* pass, ROSystemController* sysC) :
     _calculated(false),
     _solved(false),
     _aboutBlend_R(new ROFlowMixer(ROFlowMixer::FlowRate)),
-    _toTotalProduct_RST(new ROFlowMixer(ROFlowMixer::FlowRate | ROFlowMixer::FlowSolutes | ROFlowMixer::FlowTemperature)),
+    _toTotalProduct_RSTP(new ROFlowMixer(ROFlowMixer::FlowRate | ROFlowMixer::FlowSolutes | ROFlowMixer::FlowTemperature | ROFlowMixer::FlowPressure)),
     _toBlending_ST(new ROFlowMixer(ROFlowMixer::FlowSolutes | ROFlowMixer::FlowTemperature)),
     _toFeed_ST(new ROFlowMixer(ROFlowMixer::FlowSolutes | ROFlowMixer::FlowTemperature)),
     _incomingRecycles_R(new ROFlow()),
@@ -52,8 +52,8 @@ ROPassController::ROPassController(ROPass* pass, ROSystemController* sysC) :
     connect(_paramSetC, SIGNAL(anySetStateChanged()), this, SIGNAL(inputChanged()));
 
     // потоки
-    _toTotalProduct_RST->addFeed(_pass->permeate(), ROFlowMixer::FlowAdd);
-    _toTotalProduct_RST->setOutputFlow(pass->totalProduct());
+    _toTotalProduct_RSTP->addFeed(_pass->permeate(), ROFlowMixer::FlowAdd);
+    _toTotalProduct_RSTP->setOutputFlow(pass->totalProduct());
 
     _toBlending_ST->addFeed(_pass->rawWater(), ROFlowMixer::FlowAdd);
     _toBlending_ST->setOutputFlow(_pass->_blending);
@@ -176,9 +176,9 @@ void ROPassController::updateBlend()
 
     // totalProduct
     if (blendPass->hasBlendPermeate())
-        _toTotalProduct_RST->addFeed(_pass->_blending, ROFlowMixer::FlowAdd);
+        _toTotalProduct_RSTP->addFeed(_pass->_blending, ROFlowMixer::FlowAdd);
     else
-        _toTotalProduct_RST->removeFeed(_pass->_blending);
+        _toTotalProduct_RSTP->removeFeed(_pass->_blending);
 
 
     // feed|blend|raw
@@ -235,7 +235,7 @@ ROPassController::~ROPassController() {
 
     // mixers
     delete _aboutBlend_R;
-    delete _toTotalProduct_RST;
+    delete _toTotalProduct_RSTP;
     delete _toBlending_ST;
     delete _toFeed_ST;
 }

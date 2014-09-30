@@ -5,12 +5,20 @@
 #include <functional>
 
 ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
-    _stage(stage), _passC(passC),  QObject(stage) {
+    _stage(stage),
+    _passC(passC),
+    _rawWaterToFeed_SRT(new ROFlowMixer(ROFlowMixer::FlowSolutes | ROFlowMixer::FlowRate | ROFlowMixer::FlowTemperature)),
+    QObject(stage) {
 
     _membraneChosen = new ROWarning([this]() { return this->stage()->membraneId() < 0; },
     ROWarning::WarningCritical,
-    [this]() { return tr("Membrane is not chosen"); },
+    [this]() { return tr("Membrane element is not chosen"); },
     this);
+
+    _rawWaterToFeed_SRT->addFeed(stage->rawWater(), ROFlowMixer::FlowAdd);
+    _rawWaterToFeed_SRT->setOutputFlow(stage->feed());
+
+    connect(stage, SIGNAL(rawWaterChanged()), this, SLOT(updateRawWater()));
 
     connect(stage, SIGNAL(membraneIdChanged()), _membraneChosen, SLOT(update()));
 
@@ -28,7 +36,7 @@ ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
     connect(_stage, SIGNAL(membraneIdChanged()), this, SIGNAL(inputChanged()));
     connect(_stage, SIGNAL(elementsPerVesselCountChanged()), this, SIGNAL(inputChanged()));
     connect(_stage, SIGNAL(vesselsCountChanged()), this, SIGNAL(inputChanged()));
-    connect(_stage, SIGNAL(feedChanged()), this, SIGNAL(inputChanged()));
+    connect(_stage, SIGNAL(rawWaterChanged()), this, SIGNAL(inputChanged()));
     connect(_stage, SIGNAL(preStagePressureChanged()), this, SIGNAL(inputChanged()));
     connect(_stage, SIGNAL(backPressureChanged()), this, SIGNAL(inputChanged()));
 
@@ -36,7 +44,7 @@ ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
     hasAnyCautionWarningsChanged();
 }
 
-ROStageController::ROStageController(): _stage(0), _passC(0) { }
+ROStageController::ROStageController(): _stage(nullptr), _passC(nullptr), _rawWaterToFeed_SRT(nullptr) { }  // for QML
 
 ROStageController::~ROStageController() {
     delete _membraneChosen;
@@ -102,6 +110,12 @@ void ROStageController::updateElements() {
     hasAnyCriticalWarningsChanged();
     hasAnyCautionWarningsChanged();
     inputChanged();
+}
+
+void ROStageController::updateRawWater()
+{
+    _rawWaterToFeed_SRT->clearFeeds();
+    _rawWaterToFeed_SRT->addFeed(_stage->rawWater(), ROFlowMixer::FlowAdd);
 }
 
 void ROStageController::updateWarnings() {

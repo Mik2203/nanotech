@@ -17,9 +17,11 @@ const int ROStage::MIN_ELEMENTS_PER_VESSEL = 1;
 const int ROStage::MAX_VESSELS_COUNT = 100;
 const int ROStage::MIN_VESSELS_COUNT = 1;
 
-ROStage::ROStage(ROPass* pass, ROFlow* feed,
+ROStage::ROStage(ROPass* pass, ROFlow* rawWater,
                  int elementsPerVesselCount, int vesselCount) :
-    _pass(pass), _feed(feed), _membrane(0),
+    _pass(pass),
+    _rawWater(rawWater),
+    _feed(new ROFlow()), _membrane(0),
     _vesselCount(qBound(MIN_VESSELS_COUNT, vesselCount, MAX_VESSELS_COUNT)),
     /*_membrane(0), */
     _permeate(new ROFlow()),
@@ -43,7 +45,7 @@ ROStage::ROStage(ROPass* pass, ROFlow* feed,
 
     // RECOVERY
     connect(permeate(), SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged()));
-    connect(feed, SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged()));
+    connect(_feed, SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged()));
 
     // ELEMENTS COUNT
     connect(this, SIGNAL(elementsPerVesselCountChanged()), this, SIGNAL(elementsCountChanged()));
@@ -63,7 +65,7 @@ ROStage::~ROStage() {
     qDeleteAll(_elements); _elements.clear();
 }
 
-
+ROFlow * const ROStage::rawWater() const { return _rawWater; }
 ROFlow* const ROStage::feed() const { return _feed; }
 ROFlow* const ROStage::permeate() const { return _permeate; }
 ROFlow* const ROStage::concentrate() const { return _concentrate; }
@@ -106,9 +108,9 @@ void ROStage::setMembraneId(int membraneId) {
     Q_EMIT membraneIdChanged();
 }
 
-void ROStage::setFeed(ROFlow* const newFeed) {
-    _feed = newFeed;
-    Q_EMIT feedChanged();
+void ROStage::setRawWater(ROFlow* const rw) {
+    _rawWater = rw;
+    Q_EMIT rawWaterChanged();
 }
 
 

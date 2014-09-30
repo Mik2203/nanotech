@@ -53,37 +53,24 @@ bool ROSystemSolver::solved() const { return _solved; }
 double ROSystemSolver::tolerance() const { return _tolerance; }
 
 void ROSystemSolver::setSystemValues() {
-    // учесть preStage & back pressures
-//    for (int pi=_sys->passCount()-1; pi>=0; --pi) {
-//        ROPass* pass = _sys->pass(pi);
-//        double addP = 0.0;
-//        for (int si=pass->stageCount()-1, ei = peCount(pi)-1; si>=0; --si) {
-//            ROStage* stage = pass->stage(si);
-//            addP += stage->preStagePressure() + stage->backPressure();
-//            stage->permeate()->setPressure(stage->backPressure());
-//            for (int ei2=stage->elementsPerVesselCount()-1; ei2 >=0; --ei2, --ei) {
-//                ePf(pi, ei) += addP;
-//                stage->element(ei2)->permeate()->setPressure(stage->backPressure());
-//            }
-//        }
-//    }
-
-//    Eigen::VectorXd sysCcQc = Eigen::VectorXd::Zero(_usedSolutes.count()); // els count
     double sysPf = 0.0;
-//    double sysPc = 0.0;
     for (int pi=0; pi<_sys->passCount(); ++pi) {
         ROPass* pass = _sys->pass(pi);
         ROStage* firstStage = pass->firstStage();
-        firstStage->feed()->solutes()->beginChange();
-        firstStage->feed()->solutes()->reset();
+
+        double pPp = 0.0;
+
+        firstStage->rawWater()->solutes()->beginChange();
+        firstStage->rawWater()->solutes()->reset();
         for (int sii=0; sii<_usedSolutes.count(); ++sii) {
             int si = _usedSolutes[sii];
-            firstStage->feed()->solutes()->setMeql(si, s1sCf(pi, sii));
+            firstStage->rawWater()->solutes()->setMeql(si, s1sCf(pi, sii));
         }
-        firstStage->feed()->solutes()->setPH(s1PHf(pi));
-        firstStage->feed()->setTemperature(T);
-        firstStage->feed()->solutes()->endChange();
+        firstStage->rawWater()->solutes()->setPH(s1PHf(pi));
+        firstStage->rawWater()->setTemperature(T);
+        firstStage->rawWater()->solutes()->endChange();
 
+//        firstStage->rawWater()->
 
 
         Eigen::VectorXd sCPQP = Eigen::VectorXd::Zero(_usedSolutes.count()); // els count
@@ -95,17 +82,12 @@ void ROSystemSolver::setSystemValues() {
             sCPQP = Eigen::VectorXd::Zero(_usedSolutes.count());
             sQP = 0.0;
 
-            stage->feed()->setRate(evQf(pi, ei));
+            stage->rawWater()->setRate(evQf(pi, ei));
 
             ROElement* firstElement = stage->firstElement();
             firstElement->feed()->setRate(eQf(pi, ei));
             firstElement->feed()->setTemperature(T);
-            firstElement->feed()->copySolutesFrom(stage->feed());
-
-
-
-            stage->feed()->setPressure(ePf(pi, ei) + ePp(pi, ei));
-            stage->permeate()->setPressure(ePb(pi, ei));
+            firstElement->feed()->copySolutesFrom(stage->rawWater());
 
 
             for (int ei2 = 0; ei2 < stage->elementsPerVesselCount(); ++ei2, ++ei) {
@@ -139,9 +121,17 @@ void ROSystemSolver::setSystemValues() {
 
                 stage->element(ei2)->feed()->setPressure(ePf(pi, ei) + ePp(pi, ei));
                 stage->element(ei2)->permeate()->setPressure(ePb(pi, ei));
-                stage->element(ei2)->concentrate()->setPressure(ePc(pi, ei) + ePp(pi, ei));
+                stage->element(ei2)->concentrate()->setPressure(ePc(pi, ei) + ePp(pi, ei) - ePb(pi, ei));  // см ниже почему надо вычитать Pb
 
             }
+
+            stage->feed()->setPressure(stage->firstElement()->feed()->pressure());
+            stage->permeate()->setPressure(stage->firstElement()->permeate()->pressure());
+
+            // В концентрате нужно вычесть обратное давление фильтрата, т.к. оно идет в фильтрат.
+            // Нельзя сразу аккумулировать Pp (см расчет Pp) без Pb, именно из-за того, что Pb должно быть
+            // также аккумулировано. Проще просто вычесть его из концентрата.
+            stage->concentrate()->setPressure(stage->lastElement()->concentrate()->pressure());
 
             // Solutes
             stage->permeate()->solutes()->beginChange();
@@ -173,7 +163,7 @@ void ROSystemSolver::setSystemValues() {
             stage->permeate()->setRate(sQP * stage->vesselCount());
 
             // Pressures
-
+            pPp += stage->permeate()->pressure();
         }
 
 
@@ -210,12 +200,14 @@ void ROSystemSolver::setSystemValues() {
 //            sysCcQc(sii) += pass->concentrate()->solutes()->meql(si) * pass->concentrate()->rate();
         }
         pass->permeate()->solutes()->endChange();
+        pass->permeate()->setPressure(pPp / pass->stageCount());
 //        pass->totalProduct()->solutes()->endChange();
 
         // pass pressures
         pass->feed()->setPressure(firstStage->feed()->pressure());
 //        pass->permeate()->setPressure(lastStage->permeate()->pressure());
         pass->concentrate()->setPressure(lastStage->concentrate()->pressure());
+
 
         sysPf += pass->feed()->pressure();
     }
