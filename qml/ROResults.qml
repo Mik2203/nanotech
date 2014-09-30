@@ -414,7 +414,7 @@ Item {
                 width: colWidthParam
                 height: rowHeight
                 border.color: borderColor
-                Text {text: app.translator.emptyString + qsTr("Membrane"); anchors.leftMargin: 5; anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter }
+                Text {text: app.translator.emptyString + qsTr("Membrane element"); anchors.leftMargin: 5; anchors.left: parent.left; anchors.verticalCenter: parent.verticalCenter }
             }
 
             Rectangle { //Spacer

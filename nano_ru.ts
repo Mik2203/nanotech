@@ -659,13 +659,11 @@ Do you want to save your changes?</source>
         <location filename="qml/ROCosts.qml" line="179"/>
         <location filename="qml/ROCosts.qml" line="192"/>
         <source>rub/m³</source>
-        <oldsource>rub/m³</oldsource>
         <translation>руб/м³</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="217"/>
         <source>Year permeate (m³)</source>
-        <oldsource>Year permeate (m³)</oldsource>
         <translation>Фильтрат за год (м³)</translation>
     </message>
     <message>
@@ -733,7 +731,6 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROCosts.qml" line="302"/>
         <source>Energy by 1m³ (kW/h)</source>
-        <oldsource>Energy by 1m³ (kW/h)</oldsource>
         <translation>Энергия на 1м³ (кВт/ч)</translation>
     </message>
     <message>
@@ -767,7 +764,6 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROCosts.qml" line="350"/>
         <source>Sink (m³)</source>
-        <oldsource>Sink (m³)</oldsource>
         <translation>Объем на мойку (м³)</translation>
     </message>
     <message>
@@ -833,19 +829,16 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROCosts.qml" line="466"/>
         <source>Rate (m³/h)</source>
-        <oldsource>Rate (m³/h)</oldsource>
         <translation>Кол-во (м³/ч)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="467"/>
         <source>Volume by year (m³)</source>
-        <oldsource>Volume by year (m³)</oldsource>
         <translation>Объем в год (м³)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="468"/>
         <source>Cost (rub/m³)</source>
-        <oldsource>Cost (rub/m³)</oldsource>
         <translation>Затраты (руб/м³)</translation>
     </message>
     <message>
@@ -1411,7 +1404,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="roreportbuilder.cpp" line="194"/>
         <source>Power</source>
-        <translation>Производительность</translation>
+        <translation>Мощность</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="197"/>
@@ -2013,7 +2006,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROResults.qml" line="302"/>
         <source>Power</source>
-        <translation>Производительность</translation>
+        <translation type="unfinished">Мощность</translation>
     </message>
     <message>
         <location filename="qml/ROResults.qml" line="309"/>
@@ -2028,7 +2021,6 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROResults.qml" line="339"/>
         <source>kWh/m³</source>
-        <oldsource>kWh/m³</oldsource>
         <translation>КВтч/м³</translation>
     </message>
     <message>
@@ -2037,8 +2029,9 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROResults.qml" line="417"/>
-        <source>Membrane</source>
-        <translation>Мембрана</translation>
+        <source>Membrane element</source>
+        <oldsource>Membrane</oldsource>
+        <translation>Мембранный элемент</translation>
     </message>
     <message>
         <source>El</source>
@@ -2363,13 +2356,17 @@ Do you want to save your changes?</source>
 <context>
     <name>ROStageController</name>
     <message>
-        <location filename="rostagecontroller.cpp" line="12"/>
         <source>Membrane is not chosen</source>
-        <translation>Мембрана не выбрана</translation>
+        <translation type="obsolete">Мембрана не выбрана</translation>
     </message>
     <message>
-        <location filename="rostagecontroller.cpp" line="69"/>
-        <location filename="rostagecontroller.cpp" line="74"/>
+        <location filename="rostagecontroller.cpp" line="15"/>
+        <source>Membrane element is not chosen</source>
+        <translation>Мембранный элемент не выбран</translation>
+    </message>
+    <message>
+        <location filename="rostagecontroller.cpp" line="77"/>
+        <location filename="rostagecontroller.cpp" line="82"/>
         <source>Stage %1: %2</source>
         <translation>Стадия %1: %2</translation>
     </message>
