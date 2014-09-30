@@ -133,34 +133,26 @@ void ROScalingElement::adjust() {
     }
     case pHAdjustment: {
         setTargetPh(_targetPh);
-        double c = pow(10.0, -_targetPh) - pow(10.0, -_feed->pH());
+        double cPh = 1000 * (pow(10.0, -_targetPh) - pow(10.0, -_feed->pH()));
         // TODO ограничения за выход в минус
         switch(_dosingAcid) {
         case H2SO4: {
-            double so4MolarMass = 32.06 + 15.9994*4;
-            double h2so4MolarMass = 2*1.0079 + so4MolarMass;
-            double so4Part = so4MolarMass / h2so4MolarMass;
-            double v = h2so4MolarMass * c * 1000.0 / 2 / acidConcentration();
-            double so4Add = v * so4Part;
+            double so4Add = cPh * ROSolutes::molarMass(ROSolutes::SO4) / acidConcentration();
             _adjustedFeed->solutes()->setMgl(ROSolutes::SO4, _adjustedFeed->solutes()->mgl(ROSolutes::SO4) + so4Add);
             break;
         }
         case HCl: {
-            double clMolarMass = 35.4527;
-            double hclMolarMass = 1.0079 + clMolarMass;
-            double clPart = clMolarMass / hclMolarMass;
-            double v = hclMolarMass * c * 1000.0 / acidConcentration();
-            double clAdd = v * clPart;
+            double clAdd = cPh * ROSolutes::molarMass(ROSolutes::Cl) / acidConcentration();
             _adjustedFeed->solutes()->setMgl(ROSolutes::Cl, _adjustedFeed->solutes()->mgl(ROSolutes::Cl) + clAdd);
             break;
         }
         case NaOH: {
-            double naMolarMass = 22.98977;
-            double naohMolarMass = 15.9994 + 1.0079 + naMolarMass;
-            double naPart = naMolarMass / naohMolarMass;
-            double v = naohMolarMass * c * 1000.0 / acidConcentration();
-            double naAdd = v * naPart;
+            double co2part = _feed->solutes()->mgl(ROSolutes::CO2) / ROSolutes::molarMass(ROSolutes::CO2);
+            double naAdd = (co2part + cPh) * ROSolutes::molarMass(ROSolutes::Na) / acidConcentration();
             _adjustedFeed->solutes()->setMgl(ROSolutes::Na, _adjustedFeed->solutes()->mgl(ROSolutes::Na) + naAdd);
+
+            double hco3Add = (co2part + cPh) * ROSolutes::molarMass(ROSolutes::HCO3) / acidConcentration();
+            _adjustedFeed->solutes()->setMgl(ROSolutes::HCO3, _adjustedFeed->solutes()->mgl(ROSolutes::HCO3) + hco3Add);
             break;
         }
         }

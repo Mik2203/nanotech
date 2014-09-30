@@ -26,11 +26,11 @@ const ROSolutes::SoluteInfo ROSolutes::soluteInfos[] = {
     ROSolutes::SoluteInfo(ROSolutes::Anion, 35.4527, -1), // Cl
     ROSolutes::SoluteInfo(ROSolutes::Anion, 62.00494, -1),
     ROSolutes::SoluteInfo(ROSolutes::Anion, 18.998403, -1),
-    ROSolutes::SoluteInfo(ROSolutes::Anion, 96.0631 / 2, -2),
+    ROSolutes::SoluteInfo(ROSolutes::Anion, 96.0631 / 2, -2), // SO4
     ROSolutes::SoluteInfo(ROSolutes::Anion, 60.00907 / 2, -2),
     ROSolutes::SoluteInfo(ROSolutes::Anion, 61.0168, -1), // HCO3
 
-    ROSolutes::SoluteInfo(ROSolutes::Other, 44.0095, 0), //0.997
+    ROSolutes::SoluteInfo(ROSolutes::Other, 44.0095, 0), // CO2
     ROSolutes::SoluteInfo(ROSolutes::Other, 10.811, 1),
     ROSolutes::SoluteInfo(ROSolutes::Other, 60.0848, 0)
 };
