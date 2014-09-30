@@ -19,7 +19,7 @@ const int ROStage::MIN_VESSELS_COUNT = 1;
 
 ROStage::ROStage(ROPass* pass, ROFlow* feed,
                  int elementsPerVesselCount, int vesselCount) :
-    _pass(pass), _feed(0), _membrane(0),
+    _pass(pass), _feed(feed), _membrane(0),
     _vesselCount(qBound(MIN_VESSELS_COUNT, vesselCount, MAX_VESSELS_COUNT)),
     /*_membrane(0), */
     _permeate(new ROFlow()),
@@ -29,8 +29,6 @@ ROStage::ROStage(ROPass* pass, ROFlow* feed,
     _preStagePressure(0.0),
     _backPressure(0.0),
     ROAbstractElement() {
-
-    setFeed(feed);
 
     int boundElementsPerVesselCount = qBound(MIN_ELEMENTS_PER_VESSEL, elementsPerVesselCount, MAX_ELEMENTS_PER_VESSEL);
     _elements.append(new ROElement(this, _firstElementFeed)); // first element
@@ -123,6 +121,7 @@ ROStage* ROStage::clone(/*int newStageNumber, */ROFlow* newFeed) {
 void ROStage::copyDataFrom(const ROStage* const other) {
     this->setMembraneId(other->membraneId());
     this->setPreStagePressure(other->preStagePressure());
+    this->setBackPressure(other->backPressure());
     this->setElementsPerVesselCount(other->elementsPerVesselCount());
     this->setVesselCount(other->vesselCount());
 }
@@ -157,5 +156,7 @@ ROElement* const ROStage::lastElement() const { return _elements.last();  }
 void ROStage::reset() {
     setMembraneId(-1);
     setVesselCount(1);
+    setPreStagePressure(0.0);
+    setBackPressure(0.0);
     setElementsPerVesselCount(1);
 }

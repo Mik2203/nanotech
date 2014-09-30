@@ -70,6 +70,8 @@ private:
     Eigen::VectorXd pSPI;
     Eigen::VectorXd s; // elements area
     Eigen::VectorXd v; // elements vessels count
+    Eigen::VectorXd pp; // pre stage pressure
+    Eigen::VectorXd pb; // back pressure
 
     double sysCaf;
     double sysIaf;
@@ -215,6 +217,9 @@ private:
     inline double& eV(int pi, int ei) { return v[peOff[pi]+ei]; }
     inline double& e1V(int pi) { return eV(pi, 0); }
     inline double& e1S(int pi) { return eS(pi, 0); }
+
+    inline double& ePp(int pi, int ei) { return pp[peOff[pi]+ei]; }
+    inline double& ePb(int pi, int ei) { return pb[peOff[pi]+ei]; }
 //    inline double s1vS(int pi) { return s1S(pi) / eV(pi, 0); } // by one vessel
     
 

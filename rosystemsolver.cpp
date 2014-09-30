@@ -53,22 +53,22 @@ bool ROSystemSolver::solved() const { return _solved; }
 double ROSystemSolver::tolerance() const { return _tolerance; }
 
 void ROSystemSolver::setSystemValues() {
-    // Correct Pf
-    for (int pi=_sys->passCount()-1; pi>=0; --pi) {
-        ROPass* pass = _sys->pass(pi);
-        double addP = 0.0;
-        for (int si=pass->stageCount()-1, ei = peCount(pi)-1; si>=0; --si) {
-            ROStage* stage = pass->stage(si);
-            addP += stage->preStagePressure() + stage->backPressure();
-            stage->permeate()->setPressure(stage->backPressure());
-            for (int ei2=stage->elementsPerVesselCount()-1; ei2 >=0; --ei2, --ei) {
-                ePf(pi, ei) += addP;
-                stage->element(ei2)->permeate()->setPressure(stage->backPressure());
-            }
-        }
-    }
+    // учесть preStage & back pressures
+//    for (int pi=_sys->passCount()-1; pi>=0; --pi) {
+//        ROPass* pass = _sys->pass(pi);
+//        double addP = 0.0;
+//        for (int si=pass->stageCount()-1, ei = peCount(pi)-1; si>=0; --si) {
+//            ROStage* stage = pass->stage(si);
+//            addP += stage->preStagePressure() + stage->backPressure();
+//            stage->permeate()->setPressure(stage->backPressure());
+//            for (int ei2=stage->elementsPerVesselCount()-1; ei2 >=0; --ei2, --ei) {
+//                ePf(pi, ei) += addP;
+//                stage->element(ei2)->permeate()->setPressure(stage->backPressure());
+//            }
+//        }
+//    }
 
-    Eigen::VectorXd sysCcQc = Eigen::VectorXd::Zero(_usedSolutes.count()); // els count
+//    Eigen::VectorXd sysCcQc = Eigen::VectorXd::Zero(_usedSolutes.count()); // els count
     double sysPf = 0.0;
 //    double sysPc = 0.0;
     for (int pi=0; pi<_sys->passCount(); ++pi) {
@@ -80,7 +80,6 @@ void ROSystemSolver::setSystemValues() {
             int si = _usedSolutes[sii];
             firstStage->feed()->solutes()->setMeql(si, s1sCf(pi, sii));
         }
-        qDebug() << "S1 ph:" << s1PHf(pi);
         firstStage->feed()->solutes()->setPH(s1PHf(pi));
         firstStage->feed()->setTemperature(T);
         firstStage->feed()->solutes()->endChange();
@@ -105,7 +104,8 @@ void ROSystemSolver::setSystemValues() {
 
 
 
-            stage->feed()->setPressure(ePf(pi, ei));
+            stage->feed()->setPressure(ePf(pi, ei) + ePp(pi, ei));
+            stage->permeate()->setPressure(ePb(pi, ei));
 
 
             for (int ei2 = 0; ei2 < stage->elementsPerVesselCount(); ++ei2, ++ei) {
@@ -137,8 +137,9 @@ void ROSystemSolver::setSystemValues() {
                 stage->element(ei2)->concentrate()->setRate(eQc(pi, ei)/* / stage->vesselCount()*/);
                 stage->element(ei2)->permeate()->setRate(eQp(pi, ei)/* / stage->vesselCount()*/);
 
-                stage->element(ei2)->feed()->setPressure(ePf(pi, ei));
-                stage->element(ei2)->concentrate()->setPressure(ePc(pi, ei));
+                stage->element(ei2)->feed()->setPressure(ePf(pi, ei) + ePp(pi, ei));
+                stage->element(ei2)->permeate()->setPressure(ePb(pi, ei));
+                stage->element(ei2)->concentrate()->setPressure(ePc(pi, ei) + ePp(pi, ei));
 
             }
 
@@ -177,9 +178,9 @@ void ROSystemSolver::setSystemValues() {
 
 
         ROStage* lastStage = pass->lastStage();
-        lastStage->concentrate()->setPressure(lastStage->lastElement()->concentrate()->pressure() -
+        lastStage->concentrate()->setPressure(lastStage->lastElement()->concentrate()->pressure()/* -
                                               lastStage->backPressure() -
-                                              lastStage->preStagePressure());
+                                              lastStage->preStagePressure()*/);
 //        lastStage->lastElement()->concentrate()->setPressure(lastStage->concentrate()->pressure());
 
 
@@ -206,7 +207,7 @@ void ROSystemSolver::setSystemValues() {
             pass->permeate()->solutes()->setMeql(si, psCp(pi, sii));
 //            pass->totalProduct()->solutes()->setMeql(si, psCpb(pi, sii));
 
-            sysCcQc(sii) += pass->concentrate()->solutes()->meql(si) * pass->concentrate()->rate();
+//            sysCcQc(sii) += pass->concentrate()->solutes()->meql(si) * pass->concentrate()->rate();
         }
         pass->permeate()->solutes()->endChange();
 //        pass->totalProduct()->solutes()->endChange();
@@ -221,6 +222,9 @@ void ROSystemSolver::setSystemValues() {
 
     _sys->feed()->setPressure(sysPf);
 //    _sys->feed()->setRate();
+
+//    qDebug() << _sys->permeate()->solutes()->totalValueMgl();
+//    qDebug() << _sys->firstPass()->totalProduct()->solutes()->totalValueMgl();
 }
 
 
@@ -313,7 +317,7 @@ bool ROSystemSolver::init() {
     for (int sii=0; sii<_usedSolutes.count(); ++sii) {
         int si = _usedSolutes[sii];
         syssCaf(sii) = _sys->adjustedFeed()->solutes()->meql(si);
-        _preComputedICoeffs(sii) = -abs(ROSolutes::ionicCharge(si)) * lToKg / 2;
+        _preComputedICoeffs(sii) = abs(ROSolutes::ionicCharge(si)) * lToKg / 2;
     }
     sysQaf = _sys->adjustedFeed()->rate(); // sys adjusted feed concentration
 
@@ -452,15 +456,22 @@ bool ROSystemSolver::init() {
     s = Eigen::VectorXd::Zero(totalElsCount);
     v = Eigen::VectorXd::Zero(totalElsCount);
 
-    for (int pi = 0, ei = 0; pi < _sys->passCount(); ++pi) {
+    pp = Eigen::VectorXd::Zero(totalElsCount);
+    pb = Eigen::VectorXd::Zero(totalElsCount);
+
+    for (int pi = 0, ei=peCount(pi); pi < _sys->passCount(); ++pi) {
         const ROPass* const pass = _sys->pass(pi);
 
-        for(int si = 0; si < pass->stageCount(); ++si) {
+        double preStageAccumulator = 0.0;
+        for(int si=pass->stageCount()-1; si >= 0; --si) {
             const ROStage* const stage = pass->stage(si);
+            ei -= stage->elementsPerVesselCount();
+            preStageAccumulator += stage->preStagePressure() + stage->backPressure();
             msi.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXi::Constant(stage->elementsPerVesselCount(), stage->membrane()->seriesIndex());
-            s.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), stage->membrane()->activeArea() /** stage->vesselCount()*/);
+            s.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), stage->membrane()->activeArea());
             v.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), stage->vesselCount());
-            ei += stage->elementsPerVesselCount();
+            pb.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), stage->backPressure());
+            pp.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), preStageAccumulator);
         }
     }
 
@@ -481,8 +492,9 @@ void ROSystemSolver::initPass(int pi) {
 
 //    const ROPass* const pass = _sys->pass(pi);
     e1Qp(pi) = pQp(pi) / eV(pi, 0) * 0.25; // pass->elementsCount();
+    e1vQc(pi) = e1vQf(pi) - e1vQp(pi);
     pCf(pi) = pCraw(pi); // real = ((pQfr-pQb)*pCf + sum(QRi*CRi)) / pQf
-    s1Cf(pi) = (pQf(pi) * pCf(pi) + pQsr(pi) * pCraw(pi)) / e1Qf(pi);
+    s1Cf(pi) = (pQf(pi) * pCf(pi) + pQsr(pi) * pCraw(pi)) / e1vQf(pi);
     // Инициализация вектора переменных
     s1Cp(pi) = s1Cf(pi) * 0.01;
     s1Cc(pi) = s1Cf(pi) * 1.1;
@@ -562,8 +574,8 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
     QElapsedTimer timer;
     bool solved = false;
     int stepCntr = 0;
-    logValues();
 #ifdef QT_DEBUG
+    logValues();
     std::ofstream myfile;
     myfile.open ("debug.txt");
 #endif
@@ -753,11 +765,11 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
                     if (si != ROSolutes::CO2) {
                         // on element, not solute
-                        J(ieIp(pi, ei), iesCp(pi, ei, sii)) = _preComputedICoeffs(sii);
-                        F[ieIp(pi, ei)] += esCp(pi, ei, sii) * _preComputedICoeffs(sii);
+                        J(ieIp(pi, ei), iesCp(pi, ei, sii)) = -_preComputedICoeffs(sii);
+                        F[ieIp(pi, ei)] -= esCp(pi, ei, sii) * _preComputedICoeffs(sii);
 
                         J(ieIc(pi, ei), iesCc(pi, ei, sii)) = _preComputedICoeffs(sii);
-                        F[ieIc(pi, ei)] += esCc(pi, ei, sii) * _preComputedICoeffs(sii);
+                        F[ieIc(pi, ei)] -= esCc(pi, ei, sii) * _preComputedICoeffs(sii);
 
                         J(ieCc(pi, ei), iesCc(pi, ei, sii)) = -1;
                         F[ieCc(pi, ei)] -= esCc(pi, ei, sii);
@@ -974,20 +986,20 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
                 if (si != ROSolutes::CO2) {
                     // pIfr
-                    J(ipIf(pi), ipsCf(pi, sii)) = _preComputedICoeffs(sii);
-                    F[ipIf(pi)] += psCf(pi, sii) * _preComputedICoeffs(sii);
+                    J(ipIf(pi), ipsCf(pi, sii)) = -_preComputedICoeffs(sii);
+                    F[ipIf(pi)] -= psCf(pi, sii) * _preComputedICoeffs(sii);
 
                     // s1If
-                    J(is1If(pi), is1sCf(pi, sii)) = _preComputedICoeffs(sii);
-                    F[is1If(pi)] += s1sCf(pi, sii) * _preComputedICoeffs(sii);
+                    J(is1If(pi), is1sCf(pi, sii)) = -_preComputedICoeffs(sii);
+                    F[is1If(pi)] -= s1sCf(pi, sii) * _preComputedICoeffs(sii);
 
                     // pIp
-                    J(ipIp(pi), ipsCp(pi, sii)) = _preComputedICoeffs(sii);
-                    F[ipIp(pi)] += psCp(pi, sii) * _preComputedICoeffs(sii);
+                    J(ipIp(pi), ipsCp(pi, sii)) = -_preComputedICoeffs(sii);
+                    F[ipIp(pi)] -= psCp(pi, sii) * _preComputedICoeffs(sii);
 
                     // pIpb
-                    J(ipIpb(pi), ipsCpb(pi, sii)) = _preComputedICoeffs(sii);
-                    F[ipIpb(pi)] += psCpb(pi, sii) * _preComputedICoeffs(sii);
+                    J(ipIpb(pi), ipsCpb(pi, sii)) = -_preComputedICoeffs(sii);
+                    F[ipIpb(pi)] -= psCpb(pi, sii) * _preComputedICoeffs(sii);
                 }
             }
         }
@@ -1108,7 +1120,7 @@ void ROSystemSolver::logValues() {
         qDebug() << "pCp:" << pCp(pi);
         qDebug() << "pCpb:" << pCpb(pi);
 
-        qDebug() << "pPHfr:" << pPHf(pi);
+        qDebug() << "pPHf:" << pPHf(pi);
         qDebug() << "s1PHf:" << s1PHf(pi);
         qDebug() << "pPHp:" << pPHp(pi);
         qDebug() << "pPHpb:" << pPHpb(pi);

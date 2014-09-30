@@ -46,6 +46,7 @@ public:
     int feedCount() const;
     void setOutputFlow(ROFlow* flow);
 
+public slots:
     void recalculate();
 
 
@@ -54,6 +55,10 @@ private:
     QList<FlowOperation> _inputOps;
     ROFlow* _outputFlow;
     unsigned _filter;
+
+    double _coeff(int feedIndex);
+    double _partCoeff(int feedIndex);
+    double _totalCoeff();
 
 private slots:
     void mixRate();

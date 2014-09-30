@@ -16,20 +16,18 @@ ROFeed* ROFlowMixer::addFeed(ROFeed* feed, FlowOperation op) {
     _inputFeeds << feed;
     _inputOps << op;
 
-    if (_filter & ROFlowMixer::FlowRate) {
-        connect(feed->flow(), SIGNAL(rateChanged()), this, SLOT(mixRate()));
-        connect(feed, SIGNAL(partChanged()), this, SLOT(mixRate()));
-    }
+    // все параметры зависят от объема потока
+    connect(feed->flow(), SIGNAL(rateChanged()), this, SLOT(recalculate()));
+    connect(feed, SIGNAL(partChanged()), this, SLOT(recalculate()));
     if (_filter & ROFlowMixer::FlowTemperature) {
         connect(feed->flow(), SIGNAL(temperatureChanged()), this, SLOT(mixTemperature()));
         connect(feed, SIGNAL(partChanged()), this, SLOT(mixTemperature()));
-
     }
     if (_filter & ROFlowMixer::FlowSolutes) {
         connect(feed->flow(), SIGNAL(solutesChanged()), this, SLOT(mixSolutes()));
         connect(feed, SIGNAL(partChanged()), this, SLOT(mixSolutes()));
     }
-    if (_filter & ROFlowMixer::FlowSolutes) {
+    if (_filter & ROFlowMixer::FlowPressure) {
         connect(feed->flow(), SIGNAL(pressureChanged()), this, SLOT(mixPressure()));
         connect(feed, SIGNAL(partChanged()), this, SLOT(mixPressure()));
     }
@@ -131,13 +129,11 @@ void ROFlowMixer::mixTemperature() {
     if (_outputFlow) {
         double newTemp = 0.0;
 
-        double totalPart = 0.0;
-        for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) totalPart += feed(feedIdx)->part();
-
         for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) {
+            double feedCoeff = _coeff(feedIdx);
             switch(_inputOps.at(feedIdx)) {
-            case FlowAdd:       newTemp += feed(feedIdx)->flow()->temperature() * feed(feedIdx)->part() / totalPart; break;
-            case FlowSubtract:  newTemp -= feed(feedIdx)->flow()->temperature() * feed(feedIdx)->part() / totalPart; break;
+            case FlowAdd:       newTemp += feed(feedIdx)->flow()->temperature() * feedCoeff; break;
+            case FlowSubtract:  newTemp -= feed(feedIdx)->flow()->temperature() * feedCoeff; break;
             }
         }
         outputFlow()->setTemperature(newTemp);
@@ -148,13 +144,11 @@ void ROFlowMixer::mixPH() {
     if (_outputFlow) {
         double newPH = 0.0;
 
-        double totalPart = 0.0;
-        for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) totalPart += feed(feedIdx)->part();
-
         for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) {
+            double feedCoeff = _coeff(feedIdx);
             switch(_inputOps.at(feedIdx)) {
-            case FlowAdd:       newPH += feed(feedIdx)->flow()->pH() * feed(feedIdx)->part() / totalPart; break;
-            case FlowSubtract:  newPH -= feed(feedIdx)->flow()->pH() * feed(feedIdx)->part() / totalPart; break;
+            case FlowAdd:       newPH += feed(feedIdx)->flow()->pH() * feedCoeff; break;
+            case FlowSubtract:  newPH -= feed(feedIdx)->flow()->pH() * feedCoeff; break;
             }
         }
         outputFlow()->setPH(newPH);
@@ -166,23 +160,21 @@ void ROFlowMixer::mixSolutes() {
         outputFlow()->solutes()->beginChange();
         outputFlow()->solutes()->reset();
 
-        double totalPart = 0.0;
-        for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) totalPart += feed(feedIdx)->part();
-
 
         for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) {
+            double feedCoeff = _coeff(feedIdx);
             switch(_inputOps.at(feedIdx)) {
             case FlowAdd: {
                 for (int si = 0; si < ROSolutes::TotalIons; ++si) {
                     outputFlow()->solutes()->setMeql(si, outputFlow()->solutes()->meql(si) +
-                                                               feed(feedIdx)->flow()->solutes()->meql(si) * feed(feedIdx)->part() / totalPart);
+                                                               feed(feedIdx)->flow()->solutes()->meql(si) * feedCoeff);
                 }
                 break;
             }
             case FlowSubtract:  {
                 for (int si = 0; si < ROSolutes::TotalIons; ++si) {
                     outputFlow()->solutes()->setMeql(si, outputFlow()->solutes()->meql(si) -
-                                                               feed(feedIdx)->flow()->solutes()->meql(si) * feed(feedIdx)->part() / totalPart);
+                                                               feed(feedIdx)->flow()->solutes()->meql(si) * feedCoeff);
                 }
                 break;
             }
@@ -210,12 +202,29 @@ void ROFlowMixer::recalculate() {
     if (_filter & ROFlowMixer::FlowTemperature) {
         mixTemperature();
     }
-
     if (_filter & ROFlowMixer::FlowSolutes) {
         mixSolutes();
     }
     if (_filter & ROFlowMixer::FlowPressure) {
         mixPressure();
     }
+}
+
+double ROFlowMixer::_coeff(int feedIndex)
+{
+    return (_partCoeff(feedIndex)) / _totalCoeff();
+}
+
+double ROFlowMixer::_partCoeff(int feedIndex)
+{
+    return feed(feedIndex)->part() * (feed(feedIndex)->flow()->rate() != 0.0 ? feed(feedIndex)->flow()->rate(): 1.0);
+}
+
+double ROFlowMixer::_totalCoeff()
+{
+    double totalCoeff = 0.0;
+    for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx)
+        totalCoeff += _partCoeff(feedIdx);
+    return totalCoeff;
 }
 
