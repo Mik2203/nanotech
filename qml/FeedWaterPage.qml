@@ -2,7 +2,6 @@ import QtQuick 1.1
 //import QtDesktop 0.1
 import "widgets" as ROWidgets
 import ROFlow 1.0
-import ROFeed 1.0
 //import ROUnitConverterTemperature 1.0
 import ROSoluteModel 1.0
 import ROUnits 1.0
@@ -11,12 +10,10 @@ import ROUnits 1.0
 Rectangle {
     id: panel
     color: "transparent"
-    property ROFeed selectedFeed: sys.partFeed(0)
-    property ROFlow currentFlow: selectedFeed.flow
-
+    property ROFlow selectedFeed: sys.partFeed(0)
     ROSoluteModel {
         id: currentSoluteModel
-        solutes: currentFlow.solutes
+        solutes: selectedFeed.solutes
     }
 
     Connections { target: mainWindow; onSysChanged: feedBar.select(feedBar.selectedIndex >= 0 ? 0 : -1); }
@@ -128,10 +125,9 @@ Rectangle {
                 selectedIndex = index;
                 if (selectedIndex >= 0) {
                     selectedFeed = sys.partFeed(selectedIndex)
-                    currentFlow = selectedFeed.flow
                 }
-                else if (selectedIndex == -1) currentFlow = sys.feed
-                else if (selectedIndex == -2) currentFlow = sys.adjustedFeed
+                else if (selectedIndex == -1) selectedFeed = sys.feed
+                else if (selectedIndex == -2) selectedFeed = sys.adjustedFeed
             }
         }
 
@@ -144,7 +140,7 @@ Rectangle {
             anchors.topMargin: 10
             anchors.bottom: parent.bottom
             editable: feedBar.selectedIndex >= 0
-            flow: currentFlow
+            flow: selectedFeed
         }
 
     }

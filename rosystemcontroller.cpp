@@ -61,7 +61,7 @@ ROPassController* ROSystemController::passC(int passCIndex) const { return _pass
 ROPassController* ROSystemController::passC(ROPass* pass) const { return passC(_sys->passIndex(pass)); }
 
 ROFeedController* ROSystemController::feedC(int feedCIndex) const { return _feedControllers.value(feedCIndex); }
-ROFeedController* ROSystemController::feedC(ROFeed* feed) const { return feedC(_sys->partFeedIndex(feed)); }
+ROFeedController* ROSystemController::feedC(ROFlow* feed) const { return feedC(_sys->partFeedIndex(feed)); }
 
 
 ROSystem* const ROSystemController::sys() const { return _sys; }

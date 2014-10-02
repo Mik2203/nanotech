@@ -21,6 +21,7 @@ ROFlow::~ROFlow(){
 }
 
 double ROFlow::rate() const { return _rate; }
+double ROFlow::part() const { return rate(); }
 double ROFlow::pressure() const { return _pressure; }
 double ROFlow::osmoticPressure() const {
     return PI(solutes(), temperature());// _osmoticPressure;
@@ -33,8 +34,14 @@ void ROFlow::setRate(double rate) {
         return;
     _rate = rate;
     Q_EMIT rateChanged();
-}//TODO CHECK > 0!
+}
 
+void ROFlow::setPart(double part)
+{
+    setRate(part);
+}
+
+//TODO CHECK > 0!
 void ROFlow::setPressure(double value) {
     if (_pressure == value)
         return;

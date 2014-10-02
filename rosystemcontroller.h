@@ -35,7 +35,7 @@ public:
 
     int feedCCount() const;
     Q_INVOKABLE ROFeedController* feedC(int feedCIndex) const;
-    Q_INVOKABLE ROFeedController* feedC(ROFeed* feed) const;
+    Q_INVOKABLE ROFeedController* feedC(ROFlow* feed) const;
 
     // WARNINGS
     ROWarning* const waterTypeChosen() const;  // CRITICAL

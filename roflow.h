@@ -19,6 +19,7 @@ class ROFlow: public QObject {
 
     Q_OBJECT
     Q_PROPERTY(double rate READ rate WRITE setRate NOTIFY rateChanged)
+    Q_PROPERTY(double part READ part WRITE setPart NOTIFY rateChanged)  // alias to rate
     Q_PROPERTY(double temperature READ temperature WRITE setTemperature NOTIFY temperatureChanged)
     Q_PROPERTY(double pH READ pH WRITE setPH NOTIFY pHChanged)
 
@@ -34,6 +35,7 @@ public:
 
     ROSolutes* const solutes() const;
     double rate() const;
+    double part() const;
     double temperature() const { return solutes()->temperature(); }
     double pH() const { return solutes()->pH(); }
     double pressure() const;
@@ -42,6 +44,7 @@ public:
 
 
     void setRate(double rate);
+    void setPart(double part);
     void setTemperature(double value) { solutes()->setTemperature(value); }
     void setPH(double value) { solutes()->setPH(value); }
     void setPressure(double value);

@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "rofeed.h"
+#include "roflow.h"
 #include "rowarning.h"
 #include "rosystemcontroller.h"
 
@@ -14,7 +14,7 @@
 class ROFeedController : public QObject {
 
     Q_OBJECT
-    Q_PROPERTY(ROFeed* feed READ feed CONSTANT)
+    Q_PROPERTY(ROFlow* feed READ feed CONSTANT)
     Q_PROPERTY(ROSystemController* sysC READ sysC CONSTANT)
 
     // WARNINGS
@@ -25,11 +25,11 @@ class ROFeedController : public QObject {
     Q_PROPERTY(bool hasAnyCautionWarnings READ hasAnyCautionWarnings NOTIFY hasAnyCautionWarningsChanged)
 
 public:
-    explicit ROFeedController(ROFeed* feed, ROSystemController* sysC);
+    explicit ROFeedController(ROFlow* feed, ROSystemController* sysC);
     explicit ROFeedController(); // for QML
     void copyDataFrom(const ROFeedController* const from);
 
-    ROFeed* const feed() const;
+    ROFlow* const feed() const;
 
     // WARNINGS
     ROWarning* const ionsBalanced() const; // CAUTION
@@ -51,7 +51,7 @@ public slots:
     void updateWarnings();
 
 private:
-    ROFeed* _feed;
+    ROFlow* _feed;
 
     ROSystemController* const _sysC;
 

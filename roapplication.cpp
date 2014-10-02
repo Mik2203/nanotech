@@ -24,7 +24,6 @@
 #include "ropassparamsetcontroller.h"
 #include "rostage.h"
 #include "roflow.h"
-#include "rofeed.h"
 #include "rosolutemodel.h"
 #include "rowatertypemodel.h"
 #include "romembranesalternativesmodel.h"
@@ -149,7 +148,6 @@ void ROApplication::registerTypes() {
     qmlRegisterType<ROScalingElement>("ROScalingElement", 1, 0, "ROScalingElement");
     qmlRegisterType<ROStage>("ROStage", 1, 0, "ROStage");
     qmlRegisterType<ROFlow>("ROFlow", 1, 0, "ROFlow");
-    qmlRegisterType<ROFeed>("ROFeed", 1, 0, "ROFeed");
     qmlRegisterType<ROMembrane>("ROMembrane", 1, 0, "ROMembrane");
     qmlRegisterType<ROSolutes>("ROSolutes", 1, 0, "ROSolutes");
     qmlRegisterType<ROSoluteModel>("ROSoluteModel", 1, 0, "ROSoluteModel");

@@ -24,7 +24,8 @@ ROSystem::ROSystem() :
     _hasBlendPermeate(false),
     ROAbstractElement(){
 
-    ROFeed* feed = new ROFeed();
+    ROFlow * feed = new ROFlow();
+    feed->setPart(1.0);
     _feeds.append(feed);
     _feedsToResultFeed_STH->setOutputFlow(_resultFeed);
     _feedsToResultFeed_STH->addFeed(feed, ROFlowMixer::FlowAdd);
@@ -90,22 +91,24 @@ ROSystem::~ROSystem() {
 ROFlow* const ROSystem::feed() const { return _resultFeed; }
 ROFlow *const ROSystem::adjustedFeed() const { return _scalingElement->adjustedFeed(); }
 
-ROFeed* ROSystem::partFeed(int feedIndex) const { return _feeds.value(feedIndex, 0); }
+ROFlow* ROSystem::partFeed(int feedIndex) const { return _feeds.value(feedIndex, 0); }
 int ROSystem::passCount() const { return _passes.count(); }
 
 ROFlow* const ROSystem::concentrate() const { return _concentrate; }
 
-ROFeed* ROSystem::addPartFeed(int copyFromFeedIndex) {
+ROFlow* ROSystem::addPartFeed(int copyFromFeedIndex) {
     if (_feeds.count() < _MAX_FEEDS_COUNT) {
-        ROFeed* newFeed = new ROFeed(1.0, 0, this);;
+        ROFlow* newFeed = new ROFlow();
         if (0 <= copyFromFeedIndex && copyFromFeedIndex < _feeds.count()) {
             newFeed->copyDataFrom(partFeed(copyFromFeedIndex));
+        } else {
+            newFeed->setPart(1.0);
         }
         _feeds.append(newFeed);
 
 
         _feedsToResultFeed_STH->addFeed(newFeed, ROFlowMixer::FlowAdd);
-        emit feedCountChanged();
+        Q_EMIT feedCountChanged();
         return newFeed;
     }
     return 0;
@@ -135,13 +138,13 @@ ROPass* ROSystem::pass(int passIndex) const { return _passes.value(passIndex); }
 ROPass* ROSystem::firstPass() const { return _passes.first(); }
 ROPass* ROSystem::lastPass() const { return _passes.last(); }
 
-ROFeed* ROSystem::firstPartFeed() const { return _feeds.first(); }
-ROFeed* ROSystem::lastPartFeed() const { return _feeds.last(); }
+ROFlow* ROSystem::firstPartFeed() const { return _feeds.first(); }
+ROFlow* ROSystem::lastPartFeed() const { return _feeds.last(); }
 
 int ROSystem::passIndex(ROPass* pass) const { return _passes.indexOf(pass); }
 
 int ROSystem::passIndex(const ROPass *const pass) const { return passIndex(const_cast<ROPass* const>(pass)); }
-int ROSystem::partFeedIndex(ROFeed* feed) const { return _feeds.indexOf(feed); }
+int ROSystem::partFeedIndex(ROFlow* feed) const { return _feeds.indexOf(feed); }
 
 ROPass* ROSystem::addPass(int copyFromPassNumber) {
     if (_passes.count() < _MAX_PASSES_COUNT) {
@@ -250,7 +253,7 @@ int ROSystem::feedCount() const { return _feeds.count(); }
 bool ROSystem::removePartFeed(int feedIndex) {
     if (feedIndex == -1) feedIndex = _feeds.count()-1; // last
     if (_feeds.count() > _MIN_FEEDS_COUNT && (0 <= feedIndex && feedIndex < _feeds.count())) {
-        ROFeed* removingFeed = _feeds.takeAt(feedIndex);
+        ROFlow* removingFeed = _feeds.takeAt(feedIndex);
         _feedsToResultFeed_STH->removeFeed(removingFeed);
         delete removingFeed;
         Q_EMIT feedCountChanged();

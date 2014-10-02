@@ -2,22 +2,22 @@
 
 #include <QStringList>
 
-ROFeedController::ROFeedController(ROFeed* feed, ROSystemController* sysC) :
+ROFeedController::ROFeedController(ROFlow* feed, ROSystemController* sysC) :
     _feed(feed), _sysC(sysC),
     QObject(feed)
 {
         // WARNINGS
-        _ionsFilled = new ROWarning([this]() { return !this->feed()->flow()->solutes()->isFilled(); },
+        _ionsFilled = new ROWarning([this]() { return !this->feed()->solutes()->isFilled(); },
     ROWarning::WarningCritical,
     [this]() { return tr("You must fill values of ions"); },
     this);
-    connect(_feed->flow()->solutes(), SIGNAL(solutesChanged()), _ionsFilled, SLOT(update()));
+    connect(_feed->solutes(), SIGNAL(solutesChanged()), _ionsFilled, SLOT(update()));
 
-    _ionsBalanced = new ROWarning([this]() { return !this->feed()->flow()->solutes()->isBalanced(); },
+    _ionsBalanced = new ROWarning([this]() { return !this->feed()->solutes()->isBalanced(); },
     ROWarning::WarningCaution,
     [this]() { return tr("Cations and anions are not balanced"); },
     this);
-    connect(_feed->flow()->solutes(), SIGNAL(solutesChanged()), _ionsBalanced, SLOT(update()));
+    connect(_feed->solutes(), SIGNAL(solutesChanged()), _ionsBalanced, SLOT(update()));
 
     // UPDATE WARNINGS STATE
     // ... CRITICAL
@@ -31,11 +31,10 @@ ROFeedController::ROFeedController(ROFeed* feed, ROSystemController* sysC) :
 
 
     // INPUT CHANGED
-    connect(_feed->flow(), SIGNAL(rateChanged()), this, SIGNAL(inputChanged()));
-    connect(_feed->flow(), SIGNAL(pHChanged()), this, SIGNAL(inputChanged()));
-    connect(_feed->flow(), SIGNAL(solutesChanged()), this, SIGNAL(inputChanged()));
-    connect(_feed->flow(), SIGNAL(temperatureChanged()), this, SIGNAL(inputChanged()));
-    connect(_feed, SIGNAL(partChanged()), this, SIGNAL(inputChanged()));
+    connect(_feed, SIGNAL(rateChanged()), this, SIGNAL(inputChanged()));
+    connect(_feed, SIGNAL(pHChanged()), this, SIGNAL(inputChanged()));
+    connect(_feed, SIGNAL(solutesChanged()), this, SIGNAL(inputChanged()));
+    connect(_feed, SIGNAL(temperatureChanged()), this, SIGNAL(inputChanged()));
 
 
     // UPDATE
@@ -48,7 +47,7 @@ ROFeedController::ROFeedController(): _feed(0), _sysC(0) {}
 
 void ROFeedController::copyDataFrom(const ROFeedController *const from) { /*YET NOTHING TO COPY*/ }
 
-ROFeed* const ROFeedController::feed() const { return _feed; }
+ROFlow* const ROFeedController::feed() const { return _feed; }
 ROWarning* const ROFeedController::ionsBalanced() const { return _ionsBalanced; }
 ROWarning* const ROFeedController::ionsFilled() const { return _ionsFilled; }
 

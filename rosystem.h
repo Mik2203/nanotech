@@ -10,7 +10,7 @@
 //#include "rofilterelement.h"
 //#include "rofilterelementposition.h"
 #include "roflow.h"
-#include "rofeed.h"
+#include "roflow.h"
 #include "ropass.h"
 #include "roflowmixer.h"
 #include "roabstractelement.h"
@@ -23,7 +23,7 @@
 
 /* содержит данные о системе, такие как температура, тип воды,
  * а также данные по ступеням (ROPass), рециклам между ступенями,
- * данные по входным потокам (ROFeed),
+ * данные по входным потокам (ROFlow),
  * а также данные по осадкообразованию (ROScalingElement).
  */
 
@@ -82,12 +82,12 @@ public:
     int feedCount() const;
     ROFlow* const feed() const;
     ROFlow* const adjustedFeed() const;
-    Q_INVOKABLE ROFeed* partFeed(int feedFlowIndex) const;
-    Q_INVOKABLE ROFeed* addPartFeed(int copyFromFeedIndex = -1);
+    Q_INVOKABLE ROFlow* partFeed(int feedIndex) const;
+    Q_INVOKABLE ROFlow* addPartFeed(int copyFromFeedIndex = -1);
     Q_INVOKABLE bool removePartFeed(int feedIndex = -1);
-    Q_INVOKABLE int partFeedIndex(ROFeed* feed) const;
-    ROFeed* firstPartFeed() const; // TODO PROPERTY
-    ROFeed* lastPartFeed() const; // TODO PROPERTY
+    Q_INVOKABLE int partFeedIndex(ROFlow * feed) const;
+    ROFlow * firstPartFeed() const; // TODO PROPERTY
+    ROFlow * lastPartFeed() const; // TODO PROPERTY
     bool setFeedCount(int feedCount);
 
     int passCount() const;
@@ -158,14 +158,14 @@ public slots:
     static int MIN_FEEDS_COUNT() { return _MIN_FEEDS_COUNT; }
 
 private:
-    QList<ROFeed*> _feeds;
-    QList<ROPass*> _passes;
+    QList<ROFlow *> _feeds;
+    QList<ROPass *> _passes;
     ROFlowMixer* const _feedsToResultFeed_STH;
     ROFlowMixer* const _adjustedFeedToResultFeed_R;
     ROScalingElement* _scalingElement;
 
-    ROFlow* const _concentrate;
-    ROFlow* const _resultFeed;
+    ROFlow * const _concentrate;
+    ROFlow * const _resultFeed;
 
     QMap<int, QMap<int, double> > _passRecycles; // from, to; лучше бы сделать структурой
 

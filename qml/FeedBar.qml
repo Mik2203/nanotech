@@ -1,5 +1,4 @@
 import QtQuick 1.1
-import ROFeed 1.0
 import ROScalingElement 1.0
 import "widgets" as ROWidgets
 

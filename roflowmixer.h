@@ -4,7 +4,6 @@
 #include <QList>
 
 #include "roflow.h"
-#include "rofeed.h"
 
 
 /* класс для операций над потоками, такими как смешение и разделение.
@@ -30,12 +29,10 @@ public:
     ~ROFlowMixer();
 
     ROFlow* outputFlow() const;
-    ROFeed* feed(int feedFlowIndex) const;
+    ROFlow* feed(int feedIndex) const;
 
-    ROFeed* addFeed(ROFeed* feed, FlowOperation op);
-    ROFeed* addFeed(ROFlow* flow, FlowOperation op, double part = 1.0);
+    ROFlow* addFeed(ROFlow* feed, FlowOperation op);
 
-    bool removeFeed(ROFeed* feed);
     bool removeFeed(ROFlow* flow);
     bool removeFeed(int feedIndex);
 //    void removeDeadFeed(int feedIndex);
@@ -51,13 +48,12 @@ public slots:
 
 
 private:
-    QList<ROFeed*> _inputFeeds;
+    QList<ROFlow *> _inputFeeds;
     QList<FlowOperation> _inputOps;
     ROFlow* _outputFlow;
     unsigned _filter;
 
     double _coeff(int feedIndex);
-    double _partCoeff(int feedIndex);
     double _totalCoeff();
 
 private slots:

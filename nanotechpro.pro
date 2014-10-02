@@ -34,7 +34,6 @@ SOURCES += main.cpp \
     qwheelarea.cpp \
     qrangemodel.cpp \
     romembranesmodel.cpp \
-    rofeed.cpp \
     rosolutemodel.cpp \
     roflowmixer.cpp \
     rosolutemodelio.cpp \
@@ -85,7 +84,6 @@ HEADERS  += \
     qrangemodel_p.h \
     qrangemodel.h \
     romembranesmodel.h \
-    rofeed.h \
     rosolutemodel.h \
     roflowmixer.h \
     rosolutemodelio.h \

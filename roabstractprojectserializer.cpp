@@ -118,7 +118,7 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                             for (int fIdx=0; fIdx<sys->feedCount(); ++fIdx) {
                                 // Start feed
                                 if (_curElementType != StartElement || _curText != "Feed") return;
-                                ROFeed* feed = fIdx < sys->feedCount() ? sys->partFeed(fIdx) : sys->addPartFeed();
+                                ROFlow* feed = fIdx < sys->feedCount() ? sys->partFeed(fIdx) : sys->addPartFeed();
                                 if (!readElement()) return;
 
                                 if (_curElementType == StartElement) {
@@ -134,72 +134,70 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                                         if (!readElement()) return;
                                     }
 
-                                    // OPTIONAL flow data
-                                    if (_curText == "Flow") {
-                                        // start flow
-                                        ROFlow* flow = feed->flow();
+                                    // OPTIONAL FLOW WRAPPER (deprecated since 1.2.4.5)
+                                    if (_curText == "Flow")
                                         if (!readElement()) return;
 
-                                        if (_curElementType == StartElement) {
-                                            // OPTIONAL temperature
-                                            if (_curText == "temperature") {
-                                                if (!readElement()) return;
-                                                if (_curElementType == TextElement) {
-                                                    double temperature = _curText.toDouble(&convertSuccess);
-                                                    if (convertSuccess) flow->setTemperature(temperature);
-                                                    if (!readElement()) return;
-                                                }
-                                                if (_curElementType != EndElement || _curText != "temperature") return;
+                                    if (_curElementType == StartElement) {
+                                        // OPTIONAL temperature
+                                        if (_curText == "temperature") {
+                                            if (!readElement()) return;
+                                            if (_curElementType == TextElement) {
+                                                double temperature = _curText.toDouble(&convertSuccess);
+                                                    if (convertSuccess) feed->setTemperature(temperature);
                                                 if (!readElement()) return;
                                             }
-
-                                            // OPTIONAL ph
-                                            if (_curText == "pH") {
-                                                if (!readElement()) return;
-                                                if (_curElementType == TextElement) {
-                                                    double pH = _curText.toDouble(&convertSuccess);
-                                                    if (convertSuccess) flow->setPH(pH);
-                                                    if (!readElement()) return;
-                                                }
-                                                if (_curElementType != EndElement || _curText != "pH") return;
-                                                if (!readElement()) return;
-                                            }
-
-                                            // OPTIONAL solutes
-                                            if (_curText == "Solutes") {
-                                                if (!readElement()) return;
-                                                ROSolutes* solutes = flow->solutes();
-                                                solutes->beginChange();
-                                                for (int si=0; si < ROSolutes::TotalIons; ++si) {
-                                                    QString soluteName = ROSoluteModel::shortNameByIndex(si);
-                                                    if (_curElementType != StartElement || _curText != soluteName ||
-                                                            !readElement()) {
-                                                        solutes->endChange();
-                                                        return;
-                                                    }
-
-                                                    if (_curElementType == TextElement) {
-                                                        double soluteMeql = _curText.toDouble(&convertSuccess);
-                                                        if (convertSuccess) solutes->setMeql(si, soluteMeql);
-                                                        if (!readElement()) {
-                                                            solutes->endChange();
-                                                            return;
-                                                        }
-                                                    }
-                                                    if (_curElementType != EndElement || _curText != soluteName ||
-                                                            !readElement()) {
-                                                        solutes->endChange();
-                                                        return;
-                                                    }
-                                                }
-                                                solutes->endChange();
-                                                if (_curElementType != EndElement || _curText != "Solutes" ||
-                                                        !readElement()) return;
-                                            }
+                                            if (_curElementType != EndElement || _curText != "temperature") return;
+                                            if (!readElement()) return;
                                         }
-                                        if (_curElementType != EndElement || _curText != "Flow" ||
-                                                !readElement()) return;
+
+                                        // OPTIONAL ph
+                                        if (_curText == "pH") {
+                                            if (!readElement()) return;
+                                            if (_curElementType == TextElement) {
+                                                double pH = _curText.toDouble(&convertSuccess);
+                                                    if (convertSuccess) feed->setPH(pH);
+                                                if (!readElement()) return;
+                                            }
+                                            if (_curElementType != EndElement || _curText != "pH") return;
+                                            if (!readElement()) return;
+                                        }
+
+                                        // OPTIONAL solutes
+                                        if (_curText == "Solutes") {
+                                            if (!readElement()) return;
+                                                ROSolutes* solutes = feed->solutes();
+                                            solutes->beginChange();
+                                            for (int si=0; si < ROSolutes::TotalIons; ++si) {
+                                                QString soluteName = ROSoluteModel::shortNameByIndex(si);
+                                                if (_curElementType != StartElement || _curText != soluteName ||
+                                                        !readElement()) {
+                                                    solutes->endChange();
+                                                    return;
+                                                }
+
+                                                if (_curElementType == TextElement) {
+                                                    double soluteMeql = _curText.toDouble(&convertSuccess);
+                                                    if (convertSuccess) solutes->setMeql(si, soluteMeql);
+                                                    if (!readElement()) {
+                                                        solutes->endChange();
+                                                        return;
+                                                    }
+                                                }
+                                                if (_curElementType != EndElement || _curText != soluteName ||
+                                                        !readElement()) {
+                                                    solutes->endChange();
+                                                    return;
+                                                }
+                                            }
+                                            solutes->endChange();
+                                            if (_curElementType != EndElement || _curText != "Solutes" ||
+                                                    !readElement()) return;
+                                        }
                                     }
+                                    // OPTIONAL FLOW CLOSED
+                                    if (_curElementType == EndElement || _curText == "Flow")
+                                        if (!readElement()) return;
                                 }
                                 if (_curElementType != EndElement || _curText != "Feed" ||
                                         !readElement()) return;
@@ -611,19 +609,16 @@ bool ROAbstractProjectSerializer::serialize(const ROProject *const proj, QTextSt
                             writeElement("feedCount", int2Str(sys->feedCount()));
                             for (int fIdx=0; fIdx < sys->feedCount(); ++fIdx) {
                                 writeStartElement("Feed"); {
-                                    ROFeed* feed = sys->partFeed(fIdx);
+                                    ROFlow* feed = sys->partFeed(fIdx);
                                     writeElement("part", double2Str(feed->part()));
-                                    writeStartElement("Flow"); {
-                                        ROFlow* flow = feed->flow();
-                                        writeElement("temperature", double2Str(flow->temperature()));
-                                        writeElement("pH", double2Str(flow->pH()));
-                                        ROSolutes* solutes = flow->solutes();
-                                        writeStartElement("Solutes"); {
-                                            for (int sIdx=0; sIdx < ROSolutes::TotalIons; ++sIdx) {
-                                                writeElement(ROSoluteModel::shortNameByIndex(sIdx), double2Str(solutes->meql(sIdx)));
-                                            }
-                                        } writeEndElement(); // Solutes
-                                    } writeEndElement(); // Flow
+                                    writeElement("temperature", double2Str(feed->temperature()));
+                                    writeElement("pH", double2Str(feed->pH()));
+                                    ROSolutes* solutes = feed->solutes();
+                                    writeStartElement("Solutes"); {
+                                        for (int sIdx=0; sIdx < ROSolutes::TotalIons; ++sIdx) {
+                                            writeElement(ROSoluteModel::shortNameByIndex(sIdx), double2Str(solutes->meql(sIdx)));
+                                        }
+                                    } writeEndElement(); // Solutes
                                 } writeEndElement(); // Feed
                             }
                         } writeEndElement(); // Feeds

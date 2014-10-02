@@ -162,7 +162,7 @@ Item {
                 }
                 editable: passRecoverySetController.enabled
                 KeyNavigation.tab: passPermeateFlowInput
-                KeyNavigation.backtab: passFeedFlowInput
+                KeyNavigation.backtab: passFeedInput
             }
 
             Text {
@@ -199,8 +199,8 @@ Item {
             }
 
             ROWidgets.CheckBox {
-                id: passFeedFlowSetController
-                anchors.right: passFeedFlowInput.left
+                id: passFeedSetController
+                anchors.right: passFeedInput.left
                 anchors.rightMargin: 5
                 anchors.verticalCenter: parent.verticalCenter
                 checked: passC.paramSetC.feedSetState == ROPassParamSetController.ParamSetExplicit
@@ -215,8 +215,8 @@ Item {
             }
 
             ROWidgets.DoubleInput {
-                id: passFeedFlowInput
-                anchors.right: passFeedFlowUnits.left
+                id: passFeedInput
+                anchors.right: passFeedUnits.left
                 anchors.rightMargin: 5
                 anchors.verticalCenter: parent.verticalCenter
                 horizontalAlignment: TextInput.AlignRight
@@ -227,13 +227,13 @@ Item {
                     pass.feed.rate = app.units.convertFlowUnits(changedValue, app.units.flowUnits, ROUnits.DEFAULT_FLOW_UNITS)
                     passC.paramSetC.feedSetState = ROPassParamSetController.ParamSetExplicit
                 }
-                editable: passFeedFlowSetController.enabled
+                editable: passFeedSetController.enabled
                 KeyNavigation.tab: passRecoveryInput
             }
 
             Text {
-                id: passFeedFlowUnits
-                anchors.right: parent.right//passFeedFlowRightSpacer.left
+                id: passFeedUnits
+                anchors.right: parent.right//passFeedRightSpacer.left
                 anchors.verticalCenter: parent.verticalCenter
                 text: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits)
                 font.italic: true
