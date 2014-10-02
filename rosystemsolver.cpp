@@ -70,6 +70,8 @@ void ROSystemSolver::setSystemValues() {
         firstStage->rawWater()->setTemperature(T);
         firstStage->rawWater()->solutes()->endChange();
 
+        firstStage->rawWater()->setPressure(ePf(pi, 0));
+
 //        firstStage->rawWater()->
 
 
@@ -451,7 +453,7 @@ bool ROSystemSolver::init() {
     pp = Eigen::VectorXd::Zero(totalElsCount);
     pb = Eigen::VectorXd::Zero(totalElsCount);
 
-    for (int pi = 0, ei=peCount(pi); pi < _sys->passCount(); ++pi) {
+    for (int pi = 0, ei=totalElsCount; pi < _sys->passCount(); ++pi) {
         const ROPass* const pass = _sys->pass(pi);
 
         double preStageAccumulator = 0.0;
