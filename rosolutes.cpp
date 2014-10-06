@@ -44,7 +44,8 @@ double ROSolutes::temperature() const { return _temperature; }
 double ROSolutes::ionicStrength() const {
     double ic = 0.0;
     for (int si=0; si<TotalIons; ++si){
-        if (si != CO2) ic += _solutesMeql[si] * abs(soluteInfos[si].ionicCharge);// * soluteInfos[si].ionicCharge;
+        if (si != CO2)
+            ic += _solutesMeql[si] * abs(soluteInfos[si].ionicCharge);
     }
     return ic * lToKg / 2;
 }

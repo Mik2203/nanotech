@@ -19,8 +19,8 @@ public:
     enum FlowOperation { FlowAdd, FlowSubtract };
     enum FlowData {
         //FlowPH = 0x1,
-        FlowTemperature = 0x2,
-        FlowSolutes = 0x4,
+//        FlowTemperature = 0x2,
+        FlowSolutesTemperature = 0x4,
         FlowRate = 0x8,
         FlowPressure = 0x10
     };
@@ -58,9 +58,9 @@ private:
 
 private slots:
     void mixRate();
-    void mixTemperature();
-    void mixPH();
-    void mixSolutes();
+//    void mixTemperature();
+//    void mixPH();
+    void mixSolutesTemperature();
     void mixPressure();
 
 signals:

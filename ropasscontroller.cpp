@@ -14,9 +14,9 @@ ROPassController::ROPassController(ROPass* pass, ROSystemController* sysC) :
     _calculated(false),
     _solved(false),
     _aboutBlend_R(new ROFlowMixer(ROFlowMixer::FlowRate)),
-    _toTotalProduct_RSTP(new ROFlowMixer(ROFlowMixer::FlowRate | ROFlowMixer::FlowSolutes | ROFlowMixer::FlowTemperature | ROFlowMixer::FlowPressure)),
-    _toBlending_ST(new ROFlowMixer(ROFlowMixer::FlowSolutes | ROFlowMixer::FlowTemperature)),
-    _toFeed_ST(new ROFlowMixer(ROFlowMixer::FlowSolutes | ROFlowMixer::FlowTemperature)),
+    _toTotalProduct_RSTP(new ROFlowMixer(ROFlowMixer::FlowRate | ROFlowMixer::FlowSolutesTemperature | ROFlowMixer::FlowPressure)),
+    _toBlending_ST(new ROFlowMixer(ROFlowMixer::FlowSolutesTemperature)),
+    _toFeed_ST(new ROFlowMixer(ROFlowMixer::FlowSolutesTemperature)),
     _incomingRecycles_R(new ROFlow()),
     QObject(pass) {
 

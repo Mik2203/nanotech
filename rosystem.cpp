@@ -15,7 +15,7 @@ const int ROSystem::_MAX_FEEDS_COUNT = 4;
 const int ROSystem::_MIN_FEEDS_COUNT = 1;
 
 ROSystem::ROSystem() :
-    _feedsToResultFeed_STH(new ROFlowMixer(ROFlowMixer::FlowTemperature | ROFlowMixer::FlowSolutes)),
+    _feedsToResultFeed_STH(new ROFlowMixer(ROFlowMixer::FlowSolutesTemperature)),
     _adjustedFeedToResultFeed_R(new ROFlowMixer(ROFlowMixer::FlowRate)),
     _concentrate(new ROFlow()),
     _resultFeed(new ROFlow()),

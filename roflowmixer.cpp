@@ -1,5 +1,7 @@
 #include "roflowmixer.h"
 
+#include "romath.h"
+
 ROFlowMixer::ROFlowMixer(unsigned filter):
     _outputFlow(0), _filter(filter) {}
 
@@ -18,11 +20,9 @@ ROFlow * ROFlowMixer::addFeed(ROFlow* feed, FlowOperation op) {
 
     // все параметры зависят от объема потока
     connect(feed, SIGNAL(rateChanged()), this, SLOT(recalculate()));
-    if (_filter & ROFlowMixer::FlowTemperature) {
-        connect(feed, SIGNAL(temperatureChanged()), this, SLOT(mixTemperature()));
-    }
-    if (_filter & ROFlowMixer::FlowSolutes) {
-        connect(feed, SIGNAL(solutesChanged()), this, SLOT(mixSolutes()));
+    if (_filter & ROFlowMixer::FlowSolutesTemperature) {
+        connect(feed, SIGNAL(temperatureChanged()), this, SLOT(mixSolutesTemperature()));
+        connect(feed, SIGNAL(solutesChanged()), this, SLOT(mixSolutesTemperature()));
     }
     if (_filter & ROFlowMixer::FlowPressure) {
         connect(feed, SIGNAL(pressureChanged()), this, SLOT(mixPressure()));
@@ -101,42 +101,14 @@ void ROFlowMixer:: mixPressure() {
     }
 }
 
-void ROFlowMixer::mixTemperature() {
-    if (_outputFlow) {
-        double newTemp = 0.0;
 
-        for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) {
-            double feedCoeff = _coeff(feedIdx);
-            switch(_inputOps.at(feedIdx)) {
-            case FlowAdd:       newTemp += feed(feedIdx)->temperature() * feedCoeff; break;
-            case FlowSubtract:  newTemp -= feed(feedIdx)->temperature() * feedCoeff; break;
-            }
-        }
-        outputFlow()->setTemperature(newTemp);
-    }
-}
-
-void ROFlowMixer::mixPH() {
-    if (_outputFlow) {
-        double newPH = 0.0;
-
-        for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) {
-            double feedCoeff = _coeff(feedIdx);
-            switch(_inputOps.at(feedIdx)) {
-            case FlowAdd:       newPH += feed(feedIdx)->pH() * feedCoeff; break;
-            case FlowSubtract:  newPH -= feed(feedIdx)->pH() * feedCoeff; break;
-            }
-        }
-        outputFlow()->setPH(newPH);
-    }
-}
-
-void ROFlowMixer::mixSolutes() {
+void ROFlowMixer::mixSolutesTemperature() {
     if (_outputFlow) {
         outputFlow()->solutes()->beginChange();
         outputFlow()->solutes()->reset();
 
-
+        double newTemp = 0.0;
+        double co2 = 0.0; // не изменяемое значение потока, поэтому считаем вручную для установки pH
         for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) {
             double feedCoeff = _coeff(feedIdx);
             switch(_inputOps.at(feedIdx)) {
@@ -145,6 +117,8 @@ void ROFlowMixer::mixSolutes() {
                     outputFlow()->solutes()->setMeql(si, outputFlow()->solutes()->meql(si) +
                                                                feed(feedIdx)->solutes()->meql(si) * feedCoeff);
                 }
+                newTemp += feed(feedIdx)->temperature() * feedCoeff;
+                co2 += feed(feedIdx)->solutes()->meql(ROSolutes::CO2) * feedCoeff;
                 break;
             }
             case FlowSubtract:  {
@@ -152,14 +126,20 @@ void ROFlowMixer::mixSolutes() {
                     outputFlow()->solutes()->setMeql(si, outputFlow()->solutes()->meql(si) -
                                                                feed(feedIdx)->solutes()->meql(si) * feedCoeff);
                 }
+                newTemp -= feed(feedIdx)->temperature() * feedCoeff;
+                co2 -= feed(feedIdx)->solutes()->meql(ROSolutes::CO2) * feedCoeff;
                 break;
             }
             }
 
         }
+        outputFlow()->setTemperature(newTemp);
+        outputFlow()->setPH(ph(outputFlow()->solutes()->meql(ROSolutes::HCO3),
+                               co2,
+                               newTemp,
+                               outputFlow()->solutes()->ionicStrength()));
         outputFlow()->solutes()->endChange();
     }
-    mixPH();
 }
 
 void ROFlowMixer::setOutputFlow(ROFlow* flow) {
@@ -175,11 +155,11 @@ void ROFlowMixer::recalculate() {
     if (_filter & ROFlowMixer::FlowRate) {
         mixRate();
     }
-    if (_filter & ROFlowMixer::FlowTemperature) {
-        mixTemperature();
-    }
-    if (_filter & ROFlowMixer::FlowSolutes) {
-        mixSolutes();
+//    if (_filter & ROFlowMixer::FlowTemperature) {
+//        mixTemperature();
+//    }
+    if (_filter & ROFlowMixer::FlowSolutesTemperature) {
+        mixSolutesTemperature();
     }
     if (_filter & ROFlowMixer::FlowPressure) {
         mixPressure();

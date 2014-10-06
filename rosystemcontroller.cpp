@@ -24,7 +24,7 @@ ROSystemController::~ROSystemController() {
 ROSystemController::ROSystemController(ROSystem* sys, ROSystemSolveScheduler* sysSS, QObject *parent) :
     QObject(parent),
     _sys(sys),
-    _toConcentrate_RSTP(new ROFlowMixer(ROFlowMixer::FlowRate | ROFlowMixer::FlowSolutes | ROFlowMixer::FlowPressure | ROFlowMixer::FlowTemperature)),
+    _toConcentrate_RSTP(new ROFlowMixer(ROFlowMixer::FlowRate | ROFlowMixer::FlowSolutesTemperature | ROFlowMixer::FlowPressure)),
     _sysSS(sysSS){
 
 //    _toConcentrate_RSTP->setOutputFlow(_sys->concentrate());

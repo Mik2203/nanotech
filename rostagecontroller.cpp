@@ -7,7 +7,7 @@
 ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
     _stage(stage),
     _passC(passC),
-    _rawWaterToFeed_SRT(new ROFlowMixer(ROFlowMixer::FlowSolutes | ROFlowMixer::FlowRate | ROFlowMixer::FlowTemperature)),
+    _rawWaterToFeed_SRT(new ROFlowMixer(ROFlowMixer::FlowSolutesTemperature | ROFlowMixer::FlowRate)),
     QObject(stage) {
 
     _membraneChosen = new ROWarning([this]() { return this->stage()->membraneId() < 0; },
