@@ -4,7 +4,11 @@
 #include <QDebug>
 
 ROSolutes::ROSolutes(QObject *parent) :
-    QObject(parent), _pH(7.6), _temperature(25.0), _changing(false) {
+    QObject(parent),
+    _pH(7.6),
+    _temperature(25.0),
+    _totalMolarMass(0.0),
+    _changing(false) {
     _solutesMeql.resize(TotalIons);
 
     connect(this, SIGNAL(temperatureChanged()), this, SLOT(recalculate()));
@@ -267,6 +271,7 @@ void ROSolutes::reset() { //Types type
         if (isEditable(si)) setMeql(si, 0.0);
     }
     if (!localChanging) endChange();
+    setTemperature(25.0);
     setPH(7.6);
 }
 

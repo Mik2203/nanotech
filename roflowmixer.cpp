@@ -103,7 +103,7 @@ void ROFlowMixer:: mixPressure() {
 
 
 void ROFlowMixer::mixSolutesTemperature() {
-    if (_outputFlow) {
+    if (_outputFlow && feedCount()) {
         outputFlow()->solutes()->beginChange();
         outputFlow()->solutes()->reset();
 
@@ -168,7 +168,7 @@ void ROFlowMixer::recalculate() {
 
 double ROFlowMixer::_coeff(int feedIndex)
 {
-    return (feed(feedIndex)->part()) / _totalCoeff();
+    return _totalCoeff() != 0.0 ? (feed(feedIndex)->part()) / _totalCoeff() : 0.0;
 }
 
 double ROFlowMixer::_totalCoeff()

@@ -5,8 +5,10 @@
 #include "romath.h"
 
 ROFlow::ROFlow() :
-    _solutes(new ROSolutes()), _rate(0.0),
-     _pressure(0.0), _osmoticPressure(0.0) {
+    _solutes(new ROSolutes()),
+    _rate(0.0),
+    _pressure(0.0),
+    _osmoticPressure(0.0) {
     connect(_solutes, SIGNAL(pHChanged()), this, SIGNAL(pHChanged()));
     connect(_solutes, SIGNAL(solutesChanged()), this, SIGNAL(solutesChanged()));
     connect(_solutes, SIGNAL(temperatureChanged()), this, SIGNAL(temperatureChanged()));
