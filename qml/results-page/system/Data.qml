@@ -11,6 +11,7 @@ Column { // SYSTEM
     Common {}
     Hydrodynamics {}
     Solubility {}
+    Scaling {}
 
 
 //    ROResultText { value: app.units.convertAreaUnits(sys.activeArea, ROUnits.DEFAULT_AREA_UNITS, app.units.areaUnits); }

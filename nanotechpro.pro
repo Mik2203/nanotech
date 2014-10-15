@@ -236,8 +236,9 @@ OTHER_FILES += \
     qml/results-page/system/Hydrodynamics.qml \
     qml/results-page/common/FlowHydrodynamics.qml \
     qml/results-page/system/Solubility.qml \
-    qml/results-page/common/FlowSolubilityTitles.qml \
-    qml/results-page/common/FlowSolubilityValues.qml
+    qml/results-page/common/FlowSolubility.qml \
+    qml/results-page/system/Scaling.qml \
+    qml/results-page/common/FlowScaling.qml
 
 TRANSLATIONS += nano_ru.ts # for update utilite
 win32:RC_FILE = app_icon.rc # for windows icon
