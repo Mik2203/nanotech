@@ -16,7 +16,7 @@ Row {
         delegate: Loader {
             Component {
                 id: elementComponent
-                ROResultsElementData{}
+                ElementData{}
             }
 
             sourceComponent: expandFlags[stage] & expandFlags[pass] & expandFlags[sys] ? elementComponent : nullWidthStub

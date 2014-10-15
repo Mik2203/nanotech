@@ -1,7 +1,8 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 1.1
-import "widgets" as ROWidgets
-import "MenuPanel"
+import "../widgets" as ROWidgets
+import "../MenuPanel"
+import "../"
 
 Rectangle {
     color: "transparent"
@@ -26,7 +27,7 @@ Rectangle {
             id: resultData
 
             spacing: 20
-            ROResultsWarnings { }
+            Warnings { }
 
             Loader {
                 id: resultsScheme
@@ -46,7 +47,7 @@ Rectangle {
 
 
             Loader {
-                Component { id: resultsComponent; ROResults { } }
+                Component { id: resultsComponent; Data { } }
                 sourceComponent: sysSS.solved ? resultsComponent : nullWidthStub
             }
         }

@@ -217,7 +217,27 @@ OTHER_FILES += \
     qml/AboutWindow.qml \
     app_icon.rc \
     qml/widgets/BorderPanel.qml \
-    qml/widgets/BorderText.qml
+    qml/widgets/BorderText.qml \
+    qml/results-page/ROResultCell.qml \
+    qml/results-page/ROResultFeedText.qml \
+    qml/results-page/ROResultsHeaderButton.qml \
+    qml/results-page/ROResultText.qml \
+    qml/results-page/ElementData.qml \
+    qml/results-page/Data.qml \
+    qml/results-page/PassData.qml \
+    qml/results-page/StageData.qml \
+    qml/results-page/Warnings.qml \
+    qml/results-page/Tab.qml \
+    qml/results-page/system/Common.qml \
+    qml/results-page/system/Data.qml \
+    qml/results-page/util/TableRowTitle.qml \
+    qml/results-page/util/TableRowUnits.qml \
+    qml/results-page/util/TableRowValue.qml \
+    qml/results-page/system/Hydrodynamics.qml \
+    qml/results-page/common/FlowHydrodynamics.qml \
+    qml/results-page/system/Solubility.qml \
+    qml/results-page/common/FlowSolubilityTitles.qml \
+    qml/results-page/common/FlowSolubilityValues.qml
 
 TRANSLATIONS += nano_ru.ts # for update utilite
 win32:RC_FILE = app_icon.rc # for windows icon

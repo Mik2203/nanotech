@@ -15,6 +15,7 @@ import ROProjectInfo 1.0
 import ROTranslator 1.0
 import ROUnits 1.0
 
+import "./results-page" as Results
 
 ROWidgets.ExternalWindow {
     id: mainWindow
@@ -120,7 +121,7 @@ ROWidgets.ExternalWindow {
                 if (sysSS.solved) return "../../images/results-done.png"
                 return "../../images/warning_info1.png"
             }
-            ROResultsTab {
+            Results.Tab {
                 anchors.fill: parent
             }
         }

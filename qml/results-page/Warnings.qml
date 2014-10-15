@@ -19,7 +19,7 @@ Column {
         visible: sysC.hasAnyCriticalWarnings
         Image {
             id: criticalImg
-            source: "../images/warning_critical.png"
+            source: "../../images/warning_critical.png"
             smooth: true
             anchors.verticalCenter: parent.verticalCenter
         }
@@ -47,7 +47,7 @@ Column {
         visible: (!sysC.hasAnyCriticalWarnings && !sysSS.calculated) || sysSS.solved
         Image {
             id: infoImg
-            source: "../images/warning_info.png"
+            source: "../../images/warning_info.png"
             smooth: true
             anchors.verticalCenter: parent.verticalCenter
         }
@@ -68,7 +68,7 @@ Column {
 
         Image {
             id: cautionImg
-            source: "../images/warning_caution.png"
+            source: "../../images/warning_caution.png"
             smooth: true
             anchors.verticalCenter: parent.verticalCenter
         }

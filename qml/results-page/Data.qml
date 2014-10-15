@@ -10,12 +10,19 @@ import ROSoluteModel 1.0
 import ROWaterTypeModel 1.0
 import ROUnits 1.0
 
-import "widgets" as ROWidgets
+import "../widgets" as ROWidgets
 
-
-
+import "./system" as SystemResults
 
 Item {
+    property int _TITLE_WIDTH: 150
+    property int _UNITS_WIDTH: 50
+    property int _VALUE_WIDTH: 80
+    property color _BORDER_COLOR: "grey"
+    property int _ROW_HEIGHT: 20
+
+    ROSoluteModel { id: _SOLUTE_MODEL } // to access static fields only
+
     id: container
     property int colNumData: sysColNum()
     property real rowHeight: 18
@@ -34,7 +41,10 @@ Item {
     height: mainColumn.height
     width: mainColumn.width
 
-    property variant expandFlags: {}
+    property variant expandFlags: ({})
+
+
+
 
 
     Component {
@@ -97,6 +107,8 @@ Item {
 
     Column {
         id: mainColumn
+
+        SystemResults.Data {}
 
         Row { // SYSTEM HEADER
             Item {
@@ -886,12 +898,12 @@ Item {
             Repeater { // DATA
                 model: sys.passCount
                 delegate: Loader {
-                    Component { id: passComponent; ROResultsPassData{} }
+                    Component { id: passComponent; PassData {} }
                     sourceComponent: expandFlags[sys] ? passComponent : nullWidthStub
                 }
             }
 
-            ROResultsSysData { }
+//            SystemData { }
         }
     }
 }

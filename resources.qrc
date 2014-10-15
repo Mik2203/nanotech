@@ -47,23 +47,16 @@
         <file>images/acid.png</file>
         <file>images/background2.png</file>
         <file>qml/ROSchemeWarnings.qml</file>
-        <file>qml/ROResults.qml</file>
         <file>qml/MainWindow.qml</file>
-        <file>qml/ROResultsTab.qml</file>
         <file>qml/ROConfSystem.qml</file>
         <file>qml/ROSchemeSystem.qml</file>
         <file>qml/ROSchemePass.qml</file>
         <file>qml/ROConfStage.qml</file>
         <file>qml/ROSchemeStage.qml</file>
-        <file>qml/ROResultsWarnings.qml</file>
         <file>qml/ROCostsReadonlyCell.qml</file>
         <file>qml/ROSolutesTableView.qml</file>
         <file>qml/ScalingPanel.qml</file>
         <file>qml/ParametersBar.qml</file>
-        <file>qml/ROResultsElementData.qml</file>
-        <file>qml/ROResultsPassData.qml</file>
-        <file>qml/ROResultsStageData.qml</file>
-        <file>qml/ROResultsSysData.qml</file>
         <file>qml/FeedWaterPage.qml</file>
         <file>qml/ROGenericSchemesTreeView.qml</file>
         <file>qml/ROCosts.qml</file>
@@ -72,7 +65,6 @@
         <file>qml/ROCostsEditableCell.qml</file>
         <file>qml/ROConfPass.qml</file>
         <file>qml/FeedBar.qml</file>
-        <file>qml/ROResultsHeaderButton.qml</file>
         <file>qml/ROSolutesTreeView.qml</file>
         <file>qml/ScalingTable.qml</file>
         <file>qml/ROMembraneAlternativesTable.qml</file>
@@ -80,10 +72,7 @@
         <file>qml/ROConfFeed.qml</file>
         <file>qml/ROMembraneParametersCell.qml</file>
         <file>qml/ROProjectInfoWindow.qml</file>
-        <file>qml/ROResultText.qml</file>
         <file>qml/WarningResult.qml</file>
-        <file>qml/ROResultCell.qml</file>
-        <file>qml/ROResultFeedText.qml</file>
         <file>qml/widgets/BasicButton.qml</file>
         <file>qml/widgets/Button.qml</file>
         <file>qml/widgets/CheckBox.qml</file>
