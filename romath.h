@@ -355,7 +355,7 @@ static double PI(const QMap<int, double>& solutes, double t) {
 
     double num6 = 1.0;
     if (b) {
-        double num8 = 3.0 / pow(x, 1.5) * (1.0 + sqrt(x) - 1.0 / (1.0 + sqrt(x)) - 2.0 * log(1.0 + sqrt(x)));
+        double num8 = x != 0 ? 3.0 / pow(x, 1.5) * (1.0 + sqrt(x) - 1.0 / (1.0 + sqrt(x)) - 2.0 * log(1.0 + sqrt(x))) : 0.0;
         double num11 = 0.0;
         Q_FOREACH(const int &siPos, solutes.keys()) {
             if (ROSolutes::soluteInfos[siPos].ionicCharge < 0) continue;
@@ -365,7 +365,7 @@ static double PI(const QMap<int, double>& solutes, double t) {
             }
         }
         num11 = num11 / 1e+6 * num5 * num5;
-        num6 = 1 - (0.72160666651 * (pow(x, 1.5) * num8 - (0.054623 + 0.001676 * t) * num11)) / num9;
+        num6 = num9 != 0.0 ? 1 - (0.72160666651 * (pow(x, 1.5) * num8 - (0.054623 + 0.001676 * t) * num11)) / num9 : 0.0;
     }
 //#ifdef QT_DEBUG
 //        qDebug() << "is nan ?" << (1.0 + num10 * 7.2E-07) / num5 * 1.206 * num6 * (t + 273.15) * num9 * PSIToBar;
