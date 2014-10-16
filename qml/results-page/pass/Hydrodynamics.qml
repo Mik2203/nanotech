@@ -26,6 +26,12 @@ Column {
     }
 
     Row {
+        TableRowTitle { title: app.translator.emptyString + qsTr("Total product") }
+        TableRowUnits { units: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits) }
+        TableRowValue { value: app.units.convertFlowUnits(pass.totalProduct.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits) }
+    }
+
+    Row {
         TableRowTitle { title: app.translator.emptyString + qsTr("Self recycle") }
         TableRowUnits { units: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits) }
         TableRowValue { value: app.units.convertFlowUnits(pass.selfRecycle, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits) }

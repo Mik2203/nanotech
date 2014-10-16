@@ -20,6 +20,6 @@ Column {
     }
 
     FlowHydrodynamics {
-        flows: GetFlows.forElement(sys)
+        flows: GetFlows.forElement(sys, "hydrodynamics")
     }
 }
