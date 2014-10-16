@@ -103,12 +103,12 @@ void ROPassController::updateFlowParams() {
     }
     else if (_paramSetC->feedSetState() == ROPassParamSetController::ParamSetImplicit) {
         disconnect(_pass->feed(), SIGNAL(rateChanged()), this, SLOT(updateFlowParams()));
-        _pass->feed()->setRate(_pass->permeate()->rate() / _pass->recovery() );
+        _pass->feed()->setRate(_pass->recovery() != 0.0 ? _pass->permeate()->rate() / _pass->recovery(): 0.0 );
         connect(_pass->feed(), SIGNAL(rateChanged()), this, SLOT(updateFlowParams()));
     }
     else if (_paramSetC->recoverySetState() == ROPassParamSetController::ParamSetImplicit) {
         disconnect(_pass, SIGNAL(recoveryChanged()), this, SLOT(updateFlowParams()));
-        _pass->setRecovery(_pass->permeate()->rate() / _pass->feed()->rate());
+        _pass->setRecovery(_pass->recovery() != 0.0 ? _pass->permeate()->rate() / _pass->feed()->rate() : 0.0);
         connect(_pass, SIGNAL(recoveryChanged()), this, SLOT(updateFlowParams()));
     }
 

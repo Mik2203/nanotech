@@ -90,6 +90,7 @@ void ROFlow::reset() {
     setRate(0.0);
     setTemperature(25.0);
     setPH(7.6);
+    setPressure(0.0);
     solutes()->reset();
 }
 
