@@ -218,14 +218,7 @@ OTHER_FILES += \
     app_icon.rc \
     qml/widgets/BorderPanel.qml \
     qml/widgets/BorderText.qml \
-    qml/results-page/ROResultCell.qml \
-    qml/results-page/ROResultFeedText.qml \
-    qml/results-page/ROResultsHeaderButton.qml \
-    qml/results-page/ROResultText.qml \
-    qml/results-page/ElementData.qml \
     qml/results-page/Data.qml \
-    qml/results-page/PassData.qml \
-    qml/results-page/StageData.qml \
     qml/results-page/Warnings.qml \
     qml/results-page/Tab.qml \
     qml/results-page/system/Common.qml \
@@ -235,10 +228,22 @@ OTHER_FILES += \
     qml/results-page/util/TableRowValue.qml \
     qml/results-page/system/Hydrodynamics.qml \
     qml/results-page/common/FlowHydrodynamics.qml \
-    qml/results-page/system/Solubility.qml \
     qml/results-page/common/FlowSolubility.qml \
-    qml/results-page/system/Scaling.qml \
-    qml/results-page/common/FlowScaling.qml
+    qml/results-page/common/FlowScaling.qml \
+    qml/results-page/util/getFlows.js \
+    qml/results-page/pass/Common.qml \
+    qml/results-page/pass/Hydrodynamics.qml \
+    qml/results-page/pass/Data.qml \
+    qml/results-page/common/Solubility.qml \
+    qml/results-page/common/Scaling.qml \
+    qml/results-page/stage/Data.qml \
+    qml/results-page/stage/Common.qml \
+    qml/results-page/stage/Hydrodynamics.qml \
+    qml/results-page/element/Common.qml \
+    qml/results-page/element/Data.qml \
+    qml/results-page/element/Hydrodynamics.qml \
+    qml/results-page/util/SectionTitle.qml \
+    qml/results-page/util/ElementTitle.qml
 
 TRANSLATIONS += nano_ru.ts # for update utilite
 win32:RC_FILE = app_icon.rc # for windows icon

@@ -1,17 +1,20 @@
 import QtQuick 1.1
 
+import ROElement 1.0
+
 import "../util"
 import "../util/getFlows.js" as GetFlows
 import "../common"
 
 Column {
+    property ROElement element
 
     SectionTitle { text: "Hydrodynamics" }
 
     Row {
         TableRowTitle { title: app.translator.emptyString + qsTr("Recovery") }
         TableRowUnits { units: "%" }
-        TableRowValue { value: sys.recovery * 100.0 }
+        TableRowValue { value: element.recovery * 100.0 }
     }
 
     Item { // spacer
@@ -20,6 +23,6 @@ Column {
     }
 
     FlowHydrodynamics {
-        flows: GetFlows.forElement(sys)
+        flows: GetFlows.forElement(element)
     }
 }

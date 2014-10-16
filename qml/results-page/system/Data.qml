@@ -1,18 +1,27 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 1.1
 
-import ROStage 1.0
-import ROSolutes 1.0
-import ROUnits 1.0
+import ROPass 1.0
 
-
+import "../common"
+import "../pass" as PassResults
+import "../util"
 
 Column { // SYSTEM
+    ElementTitle { text: app.translator.emptyString + qsTr("System") }
+    spacing: 10
+
     Common {}
     Hydrodynamics {}
-    Solubility {}
-    Scaling {}
+    Solubility { element: sys }
+    Scaling { element: sys }
 
+    Repeater {
+        model: sys.passCount
+        PassResults.Data {
+            pass: sys.pass(index)
+        }
+    }
 
 //    ROResultText { value: app.units.convertAreaUnits(sys.activeArea, ROUnits.DEFAULT_AREA_UNITS, app.units.areaUnits); }
 //    ROResultText { value: app.units.convertFluxUnits(sys.averageFlux, ROUnits.DEFAULT_FLUX_UNITS, app.units.fluxUnits); }

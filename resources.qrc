@@ -110,5 +110,31 @@
         <file>generic_schemes/energo/energo-25.ntp</file>
         <file>qml/widgets/BorderPanel.qml</file>
         <file>qml/widgets/BorderText.qml</file>
+        <file>qml/results-page/Data.qml</file>
+        <file>qml/results-page/Tab.qml</file>
+        <file>qml/results-page/Warnings.qml</file>
+        <file>qml/results-page/common/FlowHydrodynamics.qml</file>
+        <file>qml/results-page/common/FlowScaling.qml</file>
+        <file>qml/results-page/common/FlowSolubility.qml</file>
+        <file>qml/results-page/common/Scaling.qml</file>
+        <file>qml/results-page/common/Solubility.qml</file>
+        <file>qml/results-page/element/Common.qml</file>
+        <file>qml/results-page/element/Data.qml</file>
+        <file>qml/results-page/element/Hydrodynamics.qml</file>
+        <file>qml/results-page/pass/Common.qml</file>
+        <file>qml/results-page/pass/Data.qml</file>
+        <file>qml/results-page/pass/Hydrodynamics.qml</file>
+        <file>qml/results-page/stage/Common.qml</file>
+        <file>qml/results-page/stage/Data.qml</file>
+        <file>qml/results-page/stage/Hydrodynamics.qml</file>
+        <file>qml/results-page/system/Common.qml</file>
+        <file>qml/results-page/system/Data.qml</file>
+        <file>qml/results-page/system/Hydrodynamics.qml</file>
+        <file>qml/results-page/util/ElementTitle.qml</file>
+        <file>qml/results-page/util/getFlows.js</file>
+        <file>qml/results-page/util/SectionTitle.qml</file>
+        <file>qml/results-page/util/TableRowTitle.qml</file>
+        <file>qml/results-page/util/TableRowUnits.qml</file>
+        <file>qml/results-page/util/TableRowValue.qml</file>
     </qresource>
 </RCC>
