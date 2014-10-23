@@ -762,7 +762,7 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                         J(ieIp(pi, ei), iesCp(pi, ei, sii)) = -_preComputedICoeffs(sii);
                         F[ieIp(pi, ei)] -= esCp(pi, ei, sii) * _preComputedICoeffs(sii);
 
-                        J(ieIc(pi, ei), iesCc(pi, ei, sii)) = _preComputedICoeffs(sii);
+                        J(ieIc(pi, ei), iesCc(pi, ei, sii)) = -_preComputedICoeffs(sii);
                         F[ieIc(pi, ei)] -= esCc(pi, ei, sii) * _preComputedICoeffs(sii);
 
                         J(ieCc(pi, ei), iesCc(pi, ei, sii)) = -1;
