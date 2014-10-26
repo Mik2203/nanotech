@@ -1,14 +1,11 @@
 import QtQuick 1.1
 
 import ROUnits 1.0
-import ROStage 1.0
 
 
 import "../util"
 
 Column {
-    property ROStage stage
-
     SectionTitle { text: "Common" }
 
     Row {

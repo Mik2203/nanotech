@@ -10,7 +10,6 @@ import "../util"
 
 Column {
     id: stageData
-//    property ROStage stage
     spacing: 10
 
     ElementTitle { text: app.translator.emptyString + qsTr("Stages") }
@@ -59,14 +58,4 @@ Column {
             }
         }
     }
-
-//    Hydrodynamics { stage: stageData.stage }
-//    Solubility { element: stageData.stage }
-
-//    Repeater {
-//        model: stage.elementsPerVesselCount
-//        ElementResults.Data {
-//            element: stage.element(index)
-//        }
-//    }
 }

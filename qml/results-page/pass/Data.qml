@@ -9,7 +9,6 @@ import "../util/getFlows.js" as GetFlows
 
 Column {
     id: passData
-//    property ROPass pass
     spacing: 10
 
     ElementTitle { text: app.translator.emptyString + qsTr("Passes") }
@@ -42,13 +41,4 @@ Column {
             }
         }
     }
-//    Hydrodynamics { pass: passData.pass }
-//    Solubility { element: passData.pass }
-
-//    Repeater {
-//        model: pass.stageCount
-//        StageResults.Data {
-//            stage: pass.stage(index)
-//        }
-//    }
 }

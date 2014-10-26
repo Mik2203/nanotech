@@ -231,22 +231,23 @@ OTHER_FILES += \
     qml/results-page/common/FlowSolubility.qml \
     qml/results-page/common/FlowScaling.qml \
     qml/results-page/util/getFlows.js \
-    qml/results-page/pass/Hydrodynamics.qml \
     qml/results-page/pass/Data.qml \
     qml/results-page/common/Solubility.qml \
     qml/results-page/common/Scaling.qml \
     qml/results-page/stage/Data.qml \
-    qml/results-page/stage/Common.qml \
-    qml/results-page/stage/Hydrodynamics.qml \
-    qml/results-page/element/Common.qml \
     qml/results-page/element/Data.qml \
-    qml/results-page/element/Hydrodynamics.qml \
     qml/results-page/util/SectionTitle.qml \
     qml/results-page/util/ElementTitle.qml \
     qml/results-page/pass/CommonHeader.qml \
     qml/results-page/pass/CommonData.qml \
     qml/results-page/pass/FlowsHeader.qml \
-    qml/results-page/pass/FlowsData.qml
+    qml/results-page/pass/FlowsData.qml \
+    qml/results-page/stage/CommonHeader.qml \
+    qml/results-page/stage/CommonData.qml \
+    qml/results-page/stage/FlowsData.qml \
+    qml/results-page/stage/FlowsHeader.qml \
+    qml/results-page/element/CommonData.qml \
+    qml/results-page/element/CommonHeader.qml
 
 TRANSLATIONS += nano_ru.ts # for update utilite
 win32:RC_FILE = app_icon.rc # for windows icon

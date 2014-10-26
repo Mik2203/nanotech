@@ -13,8 +13,12 @@ import ROUnits 1.0
 import "../widgets" as ROWidgets
 
 import "./system" as SystemResults
+import "./pass" as PassResults
+import "./stage" as StageResults
+import "./element" as ElementResults
 
-Item {
+Column {
+    spacing: 10
     property int _TITLE_WIDTH: 150
     property int _UNITS_WIDTH: 50
     property int _VALUE_WIDTH: 80
@@ -23,8 +27,11 @@ Item {
 
     ROSoluteModel { id: _SOLUTE_MODEL } // to access static fields only
 
-    height: mainColumn.height
-    width: mainColumn.width
+//    height: mainColumn.height
+//    width: mainColumn.width
 
-    SystemResults.Data { id: mainColumn }
+    SystemResults.Data {}
+    PassResults.Data {}
+    StageResults.Data {}
+    ElementResults.Data {}
 }

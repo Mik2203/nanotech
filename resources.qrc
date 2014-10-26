@@ -118,14 +118,6 @@
         <file>qml/results-page/common/FlowSolubility.qml</file>
         <file>qml/results-page/common/Scaling.qml</file>
         <file>qml/results-page/common/Solubility.qml</file>
-        <file>qml/results-page/element/Common.qml</file>
-        <file>qml/results-page/element/Data.qml</file>
-        <file>qml/results-page/element/Hydrodynamics.qml</file>
-        <file>qml/results-page/pass/Data.qml</file>
-        <file>qml/results-page/pass/Hydrodynamics.qml</file>
-        <file>qml/results-page/stage/Common.qml</file>
-        <file>qml/results-page/stage/Data.qml</file>
-        <file>qml/results-page/stage/Hydrodynamics.qml</file>
         <file>qml/results-page/system/Common.qml</file>
         <file>qml/results-page/system/Data.qml</file>
         <file>qml/results-page/system/Hydrodynamics.qml</file>
@@ -135,5 +127,18 @@
         <file>qml/results-page/util/TableRowTitle.qml</file>
         <file>qml/results-page/util/TableRowUnits.qml</file>
         <file>qml/results-page/util/TableRowValue.qml</file>
+        <file>qml/results-page/element/CommonData.qml</file>
+        <file>qml/results-page/element/CommonHeader.qml</file>
+        <file>qml/results-page/element/Data.qml</file>
+        <file>qml/results-page/pass/CommonData.qml</file>
+        <file>qml/results-page/pass/CommonHeader.qml</file>
+        <file>qml/results-page/pass/Data.qml</file>
+        <file>qml/results-page/pass/FlowsData.qml</file>
+        <file>qml/results-page/pass/FlowsHeader.qml</file>
+        <file>qml/results-page/stage/CommonData.qml</file>
+        <file>qml/results-page/stage/CommonHeader.qml</file>
+        <file>qml/results-page/stage/Data.qml</file>
+        <file>qml/results-page/stage/FlowsData.qml</file>
+        <file>qml/results-page/stage/FlowsHeader.qml</file>
     </qresource>
 </RCC>
