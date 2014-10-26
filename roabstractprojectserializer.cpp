@@ -196,7 +196,7 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                                         }
                                     }
                                     // OPTIONAL FLOW CLOSED
-                                    if (_curElementType == EndElement || _curText == "Flow")
+                                    if (_curElementType == EndElement && _curText == "Flow")
                                         if (!readElement()) return;
                                 }
                                 if (_curElementType != EndElement || _curText != "Feed" ||
