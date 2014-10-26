@@ -1,19 +1,44 @@
 import QtQuick 1.1
 
-import ROElement 1.0
+import ROPass 1.0
+import ROStage 1.0
 
 import "../common"
+import "../element" as ElementResults
 import "../util"
 
+
 Column {
-    id: elementData
-    property ROElement element
     spacing: 10
 
-    ElementTitle { text: app.translator.emptyString + qsTr("Element %1").arg(stage.elementIndex(element)+1) }
+    ElementTitle { text: app.translator.emptyString + qsTr("Elements") }
 
-    Common { element: elementData.element }
-    Hydrodynamics { element: elementData.element }
-    Solubility { element: elementData.element }
-    Scaling { element: elementData.element }
+    Row {
+        CommonHeader {}
+        Repeater {
+            model: sys.passCount
+
+            Row {
+                property int passIndex: index
+                property ROPass pass: sys.pass(passIndex)
+
+                spacing: 5
+
+                Row {
+                    Repeater {
+                        model: pass.stageCount
+
+                        Row {
+                            property int stageIndex: index
+                            property ROStage stage: pass.stage(stageIndex)
+                            Repeater {
+                                model: stage.elementsPerVesselCount
+                                CommonData { element: stage.element(index) }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
