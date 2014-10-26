@@ -121,7 +121,6 @@
         <file>qml/results-page/element/Common.qml</file>
         <file>qml/results-page/element/Data.qml</file>
         <file>qml/results-page/element/Hydrodynamics.qml</file>
-        <file>qml/results-page/pass/Common.qml</file>
         <file>qml/results-page/pass/Data.qml</file>
         <file>qml/results-page/pass/Hydrodynamics.qml</file>
         <file>qml/results-page/stage/Common.qml</file>
