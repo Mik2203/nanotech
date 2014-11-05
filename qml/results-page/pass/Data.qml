@@ -11,7 +11,7 @@ Column {
     id: passData
     spacing: 10
 
-    ElementTitle { text: app.translator.emptyString + qsTr("Passes") }
+    ElementTitle { text: app.translator.emptyString + qsTr("Passes details") }
 
     Row {
         CommonHeader {}

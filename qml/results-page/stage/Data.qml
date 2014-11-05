@@ -12,7 +12,7 @@ Column {
     id: stageData
     spacing: 10
 
-    ElementTitle { text: app.translator.emptyString + qsTr("Stages") }
+    ElementTitle { text: app.translator.emptyString + qsTr("Stages details") }
 
     Row {
         CommonHeader {}

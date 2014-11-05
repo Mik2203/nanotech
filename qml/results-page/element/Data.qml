@@ -11,7 +11,7 @@ import "../util"
 Column {
     spacing: 10
 
-    ElementTitle { text: app.translator.emptyString + qsTr("Elements") }
+    ElementTitle { text: app.translator.emptyString + qsTr("Elements details") }
 
     Row {
         CommonHeader {}
