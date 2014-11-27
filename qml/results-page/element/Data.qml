@@ -10,35 +10,9 @@ import "../util"
 
 Column {
     spacing: 10
+    objectName: "elementDetails"
 
-    ElementTitle { text: app.translator.emptyString + qsTr("Elements") }
+    ElementTitle { text: app.translator.emptyString + qsTr("Elements details"); objectName: "elementDetailsHeader" }
 
-    Row {
-        CommonHeader {}
-        Repeater {
-            model: sys.passCount
-
-            Row {
-                property int passIndex: index
-                property ROPass pass: sys.pass(passIndex)
-
-                spacing: 5
-
-                Row {
-                    Repeater {
-                        model: pass.stageCount
-
-                        Row {
-                            property int stageIndex: index
-                            property ROStage stage: pass.stage(stageIndex)
-                            Repeater {
-                                model: stage.elementsPerVesselCount
-                                CommonData { element: stage.element(index) }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+    Common { objectName: "elementDetailsCommon" }
 }

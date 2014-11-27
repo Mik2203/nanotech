@@ -37,10 +37,11 @@ Rectangle {
                     ROSchemeSystem {
                         editable: false;
                         showWarnings: true;
+                        objectName: "scheme"
                     }
                 }
                 sourceComponent: sysSS.solved ? resultsSchemeComponent : nullWidthStub
-                onLoaded: schemeCapturer.item = item
+//                onLoaded: schemeCapturer.item = item
             }
 
 

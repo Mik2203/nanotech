@@ -18,8 +18,6 @@ Row {
             TableRowValue { value: app.units.convertFlowUnits(flow.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits) }
             TableRowValue { value: app.units.convertPressureUnits(flow.pressure, ROUnits.DEFAULT_PRESSURE_UNITS, app.units.pressureUnits) }
             TableRowValue { value: app.units.convertPressureUnits(flow.osmoticPressure, ROUnits.DEFAULT_PRESSURE_UNITS, app.units.pressureUnits) }
-            TableRowValue { value: flow.pH }
-            TableRowValue { value: flow.solutes.totalValueMgl }
             Repeater {
                 model: ROSolutes.TotalIons
                 TableRowValue {
@@ -27,6 +25,8 @@ Row {
                     value: flow.solutes.mgl(index)
                 }
             }
+            TableRowValue { value: flow.solutes.totalValueMgl }
+            TableRowValue { value: flow.pH }
         }
     }
 }

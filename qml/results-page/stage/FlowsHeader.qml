@@ -7,7 +7,7 @@ import "../util"
 Row {
     Column {
         SectionTitle {
-            text: "Flows"
+            text: "Streams"
 
             height: _ROW_HEIGHT * 2
             width: _TITLE_WIDTH + _UNITS_WIDTH

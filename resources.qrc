@@ -140,5 +140,10 @@
         <file>qml/results-page/stage/Data.qml</file>
         <file>qml/results-page/stage/FlowsData.qml</file>
         <file>qml/results-page/stage/FlowsHeader.qml</file>
+        <file>qml/results-page/pass/Common.qml</file>
+        <file>qml/results-page/pass/Flows.qml</file>
+        <file>qml/results-page/stage/Common.qml</file>
+        <file>qml/results-page/stage/Flows.qml</file>
+        <file>qml/results-page/element/Common.qml</file>
     </qresource>
 </RCC>

@@ -7,10 +7,12 @@ import "../common"
 import "../util"
 
 Column { // SYSTEM
-    ElementTitle { text: app.translator.emptyString + qsTr("System") }
+    objectName: "systemDetails"
+    ElementTitle { text: app.translator.emptyString + qsTr("System details"); objectName: "systemDetailsHeader" }
     spacing: 10
 
-    Common {}
-    Hydrodynamics {}
-    Solubility { element: sys }
+    Common { objectName: "systemDetailsCommon" }
+    Hydrodynamics { objectName: "systemDetailsHydrodynamics" }
+    Solubility { element: sys; objectName: "systemDetailsSolubility" }
+    Scaling { element: sys; objectName: "systemDetailsScaling" }
 }

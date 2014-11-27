@@ -22,11 +22,12 @@ ROReportBuilder::ROReportBuilder(ROProject* proj, QObject *parent) :
 }
 
 // TODO рефактор: удалить дублирование кода
-const QTextDocument* const ROReportBuilder::build(QSizeF pageSize) {
+QTextDocument* const ROReportBuilder::build(QSizeF pageSize) {
     _doc->clear();
-    _cursor.setPosition(0);
+    _cursor.setPosition(QTextCursor::Start);
+    _rootFrame = _cursor.currentFrame();
     _pageSize = pageSize;
-    _doc->setPageSize(pageSize);
+//    _doc->setPageSize(pageSize);
     QTextCharFormat caseHeaderFormat;
     caseHeaderFormat.setFontUnderline(true);
     caseHeaderFormat.setFontWeight(QFont::Bold);
@@ -36,11 +37,11 @@ const QTextDocument* const ROReportBuilder::build(QSizeF pageSize) {
     _cursor.insertBlock();
     moveCursorToEnd();
     insertCase(_case);
-    //qDebug() << _doc->toHtml();
+//    qDebug() << _doc->toHtml(QByteArray());
     return _doc;
 }
 
-const QTextDocument *const ROReportBuilder::buildCosts(QSizeF pageSize) {
+QTextDocument *const ROReportBuilder::buildCosts(QSizeF pageSize) {
     _doc->clear();
     _cursor.setPosition(0);
     _pageSize = pageSize;
@@ -95,23 +96,69 @@ void ROReportBuilder::insertWarnings(ROCase *case_) {
 }
 
 void ROReportBuilder::insertScheme() {
-    QImage capturedScheme = roApp->schemeCapturer()->getImage();
-    if (capturedScheme.width() > _pageSize.width())
-        capturedScheme = capturedScheme.scaledToWidth(_pageSize.width(), Qt::SmoothTransformation);
-    _cursor.insertImage(capturedScheme);
+    QHash<QString, QVariant> itemProps;
+    itemProps["editable"] = false;
+    itemProps["showWarnings"] = true;
+
+    insertCapturedImage("qrc:/qml/ROSchemeSystem.qml", "scheme", itemProps);
 }
 
 void ROReportBuilder::insertCase(ROCase *case_) {
-    insertWarnings(case_);
-
-    insertLineBreak(2);
     if (case_->sysC()->sysSS()->calculated()) {
         insertScheme();
-        insertLineBreak(2);
-        insertDataTableNew();
+        insertLineBreak();
+//        insertDataTableNew();
+
+        QTextCharFormat headerFormat;
+        headerFormat.setFontPointSize(16);
+        headerFormat.setFontWeight(QFont::Bold);
+
+        QHash<QString, QVariant> itemProps;
+        itemProps["element"] = qVariantFromValue((QObject *) case_->sys());
+
+//        insertImage("qrc:/qml/results-page/util/ElementTitle.qml", "systemDetailsHeader");
+        _cursor.insertText(tr("System details"), headerFormat);
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/system/Common.qml", "systemDetailsCommon");
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/system/Hydrodynamics.qml", "systemDetailsHydrodynamics");
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/common/Solubility.qml", "systemDetailsSolubility", itemProps);
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/common/Scaling.qml", "systemDetailsScaling", itemProps);
+        insertLineBreak();
+
+//        insertImage("qrc:/qml/results-page/pass/Data.qml", "passDetails");
+        insertLineBreak();
+//        insertImage("qrc:/qml/results-page/util/ElementTitle.qml", "passDetailsHeader");
+        _cursor.insertText(tr("Passes details"), headerFormat);
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/pass/Common.qml", "passDetailsCommon");
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/pass/Flows.qml", "passDetailsStreams");
+        insertLineBreak();
+
+//        insertImage("qrc:/qml/results-page/stage/Data.qml", "stageDetails");
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/util/ElementTitle.qml", "stageDetailsHeader");
+        insertLineBreak();
+        _cursor.insertText(tr("Stages details"), headerFormat);
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/stage/Common.qml", "stageDetailsCommon");
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/stage/Flows.qml", "stageDetailsStreams");
+        insertLineBreak();
+
+        insertLineBreak();
+        _cursor.insertText(tr("Elements details"), headerFormat);
+        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/element/Common.qml", "elementDetailsCommon");
+        insertLineBreak();
     } else {
         insertText("Calculate first.");
     }
+    insertLineBreak(2);
+    insertWarnings(case_);
 }
 
 void ROReportBuilder::insertCosts(ROCase *case_) {
@@ -130,7 +177,7 @@ void ROReportBuilder::insertCosts(ROCase *case_) {
 void ROReportBuilder::insertDataTableNew() {
     insertText(tr("System Details"));
     insertLineBreak();
-    insertSystemGeneralDetails();
+    insertSystemCommon();
     insertLineBreak(2);
     insertSystemDesignDetails();
     insertLineBreak(2);
@@ -155,7 +202,7 @@ void ROReportBuilder::insertDataTableNew() {
     _cursor.movePosition(QTextCursor::NextBlock);
 }
 
-void ROReportBuilder::insertSystemGeneralDetails() {
+void ROReportBuilder::insertSystemCommon() {
     // init table
     storeFormat();
 
@@ -175,10 +222,49 @@ void ROReportBuilder::insertSystemGeneralDetails() {
 
     restoreFormat();
     moveCursorToEnd();
+
+    QTextFrameFormat tableFrameFormat;
+    tableFrameFormat.setBorder(1);
+    tableFrameFormat.setPadding(0);
+
+    tableFrameFormat.setWidth(QTextLength(QTextLength::PercentageLength, 50));
+    tableFrameFormat.setPosition(QTextFrameFormat::FloatLeft);
+
+    _cursor.insertFrame(tableFrameFormat);
+
+    table = insertDataTable(3, 1, 80.0);
+    insertText(table->cellAt(1, 0), tr("Temperature"));
+    insertText(table->cellAt(1, 1), roUnitsText->temperatureUnitText(roUnits->temperatureUnits()));
+    _tbf.setAlignment(Qt::AlignRight);
+    insertText(table->cellAt(1, 2), ROUnits::convertTemperatureUnits(sys->temperature()));
+
+
+    moveCursorToEnd();
+
+
+    tableFrameFormat.setPosition(QTextFrameFormat::FloatRight);
+
+    _cursor.insertFrame(tableFrameFormat);
+
+    table = insertDataTable(3, 1, 80.0);
+    insertText(table->cellAt(1, 0), tr("Temperature"));
+    insertText(table->cellAt(1, 1), roUnitsText->temperatureUnitText(roUnits->temperatureUnits()));
+    _tbf.setAlignment(Qt::AlignRight);
+    insertText(table->cellAt(1, 2), ROUnits::convertTemperatureUnits(sys->temperature()));
+
+    moveCursorToEnd();
+    _cursor.insertHtml("<div style=\"clear: both\"></div>");
+    moveCursorToEnd();
+//    insertLineBreak();
+
+//    tableFrameFormat.setPosition(QTextFrameFormat::InFlow);
+//    tableFrameFormat.setBorder(0);
+//    tableFrameFormat.setWidth(QTextLength(QTextLength::PercentageLength, 100));
+//    _cursor.currentFrame()->setFrameFormat(tableFrameFormat);
 }
 
 void ROReportBuilder::moveCursorToEnd() {
-    _cursor.movePosition(QTextCursor::End);
+    _cursor.setPosition(_rootFrame->lastPosition());
 }
 
 
@@ -693,6 +779,14 @@ QString ROReportBuilder::int2Str(double val) {
     return QString::number(val);
 }
 
+void ROReportBuilder::insertCapturedImage(const QString &componentPath, const QString &objectName, QHash<QString, QVariant> itemProps)
+{
+    QImage image = roApp->schemeCapturer()->getImage(componentPath, objectName, itemProps);
+//    if (image.width() > _pageSize.width())
+//        image = image.scaledToWidth(_pageSize.width(), Qt::SmoothTransformation);
+    _cursor.insertImage(image);
+}
+
 void ROReportBuilder::insertText(const QTextTableCell &cell, const QString &text) {
     _cursor = cell.firstCursorPosition();
     insertText(text);
@@ -732,10 +826,11 @@ void ROReportBuilder::insertFlowData(QTextTable *table, const QTextTableCell &st
 
 QTextTable *ROReportBuilder::insertDataTable(int rows, int datacols, qreal datacolLength) {
     QTextTableFormat tableFormat;
-    tableFormat.setBorder(0);
+    tableFormat.setBorder(1);
     tableFormat.setCellPadding(1);
-    tableFormat.setCellSpacing(0);
+    tableFormat.setCellSpacing(-1);
     tableFormat.setBorderStyle(QTextTableFormat::BorderStyle_None);
+
     QVector<QTextLength> constraints;
     constraints << QTextLength(QTextLength::FixedLength, 100); // header column
     constraints << QTextLength(QTextLength::FixedLength, 50); // units column

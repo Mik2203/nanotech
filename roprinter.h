@@ -25,14 +25,18 @@ signals:
     
 public slots:
     void print(PrinterDevice device);
-    void printPDF();
-    void printNative();
+//    void printPDF();
+//    void printNative();
     void printCosts(PrinterDevice device);
     void printCostsPDF();
     void printCostsNative();
 
 private:
     ROReportBuilder* _reportBuilder;
+    ROProject * project;
+
+//    QPrinter setupPrinter(PrinterDevice device);
+    void printReport(QPrinter& printer, QTextDocument * const doc);
     
 };
 

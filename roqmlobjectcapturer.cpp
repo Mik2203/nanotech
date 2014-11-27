@@ -11,41 +11,56 @@
 
 ROQMLObjectCapturer::ROQMLObjectCapturer(QDeclarativeEngine* engine, QObject *parent) :
     QObject(parent),
-    _engine(engine),
-    _item(nullptr)
-{
+    _engine(engine) {
 }
 
-QImage ROQMLObjectCapturer::getImage() {
-    if (_item && _engine) {
-        QImage img(_item->boundingRect().toRect().size(), QImage::Format_ARGB32);
+QImage ROQMLObjectCapturer::getImage(const QString& itemFile, const QString& itemName, QHash<QString, QVariant> itemProps) {
+    QDeclarativeItem * sourceItem = _engine->findChild<QDeclarativeItem*>(itemName);
+
+    if (sourceItem && _engine) {
+        QImage img(sourceItem->boundingRect().toRect().size(), QImage::Format_RGB32);
         QPainter painter(&img);
+        painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing |
+                               QPainter::SmoothPixmapTransform | QPainter::HighQualityAntialiasing);
 
-#ifdef QT_DEBUG
-        QDeclarativeComponent component(_engine, QUrl("qml/ROSchemeSystem.qml"));
-#else
-        QDeclarativeComponent component(_engine, QUrl("qrc:/qml/ROSchemeSystem.qml"));
-#endif
 
-        QDeclarativeItem *item = qobject_cast<QDeclarativeItem *>(component.create(QDeclarativeEngine::contextForObject(_item))); //context
-        item->setProperty("editable", false);
-        item->setProperty("showWarnings", true);
+
+        QDeclarativeComponent component(_engine, QUrl(itemFile));
+
+        //        TODO
+//        if (!_component->isLoading()) {
+//            continueExecute();
+//        } else {
+//            connect(_component, SIGNAL(statusChanged(QDeclarativeComponent::Status)), this, SLOT(continueExecute()));
+//        }
+
+        while(component.isLoading()) {}
+
+
+        QDeclarativeItem * item = qobject_cast<QDeclarativeItem *>(component.create(QDeclarativeEngine::contextForObject(sourceItem)));
+
+        if (!item) {
+            qDebug() << "BAD ITEM:" << itemFile;
+            return QImage();
+        }
+
+//        sourceItem->
+
+        auto propIt = itemProps.constBegin();
+        while (propIt != itemProps.constEnd()) {
+             item->setProperty(propIt.key().toAscii(), propIt.value());
+            ++propIt;
+        }
+
 
         QGraphicsScene scene;
         scene.setBackgroundBrush(Qt::white);
         scene.addItem(item);
-        scene.render(&painter, item->boundingRect(), item->boundingRect().toRect());
+        scene.render(&painter,  sourceItem->boundingRect(),  sourceItem->boundingRect().toRect());
         scene.removeItem(item);
+        delete item;
         return img;
-
     }
     return QImage();
 }
 
-QDeclarativeItem *ROQMLObjectCapturer::item() const { return _item; }
-void ROQMLObjectCapturer::setItem(QDeclarativeItem *item) {
-    _item = item;
-
-
-    Q_EMIT itemChanged();
-}

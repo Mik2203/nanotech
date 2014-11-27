@@ -6,6 +6,25 @@ import "../util"
 
 Column {
     SectionTitle { text: "Common information" }
+
+    Item {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: _ROW_HEIGHT
+
+        TableRowTitle {
+            id: waterTypeId
+            anchors.left: parent.left
+            title: app.translator.emptyString + qsTr("Water type");
+        }
+        TableRowValue { value: app.translator.emptyString + db.waterTypes.get(sys.waterTypeIndex, "name");
+//            width: _UNITS_WIDTH + _VALUE_WIDTH * 2
+            anchors.left: waterTypeId.right
+            anchors.right: parent.right
+        }
+        //            TableRowValue { value: db.waterTypes.get(sys.waterTypeIndex, "name") }
+    }
+
     Row {
         spacing: 10
         Column {
@@ -13,12 +32,6 @@ Column {
                 TableRowTitle { title: app.translator.emptyString + qsTr("Temperature") }
                 TableRowUnits { units: app.translator.emptyString + unitsText.temperatureUnitText(app.units.temperatureUnits) }
                 TableRowValue { value: app.units.convertTemperatureUnits(sys.temperature, ROUnits.DEFAULT_TEMPERATURE_UNITS, app.units.temperatureUnits) }
-            }
-
-            Row {
-                TableRowTitle { title: app.translator.emptyString + qsTr("Water type") }
-                TableRowUnits { units: app.translator.emptyString + db.waterTypes.get(sys.waterTypeIndex, "name"); width: _UNITS_WIDTH + _VALUE_WIDTH }
-                //            TableRowValue { value: db.waterTypes.get(sys.waterTypeIndex, "name") }
             }
 
             Row {
