@@ -10,15 +10,11 @@
 class ROQMLObjectCapturer : public QObject {
 
     Q_OBJECT
-    Q_PROPERTY(QDeclarativeItem * item READ item WRITE setItem NOTIFY itemChanged)
 public:
     explicit ROQMLObjectCapturer(QDeclarativeEngine* engine, QObject *parent = 0);
-    QImage getImage();
-    QDeclarativeItem * item() const;
-    void setItem(QDeclarativeItem *item);
+    QImage getImage(const QString& itemFile, const QString& itemName, QHash<QString, QVariant> itemProps=QHash<QString, QVariant>());
     
 private:
-    QDeclarativeItem *_item;
     QDeclarativeEngine* _engine;
 
 signals:

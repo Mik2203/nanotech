@@ -24,8 +24,8 @@ class ROReportBuilder : public QObject
 public:
     explicit ROReportBuilder(ROProject* proj, QObject *parent = 0); // TODO убрать ROProject из конструктора и ROCase - сделать сервисом
     explicit ROReportBuilder() {} // FOR QML
-    const QTextDocument* const build(QSizeF pageSize);
-    const QTextDocument* const buildCosts(QSizeF pageSize);
+    QTextDocument* const build(QSizeF pageSize);
+    QTextDocument* const buildCosts(QSizeF pageSize);
     ROQMLObjectCapturer* const schemeCapturer() const;
     ~ROReportBuilder();
 
@@ -74,6 +74,7 @@ private:
     ROCase* _case;
     QSizeF _pageSize;
     QTextDocument* _doc;
+    QTextFrame *_rootFrame;
     QTextCursor _cursor;
 
     static const int MAX_DATA_COL_NUM = 7;
@@ -81,6 +82,8 @@ private:
 
     QString double2Str(double val);
     QString int2Str(double val);
+
+    void insertCapturedImage(const QString& componentPath, const QString& objectName, QHash<QString, QVariant> itemProps=QHash<QString, QVariant>());
 
     void insertCase(ROCase* case_);
     void insertCosts(ROCase* case_);
@@ -99,7 +102,7 @@ private:
     void insertDataTableNew();
 
     // System
-    void insertSystemGeneralDetails();
+    void insertSystemCommon();
     void insertSystemDesignDetails();
     void insertSystemFlowDetails();
     void insertSystemScalingDetails();

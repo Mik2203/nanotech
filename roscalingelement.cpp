@@ -1,4 +1,5 @@
 #include "roscalingelement.h"
+#include "romath.h"
 #include <QDebug>
 
 ROScalingElement::ROScalingElement(ROFlow* const feed) :
@@ -158,6 +159,39 @@ void ROScalingElement::adjust() {
 
             phAdjust(ROSolutes::Na, c);
             phAdjust(ROSolutes::HCO3, c);
+
+//            cHCO3mol = _feed->solutes()->value(ROSolutes::HCO3, ROSolutes::MolL);
+//            cCO3mol = _feed->solutes()->value(ROSolutes::CO3, ROSolutes::MolL);
+//            cCO2mol = _feed->solutes()->value(ROSolutes::CO2, ROSolutes::MolL);
+
+//            double criticalPh = 8.39; // TODO const
+
+//            double t = _feed->temperature();
+
+//            double i = _feed->solutes()->ionicStrength();
+
+//            double targetF2 = k2(t) * pow(10.0, _targetPh);
+//            double targetF1 = 1 / (pow(10.0, _targetPh + i) * k1(t));
+
+//            double criticalF2 = k2(t) * pow(10.0, criticalPh);
+//            double criticalF1 = 1 / (pow(10.0, criticalPh + i) * k1(t));
+
+//            double c0 = cHCO3mol + cCO3mol + cCO2mol;
+//            double hco3corr = c0 / (1 + targetF2 + targetF1);
+
+//            double criticalHCO3corr = c0 / (1 + criticalF2 + criticalF1);
+//            double criticalHCO3 = criticalHCO3corr - cHCO3mol;
+
+
+//            double cCO3 = hco3corr * targetF2;
+//            double cHCO3 = _targetPh < criticalPh ? (hco3corr - cHCO3mol) : criticalHCO3;
+//            double cNaOH1 = cHCO3 + cCO3 + cPh;
+//            double cNaOH = (cPh + cNaOH1);
+//            double cNa = cNaOH * ROSolutes::molarMass(ROSolutes::Na) * 1000;
+
+
+
+
             break;
         }
         }

@@ -247,14 +247,19 @@ OTHER_FILES += \
     qml/results-page/stage/FlowsData.qml \
     qml/results-page/stage/FlowsHeader.qml \
     qml/results-page/element/CommonData.qml \
-    qml/results-page/element/CommonHeader.qml
+    qml/results-page/element/CommonHeader.qml \
+    qml/results-page/pass/Common.qml \
+    qml/results-page/pass/Flows.qml \
+    qml/results-page/stage/Common.qml \
+    qml/results-page/stage/Flows.qml \
+    qml/results-page/element/Common.qml
 
 TRANSLATIONS += nano_ru.ts # for update utilite
 win32:RC_FILE = app_icon.rc # for windows icon
 
-release {
+#release {
     RESOURCES += resources.qrc
-}
+#}
 
 #for Windows
 win32:debug {
