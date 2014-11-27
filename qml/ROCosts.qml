@@ -21,7 +21,7 @@ Rectangle {
         anchors.right:  parent.right
         anchors.rightMargin: 20
         anchors.top: parent.top
-        onPrint_: app.printer.printCosts(device)
+        onPrint_: app.printer.printCosts(case_, device)
     }
 
     ROWidgets.ScrollArea {

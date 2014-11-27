@@ -15,8 +15,7 @@ class ROPrinter : public QObject {
 
 public:
     enum PrinterDevice { NativeDevice, PDFDevice };
-    explicit ROPrinter(ROProject* proj, QObject *parent = 0);
-    ROPrinter() {}; // for QML
+    explicit ROPrinter();
     ~ROPrinter();
 
     ROReportBuilder* const reportBuilder() const;
@@ -24,16 +23,11 @@ public:
 signals:
     
 public slots:
-    void print(PrinterDevice device);
-//    void printPDF();
-//    void printNative();
-    void printCosts(PrinterDevice device);
-    void printCostsPDF();
-    void printCostsNative();
+    void print(ROCase * case_, PrinterDevice device);
+    void printCosts(ROCase * case_, PrinterDevice device);
 
 private:
     ROReportBuilder* _reportBuilder;
-    ROProject * project;
 
 //    QPrinter setupPrinter(PrinterDevice device);
     void printReport(QPrinter& printer, QTextDocument * const doc);

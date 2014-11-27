@@ -5,11 +5,9 @@
 #include <QFileDialog>
 #include "roapplication.h"
 
-ROPrinter::ROPrinter(ROProject* proj, QObject *parent) :
-    QObject(parent),
-    project(proj)  // TODO
+ROPrinter::ROPrinter()
 {
-    _reportBuilder = new ROReportBuilder(proj);
+    _reportBuilder = new ROReportBuilder();
 }
 
 ROPrinter::~ROPrinter() {
@@ -18,7 +16,7 @@ ROPrinter::~ROPrinter() {
 
 ROReportBuilder* const ROPrinter::reportBuilder() const { return _reportBuilder; }
 
-void ROPrinter::print(ROPrinter::PrinterDevice device) {
+void ROPrinter::print(ROCase * const case_, ROPrinter::PrinterDevice device) {
     QPrinter printer(QPrinter::HighResolution);
     printer.setPaperSize(QPrinter::A4);
 
@@ -47,54 +45,50 @@ void ROPrinter::print(ROPrinter::PrinterDevice device) {
     ROApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
 
-    printReport(printer, _reportBuilder->build(printer.pageRect(QPrinter::Point).size()));
+    printReport(printer, _reportBuilder->build(case_, printer.pageRect(QPrinter::Point).size()));
 
 #ifndef QT_NO_CURSOR
     ROApplication::restoreOverrideCursor();
 #endif
 }
 
-void ROPrinter::printCosts(ROPrinter::PrinterDevice device) {
-    switch (device) {
-    case NativeDevice: printCostsNative(); break;
-    case PDFDevice: printCostsPDF(); break;
-    }
-}
+void ROPrinter::printCosts(ROCase * case_, ROPrinter::PrinterDevice device) {
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setPaperSize(QPrinter::A4);
 
-void ROPrinter::printCostsPDF() {
-    QString filename = QFileDialog::getSaveFileName(0, tr("Save PDF File"), QString(), "PDF (*.pdf)");
-    if(!filename.isEmpty()) {
+    switch (device) {
+    case NativeDevice: {
+        QPrintDialog *dialog = new QPrintDialog(&printer);
+        dialog->setWindowTitle(tr("Print project results"));
+        if (dialog->exec() != QDialog::Accepted)
+            return;
+        delete dialog;
+        break;
+    }
+    case PDFDevice: {
+        QString filename = QFileDialog::getSaveFileName(0, tr("Save PDF File"), QString(), "PDF (*.pdf)");
+        if (filename.isEmpty())
+            return;
+        if(QFileInfo(filename).suffix().isEmpty())
+            filename.append(".pdf");
+        printer.setOutputFormat(QPrinter::PdfFormat);
+        printer.setOutputFileName(filename);
+        break;
+    }
+    }
+
+
 #ifndef QT_NO_CURSOR
     ROApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-        if(QFileInfo(filename).suffix().isEmpty()) filename.append(".pdf");
-        QPrinter printer(QPrinter::HighResolution);
-        printer.setOutputFormat(QPrinter::PdfFormat);
-        printer.setOutputFileName(filename);
-        printer.setPaperSize(QPrinter::A4);
-        QRectF pageRect = printer.pageRect(QPrinter::Point);
-        printer.setPageMargins(40, 40, 40, 40, QPrinter::Point);
-        const QTextDocument* doc = _reportBuilder->buildCosts(pageRect.size());
-        doc->print(&printer);
+
+    printReport(printer, _reportBuilder->buildCosts(case_, printer.pageRect(QPrinter::Point).size()));
+
 #ifndef QT_NO_CURSOR
     ROApplication::restoreOverrideCursor();
 #endif
-    }
 }
 
-void ROPrinter::printCostsNative() {
-    QPrinter printer(QPrinter::HighResolution);
-    printer.setPaperSize(QPrinter::A4);
-    QPrintDialog *dialog = new QPrintDialog(&printer);
-    dialog->setWindowTitle(tr("Print project results"));
-    if (dialog->exec() != QDialog::Accepted)
-        return;
-    QRectF pageRect = printer.pageRect(QPrinter::Point);
-    printer.setPageMargins(40, 40, 40, 40, QPrinter::Point);
-    const QTextDocument* doc = _reportBuilder->buildCosts(pageRect.size());
-    doc->print(&printer);
-    delete dialog;
-}
 
 //QPrinter ROPrinter::setupPrinter(ROPrinter::PrinterDevice device)
 //{
@@ -132,9 +126,9 @@ void ROPrinter::printReport(QPrinter &printer, QTextDocument * const doc)
         painter.restore();
         // Draw header
         painter.drawText(0, -headerHeight / 2, tr("Nanotech PRO 1.3.x - %1 by %2 (%3)")
-                         .arg(project->info()->name().isEmpty() ? tr("<unnamed>") : project->info()->name())
-                         .arg(project->info()->author().isEmpty() ? tr("<author not specified>") : project->info()->author())
-                         .arg(project->info()->company().isEmpty()? tr("<company not specified>") : project->info()->company()));
+                         .arg(roApp->projectManager()->proj()->info()->name().isEmpty() ? tr("<unnamed>") : roApp->projectManager()->proj()->info()->name())
+                         .arg(roApp->projectManager()->proj()->info()->author().isEmpty() ? tr("<author not specified>") : roApp->projectManager()->proj()->info()->author())
+                         .arg(roApp->projectManager()->proj()->info()->company().isEmpty()? tr("<company not specified>") : roApp->projectManager()->proj()->info()->company()));
         painter.drawText(currentRect.width() * 0.8, -headerHeight / 2, tr("%1    page %2")
                          .arg(QDate::currentDate().toString(Qt::ISODate))
                          .arg(count));

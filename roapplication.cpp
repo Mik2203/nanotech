@@ -73,7 +73,7 @@ ROApplication::ROApplication(int & argc, char ** argv) : QApplication(argc, argv
 
     _projectManager = new ROProjectManager();
 
-    _printer = new ROPrinter(_projectManager->proj()); // TODO ? za4em printeru znat' pro proj ?
+    _printer = new ROPrinter();
 
     registerContextGlobals();
     registerGUI();

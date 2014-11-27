@@ -18,23 +18,14 @@
 
 class ROReportBuilder : public QObject
 {
-    Q_OBJECT
-    Q_PROPERTY(ROCase* case_ READ case_ WRITE setCase NOTIFY caseChanged)
 
 public:
-    explicit ROReportBuilder(ROProject* proj, QObject *parent = 0); // TODO убрать ROProject из конструктора и ROCase - сделать сервисом
-    explicit ROReportBuilder() {} // FOR QML
-    QTextDocument* const build(QSizeF pageSize);
-    QTextDocument* const buildCosts(QSizeF pageSize);
-    ROQMLObjectCapturer* const schemeCapturer() const;
+    explicit ROReportBuilder();
+    QTextDocument* const build(ROCase * const case_, QSizeF pageSize);
+    QTextDocument* const buildCosts(ROCase * const case_, QSizeF pageSize);
+    ROQMLObjectCapturer* const schemeCapturer() const;  // TODO move to other service
     ~ROReportBuilder();
 
-    void setCase(ROCase* const case_);
-    ROCase* const case_() const;
-
-signals:
-    void caseChanged();
-    
 public slots:
 
 private:
@@ -69,12 +60,11 @@ private:
         UnitsCol
     };
 
+    ROCase * _case;
 
-    ROProject* _proj;
-    ROCase* _case;
     QSizeF _pageSize;
     QTextDocument* _doc;
-    QTextFrame *_rootFrame;
+//    QTextFrame *_rootFrame;
     QTextCursor _cursor;
 
     static const int MAX_DATA_COL_NUM = 7;

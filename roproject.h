@@ -48,7 +48,7 @@ private:
     static const int _MIN_CASES_COUNT;
 
     ROProjectInfo* _info;
-    QList<ROCase*> _cases;
+    QList<ROCase *> _cases;
 
 signals:
     void caseCountChanged();
