@@ -69,16 +69,14 @@ const double ROPass::_MIN_RECOVERY = 0.01;
 
 
 
-ROPass* ROPass::clone(ROFlow* const newFeed) {
-    ROPass* newPass = new ROPass(this->system(), newFeed);
+ROPass* ROPass::clone(ROFlow* const newRawWater) {
+    ROPass* newPass = new ROPass(this->system(), newRawWater);
     newPass->copyDataFrom(this);
     return newPass;
 }
 
 
 void ROPass::copyDataFrom(const ROPass* const from) {
-    // this->setFlowFactor(from->flowFactor());
-    this->rawWater()->setRate(from->rawWater()->rate());
     this->feed()->setRate(from->feed()->rate());
     this->permeate()->setRate(from->permeate()->rate());
     this->setRecovery(from->recovery());

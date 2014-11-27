@@ -83,7 +83,7 @@ public:
     explicit ROPass(ROSystem* const system, ROFlow* const feed = 0);
     explicit ROPass();  // только для QML
     ~ROPass();
-    ROPass* clone(ROFlow* const newFeed = 0);
+    ROPass* clone(ROFlow* const newRawWater = nullptr);
 
     ROSystem* system() const;
 
