@@ -23,7 +23,7 @@ class ROElement : public ROAbstractElement
 
     // FLOWS
     Q_PROPERTY(ROFlow* permeate READ permeate CONSTANT)
-    Q_PROPERTY(ROFlow* feed READ feed NOTIFY feedChanged)
+    Q_PROPERTY(ROFlow* feed READ feed CONSTANT)
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
 
 public:
@@ -57,7 +57,6 @@ private:
 signals:
     void activeAreaChanged();
     void recoveryChanged();
-    void feedChanged();
     void averageFluxChanged();
     
 };

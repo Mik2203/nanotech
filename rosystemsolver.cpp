@@ -453,7 +453,7 @@ bool ROSystemSolver::init() {
     pp = Eigen::VectorXd::Zero(totalElsCount);
     pb = Eigen::VectorXd::Zero(totalElsCount);
 
-    for (int pi = 0, ei=totalElsCount; pi < _sys->passCount(); ++pi) {
+    for (int pi = _sys->passCount()-1, ei=totalElsCount; pi >= 0; --pi) {
         const ROPass* const pass = _sys->pass(pi);
 
         double preStageAccumulator = 0.0;
@@ -532,7 +532,7 @@ void ROSystemSolver::initPass(int pi) {
         eIp(pi, ei) = eIc(pi, ei) = pIraw(pi);
 
         if (ei > 0) {
-            eQp(pi, ei) = eQp(pi, ei-1) * 0.7;
+            eQp(pi, ei) = eQf(pi, ei) * 0.1; // TODO * recovery
         }
         evQc(pi, ei) = evQf(pi, ei) - evQp(pi, ei);
         for (int sii=0; sii<_usedSolutes.count(); ++sii) {
@@ -1125,7 +1125,7 @@ void ROSystemSolver::logValues() {
         qDebug() << "pIpb:" << pIpb(pi);
         for(int ei2 = 0; ei2 < peCount(pi); ++ei2) {
             //qDebug() << "e" << ei2 << "  Qp:" << eQp(pi, ei2);
-            qDebug() << "e" << ei2 << "  Qp:" << eQp(pi, ei2);
+            qDebug() << "e" << ei2 << "  Qp:" << evQp(pi, ei2);
             //qDebug() << "e" << ei2 << "  Qp3:" << Qp(ePf(pi, ei2), eQf(pi, ei2), eQc(pi, ei2), eCf(pi, ei2), eCc(pi, ei2), ePIf(pi, ei2), ePIp(pi, ei2), ePIc(pi, ei2), eS(pi, ei2), T, pFF(pi));
             qDebug() << "e" << ei2 << "  Cp:" << eCp(pi, ei2);
             qDebug() << "e" << ei2 << "  Qc:" << evQc(pi, ei2);
