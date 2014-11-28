@@ -200,10 +200,11 @@ bool ROSystem::removePass(int passIndex) {
             Q_EMIT firstPassChanged();
         } else if (passIndex < _passes.count()){
             _passes[passIndex]->setRawWater(_passes[passIndex-1]->totalProduct());
-        } else { // last pass has been removed
-            Q_EMIT lastPassChanged();
         }
         removePassRecycle(passIndex);
+
+        if (passIndex == _passes.count()) // last pass has been removed
+            Q_EMIT lastPassChanged();
 
         delete removingPass;
 
@@ -276,6 +277,7 @@ void ROSystem::updateHasBlend()
     Q_EMIT hasBlendPermeateChanged();  // обновить прошлую последнюю ступень перед отключением
     disconnect(SIGNAL(hasBlendPermeateChanged()));  // отключение прошлой последней ступени
     connect(this, SIGNAL(hasBlendPermeateChanged()), lastPass(), SIGNAL(hasBlendPermeateChanged()));
+    Q_EMIT hasBlendPermeateChanged();
 }
 
 //void ROSystem::updateBlend()
@@ -327,7 +329,7 @@ double ROSystem::pH() const { return feed()->pH(); }
 void ROSystem::removePassRecycle(int fromPassIdx, int toPassIdx) {
     if (_passRecycles.contains(fromPassIdx)) {
         if (toPassIdx == -1) {
-            Q_FOREACH(int toP, _passRecycles.take(fromPassIdx)) {
+            Q_FOREACH(int toP, _passRecycles.take(fromPassIdx).keys()) {
                 notifyPassIncomingRecyclesChanged(toP);
             }
         } else {
