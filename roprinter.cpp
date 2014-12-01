@@ -125,7 +125,8 @@ void ROPrinter::printReport(QPrinter &printer, QTextDocument * const doc)
         count++;
         painter.restore();
         // Draw header
-        painter.drawText(0, -headerHeight / 2, tr("Nanotech PRO 1.3.x - %1 by %2 (%3)")
+        painter.drawText(0, -headerHeight / 2, tr("NanotechPRO %1 - %2 by %3 (%4)")
+                         .arg(roApp->version())
                          .arg(roApp->projectManager()->proj()->info()->name().isEmpty() ? tr("<unnamed>") : roApp->projectManager()->proj()->info()->name())
                          .arg(roApp->projectManager()->proj()->info()->author().isEmpty() ? tr("<author not specified>") : roApp->projectManager()->proj()->info()->author())
                          .arg(roApp->projectManager()->proj()->info()->company().isEmpty()? tr("<company not specified>") : roApp->projectManager()->proj()->info()->company()));
@@ -136,7 +137,7 @@ void ROPrinter::printReport(QPrinter &printer, QTextDocument * const doc)
         // Draw footer
         painter.drawText(0, printer.pageRect().bottom() - headerHeight * 1.5, currentRect.width(), headerHeight,
                          Qt::AlignLeft,
-                         tr("Please serve the results of the calculation using the program Nanotech PRO as guideline only.\n"
+                         tr("Please serve the results of the calculation using the program NanotechPRO as guideline only.\n"
                             "\"RM Nanotech\" is not responsible for any problems occurring during operation of the designed system."));
         painter.save();
 

@@ -6,6 +6,10 @@ import ROUnits 1.0
 import "../util"
 
 Column {
+    Item {
+        height: _ROW_HEIGHT
+        width: parent.width
+    }
     Row {
         Column {
             id: titles

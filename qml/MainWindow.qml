@@ -19,7 +19,7 @@ import "./results-page" as Results
 
 ROWidgets.ExternalWindow {
     id: mainWindow
-    title: "Nanotech PRO " + app.projectManager.projFileName + (app.projectManager.projWasAltered ? "*" : "")
+    title: "NanotechPRO " + app.projectManager.projFileName + (app.projectManager.projWasAltered ? "*" : "")
     width: 850
     height: 500
     minimumWidth: 850

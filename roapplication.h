@@ -23,6 +23,8 @@
 –	Управление переводами (ROTranslator)
  */
 
+#define NANOTECH_VERSION "1.3.0"
+#define NANOTECH_RELEASE_DATE "01.12.2014"
 
 #define roApp (static_cast<ROApplication *>(qApp))
 
@@ -32,6 +34,8 @@ class ROApplication : public QApplication {
     Q_PROPERTY(ROProjectManager* projectManager READ projectManager CONSTANT)
     Q_PROPERTY(ROTranslator* translator READ translator CONSTANT)
     Q_PROPERTY(ROPrinter* printer READ printer CONSTANT)
+    Q_PROPERTY(QString version READ version CONSTANT)
+    Q_PROPERTY(QString releaseDate READ releaseDate CONSTANT)
     Q_PROPERTY(int visibleDecimals READ visibleDecimals WRITE setVisibleDecimals NOTIFY visibleDecimalsChanged)
     Q_PROPERTY(bool showHelloMessage READ showHelloMessage WRITE setShowHelloMessage NOTIFY showHelloMessageChanged)
 
@@ -64,6 +68,8 @@ public:
     ROTranslator* const translator() const;
 
     ROPrinter* const printer() const;
+    QString version () const { return NANOTECH_VERSION; }
+    QString releaseDate () const { return NANOTECH_RELEASE_DATE; }
 
     ROQMLObjectCapturer * const schemeCapturer() const;
 

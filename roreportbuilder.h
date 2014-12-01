@@ -18,7 +18,7 @@
 
 class ROReportBuilder : public QObject
 {
-
+    Q_OBJECT
 public:
     explicit ROReportBuilder();
     QTextDocument* const build(ROCase * const case_, QSizeF pageSize);

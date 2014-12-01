@@ -6,13 +6,13 @@
     <message>
         <location filename="qml/AboutWindow.qml" line="30"/>
         <source>NanoTechPRO %1 from %2</source>
-        <oldsource>NanoTechPRO 1.0.1 from 03.10.2013</oldsource>
         <translation>NanoTechPRO %1 от %2</translation>
     </message>
     <message>
         <location filename="qml/AboutWindow.qml" line="36"/>
-        <source>Please serve the results of the calculation using the program Nanotech PRO as guideline only. &quot;RM Nanotech&quot; is not responsible for any problems occurring during operation of the designed system.</source>
-        <translation>Результаты, полученные при расчете с использованием программы Nanotech PRO, носят рекомендательный характер. Компания &quot;РМ Нанотех&quot; не несет ответственность за возможные неисправности, возникшие при эксплуатации спроектированной системы.</translation>
+        <source>Please serve the results of the calculation using the program NanotechPRO as guideline only. &quot;RM Nanotech&quot; is not responsible for any problems occurring during operation of the designed system.</source>
+        <oldsource>Please serve the results of the calculation using the program Nanotech PRO as guideline only. &quot;RM Nanotech&quot; is not responsible for any problems occurring during operation of the designed system.</oldsource>
+        <translation>Результаты, полученные при расчете с использованием программы NanotechPRO, носят рекомендательный характер. Компания &quot;РМ Нанотех&quot; не несет ответственность за возможные неисправности, возникшие при эксплуатации спроектированной системы.</translation>
     </message>
     <message>
         <location filename="qml/AboutWindow.qml" line="48"/>
@@ -43,38 +43,364 @@
     </message>
 </context>
 <context>
+    <name>Common</name>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="8"/>
+        <source>Common</source>
+        <translation>Общая информация</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="18"/>
+        <source>Water type</source>
+        <translation>Тип воды</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="32"/>
+        <source>Temperature</source>
+        <translation>Температура</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="38"/>
+        <source>Flow Factor</source>
+        <translation>Коэффициент загрязнения</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="44"/>
+        <source>Power</source>
+        <translation>Мощность</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="45"/>
+        <source>kW</source>
+        <translation>кВт</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="50"/>
+        <source>Specific energy</source>
+        <translation>Энергия</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="51"/>
+        <source>kWh/m³</source>
+        <oldsource>kWh/m³</oldsource>
+        <translation>КВтч/м³</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="56"/>
+        <source>Active Area</source>
+        <translation>Активная поверхность</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="62"/>
+        <source>Total elements count</source>
+        <translation>Общее кол-во элементов</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="68"/>
+        <source>Element lifetime</source>
+        <translation>Срок службы элементов</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="qml/results-page/system/Common.qml" line="69"/>
+        <source>year(s)</source>
+        <translation>
+            <numerusform>год</numerusform>
+            <numerusform>года</numerusform>
+            <numerusform>лет</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="74"/>
+        <source>Avg. Flux</source>
+        <translation>Сред. съем</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="80"/>
+        <source>Recovery</source>
+        <translation>СИФ</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="86"/>
+        <source>Rejection</source>
+        <translation>Солепроходимость</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="95"/>
+        <source>Raw water flow</source>
+        <translation>Исходная вода</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="101"/>
+        <source>Stage 1 feed flow</source>
+        <translation>Вх. поток на стадии</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="107"/>
+        <source>Feed TDS</source>
+        <translation>Солесодержание вх. воды</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="108"/>
+        <location filename="qml/results-page/system/Common.qml" line="138"/>
+        <source>mg/l</source>
+        <translation>мг/л</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="113"/>
+        <source>Feed pressure</source>
+        <translation>Давление вх. потока</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="119"/>
+        <source>Feed osmotic pressure</source>
+        <translation>Осм. давление вх. потока</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="125"/>
+        <source>Feed pH</source>
+        <translation>pH исх. воды</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="131"/>
+        <source>Permeate flow</source>
+        <translation>Объем потока фил.</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="137"/>
+        <source>Permeate TDS</source>
+        <translation>Солесодержание в фильтрате</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="143"/>
+        <source>Permeate pressure</source>
+        <translation>Давление в фильтрате</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="149"/>
+        <source>Permeate osmotic pressure</source>
+        <translation>Осм. давление в фильтрате</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Common.qml" line="155"/>
+        <source>Permeate pH</source>
+        <translation>pH в фильтрате</translation>
+    </message>
+</context>
+<context>
+    <name>CommonData</name>
+    <message>
+        <location filename="qml/results-page/element/CommonData.qml" line="15"/>
+        <source>Element %1:%2:%3</source>
+        <translation>Элемент %1:%2:%3</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonData.qml" line="15"/>
+        <source>Pass %1</source>
+        <translation>Ступень %1</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/stage/CommonData.qml" line="12"/>
+        <source>Stage %1:%2</source>
+        <translation>Стадия %1:%2</translation>
+    </message>
+</context>
+<context>
+    <name>CommonHeader</name>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="16"/>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="20"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="16"/>
+        <source>Avg. Flux</source>
+        <translation>Сред. съем</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="17"/>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="21"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="17"/>
+        <source>Recovery</source>
+        <translation>СИФ</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="18"/>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="23"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="18"/>
+        <source>Rejection</source>
+        <translation>Солепроходимость</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="19"/>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="26"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="19"/>
+        <source>Feed flow</source>
+        <translation>Объем вх. потока</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="20"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="20"/>
+        <source>Feed TDS</source>
+        <translation>Солесодержание исх. воды</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="21"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="21"/>
+        <source>Feed pressure</source>
+        <translation>Давление вх. потока</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="22"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="22"/>
+        <source>Permeate flow</source>
+        <translation>Объем фильтрата</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="23"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="23"/>
+        <source>Permeate TDS</source>
+        <translation>Солесодержание в фильтрате</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="33"/>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="36"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="35"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="38"/>
+        <source>mg/l</source>
+        <translation>мг/л</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="12"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="9"/>
+        <source>Common</source>
+        <translation>Общая информация</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="16"/>
+        <source>Power</source>
+        <translation>Мощность</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="17"/>
+        <source>Specific energy</source>
+        <translation>Энергия</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="18"/>
+        <source>Active Area</source>
+        <translation>Активная поверхность</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="19"/>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="15"/>
+        <source>Total elements count</source>
+        <translation>Общее кол-во элементов</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="22"/>
+        <source>Average stages recovery</source>
+        <translation>Средний СИФ стадий</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="24"/>
+        <source>Raw water flow</source>
+        <translation>Исходная вода</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="25"/>
+        <source>Blending</source>
+        <translation>Подмешивание</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="27"/>
+        <source>Self recycle</source>
+        <translation>Собств. рецикл</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="32"/>
+        <source>Recycle to pass %1</source>
+        <translation>Рецикл на ступень %1</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="35"/>
+        <source>Stage 1 feed flow</source>
+        <translation>Исх. поток на стадии</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="36"/>
+        <source>Total product</source>
+        <translation>Выход со ступени</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="40"/>
+        <source>kW</source>
+        <translation>кВт</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/CommonHeader.qml" line="41"/>
+        <source>kWh/m³</source>
+        <oldsource>kWh/m³</oldsource>
+        <translation>КВтч/м³</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/stage/CommonHeader.qml" line="14"/>
+        <source>Membrane element</source>
+        <translation>Мембранный элемент</translation>
+    </message>
+</context>
+<context>
+    <name>Data</name>
+    <message>
+        <location filename="qml/results-page/element/Data.qml" line="15"/>
+        <source>Elements details</source>
+        <translation>Подробная информация по элементам</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/Data.qml" line="15"/>
+        <source>Passes details</source>
+        <translation>Подробная информация по ступеням</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/stage/Data.qml" line="16"/>
+        <source>Stages details</source>
+        <translation>Подробная информация по стадиям</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/system/Data.qml" line="11"/>
+        <source>System details</source>
+        <translation>Подробная информация по системе</translation>
+    </message>
+</context>
+<context>
     <name>FeedBar</name>
     <message>
         <source>Feed</source>
         <translation type="obsolete">Вх. поток</translation>
     </message>
     <message>
-        <location filename="qml/FeedBar.qml" line="35"/>
+        <location filename="qml/FeedBar.qml" line="34"/>
         <source>Feed:</source>
         <translation>Вх. поток:</translation>
     </message>
     <message>
-        <location filename="qml/FeedBar.qml" line="90"/>
+        <location filename="qml/FeedBar.qml" line="89"/>
         <source>Copy</source>
         <translation>Скопировать</translation>
     </message>
     <message>
-        <location filename="qml/FeedBar.qml" line="113"/>
+        <location filename="qml/FeedBar.qml" line="112"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="qml/FeedBar.qml" line="191"/>
+        <location filename="qml/FeedBar.qml" line="190"/>
         <source>Total</source>
         <translation>Общий</translation>
     </message>
     <message>
-        <location filename="qml/FeedBar.qml" line="258"/>
+        <location filename="qml/FeedBar.qml" line="257"/>
         <source>Adj</source>
         <translation>Корр.</translation>
     </message>
     <message>
-        <location filename="qml/FeedBar.qml" line="324"/>
+        <location filename="qml/FeedBar.qml" line="323"/>
         <source>part</source>
         <translation>часть</translation>
     </message>
@@ -86,19 +412,139 @@
         <translation type="obsolete">Тип воды</translation>
     </message>
     <message>
-        <location filename="qml/FeedWaterPage.qml" line="53"/>
+        <location filename="qml/FeedWaterPage.qml" line="50"/>
         <source>Water type: </source>
         <translation>Тип воды: </translation>
     </message>
     <message>
-        <location filename="qml/FeedWaterPage.qml" line="93"/>
+        <location filename="qml/FeedWaterPage.qml" line="90"/>
         <source>Flow factor: </source>
         <translation>Коэффициент загрязнения: </translation>
     </message>
     <message>
-        <location filename="qml/FeedWaterPage.qml" line="161"/>
+        <location filename="qml/FeedWaterPage.qml" line="157"/>
         <source>Scaling</source>
         <translation>Осадкообразование</translation>
+    </message>
+</context>
+<context>
+    <name>FlowHydrodynamics</name>
+    <message>
+        <location filename="qml/results-page/common/FlowHydrodynamics.qml" line="17"/>
+        <source>Flow</source>
+        <translation>Поток</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/common/FlowHydrodynamics.qml" line="21"/>
+        <source>Pressure</source>
+        <translation>Давление</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/common/FlowHydrodynamics.qml" line="25"/>
+        <source>Osmotic pressure</source>
+        <translation>Осм. давление</translation>
+    </message>
+</context>
+<context>
+    <name>FlowScaling</name>
+    <message>
+        <location filename="qml/results-page/common/FlowScaling.qml" line="19"/>
+        <source>LSI</source>
+        <translation>LSI</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/common/FlowScaling.qml" line="23"/>
+        <source>S&amp;DSI</source>
+        <translation>S&amp;SDI</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/common/FlowScaling.qml" line="27"/>
+        <source>Ionic Strength</source>
+        <translation>Ионная сила</translation>
+    </message>
+</context>
+<context>
+    <name>FlowSolubility</name>
+    <message>
+        <location filename="qml/results-page/common/FlowSolubility.qml" line="25"/>
+        <location filename="qml/results-page/common/FlowSolubility.qml" line="31"/>
+        <source>mg/l</source>
+        <translation>мг/л</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/common/FlowSolubility.qml" line="30"/>
+        <source>TDS</source>
+        <translation>Солесодержание</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/common/FlowSolubility.qml" line="35"/>
+        <source>pH</source>
+        <translation>pH</translation>
+    </message>
+</context>
+<context>
+    <name>Flows</name>
+    <message>
+        <location filename="qml/results-page/pass/Flows.qml" line="14"/>
+        <source>Pass %1</source>
+        <translation>Ступень %1</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/stage/Flows.qml" line="22"/>
+        <source>Stage %1:%2</source>
+        <translation>Стадия %1:%2</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/stage/Flows.qml" line="23"/>
+        <source>Permeate</source>
+        <translation>Фильтрат</translation>
+    </message>
+</context>
+<context>
+    <name>FlowsHeader</name>
+    <message>
+        <location filename="qml/results-page/pass/FlowsHeader.qml" line="10"/>
+        <location filename="qml/results-page/stage/FlowsHeader.qml" line="10"/>
+        <source>Streams</source>
+        <translation>Потоки</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/FlowsHeader.qml" line="17"/>
+        <location filename="qml/results-page/stage/FlowsHeader.qml" line="17"/>
+        <source>Flow</source>
+        <translation>Поток</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/FlowsHeader.qml" line="21"/>
+        <location filename="qml/results-page/stage/FlowsHeader.qml" line="21"/>
+        <source>Pressure</source>
+        <translation>Давление</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/FlowsHeader.qml" line="25"/>
+        <location filename="qml/results-page/stage/FlowsHeader.qml" line="25"/>
+        <source>Osmotic pressure</source>
+        <translation>Осм. давление</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/FlowsHeader.qml" line="36"/>
+        <location filename="qml/results-page/pass/FlowsHeader.qml" line="41"/>
+        <location filename="qml/results-page/stage/FlowsHeader.qml" line="36"/>
+        <location filename="qml/results-page/stage/FlowsHeader.qml" line="42"/>
+        <source>mg/l</source>
+        <translation>мг/л</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/FlowsHeader.qml" line="40"/>
+        <location filename="qml/results-page/stage/FlowsHeader.qml" line="41"/>
+        <source>TDS</source>
+        <translation>Солесодержание</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/FlowsHeader.qml" line="44"/>
+        <location filename="qml/results-page/stage/FlowsHeader.qml" line="46"/>
+        <source>pH</source>
+        <translation>pH</translation>
     </message>
 </context>
 <context>
@@ -116,9 +562,9 @@
     </message>
     <message>
         <location filename="qml/HelloWindow.qml" line="53"/>
-        <source>Please serve the results of the calculation using the program Nanotech PRO as guideline only. &quot;RM Nanotech&quot; is not responsible for any problems occurring during operation of the designed system.</source>
-        <oldsource>The results received when calculating with Nanotech PRO should be used as recommendations, the company &quot;RM Nanotech&quot; is not responsible for any malfunction which can occur during operation on designed system.</oldsource>
-        <translation>Результаты, полученные при расчете с использованием программы Nanotech PRO, носят рекомендательный характер. Компания &quot;РМ Нанотех&quot; не несет ответственность за возможные неисправности, возникшие при эксплуатации спроектированной системы.</translation>
+        <source>Please serve the results of the calculation using the program NanotechPRO as guideline only. &quot;RM Nanotech&quot; is not responsible for any problems occurring during operation of the designed system.</source>
+        <oldsource>Please serve the results of the calculation using the program Nanotech PRO as guideline only. &quot;RM Nanotech&quot; is not responsible for any problems occurring during operation of the designed system.</oldsource>
+        <translation>Результаты, полученные при расчете с использованием программы NanotechPRO, носят рекомендательный характер. Компания &quot;РМ Нанотех&quot; не несет ответственность за возможные неисправности, возникшие при эксплуатации спроектированной системы.</translation>
     </message>
     <message>
         <location filename="qml/HelloWindow.qml" line="65"/>
@@ -142,9 +588,17 @@
     </message>
 </context>
 <context>
+    <name>Hydrodynamics</name>
+    <message>
+        <location filename="qml/results-page/system/Hydrodynamics.qml" line="9"/>
+        <source>Hydrodynamics</source>
+        <translation>Гидродинамика</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
-        <location filename="qml/MainWindow.qml" line="96"/>
+        <location filename="qml/MainWindow.qml" line="97"/>
         <source>Feedwater</source>
         <translation>Входная вода</translation>
     </message>
@@ -153,22 +607,22 @@
         <translation type="obsolete">Осадкообразование</translation>
     </message>
     <message>
-        <location filename="qml/MainWindow.qml" line="50"/>
+        <location filename="qml/MainWindow.qml" line="51"/>
         <source>Hello!</source>
         <translation>Здравствуйте!</translation>
     </message>
     <message>
-        <location filename="qml/MainWindow.qml" line="105"/>
+        <location filename="qml/MainWindow.qml" line="106"/>
         <source>System</source>
         <translation>Система</translation>
     </message>
     <message>
-        <location filename="qml/MainWindow.qml" line="114"/>
+        <location filename="qml/MainWindow.qml" line="115"/>
         <source>Results</source>
         <translation>Результаты</translation>
     </message>
     <message>
-        <location filename="qml/MainWindow.qml" line="129"/>
+        <location filename="qml/MainWindow.qml" line="130"/>
         <source>Costs</source>
         <translation>Затраты</translation>
     </message>
@@ -659,11 +1113,13 @@ Do you want to save your changes?</source>
         <location filename="qml/ROCosts.qml" line="179"/>
         <location filename="qml/ROCosts.qml" line="192"/>
         <source>rub/m³</source>
+        <oldsource>rub/m³</oldsource>
         <translation>руб/м³</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="217"/>
         <source>Year permeate (m³)</source>
+        <oldsource>Year permeate (m³)</oldsource>
         <translation>Фильтрат за год (м³)</translation>
     </message>
     <message>
@@ -731,6 +1187,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROCosts.qml" line="302"/>
         <source>Energy by 1m³ (kW/h)</source>
+        <oldsource>Energy by 1m³ (kW/h)</oldsource>
         <translation>Энергия на 1м³ (кВт/ч)</translation>
     </message>
     <message>
@@ -764,6 +1221,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROCosts.qml" line="350"/>
         <source>Sink (m³)</source>
+        <oldsource>Sink (m³)</oldsource>
         <translation>Объем на мойку (м³)</translation>
     </message>
     <message>
@@ -829,16 +1287,19 @@ Do you want to save your changes?</source>
     <message>
         <location filename="qml/ROCosts.qml" line="466"/>
         <source>Rate (m³/h)</source>
+        <oldsource>Rate (m³/h)</oldsource>
         <translation>Кол-во (м³/ч)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="467"/>
         <source>Volume by year (m³)</source>
+        <oldsource>Volume by year (m³)</oldsource>
         <translation>Объем в год (м³)</translation>
     </message>
     <message>
         <location filename="qml/ROCosts.qml" line="468"/>
         <source>Cost (rub/m³)</source>
+        <oldsource>Cost (rub/m³)</oldsource>
         <translation>Затраты (руб/м³)</translation>
     </message>
     <message>
@@ -1008,8 +1469,8 @@ Cannot open database.
         <translation>Значения катионов и анионов не сбалансированы</translation>
     </message>
     <message>
-        <location filename="rofeedcontroller.cpp" line="62"/>
-        <location filename="rofeedcontroller.cpp" line="65"/>
+        <location filename="rofeedcontroller.cpp" line="61"/>
+        <location filename="rofeedcontroller.cpp" line="64"/>
         <source>Feed %1: %2</source>
         <translation>Вх. поток %1: %2</translation>
     </message>
@@ -1222,14 +1683,53 @@ Cannot open database.
 <context>
     <name>ROPrinter</name>
     <message>
-        <location filename="roprinter.cpp" line="29"/>
-        <location filename="roprinter.cpp" line="71"/>
+        <location filename="roprinter.cpp" line="33"/>
+        <location filename="roprinter.cpp" line="69"/>
         <source>Save PDF File</source>
         <translation>Сохранить в PDF файл</translation>
     </message>
     <message>
-        <location filename="roprinter.cpp" line="53"/>
-        <location filename="roprinter.cpp" line="95"/>
+        <location filename="roprinter.cpp" line="128"/>
+        <source>NanotechPRO %1 - %2 by %3 (%4)</source>
+        <oldsource>Nanotech PRO 1.3.x - %1 by %2 (%3)</oldsource>
+        <translation>NanotechPRO %1 - %2, %3 (%4)</translation>
+    </message>
+    <message>
+        <location filename="roprinter.cpp" line="130"/>
+        <source>&lt;unnamed&gt;</source>
+        <translation>&lt;без названия&gt;</translation>
+    </message>
+    <message>
+        <location filename="roprinter.cpp" line="131"/>
+        <source>&lt;author not specified&gt;</source>
+        <translation>&lt;автор не указан&gt;</translation>
+    </message>
+    <message>
+        <location filename="roprinter.cpp" line="132"/>
+        <source>&lt;company not specified&gt;</source>
+        <translation>&lt;компания не указана&gt;</translation>
+    </message>
+    <message>
+        <location filename="roprinter.cpp" line="133"/>
+        <source>%1    page %2</source>
+        <translation>%1    стр. %2</translation>
+    </message>
+    <message>
+        <location filename="roprinter.cpp" line="140"/>
+        <source>Please serve the results of the calculation using the program NanotechPRO as guideline only.
+&quot;RM Nanotech&quot; is not responsible for any problems occurring during operation of the designed system.</source>
+        <translation>Результаты, полученные при расчете с использованием программы NanotechPRO, носят рекомендательный характер.
+Компания &quot;РМ Нанотех&quot; не несет ответственность за возможные неисправности, возникшие при эксплуатации спроектированной системы.</translation>
+    </message>
+    <message>
+        <source>Please serve the results of the calculation using the program Nanotech PRO as guideline only.
+&quot;RM Nanotech&quot; is not responsible for any problems occurring during operation of the designed system.</source>
+        <translation type="obsolete">Результаты, полученные при расчете с использованием программы Nanotech PRO, носят рекомендательный характер.
+Компания &quot;РМ Нанотех&quot; не несет ответственность за возможные неисправности, возникшие при эксплуатации спроектированной системы.</translation>
+    </message>
+    <message>
+        <location filename="roprinter.cpp" line="26"/>
+        <location filename="roprinter.cpp" line="62"/>
         <source>Print project results</source>
         <translation>Распечатать результаты расчета</translation>
     </message>
@@ -1288,8 +1788,9 @@ Cannot open database.
     <message>
         <location filename="roprojectmanager.cpp" line="58"/>
         <location filename="roprojectmanager.cpp" line="77"/>
-        <source>Nanotech Project Files (*.ntp)</source>
-        <translation>Файлы проекта Nanotech (*.ntp)</translation>
+        <source>NanotechPRO Project Files (*.ntp)</source>
+        <oldsource>Nanotech Project Files (*.ntp)</oldsource>
+        <translation>Файлы проекта NanotechPRO (*.ntp)</translation>
     </message>
     <message>
         <location filename="roprojectmanager.cpp" line="76"/>
@@ -1328,110 +1829,87 @@ Do you want to save your changes?</source>
 <context>
     <name>ROReportBuilder</name>
     <message>
-        <location filename="roreportbuilder.cpp" line="33"/>
         <source>Case %1 data</source>
-        <translation>Данные варианта %1</translation>
+        <translation type="obsolete">Данные варианта %1</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="51"/>
         <source>Case %1 Costs data</source>
-        <translation>Случай %1 Данные стоимости</translation>
+        <translation type="obsolete">Случай %1 Данные стоимости</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="219"/>
-        <location filename="roreportbuilder.cpp" line="289"/>
-        <location filename="roreportbuilder.cpp" line="354"/>
         <source>System</source>
-        <translation>Система</translation>
+        <translation type="obsolete">Система</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="231"/>
-        <location filename="roreportbuilder.cpp" line="300"/>
-        <location filename="roreportbuilder.cpp" line="365"/>
-        <location filename="roreportbuilder.cpp" line="417"/>
         <source>Pass %1</source>
-        <translation>Ступень %1</translation>
+        <translation type="obsolete">Ступень %1</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="421"/>
-        <location filename="roreportbuilder.cpp" line="498"/>
         <source>Stage %1</source>
-        <translation>Стадия %1</translation>
+        <translation type="obsolete">Стадия %1</translation>
     </message>
     <message>
         <source>El %1</source>
         <translation type="obsolete">Эл %1</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="165"/>
         <source>Temperature</source>
-        <translation>Температура</translation>
+        <translation type="obsolete">Температура</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="92"/>
+        <location filename="roreportbuilder.cpp" line="97"/>
         <source>No warnings.</source>
         <translation>Предупреждения отсутствуют.</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="131"/>
         <source>System Details</source>
-        <translation>Данные по системе</translation>
+        <translation type="obsolete">Данные по системе</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="142"/>
         <source>Stages Details</source>
-        <translation>Данные по стадиям</translation>
+        <translation type="obsolete">Данные по стадиям</translation>
     </message>
     <message>
         <location filename="roreportbuilder.cpp" line="149"/>
-        <source>Elements Details</source>
-        <translation>Данные по элементам</translation>
+        <source>Stages details</source>
+        <oldsource>Elements Details</oldsource>
+        <translation>Подробная информация по стадиям</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="168"/>
         <source>Water type</source>
-        <translation>Тип воды</translation>
+        <translation type="obsolete">Тип воды</translation>
     </message>
     <message>
         <source>Water Type</source>
         <translation type="obsolete">Тип входной воды</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="200"/>
         <source>Flow Factor</source>
-        <translation>Коэффициент загрязнения</translation>
+        <translation type="obsolete">Коэффициент загрязнения</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="194"/>
         <source>Power</source>
-        <translation>Мощность</translation>
+        <translation type="obsolete">Мощность</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="197"/>
         <source>Specific Energy</source>
-        <translation>Энергия</translation>
+        <translation type="obsolete">Энергия</translation>
     </message>
     <message>
         <source>Membrane</source>
         <translation type="obsolete">Мембрана</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="202"/>
-        <location filename="roreportbuilder.cpp" line="399"/>
-        <location filename="roreportbuilder.cpp" line="538"/>
         <source>Active Area</source>
-        <translation>Активная поверхность</translation>
+        <translation type="obsolete">Активная поверхность</translation>
     </message>
     <message>
         <source>Avg. Flux</source>
         <translation type="obsolete">Сред. съем</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="208"/>
-        <location filename="roreportbuilder.cpp" line="405"/>
-        <location filename="roreportbuilder.cpp" line="544"/>
         <source>Recovery</source>
-        <translation>СИФ</translation>
+        <translation type="obsolete">СИФ</translation>
     </message>
     <message>
         <source>Feed Flow Rate</source>
@@ -1446,13 +1924,9 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Объем потока конц.</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="303"/>
-        <location filename="roreportbuilder.cpp" line="368"/>
-        <location filename="roreportbuilder.cpp" line="501"/>
-        <location filename="roreportbuilder.cpp" line="657"/>
         <source>Feed</source>
         <oldsource>Feed Ph</oldsource>
-        <translation>Вх. поток</translation>
+        <translation type="obsolete">Вх. поток</translation>
     </message>
     <message>
         <source>Perm. Ph</source>
@@ -1526,383 +2000,350 @@ Do you want to save your changes?</source>
         <translation type="obsolete">ИС потока конц.</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="186"/>
-        <location filename="roreportbuilder.cpp" line="384"/>
-        <location filename="roreportbuilder.cpp" line="522"/>
         <source>Design Details</source>
-        <translation>Данные по конструкции</translation>
+        <translation type="obsolete">Данные по конструкции</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="205"/>
-        <location filename="roreportbuilder.cpp" line="402"/>
-        <location filename="roreportbuilder.cpp" line="541"/>
         <source>Average Flux</source>
-        <translation>Средний съем</translation>
+        <translation type="obsolete">Средний съем</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="211"/>
         <source>Total elements count</source>
-        <translation>Общее кол-во элементов</translation>
+        <translation type="obsolete">Общее кол-во элементов</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="247"/>
-        <location filename="roreportbuilder.cpp" line="437"/>
-        <location filename="roreportbuilder.cpp" line="595"/>
         <source>Flow Details</source>
-        <translation>Данные по потокам</translation>
+        <translation type="obsolete">Данные по потокам</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="257"/>
-        <location filename="roreportbuilder.cpp" line="454"/>
-        <location filename="roreportbuilder.cpp" line="612"/>
         <source>Flow Rate</source>
-        <translation>Объем потока</translation>
+        <translation type="obsolete">Объем потока</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="260"/>
-        <location filename="roreportbuilder.cpp" line="457"/>
-        <location filename="roreportbuilder.cpp" line="615"/>
         <source>Osm. Pressure</source>
-        <translation>Осм. давление</translation>
+        <translation type="obsolete">Осм. давление</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="263"/>
-        <location filename="roreportbuilder.cpp" line="460"/>
-        <location filename="roreportbuilder.cpp" line="618"/>
         <source>Pressure</source>
-        <translation>Давление</translation>
+        <translation type="obsolete">Давление</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="266"/>
-        <location filename="roreportbuilder.cpp" line="463"/>
-        <location filename="roreportbuilder.cpp" line="621"/>
         <source>TDS</source>
-        <translation>Солесодержание</translation>
+        <translation type="obsolete">Солесодержание</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="292"/>
-        <location filename="roreportbuilder.cpp" line="357"/>
         <source>Raw Feed</source>
-        <translation>Входной поток</translation>
+        <translation type="obsolete">Входной поток</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="306"/>
-        <location filename="roreportbuilder.cpp" line="371"/>
-        <location filename="roreportbuilder.cpp" line="504"/>
-        <location filename="roreportbuilder.cpp" line="660"/>
         <source>Permeate</source>
-        <translation>Фильтрат</translation>
+        <translation type="obsolete">Фильтрат</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="309"/>
-        <location filename="roreportbuilder.cpp" line="374"/>
-        <location filename="roreportbuilder.cpp" line="507"/>
-        <location filename="roreportbuilder.cpp" line="663"/>
         <source>Concentrate</source>
-        <translation>Концентрат</translation>
+        <translation type="obsolete">Концентрат</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="319"/>
         <source>Scaling Details</source>
-        <translation>Данные по осадкообразованию</translation>
+        <translation type="obsolete">Данные по осадкообразованию</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="329"/>
-        <source>pH</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="roreportbuilder.cpp" line="330"/>
         <source>Ionic Strenght</source>
-        <translation>Ионная сила</translation>
+        <translation type="obsolete">Ионная сила</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="331"/>
-        <source>LSI</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="roreportbuilder.cpp" line="332"/>
-        <source>S&amp;DSI</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="roreportbuilder.cpp" line="393"/>
         <source>Element type</source>
-        <translation>Тип элемента</translation>
+        <translation type="obsolete">Тип элемента</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="395"/>
         <source>Vessels count</source>
-        <translation>Кол-во корпусов</translation>
+        <translation type="obsolete">Кол-во корпусов</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="397"/>
         <source>Elements count</source>
-        <translation>Кол-во элементов</translation>
+        <translation type="obsolete">Кол-во элементов</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="496"/>
-        <location filename="roreportbuilder.cpp" line="650"/>
         <source>Pass %1:</source>
-        <translation>Ступень %1:</translation>
+        <translation type="obsolete">Ступень %1:</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="574"/>
         <source>Pass %1: Stage %2:</source>
-        <translation>Ступень %1: Стадия %2:</translation>
+        <translation type="obsolete">Ступень %1: Стадия %2:</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="576"/>
-        <location filename="roreportbuilder.cpp" line="654"/>
         <source>Element %1</source>
-        <translation>Элемент %1</translation>
+        <translation type="obsolete">Элемент %1</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="652"/>
         <source>Stage %1:</source>
-        <translation>Стадия %1:</translation>
+        <translation type="obsolete">Стадия %1:</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="776"/>
+        <location filename="roreportbuilder.cpp" line="32"/>
+        <source>Case %1 details</source>
+        <translation>Информация по варианту расчета %1</translation>
+    </message>
+    <message>
+        <location filename="roreportbuilder.cpp" line="52"/>
+        <source>Case %1 Costs details</source>
+        <translation>Информация стоимости по варианту расчета %1</translation>
+    </message>
+    <message>
+        <location filename="roreportbuilder.cpp" line="124"/>
+        <source>System details</source>
+        <translation>Подробная информация по системе</translation>
+    </message>
+    <message>
+        <location filename="roreportbuilder.cpp" line="138"/>
+        <source>Passes details</source>
+        <translation>Подробная информация по ступеням</translation>
+    </message>
+    <message>
+        <location filename="roreportbuilder.cpp" line="157"/>
+        <source>Elements details</source>
+        <translation>Подробная информация по элементам</translation>
+    </message>
+    <message>
+        <location filename="roreportbuilder.cpp" line="252"/>
         <source>Total Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Суммарные затраты (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="793"/>
+        <location filename="roreportbuilder.cpp" line="269"/>
         <source>Year permeate (m³)</source>
         <translation>Фильтрат за год (м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="794"/>
+        <location filename="roreportbuilder.cpp" line="270"/>
         <source>System cost (rub)</source>
         <translation>Стоимость установки (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="795"/>
+        <location filename="roreportbuilder.cpp" line="271"/>
         <source>System set cost (rub)</source>
         <translation>Стоимость комплекта (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="796"/>
+        <location filename="roreportbuilder.cpp" line="272"/>
         <source>System with set cost (rub)</source>
         <translation>Стоимость системы с комплектом (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="814"/>
+        <location filename="roreportbuilder.cpp" line="290"/>
         <source>System Design Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Затраты на построение системы (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="831"/>
+        <location filename="roreportbuilder.cpp" line="307"/>
         <source>Microfiltes requirement</source>
         <translation>Потребность микрофильтров</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="832"/>
+        <location filename="roreportbuilder.cpp" line="308"/>
         <source>Membrane elements requirement</source>
         <translation>Потребность мембранных элементов</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="833"/>
+        <location filename="roreportbuilder.cpp" line="309"/>
         <source>Energy requirement</source>
         <translation>Потребление электроэнергии</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="836"/>
+        <location filename="roreportbuilder.cpp" line="312"/>
         <source>Items by element</source>
         <translation>Кол-во на элемент</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="837"/>
+        <location filename="roreportbuilder.cpp" line="313"/>
         <source>Items by system</source>
         <translation>Кол-во на систему</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="838"/>
+        <location filename="roreportbuilder.cpp" line="314"/>
         <source>Change times a year</source>
         <translation>Частота замены в год</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="839"/>
+        <location filename="roreportbuilder.cpp" line="315"/>
         <source>Items of a year</source>
         <translation>Кол-во в год</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="840"/>
+        <location filename="roreportbuilder.cpp" line="316"/>
         <source>Item cost (rub)</source>
         <translation>Штучная стоимость (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="841"/>
-        <location filename="roreportbuilder.cpp" line="907"/>
-        <location filename="roreportbuilder.cpp" line="986"/>
-        <location filename="roreportbuilder.cpp" line="1034"/>
+        <location filename="roreportbuilder.cpp" line="317"/>
+        <location filename="roreportbuilder.cpp" line="383"/>
+        <location filename="roreportbuilder.cpp" line="462"/>
+        <location filename="roreportbuilder.cpp" line="510"/>
         <source>Year costs (rub)</source>
         <translation>Годовые затраты (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="856"/>
+        <location filename="roreportbuilder.cpp" line="332"/>
         <source>Energy by 1 m³ (kW/h)</source>
         <translation>Энергия на 1 м³ (кВт/ч)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="857"/>
+        <location filename="roreportbuilder.cpp" line="333"/>
         <source>Energy by system (kW/h)</source>
         <translation>Энергия на систему (кВт/ч)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="858"/>
+        <location filename="roreportbuilder.cpp" line="334"/>
         <source>Energy of a year</source>
         <translation>Энергия в год</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="859"/>
+        <location filename="roreportbuilder.cpp" line="335"/>
         <source>Energy cost (rub/(kW/h))</source>
         <translation>Затраты на энергию (руб/(кВт/ч))</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="877"/>
+        <location filename="roreportbuilder.cpp" line="353"/>
         <source>Chemistry Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Затраты на реаренты (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="894"/>
+        <location filename="roreportbuilder.cpp" line="370"/>
         <source>Citric acid requirement</source>
         <translation>Потребность лимонной кислоты</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="895"/>
+        <location filename="roreportbuilder.cpp" line="371"/>
         <source>H2SO4 requirement</source>
         <translation>Потребность H2SO4 100%</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="896"/>
+        <location filename="roreportbuilder.cpp" line="372"/>
         <source>Trilon B requirement</source>
         <translation>Потребность Трилон В</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="897"/>
+        <location filename="roreportbuilder.cpp" line="373"/>
         <source>Alkali requirement</source>
         <translation>Потребность щелочи</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="898"/>
+        <location filename="roreportbuilder.cpp" line="374"/>
         <source>Antiscalant requirement</source>
         <translation>Потребность ингибитора</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="899"/>
+        <location filename="roreportbuilder.cpp" line="375"/>
         <source>Acid-antiscalant requirement</source>
         <translation>Потребность кислоты-ингибитора</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="902"/>
+        <location filename="roreportbuilder.cpp" line="378"/>
         <source>Sink (m³)</source>
         <translation>Объем на мойку (м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="903"/>
+        <location filename="roreportbuilder.cpp" line="379"/>
         <source>Sink (kg)</source>
         <translation>Объем на мойку (кг)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="904"/>
+        <location filename="roreportbuilder.cpp" line="380"/>
         <source>Sink times a year</source>
         <translation>Частота мойки в год</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="905"/>
+        <location filename="roreportbuilder.cpp" line="381"/>
         <source>Mass of a year (kg)</source>
         <translation>Масса в год (кг)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="906"/>
+        <location filename="roreportbuilder.cpp" line="382"/>
         <source>Item cost (rub/kg)</source>
         <translation>Стоимость за единицу (руб/кг)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="937"/>
+        <location filename="roreportbuilder.cpp" line="413"/>
         <source>Rate (mg/l)</source>
         <translation>Кол-во на литр (мг/л)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="938"/>
+        <location filename="roreportbuilder.cpp" line="414"/>
         <source>Rate by sys (kg/h)</source>
         <translation>Кол-во на систему (кг/ч)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="962"/>
+        <location filename="roreportbuilder.cpp" line="438"/>
         <source>Water Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Затраты на воду (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="979"/>
+        <location filename="roreportbuilder.cpp" line="455"/>
         <source>Raw water</source>
         <translation>Исходная вода</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="980"/>
+        <location filename="roreportbuilder.cpp" line="456"/>
         <source>Concentrate drop</source>
         <translation>Сброс концентрата</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="983"/>
+        <location filename="roreportbuilder.cpp" line="459"/>
         <source>Rate (m³/h)</source>
         <translation>Кол-во (м³/ч)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="984"/>
+        <location filename="roreportbuilder.cpp" line="460"/>
         <source>Volume by year (m³)</source>
         <translation>Объем в год (м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="985"/>
+        <location filename="roreportbuilder.cpp" line="461"/>
         <source>Cost (rub/m³)</source>
         <translation>Затраты (руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="1008"/>
+        <location filename="roreportbuilder.cpp" line="484"/>
         <source>Maintenance Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Затраты на обслуживание (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="1025"/>
+        <location filename="roreportbuilder.cpp" line="501"/>
         <source>Staff salary</source>
         <translation>Зарплата персонала</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="1026"/>
+        <location filename="roreportbuilder.cpp" line="502"/>
         <source>Accruals</source>
         <translation>Начисления</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="1027"/>
+        <location filename="roreportbuilder.cpp" line="503"/>
         <source>Deductions</source>
         <translation>Износ</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="1030"/>
+        <location filename="roreportbuilder.cpp" line="506"/>
         <source>Salary (rub/month)</source>
         <translation>Зарплата (руб/мес)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="1031"/>
+        <location filename="roreportbuilder.cpp" line="507"/>
         <source>Staff count</source>
         <translation>Кол-во персонала</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="1032"/>
+        <location filename="roreportbuilder.cpp" line="508"/>
         <source>Year salary (rub/month)</source>
         <translation>Зарплата в год (руб/мес)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="1033"/>
+        <location filename="roreportbuilder.cpp" line="509"/>
         <source>Overhead rate (%)</source>
         <translation>Накладные расходы (%)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="1048"/>
+        <location filename="roreportbuilder.cpp" line="524"/>
         <source>System lifetime (years)</source>
         <translation>Срок службы установки (лет)</translation>
     </message>
@@ -1931,14 +2372,12 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Осм. давление потока конц.</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="195"/>
         <source>kW</source>
-        <translation>кВт</translation>
+        <translation type="obsolete">кВт</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="198"/>
         <source>kWh/m³</source>
-        <translation>КВтч/м³</translation>
+        <translation type="obsolete">КВтч/м³</translation>
     </message>
     <message>
         <source>m²</source>
@@ -1949,24 +2388,12 @@ Do you want to save your changes?</source>
         <translation type="obsolete">лмч</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="209"/>
-        <location filename="roreportbuilder.cpp" line="406"/>
-        <location filename="roreportbuilder.cpp" line="545"/>
-        <source>%</source>
-        <translation></translation>
-    </message>
-    <message>
         <source>m³/h</source>
         <translation type="obsolete">м³/ч</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="267"/>
-        <location filename="roreportbuilder.cpp" line="272"/>
-        <location filename="roreportbuilder.cpp" line="464"/>
-        <location filename="roreportbuilder.cpp" line="469"/>
-        <location filename="roreportbuilder.cpp" line="622"/>
         <source>mg/l</source>
-        <translation>мг/л</translation>
+        <translation type="obsolete">мг/л</translation>
     </message>
     <message>
         <source>bar</source>
@@ -1980,162 +2407,121 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Показать потоки</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="136"/>
         <source>System</source>
-        <translation>Система</translation>
+        <translation type="obsolete">Система</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="190"/>
         <source>Temperature</source>
-        <translation>Температура</translation>
+        <translation type="obsolete">Температура</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="212"/>
         <source>Water type</source>
-        <translation>Тип входной воды</translation>
+        <translation type="obsolete">Тип входной воды</translation>
     </message>
     <message>
         <source>Pass</source>
         <translation type="obsolete">Ступень</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="271"/>
         <source>Flow Factor</source>
-        <translation>Коэффициент загрязнения</translation>
+        <translation type="obsolete">Коэффициент загрязнения</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="302"/>
         <source>Power</source>
-        <translation type="unfinished">Мощность</translation>
+        <translation type="obsolete">Мощность</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="309"/>
         <source>kW</source>
-        <translation>кВт</translation>
+        <translation type="obsolete">кВт</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="332"/>
         <source>Specific energy</source>
-        <translation>Энергия</translation>
+        <translation type="obsolete">Энергия</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="339"/>
         <source>kWh/m³</source>
-        <translation>КВтч/м³</translation>
+        <translation type="obsolete">КВтч/м³</translation>
     </message>
     <message>
         <source>Stage</source>
         <translation type="obsolete">Стадия</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="417"/>
         <source>Membrane element</source>
         <oldsource>Membrane</oldsource>
-        <translation>Мембранный элемент</translation>
+        <translation type="obsolete">Мембранный элемент</translation>
     </message>
     <message>
         <source>El</source>
         <translation type="obsolete">Эл</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="597"/>
         <source>Active Area</source>
-        <translation>Активная поверхность</translation>
+        <translation type="obsolete">Активная поверхность</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="604"/>
         <source>Avg. Flux</source>
-        <translation>Сред. съем</translation>
+        <translation type="obsolete">Сред. съем</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="611"/>
         <source>Recovery</source>
-        <translation>СИФ</translation>
+        <translation type="obsolete">СИФ</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="618"/>
         <source>Flow</source>
-        <translation>Поток</translation>
+        <translation type="obsolete">Поток</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="666"/>
         <source>TDS</source>
-        <translation>Солесодержание</translation>
+        <translation type="obsolete">Солесодержание</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="627"/>
         <source>Pressure</source>
-        <translation>Давление</translation>
+        <translation type="obsolete">Давление</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="113"/>
         <source>Show flows: </source>
-        <translation>Потоки: </translation>
+        <translation type="obsolete">Потоки: </translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="243"/>
         <source>Pass %1</source>
-        <translation>Ступень %1</translation>
+        <translation type="obsolete">Ступень %1</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="375"/>
         <source>Stage %1</source>
-        <translation>Стадия %1</translation>
+        <translation type="obsolete">Стадия %1</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="478"/>
         <source>Total elements count</source>
-        <translation>Общее кол-во элементов</translation>
+        <translation type="obsolete">Общее кол-во элементов</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="554"/>
         <source>El %1</source>
-        <translation>Эл %1</translation>
+        <translation type="obsolete">Эл %1</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="634"/>
         <source>Osm. Pressure</source>
-        <translation>Осм. давление</translation>
+        <translation type="obsolete">Осм. давление</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="642"/>
         <source>Solutes data</source>
-        <translation>Данные по ионам</translation>
+        <translation type="obsolete">Данные по ионам</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="658"/>
-        <source>pH</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="qml/ROResults.qml" line="705"/>
         <source>Scaling data</source>
-        <translation>Осадкообразование</translation>
+        <translation type="obsolete">Осадкообразование</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="719"/>
-        <source>LSI</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="qml/ROResults.qml" line="727"/>
-        <source>S&amp;DSI</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="qml/ROResults.qml" line="734"/>
         <source>Ionic Strength</source>
-        <translation>Ионная сила</translation>
+        <translation type="obsolete">Ионная сила</translation>
     </message>
     <message>
         <source>m²</source>
         <translation type="obsolete">м²</translation>
     </message>
     <message>
-        <location filename="qml/ROResults.qml" line="819"/>
-        <location filename="qml/ROResults.qml" line="840"/>
         <source>mg/l</source>
-        <translation>мг/л</translation>
+        <translation type="obsolete">мг/л</translation>
     </message>
 </context>
 <context>
@@ -2161,24 +2547,20 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Элемент</translation>
     </message>
     <message>
-        <location filename="qml/ROResultsWarnings.qml" line="58"/>
         <source>System is ready to be calculated</source>
-        <translation>Система готова к расчету</translation>
+        <translation type="obsolete">Система готова к расчету</translation>
     </message>
     <message>
-        <location filename="qml/ROResultsWarnings.qml" line="59"/>
         <source>System is calculating. Please wait.</source>
-        <translation>Выполняется расчет системы. Пожалуйста подождите.</translation>
+        <translation type="obsolete">Выполняется расчет системы. Пожалуйста подождите.</translation>
     </message>
     <message>
-        <location filename="qml/ROResultsWarnings.qml" line="60"/>
         <source>System has been calculated</source>
-        <translation>Система была расчитана</translation>
+        <translation type="obsolete">Система была расчитана</translation>
     </message>
     <message>
-        <location filename="qml/ROResultsWarnings.qml" line="61"/>
         <source>System has been changed. Recalculate.</source>
-        <translation>Система была изменена. Необходимо пересчитать значения.</translation>
+        <translation type="obsolete">Система была изменена. Необходимо пересчитать значения.</translation>
     </message>
 </context>
 <context>
@@ -2548,56 +2930,64 @@ Do you want to save your changes?</source>
     </message>
 </context>
 <context>
+    <name>Scaling</name>
+    <message>
+        <location filename="qml/results-page/common/Scaling.qml" line="10"/>
+        <source>Scaling</source>
+        <translation>Осадкообразование</translation>
+    </message>
+</context>
+<context>
     <name>ScalingPanel</name>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="28"/>
+        <location filename="qml/ScalingPanel.qml" line="27"/>
         <source>No adjustment</source>
         <translation>Без изменений</translation>
     </message>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="40"/>
+        <location filename="qml/ScalingPanel.qml" line="39"/>
         <source>Na-softering</source>
         <translation>Умягчитель</translation>
     </message>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="56"/>
+        <location filename="qml/ScalingPanel.qml" line="55"/>
         <source>Ca Leakage:</source>
         <translation>Проскок Ca:</translation>
     </message>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="77"/>
-        <location filename="qml/ScalingPanel.qml" line="112"/>
+        <location filename="qml/ScalingPanel.qml" line="76"/>
+        <location filename="qml/ScalingPanel.qml" line="111"/>
         <source>mg/l</source>
         <translation>мг/л</translation>
     </message>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="92"/>
+        <location filename="qml/ScalingPanel.qml" line="91"/>
         <source>Mg Leakage:</source>
         <translation>Проскок Mg:</translation>
     </message>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="129"/>
+        <location filename="qml/ScalingPanel.qml" line="128"/>
         <source>pH-adjustment</source>
         <translation>Коррекция pH</translation>
     </message>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="145"/>
+        <location filename="qml/ScalingPanel.qml" line="144"/>
         <source>Dosing:</source>
         <translation>Дозирование:</translation>
     </message>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="171"/>
+        <location filename="qml/ScalingPanel.qml" line="170"/>
         <source>Target pH:</source>
         <translation>Целевой pH:</translation>
     </message>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="197"/>
+        <location filename="qml/ScalingPanel.qml" line="196"/>
         <source>Reagent concentration:</source>
         <oldsource>Acid concentration:</oldsource>
         <translation>Концентрация реагента:</translation>
     </message>
     <message>
-        <location filename="qml/ScalingPanel.qml" line="216"/>
+        <location filename="qml/ScalingPanel.qml" line="215"/>
         <source>%</source>
         <translation></translation>
     </message>
@@ -2628,59 +3018,125 @@ Do you want to save your changes?</source>
 <context>
     <name>ScalingTable</name>
     <message>
-        <location filename="qml/ScalingTable.qml" line="24"/>
+        <location filename="qml/ScalingTable.qml" line="23"/>
         <source>Feed</source>
         <translation>Вх. поток</translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="35"/>
+        <location filename="qml/ScalingTable.qml" line="34"/>
         <source>Adj. Feed</source>
         <translation>Скор. поток</translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="56"/>
+        <location filename="qml/ScalingTable.qml" line="55"/>
         <source>pH:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="98"/>
+        <location filename="qml/ScalingTable.qml" line="97"/>
         <source>LSI:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="140"/>
+        <location filename="qml/ScalingTable.qml" line="139"/>
         <source>S&amp;DSI:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="182"/>
+        <location filename="qml/ScalingTable.qml" line="181"/>
         <source>TDS (mg/l):</source>
         <translation>Солесодержание (мг/л):</translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="224"/>
+        <location filename="qml/ScalingTable.qml" line="223"/>
         <source>Ionic Strength:</source>
         <translation>Ионная сила:</translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="265"/>
+        <location filename="qml/ScalingTable.qml" line="264"/>
         <source>Ionic Strength2:</source>
         <translation>Ионная сила (2):</translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="304"/>
+        <location filename="qml/ScalingTable.qml" line="303"/>
         <source>HCO3 (mg/l):</source>
         <translation>HCO3 (мг/л):</translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="356"/>
+        <location filename="qml/ScalingTable.qml" line="355"/>
         <source>CO2 (mg/l): </source>
         <translation>CO2 (мг/л): </translation>
     </message>
     <message>
-        <location filename="qml/ScalingTable.qml" line="407"/>
+        <location filename="qml/ScalingTable.qml" line="406"/>
         <source>CO3 (mg/l): </source>
         <translation>CO3 (мг/л): </translation>
+    </message>
+</context>
+<context>
+    <name>Solubility</name>
+    <message>
+        <location filename="qml/results-page/common/Solubility.qml" line="11"/>
+        <source>Streams</source>
+        <translation>Потоки</translation>
+    </message>
+</context>
+<context>
+    <name>Warnings</name>
+    <message>
+        <location filename="qml/results-page/Warnings.qml" line="58"/>
+        <source>System is ready to be calculated</source>
+        <translation>Система готова к расчету</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/Warnings.qml" line="59"/>
+        <source>System is calculating. Please wait.</source>
+        <translation>Выполняется расчет системы. Пожалуйста подождите.</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/Warnings.qml" line="60"/>
+        <source>System has been calculated</source>
+        <translation>Система была расчитана</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/Warnings.qml" line="61"/>
+        <source>System has been changed. Recalculate.</source>
+        <translation>Система была изменена. Необходимо пересчитать значения.</translation>
+    </message>
+</context>
+<context>
+    <name>getFlows</name>
+    <message>
+        <location filename="qml/results-page/util/getFlows.js" line="5"/>
+        <location filename="qml/results-page/util/getFlows.js" line="11"/>
+        <location filename="qml/results-page/util/getFlows.js" line="19"/>
+        <source>Feed</source>
+        <translation>Вх. поток</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/util/getFlows.js" line="6"/>
+        <location filename="qml/results-page/util/getFlows.js" line="13"/>
+        <source>Stage 1 feed</source>
+        <translation>Исх. поток на стадии</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/util/getFlows.js" line="7"/>
+        <location filename="qml/results-page/util/getFlows.js" line="14"/>
+        <location filename="qml/results-page/util/getFlows.js" line="20"/>
+        <source>Permeate</source>
+        <translation>Фильтрат</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/util/getFlows.js" line="8"/>
+        <location filename="qml/results-page/util/getFlows.js" line="15"/>
+        <location filename="qml/results-page/util/getFlows.js" line="21"/>
+        <source>Concentrate</source>
+        <translation>Концентрат</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/util/getFlows.js" line="12"/>
+        <source>Adj. feed</source>
+        <translation>Скор. поток</translation>
     </message>
 </context>
 </TS>

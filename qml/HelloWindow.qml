@@ -44,13 +44,13 @@ Column {
     }
 
     Text {
-        text: app.translator.emptyString + qsTr("NanoTechPRO %1 from %2").arg("1.2.4").arg("10.09.2014")
+        text: app.translator.emptyString + qsTr("NanoTechPRO %1 from %2").arg(app.version).arg(app.releaseDate)
     }
 
     Text {
         anchors.left: parent.left
         anchors.right: parent.right
-        text: app.translator.emptyString + qsTr("Please serve the results of the calculation using the program Nanotech PRO as guideline only. \"RM Nanotech\" is not responsible for any problems occurring during operation of the designed system.")
+        text: app.translator.emptyString + qsTr("Please serve the results of the calculation using the program NanotechPRO as guideline only. \"RM Nanotech\" is not responsible for any problems occurring during operation of the designed system.")
         wrapMode: Text.WordWrap
     }
 

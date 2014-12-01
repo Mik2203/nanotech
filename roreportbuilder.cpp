@@ -130,7 +130,7 @@ void ROReportBuilder::insertCase(ROCase *case_) {
         insertCapturedImage("qrc:/qml/results-page/common/Solubility.qml", "systemDetailsSolubility", itemProps);
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/common/Scaling.qml", "systemDetailsScaling", itemProps);
-//        insertLineBreak();
+        insertLineBreak();
 
 //        insertImage("qrc:/qml/results-page/pass/Data.qml", "passDetails");
         insertLineBreak();
