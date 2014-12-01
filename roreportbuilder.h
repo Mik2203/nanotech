@@ -73,7 +73,7 @@ private:
     QString double2Str(double val);
     QString int2Str(double val);
 
-    void insertCapturedImage(const QString& componentPath, const QString& objectName, QHash<QString, QVariant> itemProps=QHash<QString, QVariant>());
+    bool insertCapturedImage(const QString& componentPath, const QString& objectName, QHash<QString, QVariant> itemProps=QHash<QString, QVariant>());
 
     void insertCase(ROCase* case_);
     void insertCosts(ROCase* case_);

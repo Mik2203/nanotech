@@ -145,5 +145,6 @@
         <file>qml/results-page/stage/Common.qml</file>
         <file>qml/results-page/stage/Flows.qml</file>
         <file>qml/results-page/element/Common.qml</file>
+        <file>qml/results-page/element/RowTemplate.qml</file>
     </qresource>
 </RCC>

@@ -7,7 +7,7 @@ import "../util"
 Row {
     Column {
         SectionTitle {
-            text: "Streams"
+            text: qsTr("Streams")
 
             height: _ROW_HEIGHT * 2
             width: _TITLE_WIDTH + _UNITS_WIDTH
@@ -25,14 +25,6 @@ Row {
             TableRowTitle { title: app.translator.emptyString + qsTr("Osmotic pressure") }
             TableRowUnits { units: app.translator.emptyString + unitsText.pressureUnitText(app.units.pressureUnits) }
         }
-        Row {
-            TableRowTitle { title: app.translator.emptyString + qsTr("pH") }
-            TableRowUnits { units: "" }
-        }
-        Row {
-            TableRowTitle { title: app.translator.emptyString + qsTr("TDS") }
-            TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
-        }
 
         // ions
         Repeater {
@@ -43,6 +35,16 @@ Row {
                 TableRowTitle { title: app.translator.emptyString + _SOLUTE_MODEL.shortNameByIndex(index) }
                 TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
             }
+        }
+
+        Row {
+            TableRowTitle { title: app.translator.emptyString + qsTr("TDS") }
+            TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
+        }
+
+        Row {
+            TableRowTitle { title: app.translator.emptyString + qsTr("pH") }
+            TableRowUnits { units: "" }
         }
     }
 }

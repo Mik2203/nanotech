@@ -9,7 +9,7 @@ import "../util"
 Column {
     property int recycleCount: sys.passCount-1
 
-    SectionTitle { text: "Common" }
+    SectionTitle { text: qsTr("Common") }
 
     Row {
         Column {

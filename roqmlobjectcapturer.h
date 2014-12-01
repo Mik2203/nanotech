@@ -16,9 +16,6 @@ public:
     
 private:
     QDeclarativeEngine* _engine;
-
-signals:
-    void itemChanged();
 };
 
 #endif // ROQMLOBJECTCAPTURER_H

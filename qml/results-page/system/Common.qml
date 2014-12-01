@@ -5,7 +5,7 @@ import ROUnits 1.0
 import "../util"
 
 Column {
-    SectionTitle { text: "Common information" }
+    SectionTitle { text: qsTr("Common") }
 
     Item {
         anchors.left: parent.left

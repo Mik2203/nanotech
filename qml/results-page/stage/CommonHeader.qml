@@ -6,7 +6,7 @@ import ROUnits 1.0
 import "../util"
 
 Column {
-    SectionTitle { text: "Common" }
+    SectionTitle { text: qsTr("Common") }
 
     Row {
         Column {

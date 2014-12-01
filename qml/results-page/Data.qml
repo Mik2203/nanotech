@@ -19,7 +19,7 @@ import "./element" as ElementResults
 
 Column {
     spacing: 10
-    property int _TITLE_WIDTH: 150
+    property int _TITLE_WIDTH: 135
     property int _UNITS_WIDTH: 50
     property int _VALUE_WIDTH: 80
     property color _BORDER_COLOR: "grey"

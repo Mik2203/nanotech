@@ -7,7 +7,7 @@ import "../util/getFlows.js" as GetFlows
 Column {
     property variant element
 
-    SectionTitle { text: "Scaling" }
+    SectionTitle { text: qsTr("Scaling") }
 
     FlowScaling {
         flows: GetFlows.forElement(element)

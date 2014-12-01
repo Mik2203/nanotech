@@ -7,9 +7,12 @@ import ROElement 1.0
 import "../util"
 
 Column {
+    property int passIndex
+    property int stageIndex
+    property int elementIndex
     property ROElement element
 
-    TableRowValue { value: app.translator.emptyString + qsTr("Element %1:%2:%3").arg(passIndex+1).arg(stageIndex+1).arg(index+1) }
+    TableRowValue { value: app.translator.emptyString + qsTr("Element %1:%2:%3").arg(passIndex+1).arg(stageIndex+1).arg(elementIndex+1) }
     TableRowValue { value: app.units.convertFluxUnits(element.averageFlux, ROUnits.DEFAULT_FLUX_UNITS, app.units.fluxUnits) }
     TableRowValue { value: element.recovery * 100.0 }
     TableRowValue { value: (1.0 - element.permeate.solutes.totalValueMgl / element.feed.solutes.totalValueMgl) * 100.0 }

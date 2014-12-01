@@ -252,7 +252,8 @@ OTHER_FILES += \
     qml/results-page/pass/Flows.qml \
     qml/results-page/stage/Common.qml \
     qml/results-page/stage/Flows.qml \
-    qml/results-page/element/Common.qml
+    qml/results-page/element/Common.qml \
+    qml/results-page/element/RowTemplate.qml
 
 TRANSLATIONS += nano_ru.ts # for update utilite
 win32:RC_FILE = app_icon.rc # for windows icon

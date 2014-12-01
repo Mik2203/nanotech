@@ -6,8 +6,6 @@ import ROUnits 1.0
 import "../util"
 
 Column {
-    SectionTitle { text: "Common" }
-
     Row {
         Column {
             id: titles

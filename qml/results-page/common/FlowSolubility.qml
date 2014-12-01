@@ -15,15 +15,6 @@ Row {
             width: _TITLE_WIDTH + _UNITS_WIDTH
         }
 
-        Row {
-            TableRowTitle { title: app.translator.emptyString + qsTr("pH") }
-            TableRowUnits { units: "" }
-        }
-        Row {
-            TableRowTitle { title: app.translator.emptyString + qsTr("TDS") }
-            TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
-        }
-
         // ions
         Repeater {
             model: ROSolutes.TotalIons
@@ -33,6 +24,16 @@ Row {
                 TableRowTitle { title: app.translator.emptyString + _SOLUTE_MODEL.shortNameByIndex(index) }
                 TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
             }
+        }
+
+        Row {
+            TableRowTitle { title: app.translator.emptyString + qsTr("TDS") }
+            TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
+        }
+
+        Row {
+            TableRowTitle { title: app.translator.emptyString + qsTr("pH") }
+            TableRowUnits { units: "" }
         }
     }
 
@@ -44,8 +45,6 @@ Row {
             property ROFlow flow: modelData.flow
 
             TableRowValue { value: title }
-            TableRowValue { value: flow.pH }
-            TableRowValue { value: flow.solutes.totalValueMgl }
             Repeater {
                 model: ROSolutes.TotalIons
                 TableRowValue {
@@ -53,6 +52,8 @@ Row {
                     value: flow.solutes.mgl(index)
                 }
             }
+            TableRowValue { value: flow.solutes.totalValueMgl }
+            TableRowValue { value: flow.pH }
         }
     }
 }

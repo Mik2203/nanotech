@@ -12,7 +12,7 @@ Column { // SYSTEM
     spacing: 10
 
     Common { objectName: "systemDetailsCommon" }
-    Hydrodynamics { objectName: "systemDetailsHydrodynamics" }
+//    Hydrodynamics { objectName: "systemDetailsHydrodynamics" }
     Solubility { element: sys; objectName: "systemDetailsSolubility" }
     Scaling { element: sys; objectName: "systemDetailsScaling" }
 }

@@ -6,7 +6,7 @@ import "../common"
 
 Column {
 
-    SectionTitle { text: "Hydrodynamics" }
+    SectionTitle { text: qsTr("Hydrodynamics") }
 
     FlowHydrodynamics {
         flows: GetFlows.forElement(sys, "hydrodynamics")

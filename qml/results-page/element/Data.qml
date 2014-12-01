@@ -13,6 +13,5 @@ Column {
     objectName: "elementDetails"
 
     ElementTitle { text: app.translator.emptyString + qsTr("Elements details"); objectName: "elementDetailsHeader" }
-
     Common { objectName: "elementDetailsCommon" }
 }

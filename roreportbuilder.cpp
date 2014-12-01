@@ -16,7 +16,7 @@
 
 ROReportBuilder::ROReportBuilder()
 {
-    _tcf.setFontPointSize(10.0);
+    _tcf.setFontPointSize(8.25);
 }
 
 // TODO рефактор: удалить дублирование кода
@@ -28,8 +28,9 @@ QTextDocument* const ROReportBuilder::build(ROCase * const case_, QSizeF pageSiz
     QTextCharFormat caseHeaderFormat;
     caseHeaderFormat.setFontUnderline(true);
     caseHeaderFormat.setFontWeight(QFont::Bold);
-    _cursor.insertText(tr("Case %1 data").arg(roApp->projectManager()->proj()->caseIndex(case_)+1), caseHeaderFormat);
-    insertLineBreak(2);
+    caseHeaderFormat.setFontPointSize(16);
+    _cursor.insertText(tr("Case %1 details").arg(roApp->projectManager()->proj()->caseIndex(case_)+1), caseHeaderFormat);
+    insertLineBreak();
 //    moveCursorToEnd();
 //    _cursor.insertBlock();
 //    moveCursorToEnd();
@@ -47,7 +48,8 @@ QTextDocument *const ROReportBuilder::buildCosts(ROCase * const case_, QSizeF pa
     QTextCharFormat caseHeaderFormat;
     caseHeaderFormat.setFontUnderline(true);
     caseHeaderFormat.setFontWeight(QFont::Bold);
-    _cursor.insertText(tr("Case %1 Costs data").arg(roApp->projectManager()->proj()->caseIndex(case_)+1), caseHeaderFormat);
+    caseHeaderFormat.setFontPointSize(16);
+    _cursor.insertText(tr("Case %1 Costs details").arg(roApp->projectManager()->proj()->caseIndex(case_)+1), caseHeaderFormat);
     insertLineBreak(2);
     moveCursorToEnd();
 //    _cursor.insertBlock();
@@ -112,7 +114,7 @@ void ROReportBuilder::insertCase(ROCase *case_) {
 //        insertDataTableNew();
 
         QTextCharFormat headerFormat;
-        headerFormat.setFontPointSize(16);
+        headerFormat.setFontPointSize(14);
         headerFormat.setFontWeight(QFont::Bold);
 
         QHash<QString, QVariant> itemProps;
@@ -123,12 +125,12 @@ void ROReportBuilder::insertCase(ROCase *case_) {
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/system/Common.qml", "systemDetailsCommon");
         insertLineBreak();
-        insertCapturedImage("qrc:/qml/results-page/system/Hydrodynamics.qml", "systemDetailsHydrodynamics");
-        insertLineBreak();
+//        insertCapturedImage("qrc:/qml/results-page/system/Hydrodynamics.qml", "systemDetailsHydrodynamics");
+//        insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/common/Solubility.qml", "systemDetailsSolubility", itemProps);
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/common/Scaling.qml", "systemDetailsScaling", itemProps);
-        insertLineBreak();
+//        insertLineBreak();
 
 //        insertImage("qrc:/qml/results-page/pass/Data.qml", "passDetails");
         insertLineBreak();
@@ -138,7 +140,7 @@ void ROReportBuilder::insertCase(ROCase *case_) {
         insertCapturedImage("qrc:/qml/results-page/pass/Common.qml", "passDetailsCommon");
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/pass/Flows.qml", "passDetailsStreams");
-        insertLineBreak();
+//        insertLineBreak();
 
 //        insertImage("qrc:/qml/results-page/stage/Data.qml", "stageDetails");
         insertLineBreak();
@@ -147,15 +149,18 @@ void ROReportBuilder::insertCase(ROCase *case_) {
         _cursor.insertText(tr("Stages details"), headerFormat);
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/stage/Common.qml", "stageDetailsCommon");
-        insertLineBreak();
+        insertLineBreak(2);
         insertCapturedImage("qrc:/qml/results-page/stage/Flows.qml", "stageDetailsStreams");
         insertLineBreak();
 
         insertLineBreak();
         _cursor.insertText(tr("Elements details"), headerFormat);
         insertLineBreak();
-        insertCapturedImage("qrc:/qml/results-page/element/Common.qml", "elementDetailsCommon");
-        insertLineBreak();
+        int row = 0;
+        while (insertCapturedImage("qrc:/qml/results-page/element/Common.qml", QString("elementDetailsCommonRow%1").arg(row))) {
+            insertLineBreak(2);
+            ++row;
+        }
     } else {
         insertText("Calculate first.");
     }
@@ -198,12 +203,14 @@ QString ROReportBuilder::int2Str(double val) {
     return QString::number(val);
 }
 
-void ROReportBuilder::insertCapturedImage(const QString &componentPath, const QString &objectName, QHash<QString, QVariant> itemProps)
+bool ROReportBuilder::insertCapturedImage(const QString &componentPath, const QString &objectName, QHash<QString, QVariant> itemProps)
 {
     QImage image = roApp->schemeCapturer()->getImage(componentPath, objectName, itemProps);
 //    if (image.width() > _pageSize.width())
 //        image = image.scaledToWidth(_pageSize.width(), Qt::SmoothTransformation);
-    _cursor.insertImage(image);
+    if (!image.isNull())
+        _cursor.insertImage(image);
+    return !image.isNull();
 }
 
 void ROReportBuilder::insertText(const QTextTableCell &cell, const QString &text) {
