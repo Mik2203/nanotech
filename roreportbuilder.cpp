@@ -122,9 +122,7 @@ void ROReportBuilder::insertCase() {
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/pass/Flows.qml", "passDetailsStreams");
 
-        insertLineBreak();
-        insertCapturedImage("qrc:/qml/results-page/util/ElementTitle.qml", "stageDetailsHeader");
-        insertLineBreak();
+        insertLineBreak(3);
         _cursor.insertText(tr("Stages details"), headerFormat);
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/stage/Common.qml", "stageDetailsCommon");
