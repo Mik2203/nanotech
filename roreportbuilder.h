@@ -13,7 +13,7 @@
 
 
 /* класс для построения отчетов.
- * использует QTextDocument и QPrinter для печати на принтер и в pdf.
+ * возвращает QTextDocument.
  */
 
 class ROReportBuilder : public QObject
@@ -64,46 +64,24 @@ private:
 
     QSizeF _pageSize;
     QTextDocument* _doc;
-//    QTextFrame *_rootFrame;
     QTextCursor _cursor;
-
-    static const int MAX_DATA_COL_NUM = 7;
-    static const int V_HEADER_COUNT = 2;
 
     QString double2Str(double val);
     QString int2Str(double val);
 
     bool insertCapturedImage(const QString& componentPath, const QString& objectName, QHash<QString, QVariant> itemProps=QHash<QString, QVariant>());
 
-    void insertCase(ROCase* case_);
-    void insertCosts(ROCase* case_);
-    void insertWarnings(ROCase *case_);
+    void insertCase();
+    void insertCosts();
+    void insertWarnings();
     void insertScheme();
 
-    void insertPageBreak();
     void moveCursorToEnd();
     void insertText(const QTextTableCell& cell, const QString& text);
     void insertText(const QTextTableCell& cell, double val);
     void insertText(const QTextTableCell& cell, int val);
     void insertText(const QString& text);
-    void insertFlowData(QTextTable * table, const QTextTableCell& startCell, ROFlow* flow, bool ions=true);
-    QTextTable * insertDataTable(int rows, int datacols, qreal datacolLength=55.0);
     void insertLineBreak(int n=1);
-    void insertDataTableNew();
-
-    // System
-    void insertSystemCommon();
-    void insertSystemDesignDetails();
-    void insertSystemFlowDetails();
-    void insertSystemScalingDetails();
-
-    // Stages
-    void insertStagesDesignDetails();
-    void insertStagesFlowDetails();
-
-    // Elements
-    void insertElementsDesignDetails();
-    void insertElementsFlowDetails();
 
     // Costs
     void insertCostsTotalsDetails();
@@ -114,6 +92,7 @@ private:
 
 
     QTextCharFormat _tcf;
+    QTextCharFormat _caseHeaderFormat;
     QTextBlockFormat _tbf;
 
     void storeFormat();

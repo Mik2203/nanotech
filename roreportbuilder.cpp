@@ -17,6 +17,10 @@
 ROReportBuilder::ROReportBuilder()
 {
     _tcf.setFontPointSize(8.25);
+
+    _caseHeaderFormat.setFontUnderline(true);
+    _caseHeaderFormat.setFontWeight(QFont::Bold);
+    _caseHeaderFormat.setFontPointSize(14);
 }
 
 // TODO рефактор: удалить дублирование кода
@@ -25,17 +29,9 @@ QTextDocument* const ROReportBuilder::build(ROCase * const case_, QSizeF pageSiz
     _cursor = QTextCursor(_doc);
     _case = case_;
     _pageSize = pageSize;
-    QTextCharFormat caseHeaderFormat;
-    caseHeaderFormat.setFontUnderline(true);
-    caseHeaderFormat.setFontWeight(QFont::Bold);
-    caseHeaderFormat.setFontPointSize(16);
-    _cursor.insertText(tr("Case %1 details").arg(roApp->projectManager()->proj()->caseIndex(case_)+1), caseHeaderFormat);
+    _cursor.insertText(tr("Case %1 details").arg(roApp->projectManager()->proj()->caseIndex(_case)+1), _caseHeaderFormat);
     insertLineBreak();
-//    moveCursorToEnd();
-//    _cursor.insertBlock();
-//    moveCursorToEnd();
-    insertCase(case_);
-//    qDebug() << _doc->toHtml(QByteArray());
+    insertCase();
     return _doc;
 }
 
@@ -45,28 +41,18 @@ QTextDocument *const ROReportBuilder::buildCosts(ROCase * const case_, QSizeF pa
     _cursor = QTextCursor(_doc);
     _pageSize = pageSize;
     _doc->setPageSize(pageSize);
-    QTextCharFormat caseHeaderFormat;
-    caseHeaderFormat.setFontUnderline(true);
-    caseHeaderFormat.setFontWeight(QFont::Bold);
-    caseHeaderFormat.setFontPointSize(16);
-    _cursor.insertText(tr("Case %1 Costs details").arg(roApp->projectManager()->proj()->caseIndex(case_)+1), caseHeaderFormat);
+    _cursor.insertText(tr("Case %1 Costs details").arg(roApp->projectManager()->proj()->caseIndex(_case)+1), _caseHeaderFormat);
     insertLineBreak(2);
     moveCursorToEnd();
-//    _cursor.insertBlock();
-//    moveCursorToEnd();
-//    _cursor.insertBlock();
-
-//    moveCursorToEnd();
-
-    insertCosts(case_);
+    insertCosts();
     return _doc;
 }
 
 
 
-void ROReportBuilder::insertWarnings(ROCase *case_) {
-    bool hasCriticalWarnings = case_->sysC()->hasAnyCriticalWarnings();
-    bool hasCautionWarnings = case_->sysC()->hasAnyCautionWarnings();
+void ROReportBuilder::insertWarnings() {
+    bool hasCriticalWarnings = _case->sysC()->hasAnyCriticalWarnings();
+    bool hasCautionWarnings = _case->sysC()->hasAnyCautionWarnings();
 
     if (hasCriticalWarnings || hasCautionWarnings) {
         // init table
@@ -83,11 +69,11 @@ void ROReportBuilder::insertWarnings(ROCase *case_) {
         if (hasCriticalWarnings) {
             // critical warnings
             warningImagePath = ":/images/warning_critical.png";
-            warningsMessages = case_->sysC()->allWarningsMessages(ROWarning::WarningCritical);
+            warningsMessages = _case->sysC()->allWarningsMessages(ROWarning::WarningCritical);
         } else if (hasCautionWarnings) {
             // caution warnings
             warningImagePath = ":/images/warning_caution.png";
-            warningsMessages = case_->sysC()->allWarningsMessages(ROWarning::WarningCaution);
+            warningsMessages = _case->sysC()->allWarningsMessages(ROWarning::WarningCaution);
         }
 
         QImage warningImage = QImage(warningImagePath).scaledToWidth(40);
@@ -107,8 +93,8 @@ void ROReportBuilder::insertScheme() {
     insertCapturedImage("qrc:/qml/ROSchemeSystem.qml", "scheme", itemProps);
 }
 
-void ROReportBuilder::insertCase(ROCase *case_) {
-    if (case_->sysC()->sysSS()->calculated()) {
+void ROReportBuilder::insertCase() {
+    if (_case->sysC()->sysSS()->calculated()) {
         insertScheme();
         insertLineBreak();
 //        insertDataTableNew();
@@ -118,31 +104,24 @@ void ROReportBuilder::insertCase(ROCase *case_) {
         headerFormat.setFontWeight(QFont::Bold);
 
         QHash<QString, QVariant> itemProps;
-        itemProps["element"] = qVariantFromValue((QObject *) case_->sys());
+        itemProps["element"] = qVariantFromValue((QObject *) _case->sys());
 
-//        insertImage("qrc:/qml/results-page/util/ElementTitle.qml", "systemDetailsHeader");
         _cursor.insertText(tr("System details"), headerFormat);
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/system/Common.qml", "systemDetailsCommon");
         insertLineBreak();
-//        insertCapturedImage("qrc:/qml/results-page/system/Hydrodynamics.qml", "systemDetailsHydrodynamics");
-//        insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/common/Solubility.qml", "systemDetailsSolubility", itemProps);
-        insertLineBreak();
+        insertLineBreak(2);
         insertCapturedImage("qrc:/qml/results-page/common/Scaling.qml", "systemDetailsScaling", itemProps);
         insertLineBreak();
 
-//        insertImage("qrc:/qml/results-page/pass/Data.qml", "passDetails");
-        insertLineBreak();
-//        insertImage("qrc:/qml/results-page/util/ElementTitle.qml", "passDetailsHeader");
+        insertLineBreak(3);
         _cursor.insertText(tr("Passes details"), headerFormat);
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/pass/Common.qml", "passDetailsCommon");
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/pass/Flows.qml", "passDetailsStreams");
-//        insertLineBreak();
 
-//        insertImage("qrc:/qml/results-page/stage/Data.qml", "stageDetails");
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/util/ElementTitle.qml", "stageDetailsHeader");
         insertLineBreak();
@@ -165,11 +144,10 @@ void ROReportBuilder::insertCase(ROCase *case_) {
         insertText("Calculate first.");
     }
     insertLineBreak(2);
-    insertWarnings(case_);
+    insertWarnings();
 }
 
-void ROReportBuilder::insertCosts(ROCase *case_) {
-    Q_UNUSED(case_);
+void ROReportBuilder::insertCosts() {
     insertCostsTotalsDetails();
     insertLineBreak(3);
     insertCostsSystemDesignDetails();

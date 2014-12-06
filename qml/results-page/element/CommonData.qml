@@ -21,4 +21,6 @@ Column {
     TableRowValue { value: app.units.convertPressureUnits(element.feed.pressure, ROUnits.DEFAULT_PRESSURE_UNITS, app.units.pressureUnits) }
     TableRowValue { value: app.units.convertFlowUnits(element.permeate.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits) }
     TableRowValue { value: element.permeate.solutes.totalValueMgl }
+    TableRowValue { value: app.units.convertFlowUnits(element.concentrate.rate, ROUnits.DEFAULT_FLOW_UNITS, app.units.flowUnits) }
+    TableRowValue { value: element.concentrate.solutes.totalValueMgl }
 }

@@ -8,7 +8,7 @@ import "../util/getFlows.js" as GetFlows
 Column {
     property variant element
 
-    SectionTitle { text: qsTr("Streams") }
+    SectionTitle { text: app.translator.emptyString + qsTr("Streams") }
 
     FlowSolubility {
         flows: GetFlows.forElement(element)

@@ -137,7 +137,7 @@
     <message>
         <location filename="qml/results-page/system/Common.qml" line="107"/>
         <source>Feed TDS</source>
-        <translation>Солесодержание вх. воды</translation>
+        <translation>Солесодержание (CC) вх. воды</translation>
     </message>
     <message>
         <location filename="qml/results-page/system/Common.qml" line="108"/>
@@ -158,7 +158,7 @@
     <message>
         <location filename="qml/results-page/system/Common.qml" line="125"/>
         <source>Feed pH</source>
-        <translation>pH исх. воды</translation>
+        <translation>pH вх. воды</translation>
     </message>
     <message>
         <location filename="qml/results-page/system/Common.qml" line="131"/>
@@ -168,7 +168,7 @@
     <message>
         <location filename="qml/results-page/system/Common.qml" line="137"/>
         <source>Permeate TDS</source>
-        <translation>Солесодержание в фильтрате</translation>
+        <translation>СС в фильтрате</translation>
     </message>
     <message>
         <location filename="qml/results-page/system/Common.qml" line="143"/>
@@ -238,7 +238,7 @@
         <location filename="qml/results-page/element/CommonHeader.qml" line="20"/>
         <location filename="qml/results-page/stage/CommonHeader.qml" line="20"/>
         <source>Feed TDS</source>
-        <translation>Солесодержание исх. воды</translation>
+        <translation>CC вх. воды</translation>
     </message>
     <message>
         <location filename="qml/results-page/element/CommonHeader.qml" line="21"/>
@@ -256,11 +256,22 @@
         <location filename="qml/results-page/element/CommonHeader.qml" line="23"/>
         <location filename="qml/results-page/stage/CommonHeader.qml" line="23"/>
         <source>Permeate TDS</source>
-        <translation>Солесодержание в фильтрате</translation>
+        <translation>СС в фильтрате</translation>
     </message>
     <message>
-        <location filename="qml/results-page/element/CommonHeader.qml" line="33"/>
-        <location filename="qml/results-page/element/CommonHeader.qml" line="36"/>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="24"/>
+        <source>Concentrate flow</source>
+        <translation>Объем концентрата</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="25"/>
+        <source>Concentrate TDS</source>
+        <translation>СС в концентрате</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="35"/>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="38"/>
+        <location filename="qml/results-page/element/CommonHeader.qml" line="40"/>
         <location filename="qml/results-page/stage/CommonHeader.qml" line="35"/>
         <location filename="qml/results-page/stage/CommonHeader.qml" line="38"/>
         <source>mg/l</source>
@@ -321,7 +332,7 @@
     <message>
         <location filename="qml/results-page/pass/CommonHeader.qml" line="35"/>
         <source>Stage 1 feed flow</source>
-        <translation>Исх. поток на стадии</translation>
+        <translation>Вх. поток на стадии</translation>
     </message>
     <message>
         <location filename="qml/results-page/pass/CommonHeader.qml" line="36"/>
@@ -485,17 +496,17 @@
 <context>
     <name>Flows</name>
     <message>
-        <location filename="qml/results-page/pass/Flows.qml" line="14"/>
+        <location filename="qml/results-page/pass/Flows.qml" line="15"/>
         <source>Pass %1</source>
         <translation>Ступень %1</translation>
     </message>
     <message>
-        <location filename="qml/results-page/stage/Flows.qml" line="22"/>
+        <location filename="qml/results-page/stage/Flows.qml" line="23"/>
         <source>Stage %1:%2</source>
         <translation>Стадия %1:%2</translation>
     </message>
     <message>
-        <location filename="qml/results-page/stage/Flows.qml" line="23"/>
+        <location filename="qml/results-page/stage/Flows.qml" line="24"/>
         <source>Permeate</source>
         <translation>Фильтрат</translation>
     </message>
@@ -503,46 +514,38 @@
 <context>
     <name>FlowsHeader</name>
     <message>
-        <location filename="qml/results-page/pass/FlowsHeader.qml" line="10"/>
-        <location filename="qml/results-page/stage/FlowsHeader.qml" line="10"/>
+        <location filename="qml/results-page/common/FlowsHeader.qml" line="10"/>
         <source>Streams</source>
         <translation>Потоки</translation>
     </message>
     <message>
-        <location filename="qml/results-page/pass/FlowsHeader.qml" line="17"/>
-        <location filename="qml/results-page/stage/FlowsHeader.qml" line="17"/>
+        <location filename="qml/results-page/common/FlowsHeader.qml" line="17"/>
         <source>Flow</source>
         <translation>Поток</translation>
     </message>
     <message>
-        <location filename="qml/results-page/pass/FlowsHeader.qml" line="21"/>
-        <location filename="qml/results-page/stage/FlowsHeader.qml" line="21"/>
+        <location filename="qml/results-page/common/FlowsHeader.qml" line="21"/>
         <source>Pressure</source>
         <translation>Давление</translation>
     </message>
     <message>
-        <location filename="qml/results-page/pass/FlowsHeader.qml" line="25"/>
-        <location filename="qml/results-page/stage/FlowsHeader.qml" line="25"/>
+        <location filename="qml/results-page/common/FlowsHeader.qml" line="25"/>
         <source>Osmotic pressure</source>
         <translation>Осм. давление</translation>
     </message>
     <message>
-        <location filename="qml/results-page/pass/FlowsHeader.qml" line="36"/>
-        <location filename="qml/results-page/pass/FlowsHeader.qml" line="41"/>
-        <location filename="qml/results-page/stage/FlowsHeader.qml" line="36"/>
-        <location filename="qml/results-page/stage/FlowsHeader.qml" line="42"/>
+        <location filename="qml/results-page/common/FlowsHeader.qml" line="36"/>
+        <location filename="qml/results-page/common/FlowsHeader.qml" line="42"/>
         <source>mg/l</source>
         <translation>мг/л</translation>
     </message>
     <message>
-        <location filename="qml/results-page/pass/FlowsHeader.qml" line="40"/>
-        <location filename="qml/results-page/stage/FlowsHeader.qml" line="41"/>
+        <location filename="qml/results-page/common/FlowsHeader.qml" line="41"/>
         <source>TDS</source>
         <translation>Солесодержание</translation>
     </message>
     <message>
-        <location filename="qml/results-page/pass/FlowsHeader.qml" line="44"/>
-        <location filename="qml/results-page/stage/FlowsHeader.qml" line="46"/>
+        <location filename="qml/results-page/common/FlowsHeader.qml" line="46"/>
         <source>pH</source>
         <translation>pH</translation>
     </message>
@@ -3117,7 +3120,7 @@ Do you want to save your changes?</source>
         <location filename="qml/results-page/util/getFlows.js" line="6"/>
         <location filename="qml/results-page/util/getFlows.js" line="13"/>
         <source>Stage 1 feed</source>
-        <translation>Исх. поток на стадии</translation>
+        <translation>Вх. на стадии</translation>
     </message>
     <message>
         <location filename="qml/results-page/util/getFlows.js" line="7"/>

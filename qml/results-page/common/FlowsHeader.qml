@@ -7,7 +7,7 @@ import "../util"
 Row {
     Column {
         SectionTitle {
-            text: qsTr("Streams")
+            text: app.translator.emptyString + qsTr("Streams")
 
             height: _ROW_HEIGHT * 2
             width: _TITLE_WIDTH + _UNITS_WIDTH
@@ -36,10 +36,12 @@ Row {
                 TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
             }
         }
+
         Row {
             TableRowTitle { title: app.translator.emptyString + qsTr("TDS") }
             TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
         }
+
         Row {
             TableRowTitle { title: app.translator.emptyString + qsTr("pH") }
             TableRowUnits { units: "" }

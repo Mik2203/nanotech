@@ -21,6 +21,8 @@ Column {
             TableRowTitle { title: app.translator.emptyString + qsTr("Feed pressure") }
             TableRowTitle { title: app.translator.emptyString + qsTr("Permeate flow") }
             TableRowTitle { title: app.translator.emptyString + qsTr("Permeate TDS") }
+            TableRowTitle { title: app.translator.emptyString + qsTr("Concentrate flow") }
+            TableRowTitle { title: app.translator.emptyString + qsTr("Concentrate TDS") }
 
         }
 
@@ -34,7 +36,8 @@ Column {
             TableRowUnits { units: app.translator.emptyString + unitsText.pressureUnitText(app.units.pressureUnits) }
             TableRowUnits { units: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits) }
             TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
-
+            TableRowUnits { units: app.translator.emptyString + unitsText.flowUnitText(app.units.flowUnits) }
+            TableRowUnits { units: app.translator.emptyString + qsTr("mg/l") }
         }
     }
 }

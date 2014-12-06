@@ -1,6 +1,7 @@
 import QtQuick 1.1
 
 import "../util/getFlows.js" as GetFlows
+import "../common"
 
 Row {
     FlowsHeader {}
