@@ -23,7 +23,7 @@
 –	Управление переводами (ROTranslator)
  */
 
-#define NANOTECH_VERSION "1.3.1"
+#define NANOTECH_VERSION "1.3.2"
 #define NANOTECH_RELEASE_DATE "08.12.2014"
 
 #define roApp (static_cast<ROApplication *>(qApp))

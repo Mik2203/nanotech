@@ -46,7 +46,9 @@ ROCosts::ROCosts(const ROSystem* const sys, QObject *parent) :
 
 ROCosts::ROCosts(): _sys(nullptr) { }
 
-double ROCosts::permeateYearAmount() const { return _sys->permeate()->rate() * 24 * 365; }
+double ROCosts::permeateYearAmount() const {
+    return _sys->permeate()->rate() * 24 * 365;
+}
 double ROCosts::systemCost() const { return _systemCost; }
 
 double ROCosts::systemSetCostYear() const { return microfiltersYearCost() + citricAcidYearCost() + H2SO4YearCost() + trilonBYearCost() +
@@ -237,14 +239,25 @@ void ROCosts::bindSystem()
 {
     connect(_sys->feed(), SIGNAL(rateChanged()), this, SIGNAL(rawWaterYearAmountChanged()));
     connect(_sys->concentrate(), SIGNAL(rateChanged()), this, SIGNAL(concentrateDropYearAmountChanged()));
-    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(permeateYearAmountChanged()));
-    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SLOT(updateSystemCost()));
-    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(antiscalantSystemAmountChanged()));
-    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(acidAntiscalantSystemAmountChanged()));
     connect(_sys, SIGNAL(elementsCountChanged()), this, SIGNAL(microfiltersSystemCountChanged()));
     connect(_sys, SIGNAL(elementsCountChanged()), this, SIGNAL(membranesYearCountChanged()));
     connect(_sys, SIGNAL(elementsCountChanged()), this, SIGNAL(washingSolutionVolumeChanged()));
     connect(_sys, SIGNAL(powerChanged()), this, SIGNAL(electricEnergyYearAmountChanged()));
+
+    connect(_sys, SIGNAL(permeateChanged()), this, SLOT(bindSystemPermeate()));
+    connect(this, SIGNAL(systemPermeateChangedEmitter()), this, SIGNAL(permeateYearAmountChanged()));
+    bindSystemPermeate();
+}
+
+void ROCosts::bindSystemPermeate()
+{
+    // по хорошему надо вызывать этот обработчик перед тем как изменился фильтрат,
+    // и отключать предыдущий фильтрат. Но не критично, если будет лишний пересчет
+    connect(_sys->permeate(), SIGNAL(rateChanged()), this, SIGNAL(permeateYearAmountChanged()));
+    connect(this, SIGNAL(permeateYearAmountChanged()), this, SLOT(updateSystemCost()));
+    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(antiscalantSystemAmountChanged()));
+    connect(this, SIGNAL(permeateYearAmountChanged()), this, SIGNAL(acidAntiscalantSystemAmountChanged()));
+    Q_EMIT systemPermeateChangedEmitter();
 }
 
 void ROCosts::bindPermeateYearAmount()

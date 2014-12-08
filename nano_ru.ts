@@ -1548,8 +1548,12 @@ Cannot open database.
     </message>
     <message>
         <location filename="rogenericschemesmodel.cpp" line="110"/>
+        <source>Black sea</source>
+        <translation>Черное море</translation>
+    </message>
+    <message>
         <source>Caspian sea</source>
-        <translation>Каспийское море</translation>
+        <translation type="obsolete">Каспийское море</translation>
     </message>
 </context>
 <context>
@@ -1860,7 +1864,7 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Температура</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="97"/>
+        <location filename="roreportbuilder.cpp" line="83"/>
         <source>No warnings.</source>
         <translation>Предупреждения отсутствуют.</translation>
     </message>
@@ -1873,7 +1877,7 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Данные по стадиям</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="149"/>
+        <location filename="roreportbuilder.cpp" line="126"/>
         <source>Stages details</source>
         <oldsource>Elements Details</oldsource>
         <translation>Подробная информация по стадиям</translation>
@@ -2088,265 +2092,265 @@ Do you want to save your changes?</source>
         <translation>Информация по варианту расчета %1</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="52"/>
+        <location filename="roreportbuilder.cpp" line="44"/>
         <source>Case %1 Costs details</source>
         <translation>Информация стоимости по варианту расчета %1</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="124"/>
+        <location filename="roreportbuilder.cpp" line="109"/>
         <source>System details</source>
         <translation>Подробная информация по системе</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="138"/>
+        <location filename="roreportbuilder.cpp" line="119"/>
         <source>Passes details</source>
         <translation>Подробная информация по ступеням</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="157"/>
+        <location filename="roreportbuilder.cpp" line="134"/>
         <source>Elements details</source>
         <translation>Подробная информация по элементам</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="252"/>
+        <location filename="roreportbuilder.cpp" line="228"/>
         <source>Total Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Суммарные затраты (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="269"/>
+        <location filename="roreportbuilder.cpp" line="245"/>
         <source>Year permeate (m³)</source>
         <translation>Фильтрат за год (м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="270"/>
+        <location filename="roreportbuilder.cpp" line="246"/>
         <source>System cost (rub)</source>
         <translation>Стоимость установки (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="271"/>
+        <location filename="roreportbuilder.cpp" line="247"/>
         <source>System set cost (rub)</source>
         <translation>Стоимость комплекта (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="272"/>
+        <location filename="roreportbuilder.cpp" line="248"/>
         <source>System with set cost (rub)</source>
         <translation>Стоимость системы с комплектом (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="290"/>
+        <location filename="roreportbuilder.cpp" line="266"/>
         <source>System Design Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Затраты на построение системы (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="307"/>
+        <location filename="roreportbuilder.cpp" line="283"/>
         <source>Microfiltes requirement</source>
         <translation>Потребность микрофильтров</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="308"/>
+        <location filename="roreportbuilder.cpp" line="284"/>
         <source>Membrane elements requirement</source>
         <translation>Потребность мембранных элементов</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="309"/>
+        <location filename="roreportbuilder.cpp" line="285"/>
         <source>Energy requirement</source>
         <translation>Потребление электроэнергии</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="312"/>
+        <location filename="roreportbuilder.cpp" line="288"/>
         <source>Items by element</source>
         <translation>Кол-во на элемент</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="313"/>
+        <location filename="roreportbuilder.cpp" line="289"/>
         <source>Items by system</source>
         <translation>Кол-во на систему</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="314"/>
+        <location filename="roreportbuilder.cpp" line="290"/>
         <source>Change times a year</source>
         <translation>Частота замены в год</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="315"/>
+        <location filename="roreportbuilder.cpp" line="291"/>
         <source>Items of a year</source>
         <translation>Кол-во в год</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="316"/>
+        <location filename="roreportbuilder.cpp" line="292"/>
         <source>Item cost (rub)</source>
         <translation>Штучная стоимость (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="317"/>
-        <location filename="roreportbuilder.cpp" line="383"/>
-        <location filename="roreportbuilder.cpp" line="462"/>
-        <location filename="roreportbuilder.cpp" line="510"/>
+        <location filename="roreportbuilder.cpp" line="293"/>
+        <location filename="roreportbuilder.cpp" line="359"/>
+        <location filename="roreportbuilder.cpp" line="438"/>
+        <location filename="roreportbuilder.cpp" line="486"/>
         <source>Year costs (rub)</source>
         <translation>Годовые затраты (руб)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="332"/>
+        <location filename="roreportbuilder.cpp" line="308"/>
         <source>Energy by 1 m³ (kW/h)</source>
         <translation>Энергия на 1 м³ (кВт/ч)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="333"/>
+        <location filename="roreportbuilder.cpp" line="309"/>
         <source>Energy by system (kW/h)</source>
         <translation>Энергия на систему (кВт/ч)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="334"/>
+        <location filename="roreportbuilder.cpp" line="310"/>
         <source>Energy of a year</source>
         <translation>Энергия в год</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="335"/>
+        <location filename="roreportbuilder.cpp" line="311"/>
         <source>Energy cost (rub/(kW/h))</source>
         <translation>Затраты на энергию (руб/(кВт/ч))</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="353"/>
+        <location filename="roreportbuilder.cpp" line="329"/>
         <source>Chemistry Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Затраты на реаренты (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="370"/>
+        <location filename="roreportbuilder.cpp" line="346"/>
         <source>Citric acid requirement</source>
         <translation>Потребность лимонной кислоты</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="371"/>
+        <location filename="roreportbuilder.cpp" line="347"/>
         <source>H2SO4 requirement</source>
         <translation>Потребность H2SO4 100%</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="372"/>
+        <location filename="roreportbuilder.cpp" line="348"/>
         <source>Trilon B requirement</source>
         <translation>Потребность Трилон В</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="373"/>
+        <location filename="roreportbuilder.cpp" line="349"/>
         <source>Alkali requirement</source>
         <translation>Потребность щелочи</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="374"/>
+        <location filename="roreportbuilder.cpp" line="350"/>
         <source>Antiscalant requirement</source>
         <translation>Потребность ингибитора</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="375"/>
+        <location filename="roreportbuilder.cpp" line="351"/>
         <source>Acid-antiscalant requirement</source>
         <translation>Потребность кислоты-ингибитора</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="378"/>
+        <location filename="roreportbuilder.cpp" line="354"/>
         <source>Sink (m³)</source>
         <translation>Объем на мойку (м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="379"/>
+        <location filename="roreportbuilder.cpp" line="355"/>
         <source>Sink (kg)</source>
         <translation>Объем на мойку (кг)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="380"/>
+        <location filename="roreportbuilder.cpp" line="356"/>
         <source>Sink times a year</source>
         <translation>Частота мойки в год</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="381"/>
+        <location filename="roreportbuilder.cpp" line="357"/>
         <source>Mass of a year (kg)</source>
         <translation>Масса в год (кг)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="382"/>
+        <location filename="roreportbuilder.cpp" line="358"/>
         <source>Item cost (rub/kg)</source>
         <translation>Стоимость за единицу (руб/кг)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="413"/>
+        <location filename="roreportbuilder.cpp" line="389"/>
         <source>Rate (mg/l)</source>
         <translation>Кол-во на литр (мг/л)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="414"/>
+        <location filename="roreportbuilder.cpp" line="390"/>
         <source>Rate by sys (kg/h)</source>
         <translation>Кол-во на систему (кг/ч)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="438"/>
+        <location filename="roreportbuilder.cpp" line="414"/>
         <source>Water Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Затраты на воду (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="455"/>
+        <location filename="roreportbuilder.cpp" line="431"/>
         <source>Raw water</source>
         <translation>Исходная вода</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="456"/>
+        <location filename="roreportbuilder.cpp" line="432"/>
         <source>Concentrate drop</source>
         <translation>Сброс концентрата</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="459"/>
+        <location filename="roreportbuilder.cpp" line="435"/>
         <source>Rate (m³/h)</source>
         <translation>Кол-во (м³/ч)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="460"/>
+        <location filename="roreportbuilder.cpp" line="436"/>
         <source>Volume by year (m³)</source>
         <translation>Объем в год (м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="461"/>
+        <location filename="roreportbuilder.cpp" line="437"/>
         <source>Cost (rub/m³)</source>
         <translation>Затраты (руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="484"/>
+        <location filename="roreportbuilder.cpp" line="460"/>
         <source>Maintenance Costs (%1 rub/year, %2 rub/m³)</source>
         <translation>Затраты на обслуживание (%1 руб/год, %2 руб/м³)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="501"/>
+        <location filename="roreportbuilder.cpp" line="477"/>
         <source>Staff salary</source>
         <translation>Зарплата персонала</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="502"/>
+        <location filename="roreportbuilder.cpp" line="478"/>
         <source>Accruals</source>
         <translation>Начисления</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="503"/>
+        <location filename="roreportbuilder.cpp" line="479"/>
         <source>Deductions</source>
         <translation>Износ</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="506"/>
+        <location filename="roreportbuilder.cpp" line="482"/>
         <source>Salary (rub/month)</source>
         <translation>Зарплата (руб/мес)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="507"/>
+        <location filename="roreportbuilder.cpp" line="483"/>
         <source>Staff count</source>
         <translation>Кол-во персонала</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="508"/>
+        <location filename="roreportbuilder.cpp" line="484"/>
         <source>Year salary (rub/month)</source>
         <translation>Зарплата в год (руб/мес)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="509"/>
+        <location filename="roreportbuilder.cpp" line="485"/>
         <source>Overhead rate (%)</source>
         <translation>Накладные расходы (%)</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="524"/>
+        <location filename="roreportbuilder.cpp" line="500"/>
         <source>System lifetime (years)</source>
         <translation>Срок службы установки (лет)</translation>
     </message>

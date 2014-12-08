@@ -264,7 +264,11 @@ bool ROSystem::removePartFeed(int feedIndex) {
 }
 
 ROFlow* const ROSystem::permeate() const { return lastPass()->totalProduct(); }
-void ROSystem::refreshPermeate() { connect(lastPass()->totalProduct(), SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged())); Q_EMIT permeateChanged();}
+void ROSystem::refreshPermeate()
+{
+    connect(lastPass()->totalProduct(), SIGNAL(rateChanged()), this, SIGNAL(recoveryChanged()));
+    Q_EMIT permeateChanged();
+}
 
 void ROSystem::updateHasBlend()
 {

@@ -348,12 +348,15 @@ signals:
     void totalCostsYearChanged();
     void totalWaterCostsYearChanged();
 
+    void systemPermeateChangedEmitter();
+
 public slots:
     void reset();
     void copyDataFrom(const ROCosts* const);
 
 private slots:
     void updateSystemCost();
+    void bindSystemPermeate();
 
 private:
     const ROSystem* const _sys;

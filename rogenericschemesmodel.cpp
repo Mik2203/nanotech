@@ -107,7 +107,7 @@ QStringList ROGenericSchemesModel::schemeNames(ROGenericSchemesModel::SchemeGrou
                                 tr("Softening");
     case DesalinationGroup:
         return QStringList() << tr("Seawater") <<
-                                tr("Caspian sea");
+                                tr("Black sea");
     }
     return QStringList();
 }
