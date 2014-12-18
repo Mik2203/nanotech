@@ -122,7 +122,7 @@
     <message>
         <location filename="qml/results-page/system/Common.qml" line="86"/>
         <source>Rejection</source>
-        <translation>Солепроходимость</translation>
+        <translation>Селективность</translation>
     </message>
     <message>
         <location filename="qml/results-page/system/Common.qml" line="95"/>
@@ -225,7 +225,7 @@
         <location filename="qml/results-page/pass/CommonHeader.qml" line="23"/>
         <location filename="qml/results-page/stage/CommonHeader.qml" line="18"/>
         <source>Rejection</source>
-        <translation>Солепроходимость</translation>
+        <translation>Селективность</translation>
     </message>
     <message>
         <location filename="qml/results-page/element/CommonHeader.qml" line="19"/>
@@ -1630,7 +1630,8 @@ Cannot open database.
         <source>Rejection
 (%)</source>
         <oldsource>Rejection</oldsource>
-        <translation>Селективность</translation>
+        <translation>Селективность
+(%)</translation>
     </message>
     <message>
         <location filename="qml/ROMembraneParametersTable.qml" line="29"/>

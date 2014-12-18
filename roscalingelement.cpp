@@ -1,6 +1,9 @@
 #include "roscalingelement.h"
 #include "romath.h"
+
+#ifdef QT_DEBUG
 #include <QDebug>
+#endif
 
 ROScalingElement::ROScalingElement(ROFlow* const feed) :
     _feed(nullptr), _adjustedFeed(new ROFlow()),
@@ -19,18 +22,20 @@ ROFlow* const ROScalingElement::adjustedFeed() const { return _adjustedFeed; }
 ROScalingElement::FeedAdjustment ROScalingElement::adjustment() const { return _adjustment; }
 
 void ROScalingElement::setFeed(ROFlow* newFeed) {
-    if (_feed != newFeed) {
-        if (_feed) disconnect(_feed, 0, this, 0);
+    if (_feed == newFeed)
+        return;
 
-        _feed = newFeed;
+    if (_feed)
+        disconnect(_feed, 0, this, 0);
 
-        connect(_feed, SIGNAL(solutesChanged()), this, SLOT(adjust()));
-        connect(_feed, SIGNAL(pHChanged()), this, SLOT(adjust()));
-        connect(_feed, SIGNAL(temperatureChanged()), this, SLOT(adjust()));
+    _feed = newFeed;
 
-        adjust();
-        Q_EMIT feedChanged();
-    }
+    connect(_feed, SIGNAL(solutesChanged()), this, SLOT(adjust()));
+    connect(_feed, SIGNAL(pHChanged()), this, SLOT(adjust()));
+    connect(_feed, SIGNAL(temperatureChanged()), this, SLOT(adjust()));
+
+    adjust();
+    Q_EMIT feedChanged();
 }
 
 void ROScalingElement::setAdjustment(ROScalingElement::FeedAdjustment adjustment) {
@@ -135,62 +140,60 @@ void ROScalingElement::adjust() {
     case pHAdjustment: {
         setTargetPh(_targetPh);
 
-        static auto phAdjust = [this] (ROSolutes::Solutes solute, double cAdj) {
-            // solute = solute + adj / acidConcentration
-            _adjustedFeed->solutes()->setMeql(solute, _adjustedFeed->solutes()->meql(solute) + cAdj / acidConcentration());
-        };
-
         // в cPh стоит 3- для H2SO4 и HCl; и -11, а не -14 для NaOH, т.к. сразу включен коэффициент перевода в мэкв.
         switch(_dosingAcid) {
         case H2SO4: {
             double cPh = pow(10.0, 3-_targetPh) - pow(10.0, 3-_feed->pH());
-            phAdjust(ROSolutes::SO4, cPh);
+            _adjustedFeed->solutes()->addValue(ROSolutes::SO4, cPh, ROSolutes::Meql);
             break;
         }
         case HCl: {
             double cPh = pow(10.0, 3-_targetPh) - pow(10.0, 3-_feed->pH());
-            phAdjust(ROSolutes::Cl, cPh);
+            _adjustedFeed->solutes()->addValue(ROSolutes::Cl, cPh, ROSolutes::Meql);
             break;
         }
         case NaOH: {
-            double cPh = pow(10.0, -11+_targetPh) - pow(10.0, -11+_feed->pH());
-            double cCO2 = _feed->solutes()->meql(ROSolutes::CO2);
-            double c = cPh + cCO2;
+            double pOHfeed = 14 - _feed->pH();
+            double pOHtarget = 14 - _targetPh;
 
-            phAdjust(ROSolutes::Na, c);
-            phAdjust(ROSolutes::HCO3, c);
+            double CpOH = pow(10, -pOHtarget) - pow(10, -pOHfeed);
 
-//            cHCO3mol = _feed->solutes()->value(ROSolutes::HCO3, ROSolutes::MolL);
-//            cCO3mol = _feed->solutes()->value(ROSolutes::CO3, ROSolutes::MolL);
-//            cCO2mol = _feed->solutes()->value(ROSolutes::CO2, ROSolutes::MolL);
+            double HCO3feed = _feed->solutes()->value(ROSolutes::HCO3, ROSolutes::MolL);
+            double Hfeed = pow(10, -_feed->pH());
 
-//            double criticalPh = 8.39; // TODO const
+            double HammaH = _feed->solutes()->hamma(ROSolutes::H);
+            double HammaHCO3 = _feed->solutes()->hamma(ROSolutes::HCO3);
+            double HammaCO3 = _feed->solutes()->hamma(ROSolutes::CO3);
 
-//            double t = _feed->temperature();
+            double t = _feed->temperature();
+            double k1_ = k1(t);
+            double k2_ = k2(t);
 
-//            double i = _feed->solutes()->ionicStrength();
+            double CO2feed = HCO3feed * HammaHCO3 *
+                    Hfeed * HammaH /
+                    k1_;
 
-//            double targetF2 = k2(t) * pow(10.0, _targetPh);
-//            double targetF1 = 1 / (pow(10.0, _targetPh + i) * k1(t));
+            double Htarget = pow(10, -_targetPh);
 
-//            double criticalF2 = k2(t) * pow(10.0, criticalPh);
-//            double criticalF1 = 1 / (pow(10.0, criticalPh + i) * k1(t));
-
-//            double c0 = cHCO3mol + cCO3mol + cCO2mol;
-//            double hco3corr = c0 / (1 + targetF2 + targetF1);
-
-//            double criticalHCO3corr = c0 / (1 + criticalF2 + criticalF1);
-//            double criticalHCO3 = criticalHCO3corr - cHCO3mol;
+            double g10 = Htarget * Htarget * HammaH * HammaH + k1_ * Htarget * HammaH + k1_ * k2_;
+            double g11 = 1 / g10;
 
 
-//            double cCO3 = hco3corr * targetF2;
-//            double cHCO3 = _targetPh < criticalPh ? (hco3corr - cHCO3mol) : criticalHCO3;
-//            double cNaOH1 = cHCO3 + cCO3 + cPh;
-//            double cNaOH = (cPh + cNaOH1);
-//            double cNa = cNaOH * ROSolutes::molarMass(ROSolutes::Na) * 1000;
+            double CO3feed = k2_ * HCO3feed * HammaHCO3 /
+                    (Hfeed * HammaH * HammaCO3);
+            double C_total = HCO3feed * HammaHCO3 + CO3feed * HammaCO3 + CO2feed;
 
+            double CO2target = Htarget * Htarget * HammaH * HammaH * g11 * C_total;
+            double k5 = CO2feed - CO2target;
 
+            double Na_delta = CpOH + k5;
+            double HCO3_delta = k1_ * g11 * HammaH * Htarget * C_total / HammaHCO3 - HCO3feed;
 
+//            qDebug() << "Na =" << Na_delta;
+//            qDebug() << "HCO3 =" << HCO3_delta;
+
+            _adjustedFeed->solutes()->addValue(ROSolutes::Na, Na_delta / acidConcentration(), ROSolutes::MolL);
+            _adjustedFeed->solutes()->addValue(ROSolutes::HCO3, HCO3_delta / acidConcentration(), ROSolutes::MolL);
 
             break;
         }

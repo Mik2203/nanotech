@@ -28,7 +28,7 @@ class ROSolutes : public QObject {
 public:
     enum Solutes { NH4, K, Na, Mg, Ca, Fe, Ba, Sr, TotalCations,
                    Cl = TotalCations, NO3, F, SO4, CO3, HCO3, TotalAnions,
-                   CO2 = TotalAnions, B, SiO2, TotalIons };
+                   CO2 = TotalAnions, B, SiO2, TotalIons, H = TotalIons };
 
 
     enum Types {
@@ -46,7 +46,7 @@ public:
         SoluteInfo(Types type_, double molarMass_, int ionicCharge_): type(type_), ionicCharge(ionicCharge_), molarMass(molarMass_) {}
         Types type;
         double molarMass;
-        int ionicCharge;
+        double ionicCharge;
     };
 
     static const SoluteInfo soluteInfos[];
@@ -59,6 +59,8 @@ public:
     double ionicStrength2() const;
     double lsi() const;
     double sdsi() const;
+
+    double hamma(int si) const;
 
 
     static double valueFromTotal(double total, int si);
@@ -89,6 +91,8 @@ public:
     void setMgl(int soluteIndex, double mgl);
     void setMeql(int soluteIndex, double meql);
     void setValue(int soluteIndex, double value, ROSolutes::Units units);
+
+    void addValue(int soluteIndex, double value, ROSolutes::Units units);
 
     void setTotalValue(double value, Units units, Types type = Any);
 

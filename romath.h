@@ -339,7 +339,7 @@ static double PI(const QMap<int, double>& solutes, double t) {
     double num9 = 0.0;
     double x = 0.0;
     Q_FOREACH(const int &si, solutes.keys()) {
-        int ic = ROSolutes::soluteInfos[si].ionicCharge;
+        double ic = ROSolutes::soluteInfos[si].ionicCharge;
         if (ic != 0) {
             num10 += solutes[si] * ROSolutes::molarMass(si);
             num9 += fabs(solutes[si] / ic);
@@ -383,7 +383,7 @@ static double dPIsC(const QMap<int, double>& solutes, double t, int si) {
 
     // x, etc..
     Q_FOREACH(const int &si, solutes.keys()) {
-        int ic = ROSolutes::soluteInfos[si].ionicCharge;
+        double ic = ROSolutes::soluteInfos[si].ionicCharge;
         if (ic != 0) {
             num10 += solutes[si] * ROSolutes::molarMass(si);
             num9 += fabs(solutes[si] / ic);
@@ -392,7 +392,7 @@ static double dPIsC(const QMap<int, double>& solutes, double t, int si) {
     }
 
     // dx, etc..
-    int ic = ROSolutes::soluteInfos[si].ionicCharge;
+    double ic = ROSolutes::soluteInfos[si].ionicCharge;
     if (ic != 0) {
         dnum10 = ROSolutes::molarMass(si);
         dnum9 = fabs(1.0 / ic);

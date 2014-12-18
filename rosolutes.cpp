@@ -36,7 +36,8 @@ const ROSolutes::SoluteInfo ROSolutes::soluteInfos[] = {
 
     ROSolutes::SoluteInfo(ROSolutes::Other, 44.0095, 0), // CO2
     ROSolutes::SoluteInfo(ROSolutes::Other, 10.811, 1),
-    ROSolutes::SoluteInfo(ROSolutes::Other, 60.0848, 0)
+    ROSolutes::SoluteInfo(ROSolutes::Other, 60.0848, 0),
+    ROSolutes::SoluteInfo(ROSolutes::Other, 1.00794, 0.8) // H
 };
 
 
@@ -66,20 +67,20 @@ bool ROSolutes::isSaturated(int compound) const {
 double ROSolutes::saturation(ROSolutes::ScalingCompound compound) const {
     double Ksp = 0.0;
     double IP = 0.0;
-    double is = ionicStrength();
+    double i = ionicStrength();
     switch (compound) {
     case CaSO4: {
-        Ksp = -0.0004 * is * is + 0.0022 * is + 0.00008;
+        Ksp = -0.0004 * i * i + 0.0022 * i + 0.00008;
         IP = value(Ca, MolL) * value(SO4, MolL);
         break;
     }
     case BaSO4: {
-        Ksp = (-2E-09) * is * is + (1E-08) * is - (3E-11);
+        Ksp = (-2E-09) * i * i + (1E-08) * i - (3E-11);
         IP = value(Ba, MolL) * value(SO4, MolL);
         break;
     }
     case SrSO4: {
-        Ksp = -9E-06 * is * is + 3E-05 * is + 1E-07;
+        Ksp = -9E-06 * i * i + 3E-05 * i + 1E-07;
         IP = value(Sr, MolL) * value(SO4, MolL);
         break;
     }
@@ -110,7 +111,7 @@ double ROSolutes::saturation(ROSolutes::ScalingCompound compound) const {
 
 // TODO CHECK INDEXES
 double ROSolutes::mgl(int soluteIndex) const { return _solutesMeql[soluteIndex] * soluteInfos[soluteIndex].molarMass; }
-double ROSolutes::meql(int soluteIndex) const { return _solutesMeql[soluteIndex]; }
+double ROSolutes::meql(int si) const { return (si == H) ? pow(10, pH()) : _solutesMeql[si]; }
 double ROSolutes::value(int soluteIndex, ROSolutes::Units units) const {
     switch (units) {
     case Mgl: return this->mgl(soluteIndex);
@@ -193,6 +194,11 @@ void ROSolutes::setValue(int soluteIndex, double value, Units units) {
     case MeqKg: setMeql(soluteIndex, value * kgToL); break;
     case MolL: setMeql(soluteIndex, value * kgToL * fabs(ionicCharge(soluteIndex))); break;
     }
+}
+
+void ROSolutes::addValue(int si, double v, ROSolutes::Units u)
+{
+    setValue(si, value(si, u) + v, u);
 }
 
 
@@ -314,6 +320,13 @@ double ROSolutes::sdsi() const {
     double k = poly(i, sdsiIks, 5) - 0.02085714 * temperature();
     double pHs = -log10(ca * hco3) + k + 6.0;
     return pH() - pHs;
+}
+
+double ROSolutes::hamma(int si) const
+{
+    double i = ionicStrength();
+    double ic = ROSolutes::ionicCharge(si);
+    return pow(10, -0.5 * ic * ic * sqrt(i) / (sqrt(i)+1));
 }
 
 double ROSolutes::valueFromTotal(double total, int si) {
