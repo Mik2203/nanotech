@@ -77,10 +77,9 @@ void ROFlowMixer::mixRate() {
 
         double newRate = 0.0;
         for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) {
-            switch(_inputOps.at(feedIdx)) {
-            case FlowAdd:       newRate += feed(feedIdx)->rate(); break;
-            case FlowSubtract:  newRate -= feed(feedIdx)->rate(); break;
-            }
+            double k = _inputOps.at(feedIdx) == FlowAdd ? 1 : -1;
+
+            newRate += k * feed(feedIdx)->rate();
         }
         outputFlow()->setRate(newRate);
     }
@@ -92,10 +91,8 @@ void ROFlowMixer:: mixPressure() {
         double newPressure = 0.0;
 
         for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) {
-            switch(_inputOps.at(feedIdx)) {
-            case FlowAdd:       newPressure += feed(feedIdx)->pressure(); break;
-            case FlowSubtract:  newPressure -= feed(feedIdx)->pressure(); break;
-            }
+            double k = _inputOps.at(feedIdx) == FlowAdd ? 1 : -1;
+            newPressure += k * feed(feedIdx)->pressure();
         }
         outputFlow()->setPressure(newPressure);
     }
@@ -108,36 +105,20 @@ void ROFlowMixer::mixSolutesTemperature() {
         outputFlow()->solutes()->reset();
 
         double newTemp = 0.0;
-        double co2 = 0.0; // не изменяемое значение потока, поэтому считаем вручную для установки pH
+        double newH = 0.0;
         for (int feedIdx = 0; feedIdx < feedCount(); ++feedIdx) {
             double feedCoeff = _coeff(feedIdx);
-            switch(_inputOps.at(feedIdx)) {
-            case FlowAdd: {
-                for (int si = 0; si < ROSolutes::TotalIons; ++si) {
-                    outputFlow()->solutes()->setMeql(si, outputFlow()->solutes()->meql(si) +
-                                                               feed(feedIdx)->solutes()->meql(si) * feedCoeff);
-                }
-                newTemp += feed(feedIdx)->temperature() * feedCoeff;
-                co2 += feed(feedIdx)->solutes()->meql(ROSolutes::CO2) * feedCoeff;
-                break;
+            double k = _inputOps.at(feedIdx) == FlowAdd ? 1 : -1;
+
+            for (int si = 0; si < ROSolutes::TotalIons; ++si) {
+                outputFlow()->solutes()->addValue(si, k * feed(feedIdx)->solutes()->meql(si) * feedCoeff, ROSolutes::Meql);
             }
-            case FlowSubtract:  {
-                for (int si = 0; si < ROSolutes::TotalIons; ++si) {
-                    outputFlow()->solutes()->setMeql(si, outputFlow()->solutes()->meql(si) -
-                                                               feed(feedIdx)->solutes()->meql(si) * feedCoeff);
-                }
-                newTemp -= feed(feedIdx)->temperature() * feedCoeff;
-                co2 -= feed(feedIdx)->solutes()->meql(ROSolutes::CO2) * feedCoeff;
-                break;
-            }
-            }
+            newTemp += k * feed(feedIdx)->temperature() * feedCoeff;
+            newH += k * feed(feedIdx)->solutes()->meql(ROSolutes::H) * feedCoeff;
 
         }
         outputFlow()->setTemperature(newTemp);
-        outputFlow()->setPH(ph(outputFlow()->solutes()->meql(ROSolutes::HCO3),
-                               co2,
-                               newTemp,
-                               outputFlow()->solutes()->ionicStrength()));
+        outputFlow()->solutes()->setMeql(ROSolutes::H, newH);
         outputFlow()->solutes()->endChange();
     }
 }

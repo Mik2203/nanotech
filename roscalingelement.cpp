@@ -21,7 +21,7 @@ ROFlow* const ROScalingElement::feed() const { return _feed; }
 ROFlow* const ROScalingElement::adjustedFeed() const { return _adjustedFeed; }
 ROScalingElement::FeedAdjustment ROScalingElement::adjustment() const { return _adjustment; }
 
-void ROScalingElement::setFeed(ROFlow* newFeed) {
+void ROScalingElement::setFeed(ROFlow* const newFeed) {
     if (_feed == newFeed)
         return;
 

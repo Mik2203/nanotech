@@ -110,8 +110,11 @@ double ROSolutes::saturation(ROSolutes::ScalingCompound compound) const {
 }
 
 // TODO CHECK INDEXES
-double ROSolutes::mgl(int soluteIndex) const { return _solutesMeql[soluteIndex] * soluteInfos[soluteIndex].molarMass; }
-double ROSolutes::meql(int si) const { return (si == H) ? pow(10, pH()) : _solutesMeql[si]; }
+double ROSolutes::mgl(int si) const { return meql(si) * soluteInfos[si].molarMass; }
+double ROSolutes::meql(int si) const
+{
+    return (si == H) ? pow(10.0, -(pH()+3)) : _solutesMeql[si];
+}
 double ROSolutes::value(int soluteIndex, ROSolutes::Units units) const {
     switch (units) {
     case Mgl: return this->mgl(soluteIndex);
@@ -178,21 +181,23 @@ void ROSolutes::setPH(double value) {
 void ROSolutes::setTemperature(double value) { _temperature = value; emit temperatureChanged(); }
 
 void ROSolutes::setMgl(int soluteIndex, double mgl) { setMeql(soluteIndex, mgl / soluteInfos[soluteIndex].molarMass); }
-void ROSolutes::setMeql(int soluteIndex, double meql) {
-    if (0 <= soluteIndex && soluteIndex < TotalIons && isEditable(soluteIndex)) {
+void ROSolutes::setMeql(int si, double meql) {
+    if (0 <= si && si < TotalIons && isEditable(si)) {
         bool localChanging = _changing;
         if (!localChanging) beginChange();
-        _solutesMeql[soluteIndex] = meql;
+        _solutesMeql[si] = meql;
         if (!localChanging) endChange();
         //if (!_changing) Q_EMIT solutesChanged();
+    } else if (si == H) {
+        setPH(log10(1.0/meql)-3.0);
     }
 }
-void ROSolutes::setValue(int soluteIndex, double value, Units units) {
+void ROSolutes::setValue(int si, double value, Units units) {
     switch (units) {
-    case Mgl: setMgl(soluteIndex, value); break;
-    case Meql: setMeql(soluteIndex, value); break;
-    case MeqKg: setMeql(soluteIndex, value * kgToL); break;
-    case MolL: setMeql(soluteIndex, value * kgToL * fabs(ionicCharge(soluteIndex))); break;
+    case Mgl: setMgl(si, value); break;
+    case Meql: setMeql(si, value); break;
+    case MeqKg: setMeql(si, value * kgToL); break;
+    case MolL: setMeql(si, value * kgToL * fabs(ionicCharge(si))); break;
     }
 }
 
