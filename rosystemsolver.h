@@ -19,7 +19,7 @@ class ROSystemSolver : public QObject {
     Q_PROPERTY(double tolerance READ tolerance WRITE setTolerance NOTIFY toleranceChanged)
 
 public:
-    explicit ROSystemSolver(ROSystem * const sys, QObject *parent = 0);
+    explicit ROSystemSolver(ROSystem * const sys, QObject *parent = nullptr);
     ROSystemSolver() {} // FOR QML
 
     bool solved() const;
@@ -70,6 +70,7 @@ private:
     Eigen::VectorXd e1vQf;
     Eigen::VectorXd pFF;
     Eigen::VectorXd pSPI;
+    Eigen::VectorXd pPD; // permability decrease
     Eigen::VectorXd s; // elements area
     Eigen::VectorXd v; // elements vessels count
     Eigen::VectorXd pp; // pre stage pressure

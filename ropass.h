@@ -37,8 +37,8 @@ class ROPass : public ROAbstractElement {
     Q_PROPERTY(double activeArea READ activeArea NOTIFY totalActiveAreaChanged)
     Q_PROPERTY(double recovery READ recovery WRITE setRecovery NOTIFY recoveryChanged)
     Q_PROPERTY(double flowFactor READ flowFactor /*WRITE setFlowFactor*/ NOTIFY flowFactorChanged)
-    Q_PROPERTY(double saltPassageYearIncrease READ saltPassageYearIncrease /*WRITE setFlowFactor*/ NOTIFY saltPassageYearIncreaseChanged)
-//    Q_PROPERTY(double flowFactor READ flowFactor /*WRITE setFlowFactor*/ NOTIFY flowFactorChanged)
+    Q_PROPERTY(double saltPassageYearIncrease READ saltPassageYearIncrease NOTIFY saltPassageYearIncreaseChanged)
+    Q_PROPERTY(double permabilityYearDecrease READ permabilityYearDecrease NOTIFY permabilityYearDecreaseChanged)
 
     Q_PROPERTY(double averageFlux READ averageFlux NOTIFY averageFluxChanged)
     Q_PROPERTY(double power READ power NOTIFY powerChanged)
@@ -80,7 +80,7 @@ public:
     static double MAX_RECOVERY() { return _MAX_RECOVERY; }
     static double MIN_RECOVERY() { return _MIN_RECOVERY; }
 
-    explicit ROPass(ROSystem* const system, ROFlow* const feed = 0);
+    explicit ROPass(ROSystem* const system, ROFlow* const feed = nullptr);
     explicit ROPass();  // только для QML
     ~ROPass();
     ROPass* clone(ROFlow* const newRawWater = nullptr);
@@ -98,6 +98,7 @@ public:
     double recovery() const;
     double flowFactor() const;
     double saltPassageYearIncrease() const;
+    double permabilityYearDecrease() const;
     double blendPermeate() const;
     double power() const;
     double specificEnergy() const;
@@ -183,6 +184,7 @@ signals:
 
     void flowFactorChanged();
     void saltPassageYearIncreaseChanged();
+    void permabilityYearDecreaseChanged();
     void blendPermeateChanged();
     void selfRecycleChanged();
     void powerChanged();

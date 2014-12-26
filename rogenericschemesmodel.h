@@ -17,7 +17,7 @@ class ROGenericSchemesModel : public QAbstractListModel {
     Q_OBJECT
     Q_PROPERTY(int count READ count CONSTANT)
 public:
-    explicit ROGenericSchemesModel(QObject *parent = 0);
+    explicit ROGenericSchemesModel(QObject *parent = nullptr);
     enum SchemeGroup {
         EnergeticsGroup,
         MedicineGroup,

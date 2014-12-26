@@ -120,7 +120,7 @@ QRangeModel::QRangeModel(QRangeModelPrivate &dd, QObject *parent)
 QRangeModel::~QRangeModel()
 {
     delete d_ptr;
-    d_ptr = 0;
+    d_ptr = nullptr;
 }
 
 

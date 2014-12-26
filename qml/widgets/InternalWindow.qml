@@ -4,7 +4,7 @@ import QtQuick 1.1
 Item {
     id: iwnd
     width: 600//windowStack.width
-    height: 300//windowStack.height
+    height: 320//windowStack.height
     clip: true
 
     property alias content: loader.sourceComponent

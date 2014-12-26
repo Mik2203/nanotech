@@ -98,13 +98,13 @@ void ROPass::setRawWater(ROFlow* rawWater) {
 }
 
 ROPass::ROPass():
-    _feed(0),
-    _system(0), _concentrate(0),
-    _permeate(0), _firstStageFeed(0),
-    _totalProduct(0),
+    _feed(nullptr),
+    _system(nullptr), _concentrate(nullptr),
+    _permeate(nullptr), _firstStageFeed(nullptr),
+    _totalProduct(nullptr),
     _blending(nullptr),
     _rawWater(nullptr),
-    _selfRecycle(0) {}
+    _selfRecycle(0.0) {}
 
 ROPass::~ROPass() {
     delete _firstStageFeed;     const_cast<ROFlow*>(_firstStageFeed) = nullptr;
@@ -276,6 +276,12 @@ double ROPass::saltPassageYearIncrease() const
     if (system()->passIndex(this))  // если ступень не первая
         return system()->permeateSaltPassageYearIncrease();
     return system()->saltPassageYearIncrease();
+}
+
+double ROPass::permabilityYearDecrease() const {
+    if (system()->passIndex(this))  // если ступень не первая
+        return system()->permeatePermabilityYearDecrease();
+    return system()->permabilityYearDecrease();
 }
 
 double ROPass::blendPermeate() const { return _blending->rate(); }

@@ -13,7 +13,7 @@ class ROMembranesAlternativesModel : public QSqlQueryModel
     Q_PROPERTY(int count READ count CONSTANT)
 
 public:
-    explicit ROMembranesAlternativesModel(QObject *parent = 0);
+    explicit ROMembranesAlternativesModel(QObject *parent = nullptr);
     enum MembraneAlternativesRoles  {
         NanotechIdRole = Qt::UserRole + 1,
         NanotechRole,

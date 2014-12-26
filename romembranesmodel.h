@@ -36,7 +36,7 @@ public:
         TestPressureRole,
         TestRecoveryRole
     };
-    explicit ROMembranesModel(QObject *parent = 0);
+    explicit ROMembranesModel(QObject *parent = nullptr);
 
     QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
     Q_INVOKABLE QVariant get(int row, const QString & field_name) const;

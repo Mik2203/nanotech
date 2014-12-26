@@ -323,6 +323,7 @@ bool ROSystemSolver::init() {
     //s1Qp = Eigen::VectorXd::Zero(_sys->passCount()); // flow rates on first stage
     pFF = Eigen::VectorXd::Zero(_sys->passCount()); // passes flow factors
     pSPI = Eigen::VectorXd::Zero(_sys->passCount()); // passes salt passage increase
+    pPD = Eigen::VectorXd::Zero(_sys->passCount()); // passes permability decrease
 
     for (int pi=0; pi < _sys->passCount(); ++pi) {
         const ROPass* const pass = _sys->pass(pi);
@@ -334,6 +335,7 @@ bool ROSystemSolver::init() {
         pQraw[pi] = pass->rawWater()->rate();
         pFF[pi] = pass->flowFactor();
         pSPI[pi] = pow(1.0 + pass->saltPassageYearIncrease(), _sys->elementLifetime());
+        pPD[pi] = pow(1.0 - pass->permabilityYearDecrease(), _sys->elementLifetime());
         pQb[pi] = pass->hasBlendPermeate() ? pass->blendPermeate() : 0.0;
         pQf[pi] = pass->feed()->rate();
         pQfb[pi] = pass->feed()->rate() - pQr(pi);
@@ -497,7 +499,7 @@ void ROSystemSolver::initPass(int pi) {
     s1PIp(pi) = PI_old(s1Cp(pi), T);
 
     s1Pf(pi) = Pf(e1Qf(pi), e1Qp(pi), e1Qc(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), s1PIp(pi), s1PIc(pi), e1S(pi),
-                  T, pFF(pi), MSi(pi, 0));
+                  T, pFF(pi), MSi(pi, 0), pPD(pi));
 
     int hco3i = _usedSolutes.indexOf(ROSolutes::HCO3);
     int co2i = _usedSolutes.indexOf(ROSolutes::CO2);
@@ -652,18 +654,18 @@ bool ROSystemSolver::calcSystem() {
 
                 if (ei > 0) {
                     J.coeffRef(ieQp(pi, ei), iePf(pi, ei)) = 1;
-                    J.coeffRef(ieQp(pi, ei), ievQf(pi, ei)) = -dPfQf(eQf(pi, ei), eQp(pi, ei), eQc(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
-                    J.coeffRef(ieQp(pi, ei), ieQp(pi, ei)) = -dPfQp(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
+                    J.coeffRef(ieQp(pi, ei), ievQf(pi, ei)) = -dPfQf(eQf(pi, ei), eQp(pi, ei), eQc(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei), pPD(pi)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
+                    J.coeffRef(ieQp(pi, ei), ieQp(pi, ei)) = -dPfQp(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei), pPD(pi));
                     if (ei < LAST_ei(pi)) {
                         J.coeffRef(ieQp(pi, ei), ievQc(pi, ei)) = -dPfQc(eQf(pi, ei), eQc(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
                     }
-                    J.coeffRef(ieQp(pi, ei), ieCf(pi, ei)) = -dPfCf(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
-                    J.coeffRef(ieQp(pi, ei), ieCc(pi, ei)) = -dPfCc(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
+                    J.coeffRef(ieQp(pi, ei), ieCf(pi, ei)) = -dPfCf(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei), pPD(pi));
+                    J.coeffRef(ieQp(pi, ei), ieCc(pi, ei)) = -dPfCc(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei), pPD(pi));
                     J.coeffRef(ieQp(pi, ei), iePIf(pi, ei)) = -dPfPIf();
                     J.coeffRef(ieQp(pi, ei), iePIp(pi, ei)) = -dPfPIp();
                     J.coeffRef(ieQp(pi, ei), iePIc(pi, ei)) = -dPfPIc();
 
-                    F[ieQp(pi, ei)] = ePf(pi, ei) - Pf(eQf(pi, ei), eQp(pi, ei), eQc(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), ePIp(pi, ei), ePIc(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
+                    F[ieQp(pi, ei)] = ePf(pi, ei) - Pf(eQf(pi, ei), eQp(pi, ei), eQc(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), ePIp(pi, ei), ePIc(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei), pPD(pi));
                 }
 
                 // PI
@@ -867,14 +869,14 @@ bool ROSystemSolver::calcSystem() {
             J.coeffRef(is1Pf(pi), is1Pf(pi)) = 1;
             // Qf, Qp, S, T, pFF - const
             J.coeffRef(is1Pf(pi), ie1vQc(pi)) = -dPfQc(e1Qf(pi), e1Qc(pi)) * (-1 / (e1V(pi) * e1V(pi)));
-            J.coeffRef(is1Pf(pi), ieQp(pi, 0)) = -dPfQp(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
-            J.coeffRef(is1Pf(pi), is1Cf(pi)) = -dPfCf(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
-            J.coeffRef(is1Pf(pi), is1Cc(pi)) = -dPfCc(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
+            J.coeffRef(is1Pf(pi), ieQp(pi, 0)) = -dPfQp(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0), pPD(pi));
+            J.coeffRef(is1Pf(pi), is1Cf(pi)) = -dPfCf(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0), pPD(pi));
+            J.coeffRef(is1Pf(pi), is1Cc(pi)) = -dPfCc(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0), pPD(pi));
             J.coeffRef(is1Pf(pi), is1PIf(pi)) = -dPfPIf();
             J.coeffRef(is1Pf(pi), is1PIp(pi)) = -dPfPIp();
             J.coeffRef(is1Pf(pi), is1PIc(pi)) = -dPfPIc();
             F[is1Pf(pi)] = s1Pf(pi) - Pf(e1Qf(pi), e1Qp(pi), e1Qc(pi), s1Cf(pi), s1Cc(pi),
-                                         s1PIf(pi), s1PIp(pi), s1PIc(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
+                                         s1PIf(pi), s1PIp(pi), s1PIc(pi), e1S(pi), T, pFF(pi), MSi(pi, 0), pPD(pi));
 
             for (int sii=0; sii<_usedSolutes.count(); ++sii) {
                 int si = _usedSolutes[sii];

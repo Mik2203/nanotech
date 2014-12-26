@@ -11,7 +11,7 @@ class ROAbstractProjectSerializer : public QObject
 {
     Q_OBJECT
 public:
-    explicit ROAbstractProjectSerializer(QObject *parent = 0);
+    explicit ROAbstractProjectSerializer(QObject *parent = nullptr);
 
     void deserialize(ROProject* const proj, QTextStream& ostream);
     bool serialize(const ROProject* const proj, QTextStream& istream);

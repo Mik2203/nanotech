@@ -59,7 +59,6 @@ bool ROProject::removeCase(int caseIndex) {
     if (caseIndex == -1) caseIndex = _cases.count()-1; // last
     if (_cases.count() > _MIN_CASES_COUNT && (0 <= caseIndex && caseIndex < _cases.count())) {
         ROCase* removingCase = _cases.takeAt(caseIndex);
-        disconnect(removingCase, SIGNAL(inputChanged()), this, SIGNAL(inputChanged()));
         delete removingCase;
         Q_EMIT caseCountChanged();
         if (caseIndex == 0) Q_EMIT firstCaseChanged();

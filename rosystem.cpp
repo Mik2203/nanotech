@@ -75,6 +75,11 @@ ROSystem::ROSystem() :
     connect(this, SIGNAL(lastPassChanged()), this, SLOT(updateHasBlend()));
     updateHasBlend();
 
+
+    // first pass Permability decrease
+    connect(this, SIGNAL(elementLifetimeChanged()), pass, SIGNAL(saltPassageYearIncreaseChanged()));
+    connect(this, SIGNAL(elementLifetimeChanged()), pass, SIGNAL(permabilityYearDecreaseChanged()));
+
     Q_EMIT totalActiveAreaChanged();
 }
 
@@ -193,8 +198,9 @@ bool ROSystem::removePass(int passIndex) {
             connect(this, SIGNAL(waterTypeIndexChanged()), newFirstPass, SIGNAL(flowFactorChanged()));
             Q_EMIT waterTypeIndexChanged();
 
-            // first pass SP increase
+            // first pass SP increase & perm decrease
             connect(this, SIGNAL(elementLifetimeChanged()), newFirstPass, SIGNAL(saltPassageYearIncreaseChanged()));
+            connect(this, SIGNAL(elementLifetimeChanged()), newFirstPass, SIGNAL(permabilityYearDecreaseChanged()));
             Q_EMIT elementLifetimeChanged();
 
             Q_EMIT firstPassChanged();
@@ -437,6 +443,16 @@ double ROSystem::saltPassageYearIncrease() const
 double ROSystem::permeateSaltPassageYearIncrease() const
 {
     return roDB->waterTypes()->get(roDB->waterTypes()->WATER_TYPE_PERMEATE, "salt_passage_year_increase").toDouble();
+}
+
+double ROSystem::permabilityYearDecrease() const
+{
+    return roDB->waterTypes()->get(waterTypeIndex(), "permability_year_decrease").toDouble();
+}
+
+double ROSystem::permeatePermabilityYearDecrease() const
+{
+    return roDB->waterTypes()->get(roDB->waterTypes()->WATER_TYPE_PERMEATE, "permability_year_decrease").toDouble();
 }
 
 int ROSystem::totalRecycleCount() const {
