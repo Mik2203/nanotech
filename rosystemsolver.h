@@ -45,7 +45,7 @@ private:
     // **
 
 //    enum Decomposition { PartialPivLU, ColPivHouseholderQR, FullPivHouseholderQR };
-    Eigen::SparseQR<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int> > _solver;
+    Eigen::BiCGSTAB<Eigen::SparseMatrix<double>> _solver;
     void setSystemValues();
     ROSystem * _sys;
     bool _setSystemValues;
