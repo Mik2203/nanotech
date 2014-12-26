@@ -222,19 +222,24 @@ Item {
                 Component {
                     id: membraneModelContainer
 
-                    Column {
+                    Item {
                         property bool parametersOption: !replaceButton.toggled
-                        spacing: 10
-                        width: tableLoader.width
+                        anchors.fill: parent
 
                         ROWidgets.Button {
                             id: replaceButton
+                            anchors.top: parent.top
+                            anchors.left: parent.left
                             text: parametersOption ? app.translator.emptyString + qsTr("Elements alternatives") : app.translator.emptyString + qsTr("Elements parameters")
                             togglable: true
                         }
 
                         Loader {
                             id: tableLoader
+                            anchors.top: replaceButton.bottom
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
                             source: parametersOption ? "ROMembraneParametersTable.qml" : "ROMembraneAlternativesTable.qml"
                         }
                     }

@@ -2,7 +2,7 @@
 import QtQuick 1.1
 import "widgets" as ROWidgets
 
-ROWidgets.SimpleListView {
+ROWidgets.ScrollableListView {
     id: membraneModelView
     focus: true
     model: db.membraneAlternatives
@@ -26,7 +26,7 @@ ROWidgets.SimpleListView {
     itemDelegate: ROWidgets.DefaultListViewDelegate {
         //id: cbItemDelegate
         height: 20
-        width: parametersRow.width
+        width: membraneModelView.width
         Row {
             id: parametersRow
             height: parent.height

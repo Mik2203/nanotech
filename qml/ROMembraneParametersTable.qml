@@ -3,7 +3,7 @@ import QtQuick 1.1
 import ROUnits 1.0
 import "widgets" as ROWidgets
 
-ROWidgets.SimpleListView {
+ROWidgets.ScrollableListView {
     id: membraneModelView
     focus: true
     model: db.membranes

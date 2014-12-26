@@ -9,6 +9,7 @@ Item {
 
     property alias content: loader.sourceComponent
     property alias title: title.text
+    property Item contentItem: loader.item
 
     property string popupType
     property alias popupComponent: popupField.popupComponent
@@ -73,13 +74,14 @@ Item {
         }
 
 
-        ScrollArea {
+        Item {
             anchors.top: wndHeader.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             Loader {
                 id: loader
+                anchors.fill: parent
                 property alias window: iwnd
                 onLoaded: item.forceActiveFocus()
             }

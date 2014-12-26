@@ -3,9 +3,11 @@ import QtQuick 1.1
 import "widgets" as ROWidgets
 
 
-Column {
+Item {
     // TODO bring to QML waterGroupModel
     property int selectedGroupId: 0
+
+    anchors.fill: parent
 
     function getFilterCount(selectedGroupId) {
         var counter = 0;
@@ -18,17 +20,14 @@ Column {
 
 
     id: solutesTreeViewRect
-    spacing: 10
 
     onFocusChanged: if (focus) groupsPanel.forceActiveFocus();
-//    Component.onCompleted: {
-//        // выборка списка групп в groupModel TODO - СДЕЛАТЬ в db waterGroupModel!!!
-//        groupIdModel = solutesIO.waterModel.waterGroupsIds;
-//        groupNameModel = solutesIO.waterModel.waterGroupsNames;
-//    }
 
     Flow {
         id: groupsPanel
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
         spacing: 5
         Repeater {
             model: solutesIO.waterModel.waterGroupsIds
@@ -41,10 +40,16 @@ Column {
         }
     }
 
-    ROWidgets.SimpleListView {
+    ROWidgets.ScrollableListView {
         id: waterView
         width: 300
         model: solutesIO.waterModel
+
+        anchors.top: groupsPanel.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+
         itemDelegate: ROWidgets.DefaultListViewDelegate {
             visible: selectedGroupId == model.group_id
             width: waterView.width-2 // dont know why -2 ...

@@ -3,14 +3,18 @@ import QtQuick 1.1
 import "widgets" as ROWidgets
 
 
-Column {
+Item {
     id: solutesTreeViewRect
     property int selectedGroupIndex: 0
-    spacing: 10
+    anchors.fill: parent
 
     Flow {
         id: groupsPanel
         spacing: 5
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+
         Repeater {
             model: db.genericSchemes
             delegate: ROWidgets.Button {
@@ -22,9 +26,14 @@ Column {
         }
     }
 
-    ROWidgets.SimpleListView {
+    ROWidgets.ScrollableListView {
         id: schemesView
-        width: 200
+
+        anchors.top: groupsPanel.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+
         model: db.genericSchemes.schemesByIndex(selectedGroupIndex)
         itemDelegate: ROWidgets.DefaultListViewDelegate {
             width: schemesView.width-2 // dont know why -2 ...
