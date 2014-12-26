@@ -42,7 +42,7 @@ ROSystemSolver::ROSystemSolver(ROSystem * const sys, QObject *parent) :
     _passEquationCount(0),
     _tolerance(0.01),
     _setSystemValues(true),
-    _decomposition(ColPivHouseholderQR),
+//    _decomposition(ColPivHouseholderQR),
     _sys(sys)
 {
 }
@@ -233,7 +233,7 @@ void ROSystemSolver::solve() {
     t.start();
 //#endif
 
-    _decomposition = ColPivHouseholderQR;
+//    _decomposition = ColPivHouseholderQR;
     _solved = init();
 
     if (_solved && _setSystemValues) setSystemValues();
@@ -471,13 +471,13 @@ bool ROSystemSolver::init() {
 
     // Инициализация
     int matrixSize = totalElsCount * _elementEquationCount + _sys->passCount() * _passEquationCount;
-    J = Eigen::MatrixXd::Zero(matrixSize,matrixSize); // Якобиан
+    J = Eigen::SparseMatrix<double>(matrixSize,matrixSize); // Якобиан
     X = Eigen::VectorXd::Zero(matrixSize); // Вектор переменных
     dX = Eigen::VectorXd::Zero(matrixSize); // Вектор приращений на каждом шаге
     F = Eigen::VectorXd::Zero(matrixSize); // Вектор значений функций
 
     initSystem();
-    return calcSystem(true);
+    return calcSystem();
 }
 
 void ROSystemSolver::initPass(int pi) {
@@ -564,7 +564,7 @@ void ROSystemSolver::initPass(int pi) {
 }
 
 
-bool ROSystemSolver::calcSystem(bool determineDecomposition) {
+bool ROSystemSolver::calcSystem() {
     QElapsedTimer timer;
     bool solved = false;
     int stepCntr = 0;
@@ -597,53 +597,53 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
                 // s1Qp
 
-                J(ieQp(pi, 0), ieQp(pi, ei)) = eV(pi, ei);
+                J.coeffRef(ieQp(pi, 0), ieQp(pi, ei)) = eV(pi, ei);
                 F[ieQp(pi, 0)] += evQp(pi, ei);
 
                 //Ip
-                J(ieIp(pi, ei), ieIp(pi, ei)) = 1;
+                J.coeffRef(ieIp(pi, ei), ieIp(pi, ei)) = 1;
                 F[ieIp(pi, ei)] = eIp(pi, ei);
 
                 //Ic
-                J(ieIc(pi, ei), ieIc(pi, ei)) = 1;
+                J.coeffRef(ieIc(pi, ei), ieIc(pi, ei)) = 1;
                 F[ieIc(pi, ei)] = eIc(pi, ei);
 
                 //PHp
-                J(iePHp(pi, ei), iePHp(pi, ei)) = 1;
+                J.coeffRef(iePHp(pi, ei), iePHp(pi, ei)) = 1;
                 if (hco3i >= 0) {
-                    J(iePHp(pi, ei), iesCp(pi, ei, hco3i)) = -dphhco3(esCp(pi, ei, hco3i));
-                    J(iePHp(pi, ei), iesCp(pi, ei, co2i)) = -dphco2(esCp(pi, ei, co2i));
-                    J(iePHp(pi, ei), ieIp(pi, ei)) = -dphi(eIp(pi, ei));
+                    J.coeffRef(iePHp(pi, ei), iesCp(pi, ei, hco3i)) = -dphhco3(esCp(pi, ei, hco3i));
+                    J.coeffRef(iePHp(pi, ei), iesCp(pi, ei, co2i)) = -dphco2(esCp(pi, ei, co2i));
+                    J.coeffRef(iePHp(pi, ei), ieIp(pi, ei)) = -dphi(eIp(pi, ei));
                     F[iePHp(pi, ei)] = ePHp(pi, ei) - ph(esCp(pi, ei, hco3i), esCp(pi, ei, co2i), T, eIp(pi, ei));
                 } else {
                     F[iePHp(pi, ei)] = ePHp(pi, ei) - sysPHaf; //ePHf(pi, ei);
                 }
 
                 //PHc
-                J(iePHc(pi, ei), iePHc(pi, ei)) = 1;
+                J.coeffRef(iePHc(pi, ei), iePHc(pi, ei)) = 1;
                 if (hco3i >= 0) {
-                    J(iePHc(pi, ei), iesCc(pi, ei, hco3i)) = -dphhco3(esCc(pi, ei, hco3i));
-                    J(iePHc(pi, ei), iesCc(pi, ei, co2i)) = -dphco2(esCc(pi, ei, co2i));
-                    J(iePHc(pi, ei), ieIc(pi, ei)) = -dphi(eIc(pi, ei));
+                    J.coeffRef(iePHc(pi, ei), iesCc(pi, ei, hco3i)) = -dphhco3(esCc(pi, ei, hco3i));
+                    J.coeffRef(iePHc(pi, ei), iesCc(pi, ei, co2i)) = -dphco2(esCc(pi, ei, co2i));
+                    J.coeffRef(iePHc(pi, ei), ieIc(pi, ei)) = -dphi(eIc(pi, ei));
                     F[iePHc(pi, ei)] = ePHc(pi, ei) - ph(esCc(pi, ei, hco3i), esCc(pi, ei, co2i), T, eIc(pi, ei));
                 } else {
                     F[iePHc(pi, ei)] = ePHc(pi, ei) - sysPHaf;//ePHf(pi, ei);
                 }
 
                 //Cp
-                J(ieCp(pi, ei), ieCp(pi, ei)) = 1;
+                J.coeffRef(ieCp(pi, ei), ieCp(pi, ei)) = 1;
                 F[ieCp(pi, ei)] = eCp(pi, ei);
 
                 //Cc
-                J(ieCc(pi, ei), ieCc(pi, ei)) = 1;
+                J.coeffRef(ieCc(pi, ei), ieCc(pi, ei)) = 1;
                 F[ieCc(pi, ei)] = eCc(pi, ei);
 
                 //Qc
                 if (ei < LAST_ei(pi)) {
-                    J(ievQc(pi, ei), ievQc(pi, ei)) = 1;
-                    J(ievQc(pi, ei), ieQp(pi, ei)) = eV(pi, ei);
+                    J.coeffRef(ievQc(pi, ei), ievQc(pi, ei)) = 1;
+                    J.coeffRef(ievQc(pi, ei), ieQp(pi, ei)) = eV(pi, ei);
                     if (ei > 0) {
-                        J(ievQc(pi, ei), ievQf(pi, ei)) = -1;
+                        J.coeffRef(ievQc(pi, ei), ievQf(pi, ei)) = -1;
                     }
                     F[ievQc(pi, ei)] = evQc(pi, ei) + evQp(pi, ei) - evQf(pi, ei);
                 }
@@ -651,17 +651,17 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                 // Qp
 
                 if (ei > 0) {
-                    J(ieQp(pi, ei), iePf(pi, ei)) = 1;
-                    J(ieQp(pi, ei), ievQf(pi, ei)) = -dPfQf(eQf(pi, ei), eQp(pi, ei), eQc(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
-                    J(ieQp(pi, ei), ieQp(pi, ei)) = -dPfQp(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
+                    J.coeffRef(ieQp(pi, ei), iePf(pi, ei)) = 1;
+                    J.coeffRef(ieQp(pi, ei), ievQf(pi, ei)) = -dPfQf(eQf(pi, ei), eQp(pi, ei), eQc(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
+                    J.coeffRef(ieQp(pi, ei), ieQp(pi, ei)) = -dPfQp(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
                     if (ei < LAST_ei(pi)) {
-                        J(ieQp(pi, ei), ievQc(pi, ei)) = -dPfQc(eQf(pi, ei), eQc(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
+                        J.coeffRef(ieQp(pi, ei), ievQc(pi, ei)) = -dPfQc(eQf(pi, ei), eQc(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
                     }
-                    J(ieQp(pi, ei), ieCf(pi, ei)) = -dPfCf(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
-                    J(ieQp(pi, ei), ieCc(pi, ei)) = -dPfCc(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
-                    J(ieQp(pi, ei), iePIf(pi, ei)) = -dPfPIf();
-                    J(ieQp(pi, ei), iePIp(pi, ei)) = -dPfPIp();
-                    J(ieQp(pi, ei), iePIc(pi, ei)) = -dPfPIc();
+                    J.coeffRef(ieQp(pi, ei), ieCf(pi, ei)) = -dPfCf(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
+                    J.coeffRef(ieQp(pi, ei), ieCc(pi, ei)) = -dPfCc(eQf(pi, ei), eQp(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
+                    J.coeffRef(ieQp(pi, ei), iePIf(pi, ei)) = -dPfPIf();
+                    J.coeffRef(ieQp(pi, ei), iePIp(pi, ei)) = -dPfPIp();
+                    J.coeffRef(ieQp(pi, ei), iePIc(pi, ei)) = -dPfPIc();
 
                     F[ieQp(pi, ei)] = ePf(pi, ei) - Pf(eQf(pi, ei), eQp(pi, ei), eQc(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), ePIp(pi, ei), ePIc(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei));
                 }
@@ -674,22 +674,22 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                     epSolutes[si] = esCp(pi, ei, sii);
                     ecSolutes[si] = esCc(pi, ei, sii);
                 }
-                J(iePIp(pi, ei), iePIp(pi, ei)) = 1;
-                J(iePIp(pi, ei), ieCp(pi, ei)) = dPI_oldTds(T);
+                J.coeffRef(iePIp(pi, ei), iePIp(pi, ei)) = 1;
+                J.coeffRef(iePIp(pi, ei), ieCp(pi, ei)) = dPI_oldTds(T);
                 F[iePIp(pi, ei)] = ePIp(pi, ei) - PI_old(eCp(pi, ei), T);
 
-                J(iePIc(pi, ei), iePIc(pi, ei)) = 1;
-                J(iePIc(pi, ei), ieCc(pi, ei)) = dPI_oldTds(T);
+                J.coeffRef(iePIc(pi, ei), iePIc(pi, ei)) = 1;
+                J.coeffRef(iePIc(pi, ei), ieCc(pi, ei)) = dPI_oldTds(T);
                 F[iePIc(pi, ei)] = ePIc(pi, ei) - PI_old(eCc(pi, ei), T);
 
                 // Pc
-                J(iePc(pi, ei), iePc(pi, ei)) = 1;
-                J(iePc(pi, ei), iePf(pi, ei)) = -1;
+                J.coeffRef(iePc(pi, ei), iePc(pi, ei)) = 1;
+                J.coeffRef(iePc(pi, ei), iePf(pi, ei)) = -1;
                 if (ei < LAST_ei(pi)) {
-                    J(iePc(pi, ei), ievQc(pi, ei)) = ddPfcQc(eQf(pi, ei), eQc(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
+                    J.coeffRef(iePc(pi, ei), ievQc(pi, ei)) = ddPfcQc(eQf(pi, ei), eQc(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
                 }
                 if (ei > 0)
-                    J(iePc(pi, ei), ievQf(pi, ei)) = ddPfcQf(eQf(pi, ei), eQc(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
+                    J.coeffRef(iePc(pi, ei), ievQf(pi, ei)) = ddPfcQf(eQf(pi, ei), eQc(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
 
                 F[iePc(pi, ei)] = ePc(pi, ei) - ePf(pi, ei) + dPfc(eQf(pi, ei), eQc(pi, ei));
 
@@ -698,60 +698,61 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
                     /*if (si == ROSolutes::CO2) {
                         //Cp
-                        J(iesCp(pi, ei, sii), iesCp(pi, ei, sii)) = 1;
+                        J.coeffRef(iesCp(pi, ei, sii), iesCp(pi, ei, sii)) = 1;
                         F[iesCp(pi, ei, sii)] = esCp(pi, ei, sii) - syssCaf(sii); //- esCf(pi, ei, sii);
 
                         //Cc
-                        J(iesCc(pi, ei, sii), iesCc(pi, ei, sii)) = 1;
+                        J.coeffRef(iesCc(pi, ei, sii), iesCc(pi, ei, sii)) = 1;
                         F[iesCc(pi, ei, sii)] = esCc(pi, ei, sii) - syssCaf(sii); //- esCf(pi, ei, sii);
                     } else */
 
                     if (si == ROSolutes::CO3) {
 
                         //Cp
-                        J(iesCp(pi, ei, sii), iesCp(pi, ei, sii)) = 1;
-                        J(iesCp(pi, ei, sii), iesCp(pi, ei, hco3i)) = -dco3hco3(T, ePHp(pi, ei));
-                        J(iesCp(pi, ei, sii), iePHp(pi, ei)) = -dco3ph(esCp(pi, ei, hco3i), T, ePHp(pi, ei));
+                        J.coeffRef(iesCp(pi, ei, sii), iesCp(pi, ei, sii)) = 1;
+                        J.coeffRef(iesCp(pi, ei, sii), iesCp(pi, ei, hco3i)) = -dco3hco3(T, ePHp(pi, ei));
+                        J.coeffRef(iesCp(pi, ei, sii), iePHp(pi, ei)) = -dco3ph(esCp(pi, ei, hco3i), T, ePHp(pi, ei));
 
                         F[iesCp(pi, ei, sii)] = esCp(pi, ei, sii) - co3(esCp(pi, ei, hco3i), T, ePHp(pi, ei));
 
                         //Cc
-                        J(iesCc(pi, ei, sii), iesCc(pi, ei, sii)) = 1;
-                        J(iesCc(pi, ei, sii), iesCc(pi, ei, hco3i)) = -dco3hco3(T, ePHc(pi, ei));
-                        J(iesCc(pi, ei, sii), iePHc(pi, ei)) = -dco3ph(esCc(pi, ei, hco3i), T, ePHc(pi, ei));
+                        J.coeffRef(iesCc(pi, ei, sii), iesCc(pi, ei, sii)) = 1;
+                        J.coeffRef(iesCc(pi, ei, sii), iesCc(pi, ei, hco3i)) = -dco3hco3(T, ePHc(pi, ei));
+                        J.coeffRef(iesCc(pi, ei, sii), iePHc(pi, ei)) = -dco3ph(esCc(pi, ei, hco3i), T, ePHc(pi, ei));
                         F[iesCc(pi, ei, sii)] = esCc(pi, ei, sii) - co3(esCc(pi, ei, hco3i), T, ePHc(pi, ei));
                     } else {
 
                         //SPm
                         if (si == ROSolutes::B) {
-                            J(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
-                            J(iesSPm(pi, ei, sii), iePHf(pi, ei)) = - pSPI[pi] * dSPmPh(MSi(pi, ei), ePHf(pi, ei));
+                            J.coeffRef(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
+                            J.coeffRef(iesSPm(pi, ei, sii), iePHf(pi, ei)) = - pSPI[pi] * dSPmPh(MSi(pi, ei), ePHf(pi, ei));
                             F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - pSPI[pi] * SPmPh(MSi(pi, ei), ePHf(pi, ei));
                         } else {
-                            J(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
-                            J(iesSPm(pi, ei, sii), iesCf(pi, ei, sii)) = - pSPI[pi] * dSPm(MSi(pi, ei), si, esCf(pi, ei, sii));
+                            J.coeffRef(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
+                            J.coeffRef(iesSPm(pi, ei, sii), iesCf(pi, ei, sii)) = - pSPI[pi] * dSPm(MSi(pi, ei), si, esCf(pi, ei, sii));
                             F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - pSPI[pi] * SPm(MSi(pi, ei), si, esCf(pi, ei, sii));
                         }
 
                         //Cp
                         if (ei > 0) {
-                            J(iesCp(pi, ei, sii), ievQf(pi, ei)) = -esCf(pi, ei, sii) * dKpQf(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
+                            J.coeffRef(iesCp(pi, ei, sii), ievQf(pi, ei)) = -esCf(pi, ei, sii) * dKpQf(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
                         }
-                        J(iesCp(pi, ei, sii), ieQp(pi, ei)) = -esCf(pi, ei, sii) * dKpQp(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii));
-                        J(iesCp(pi, ei, sii), iesCp(pi, ei, sii)) = 1;
-                        J(iesCp(pi, ei, sii), iesCf(pi, ei, sii)) = -Kp(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii));
-                        J(iesCp(pi, ei, sii), iesSPm(pi, ei, sii)) = -esCf(pi, ei, sii) * dKpSPm(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii));
+                        J.coeffRef(iesCp(pi, ei, sii), ieQp(pi, ei)) = -esCf(pi, ei, sii) * dKpQp(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii));
+                        J.coeffRef(iesCp(pi, ei, sii), iesCp(pi, ei, sii)) = 1;
+                        J.coeffRef(iesCp(pi, ei, sii), iesCf(pi, ei, sii)) = -Kp(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii));
+                        J.coeffRef(iesCp(pi, ei, sii), iesSPm(pi, ei, sii)) = -esCf(pi, ei, sii) * dKpSPm(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii));
                         F[iesCp(pi, ei, sii)] = esCp(pi, ei, sii) - Kp(eQp(pi, ei), eQf(pi, ei), esSPm(pi, ei, sii)) * esCf(pi, ei, sii);
 
                         //Cc
-                        J(iesCc(pi, ei, sii), iesCc(pi, ei, sii)) = eQc(pi, ei);
-                        J(iesCc(pi, ei, sii), iesCp(pi, ei, sii)) = eQp(pi, ei);
-                        J(iesCc(pi, ei, sii), ieQp(pi, ei)) = esCp(pi, ei, sii);
-                        J(iesCc(pi, ei, sii), iesCf(pi, ei, sii)) = -eQf(pi, ei);
+                        J.coeffRef(iesCc(pi, ei, sii), iesCc(pi, ei, sii)) = eQc(pi, ei);
+                        J.coeffRef(iesCc(pi, ei, sii), iesCp(pi, ei, sii)) = eQp(pi, ei);
+                        J.coeffRef(iesCc(pi, ei, sii), ieQp(pi, ei)) = esCp(pi, ei, sii);
+                        J.coeffRef(iesCc(pi, ei, sii), iesCf(pi, ei, sii)) = -eQf(pi, ei);
+
                         if (ei > 0) {
-                            J(iesCc(pi, ei, sii), ievQf(pi, ei)) = -esCf(pi, ei, sii) * (-1 / (eV(pi, ei) * eV(pi, ei)));
+                            J.coeffRef(iesCc(pi, ei, sii), ievQf(pi, ei)) = -esCf(pi, ei, sii) * (-1 / (eV(pi, ei) * eV(pi, ei)));
                         } else if (ei < LAST_ei(pi)) {
-                            J(iesCc(pi, ei, sii), ievQc(pi, ei)) = esCc(pi, ei, sii) * (-1 / (eV(pi, ei) * eV(pi, ei)));
+                            J.coeffRef(iesCc(pi, ei, sii), ievQc(pi, ei)) = esCc(pi, ei, sii) * (-1 / (eV(pi, ei) * eV(pi, ei)));
                         }
 
                         F[iesCc(pi, ei, sii)] = eQp(pi, ei) * esCp(pi, ei, sii) + eQc(pi, ei) * esCc(pi, ei, sii) - eQf(pi, ei) * esCf(pi, ei, sii);
@@ -759,16 +760,16 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
                     if (si != ROSolutes::CO2) {
                         // on element, not solute
-                        J(ieIp(pi, ei), iesCp(pi, ei, sii)) = -_preComputedICoeffs(sii);
+                        J.coeffRef(ieIp(pi, ei), iesCp(pi, ei, sii)) = -_preComputedICoeffs(sii);
                         F[ieIp(pi, ei)] -= esCp(pi, ei, sii) * _preComputedICoeffs(sii);
 
-                        J(ieIc(pi, ei), iesCc(pi, ei, sii)) = -_preComputedICoeffs(sii);
+                        J.coeffRef(ieIc(pi, ei), iesCc(pi, ei, sii)) = -_preComputedICoeffs(sii);
                         F[ieIc(pi, ei)] -= esCc(pi, ei, sii) * _preComputedICoeffs(sii);
 
-                        J(ieCc(pi, ei), iesCc(pi, ei, sii)) = -1;
+                        J.coeffRef(ieCc(pi, ei), iesCc(pi, ei, sii)) = -1;
                         F[ieCc(pi, ei)] -= esCc(pi, ei, sii);
 
-                        J(ieCp(pi, ei), iesCp(pi, ei, sii)) = -1;
+                        J.coeffRef(ieCp(pi, ei), iesCp(pi, ei, sii)) = -1;
                         F[ieCp(pi, ei)] -= esCp(pi, ei, sii);
                     }
 
@@ -777,15 +778,15 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
             }
 
 
-
             // pPHf
             F[ipPHf(pi)] = pPHf(pi);
-            J(ipPHf(pi), ipPHf(pi)) = 1;
+            J.coeffRef(ipPHf(pi), ipPHf(pi)) = 1;
             if (hco3i >= 0) {
-                J(ipPHf(pi), ipsCf(pi, hco3i)) = -dphhco3(psCf(pi, hco3i));
-                J(ipPHf(pi), ipsCf(pi, co2i)) = -dphco2(psCf(pi, co2i));
-                J(ipPHf(pi), ipIf(pi)) = -dphi(pIf(pi));
+                J.coeffRef(ipPHf(pi), ipsCf(pi, hco3i)) = -dphhco3(psCf(pi, hco3i));
+                J.coeffRef(ipPHf(pi), ipsCf(pi, co2i)) = -dphco2(psCf(pi, co2i));
+                J.coeffRef(ipPHf(pi), ipIf(pi)) = -dphi(pIf(pi));
                 F[ipPHf(pi)] = pPHf(pi) - ph(psCf(pi, hco3i), psCf(pi, co2i), T, pIf(pi));
+
             } else {
                 F[ipPHf(pi)] = pPHf(pi) - sysPHaf; //ePHf(pi, ei);
             }
@@ -794,11 +795,11 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
             // s1PHf
             F[is1PHf(pi)] = s1PHf(pi);
-            J(is1PHf(pi), is1PHf(pi)) = 1;
+            J.coeffRef(is1PHf(pi), is1PHf(pi)) = 1;
             if (hco3i >= 0) {
-                J(is1PHf(pi), is1sCf(pi, hco3i)) = -dphhco3(s1sCf(pi, hco3i));
-                J(is1PHf(pi), is1sCf(pi, co2i)) = -dphco2(s1sCf(pi, co2i));
-                J(is1PHf(pi), is1If(pi)) = -dphi(s1If(pi));
+                J.coeffRef(is1PHf(pi), is1sCf(pi, hco3i)) = -dphhco3(s1sCf(pi, hco3i));
+                J.coeffRef(is1PHf(pi), is1sCf(pi, co2i)) = -dphco2(s1sCf(pi, co2i));
+                J.coeffRef(is1PHf(pi), is1If(pi)) = -dphi(s1If(pi));
                 F[is1PHf(pi)] = s1PHf(pi) - ph(s1sCf(pi, hco3i), s1sCf(pi, co2i), T, s1If(pi));
             } else {
                 F[is1PHf(pi)] = s1PHf(pi) - sysPHaf; //ePHf(pi, ei);
@@ -806,11 +807,11 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
             // pPHts
             F[ipPHp(pi)] = pPHp(pi);
-            J(ipPHp(pi), ipPHp(pi)) = 1;
+            J.coeffRef(ipPHp(pi), ipPHp(pi)) = 1;
             if (hco3i >= 0) {
-                J(ipPHp(pi), ipsCp(pi, hco3i)) = -dphhco3(psCp(pi, hco3i));
-                J(ipPHp(pi), ipsCp(pi, co2i)) = -dphco2(psCp(pi, co2i));
-                J(ipPHp(pi), ipIp(pi)) = -dphi(pIp(pi));
+                J.coeffRef(ipPHp(pi), ipsCp(pi, hco3i)) = -dphhco3(psCp(pi, hco3i));
+                J.coeffRef(ipPHp(pi), ipsCp(pi, co2i)) = -dphco2(psCp(pi, co2i));
+                J.coeffRef(ipPHp(pi), ipIp(pi)) = -dphi(pIp(pi));
                 F[ipPHp(pi)] = pPHp(pi) - ph(psCp(pi, hco3i), psCp(pi, co2i), T, pIp(pi));
             } else {
                 F[ipPHp(pi)] = pPHp(pi) - sysPHaf; //ePHf(pi, ei);
@@ -818,11 +819,11 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
             // pPHp
             F[ipPHpb(pi)] = pPHpb(pi);
-            J(ipPHpb(pi), ipPHpb(pi)) = 1;
+            J.coeffRef(ipPHpb(pi), ipPHpb(pi)) = 1;
             if (hco3i >= 0) {
-                J(ipPHpb(pi), ipsCpb(pi, hco3i)) = -dphhco3(psCpb(pi, hco3i));
-                J(ipPHpb(pi), ipsCpb(pi, co2i)) = -dphco2(psCpb(pi, co2i));
-                J(ipPHpb(pi), ipIpb(pi)) = -dphi(pIpb(pi));
+                J.coeffRef(ipPHpb(pi), ipsCpb(pi, hco3i)) = -dphhco3(psCpb(pi, hco3i));
+                J.coeffRef(ipPHpb(pi), ipsCpb(pi, co2i)) = -dphco2(psCpb(pi, co2i));
+                J.coeffRef(ipPHpb(pi), ipIpb(pi)) = -dphi(pIpb(pi));
                 F[ipPHpb(pi)] = pPHpb(pi) - ph(psCpb(pi, hco3i), psCpb(pi, co2i), T, pIpb(pi));
             } else {
                 F[ipPHpb(pi)] = pPHpb(pi) - sysPHaf; //ePHf(pi, ei);
@@ -834,10 +835,10 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
             F[ipIp(pi)] = pIp(pi);
             F[ipIpb(pi)] = pIpb(pi);
 
-            J(ipIf(pi), ipIf(pi)) = 1;
-            J(is1If(pi), is1If(pi)) = 1;
-            J(ipIp(pi), ipIp(pi)) = 1;
-            J(ipIpb(pi), ipIpb(pi)) = 1;
+            J.coeffRef(ipIf(pi), ipIf(pi)) = 1;
+            J.coeffRef(is1If(pi), is1If(pi)) = 1;
+            J.coeffRef(ipIp(pi), ipIp(pi)) = 1;
+            J.coeffRef(ipIpb(pi), ipIpb(pi)) = 1;
 
             // C
             F[ipCf(pi)] = -pCf(pi);
@@ -845,12 +846,10 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
             F[ipCp(pi)] = -pCp(pi);
             F[ipCpb(pi)] = -pCpb(pi);
 
-            J(ipCf(pi), ipCf(pi)) = -1;
-            J(is1Cf(pi), is1Cf(pi)) = -1;
-            J(ipCp(pi), ipCp(pi)) = -1;
-            J(ipCpb(pi), ipCpb(pi)) = -1;
-
-
+            J.coeffRef(ipCf(pi), ipCf(pi)) = -1;
+            J.coeffRef(is1Cf(pi), is1Cf(pi)) = -1;
+            J.coeffRef(ipCp(pi), ipCp(pi)) = -1;
+            J.coeffRef(ipCpb(pi), ipCpb(pi)) = -1;
 
             // PI
             QMap<int, double> s1fSolutes;
@@ -859,21 +858,21 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
                 int si = _usedSolutes[sii];
                 s1fSolutes[si] = s1sCf(pi, sii);
             }
-            J(is1PIf(pi), is1PIf(pi)) = 1;
-            J(is1PIf(pi), is1Cf(pi)) = dPI_oldTds(T);
+            J.coeffRef(is1PIf(pi), is1PIf(pi)) = 1;
+            J.coeffRef(is1PIf(pi), is1Cf(pi)) = dPI_oldTds(T);
             F[is1PIf(pi)] = s1PIf(pi) - PI_old(s1Cf(pi), T);
 //            F[is1PIf(pi)] = s1PIf(pi) - PI(s1fSolutes, T);
 
             // Pf
-            J(is1Pf(pi), is1Pf(pi)) = 1;
+            J.coeffRef(is1Pf(pi), is1Pf(pi)) = 1;
             // Qf, Qp, S, T, pFF - const
-            J(is1Pf(pi), ie1vQc(pi)) = -dPfQc(e1Qf(pi), e1Qc(pi)) * (-1 / (e1V(pi) * e1V(pi)));
-            J(is1Pf(pi), ieQp(pi, 0)) = -dPfQp(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
-            J(is1Pf(pi), is1Cf(pi)) = -dPfCf(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
-            J(is1Pf(pi), is1Cc(pi)) = -dPfCc(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
-            J(is1Pf(pi), is1PIf(pi)) = -dPfPIf();
-            J(is1Pf(pi), is1PIp(pi)) = -dPfPIp();
-            J(is1Pf(pi), is1PIc(pi)) = -dPfPIc();
+            J.coeffRef(is1Pf(pi), ie1vQc(pi)) = -dPfQc(e1Qf(pi), e1Qc(pi)) * (-1 / (e1V(pi) * e1V(pi)));
+            J.coeffRef(is1Pf(pi), ieQp(pi, 0)) = -dPfQp(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
+            J.coeffRef(is1Pf(pi), is1Cf(pi)) = -dPfCf(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
+            J.coeffRef(is1Pf(pi), is1Cc(pi)) = -dPfCc(e1Qf(pi), e1Qp(pi), s1Cf(pi), s1Cc(pi), s1PIf(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
+            J.coeffRef(is1Pf(pi), is1PIf(pi)) = -dPfPIf();
+            J.coeffRef(is1Pf(pi), is1PIp(pi)) = -dPfPIp();
+            J.coeffRef(is1Pf(pi), is1PIc(pi)) = -dPfPIc();
             F[is1Pf(pi)] = s1Pf(pi) - Pf(e1Qf(pi), e1Qp(pi), e1Qc(pi), s1Cf(pi), s1Cc(pi),
                                          s1PIf(pi), s1PIp(pi), s1PIc(pi), e1S(pi), T, pFF(pi), MSi(pi, 0));
 
@@ -882,117 +881,115 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
 
 /*                if (si == ROSolutes::CO2) {
                     // psCfr
-                    J(ipsCfr(pi, sii), ipsCfr(pi, sii)) = 1;
+                    J.coeffRef(ipsCfr(pi, sii), ipsCfr(pi, sii)) = 1;
                     F[ipsCfr(pi, sii)] = psCfr(pi, sii) - syssCaf(sii); //esCf(pi, sii);
 
                     // s1sCf
-                    J(is1sCf(pi, sii), is1sCf(pi, sii)) = 1;
+                    J.coeffRef(is1sCf(pi, sii), is1sCf(pi, sii)) = 1;
                     F[is1sCf(pi, sii)] = s1sCf(pi, sii) - syssCaf(sii); //esCf(pi, sii);
 
                     // psCts
-                    J(ipsCts(pi, sii), ipsCts(pi, sii)) = 1;
+                    J.coeffRef(ipsCts(pi, sii), ipsCts(pi, sii)) = 1;
                     F[ipsCts(pi, sii)] = psCts(pi, sii) - syssCaf(sii); //esCf(pi, sii);
 
                     // psCp
-                    J(ipsCp(pi, sii), ipsCp(pi, sii)) = 1;
+                    J.coeffRef(ipsCp(pi, sii), ipsCp(pi, sii)) = 1;
                     F[ipsCp(pi, sii)] = psCp(pi, sii) - syssCaf(sii); //esCf(pi, sii);
 
                 } else *//*if (si == ROSolutes::CO3) {
 
                     // psCfr
-                    J(ipsCf(pi, sii), ipsCf(pi, sii)) = 1;
-                    J(ipsCf(pi, sii), ipsCf(pi, hco3i)) = -dco3hco3(T, pPHf(pi));
-                    J(ipsCf(pi, sii), ipPHf(pi)) = -dco3ph(psCf(pi, hco3i), T, pPHf(pi));
+                    J.coeffRef(ipsCf(pi, sii), ipsCf(pi, sii)) = 1;
+                    J.coeffRef(ipsCf(pi, sii), ipsCf(pi, hco3i)) = -dco3hco3(T, pPHf(pi));
+                    J.coeffRef(ipsCf(pi, sii), ipPHf(pi)) = -dco3ph(psCf(pi, hco3i), T, pPHf(pi));
                     F[ipsCf(pi, sii)] = psCf(pi, sii) - co3(psCf(pi, hco3i), T, pPHf(pi));
 
                     // s1sCf
-                    J(is1sCf(pi, sii), is1sCf(pi, sii)) = 1;
-                    J(is1sCf(pi, sii), is1sCf(pi, hco3i)) = -dco3hco3(T, s1PHf(pi));
-                    J(is1sCf(pi, sii), is1PHf(pi)) = -dco3ph(s1sCf(pi, hco3i), T, s1PHf(pi));
+                    J.coeffRef(is1sCf(pi, sii), is1sCf(pi, sii)) = 1;
+                    J.coeffRef(is1sCf(pi, sii), is1sCf(pi, hco3i)) = -dco3hco3(T, s1PHf(pi));
+                    J.coeffRef(is1sCf(pi, sii), is1PHf(pi)) = -dco3ph(s1sCf(pi, hco3i), T, s1PHf(pi));
                     F[is1sCf(pi, sii)] = s1sCf(pi, sii) - co3(s1sCf(pi, hco3i), T, s1PHf(pi));
 
                     // psCp
-                    J(ipsCp(pi, sii), ipsCp(pi, sii)) = 1;
-                    J(ipsCp(pi, sii), ipsCp(pi, hco3i)) = -dco3hco3(T, pPHp(pi));
-                    J(ipsCp(pi, sii), ipPHp(pi)) = -dco3ph(psCp(pi, hco3i), T, pPHp(pi));
+                    J.coeffRef(ipsCp(pi, sii), ipsCp(pi, sii)) = 1;
+                    J.coeffRef(ipsCp(pi, sii), ipsCp(pi, hco3i)) = -dco3hco3(T, pPHp(pi));
+                    J.coeffRef(ipsCp(pi, sii), ipPHp(pi)) = -dco3ph(psCp(pi, hco3i), T, pPHp(pi));
                     F[ipsCp(pi, sii)] = psCp(pi, sii) - co3(psCp(pi, hco3i), T, pPHp(pi));
 
                     // psCpb
-                    J(ipsCpb(pi, sii), ipsCpb(pi, sii)) = 1;
-                    J(ipsCpb(pi, sii), ipsCpb(pi, hco3i)) = -dco3hco3(T, pPHpb(pi));
-                    J(ipsCpb(pi, sii), ipPHpb(pi)) = -dco3ph(psCpb(pi, hco3i), T, pPHpb(pi));
+                    J.coeffRef(ipsCpb(pi, sii), ipsCpb(pi, sii)) = 1;
+                    J.coeffRef(ipsCpb(pi, sii), ipsCpb(pi, hco3i)) = -dco3hco3(T, pPHpb(pi));
+                    J.coeffRef(ipsCpb(pi, sii), ipPHpb(pi)) = -dco3ph(psCpb(pi, hco3i), T, pPHpb(pi));
                     F[ipsCpb(pi, sii)] = psCpb(pi, sii) - co3(psCpb(pi, hco3i), T, pPHpb(pi));
                 } else {*/
                     // pass Cfr
-                    J(ipsCf(pi, sii), ipsCf(pi, sii)) = -pQf(pi);
+                    J.coeffRef(ipsCf(pi, sii), ipsCf(pi, sii)) = -pQf(pi);
                     if(pi>0)
-                        J(ipsCf(pi, sii), ipsCpb(pi-1, sii)) = pQfb(pi);
+                        J.coeffRef(ipsCf(pi, sii), ipsCpb(pi-1, sii)) = pQfb(pi);
                     F[ipsCf(pi, sii)] = pQfb(pi) * psCraw(pi, sii) - psCf(pi, sii) * pQf(pi);
+
                     auto passInRecycles = pass->incomingRecycles(); // TODO move to Eigen vector
                     auto ri = passInRecycles.constBegin();
                     while (ri != passInRecycles.constEnd()) {
                         int rpi = ri.key(); // recycle pi
-                        J(ipsCf(pi, sii), iesCc(rpi, LAST_ei(rpi), sii)) = ri.value();
+                        J.coeffRef(ipsCf(pi, sii), iesCc(rpi, LAST_ei(rpi), sii)) = ri.value();
                         F[ipsCf(pi, sii)] += esCc(rpi, LAST_ei(rpi), sii) * ri.value(); // CR*QR
                         ++ri;
                     }
 
 
-
-                    J(ipCf(pi), ipsCf(pi, sii)) = 1;
+                    J.coeffRef(ipCf(pi), ipsCf(pi, sii)) = 1;
                     F[ipCf(pi)] += psCf(pi, sii);
 
 
                     // pass stage 1 Cf
-                    J(is1sCf(pi, sii), is1sCf(pi, sii)) = -e1vQf(pi);
-                    J(is1sCf(pi, sii), ipsCf(pi, sii)) = pQf(pi);
-                    J(is1sCf(pi, sii), iesCc(pi, LAST_ei(pi), sii)) = pQsr(pi);
+                    J.coeffRef(is1sCf(pi, sii), is1sCf(pi, sii)) = -e1vQf(pi);
+                    J.coeffRef(is1sCf(pi, sii), ipsCf(pi, sii)) = pQf(pi);
+                    J.coeffRef(is1sCf(pi, sii), iesCc(pi, LAST_ei(pi), sii)) = pQsr(pi);
                     F[is1sCf(pi, sii)] = pQf(pi)*psCf(pi, sii) + pQsr(pi)*esCc(pi, LAST_ei(pi), sii) - e1vQf(pi) * s1sCf(pi, sii);
 
-                    J(is1Cf(pi), is1sCf(pi, sii)) = 1;
+                    J.coeffRef(is1Cf(pi), is1sCf(pi, sii)) = 1;
                     F[is1Cf(pi)] += s1sCf(pi, sii);
 
-
                     // pass Cp
-                    J(ipsCp(pi, sii), ipsCp(pi, sii)) = -pQp(pi);
+                    J.coeffRef(ipsCp(pi, sii), ipsCp(pi, sii)) = -pQp(pi);
                     F[ipsCp(pi, sii)] = -pQp(pi) * psCp(pi, sii);
                     for(int ei2 = 0; ei2 < peCount(pi); ++ei2) {
-                        J(ipsCp(pi, sii), iesCp(pi, ei2, sii)) = evQp(pi, ei2);
-//                        if (ei2 > 0)
-                        J(ipsCp(pi, sii), ieQp(pi, ei2)) = esCp(pi, ei2, sii) * eV(pi, ei2);
+                        J.coeffRef(ipsCp(pi, sii), iesCp(pi, ei2, sii)) = evQp(pi, ei2);
+                        J.coeffRef(ipsCp(pi, sii), ieQp(pi, ei2)) = esCp(pi, ei2, sii) * eV(pi, ei2);
                         F[ipsCp(pi, sii)] += evQp(pi, ei2) * esCp(pi, ei2, sii); // Qp и Qc эл-та по смещению
                     }
 
-                    J(ipCp(pi), ipsCp(pi, sii)) = 1;
+                    J.coeffRef(ipCp(pi), ipsCp(pi, sii)) = 1;
                     F[ipCp(pi)] += psCp(pi, sii);
 
 
                     // pass Cpb
-                    J(ipsCpb(pi, sii), ipsCpb(pi, sii)) = -pQpb(pi);
-                    J(ipsCpb(pi, sii), ipsCp(pi, sii)) = pQp(pi);
+                    J.coeffRef(ipsCpb(pi, sii), ipsCpb(pi, sii)) = -pQpb(pi);
+                    J.coeffRef(ipsCpb(pi, sii), ipsCp(pi, sii)) = pQp(pi);
                     if(pi>0)
-                        J(ipsCpb(pi, sii), ipsCpb(pi-1, sii)) = pQb[pi];
+                        J.coeffRef(ipsCpb(pi, sii), ipsCpb(pi-1, sii)) = pQb[pi];
                     F[ipsCpb(pi, sii)] = pQp(pi) * psCp(pi, sii) + pQb(pi) * psCraw(pi, sii) - pQpb(pi) * psCpb(pi, sii);
 
-                    J(ipCpb(pi), ipsCpb(pi, sii)) = 1;
+                    J.coeffRef(ipCpb(pi), ipsCpb(pi, sii)) = 1;
                     F[ipCpb(pi)] += psCpb(pi, sii);
 //                }
 
                 if (si != ROSolutes::CO2) {
                     // pIfr
-                    J(ipIf(pi), ipsCf(pi, sii)) = -_preComputedICoeffs(sii);
+                    J.coeffRef(ipIf(pi), ipsCf(pi, sii)) = -_preComputedICoeffs(sii);
                     F[ipIf(pi)] -= psCf(pi, sii) * _preComputedICoeffs(sii);
 
                     // s1If
-                    J(is1If(pi), is1sCf(pi, sii)) = -_preComputedICoeffs(sii);
+                    J.coeffRef(is1If(pi), is1sCf(pi, sii)) = -_preComputedICoeffs(sii);
                     F[is1If(pi)] -= s1sCf(pi, sii) * _preComputedICoeffs(sii);
 
                     // pIp
-                    J(ipIp(pi), ipsCp(pi, sii)) = -_preComputedICoeffs(sii);
+                    J.coeffRef(ipIp(pi), ipsCp(pi, sii)) = -_preComputedICoeffs(sii);
                     F[ipIp(pi)] -= psCp(pi, sii) * _preComputedICoeffs(sii);
 
                     // pIpb
-                    J(ipIpb(pi), ipsCpb(pi, sii)) = -_preComputedICoeffs(sii);
+                    J.coeffRef(ipIpb(pi), ipsCpb(pi, sii)) = -_preComputedICoeffs(sii);
                     F[ipIpb(pi)] -= psCpb(pi, sii) * _preComputedICoeffs(sii);
                 }
             }
@@ -1003,45 +1000,15 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
         SET_MATRIX_TIME += timer.nsecsElapsed();
         timer.restart();
 
-        bool solution_exists = false;
 
 
-#ifdef _OPENMP
-        // this method is good only when used with openmp
-        if (!solution_exists && (determineDecomposition || _decomposition == PartialPivLU)) {
-//#ifdef QT_DEBUG
-//            qDebug() << "PartialPivLU";
-//#endif
-            dX = J.partialPivLu().solve(F); // J.inverse() * F partialPivLu
-            solution_exists = (J*dX).isApprox(F, _tolerance);
-            if (determineDecomposition && solution_exists) {
-                _decomposition = PartialPivLU;
-                determineDecomposition = false;
-            }
-        }
-#endif
-        if (!solution_exists && (determineDecomposition || _decomposition == ColPivHouseholderQR)) {
-//#ifdef QT_DEBUG
-//            qDebug() << "ColPivHouseholderQR";
-//#endif
-            dX = J.colPivHouseholderQr().solve(F);
-            solution_exists = (J*dX).isApprox(F, _tolerance);
-            if (determineDecomposition && solution_exists) {
-                _decomposition = ColPivHouseholderQR;
-                determineDecomposition = false;
-            }
-        }
-        if (!solution_exists && (determineDecomposition || _decomposition == FullPivHouseholderQR)) {
-//#ifdef QT_DEBUG
-//            qDebug() << "FullPivHouseholderQR";
-//#endif
-            dX = J.fullPivHouseholderQr().solve(F);
-            solution_exists = (J*dX).isApprox(F, _tolerance);
-            if (determineDecomposition && solution_exists) {
-                _decomposition = FullPivHouseholderQR;
-                determineDecomposition = false;
-            }
-        }
+        if (stepCntr == 0)
+            J.makeCompressed();
+
+        // SOLVE IT!
+        _solver.compute(J);
+        dX = _solver.solve(F);
+        bool solution_exists = (J*dX).isApprox(F, _tolerance);
 
 //#ifdef QT_DEBUG
 //        qDebug() << "stop solving system";
@@ -1063,7 +1030,7 @@ bool ROSystemSolver::calcSystem(bool determineDecomposition) {
             myfile << "F:" << std::endl << F.transpose() << std::endl;
             myfile << "J:" << std::endl << J << std::endl;
             myfile.flush();
-            addLogV();
+//            addLogV();
 #endif
             return false;
         }

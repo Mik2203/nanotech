@@ -2,6 +2,7 @@
 #define ROSYSTEMSOLVER_H
 
 #include "Eigen/Dense"
+#include <Eigen/Sparse>
 #include <QObject>
 #include <QVector>
 
@@ -43,7 +44,8 @@ private:
     void checkForNan(const Eigen::MatrixXd& mat);
     // **
 
-    enum Decomposition { PartialPivLU, ColPivHouseholderQR, FullPivHouseholderQR };
+//    enum Decomposition { PartialPivLU, ColPivHouseholderQR, FullPivHouseholderQR };
+    Eigen::SparseQR<Eigen::SparseMatrix<double>, Eigen::COLAMDOrdering<int> > _solver;
     void setSystemValues();
     ROSystem * _sys;
     bool _setSystemValues;
@@ -55,7 +57,7 @@ private:
     QVector<int> _usedSolutes;
     int _elementEquationCount;
     int _passEquationCount;
-    Decomposition _decomposition;
+//    Decomposition _decomposition;
     Eigen::MatrixXd _preComputedICoeffs;
     Eigen::VectorXd pQb;
     Eigen::VectorXd pQfb;
@@ -86,7 +88,7 @@ private:
     Eigen::VectorXi piOff;
     Eigen::VectorXi peOff;
     Eigen::VectorXi msi;
-    Eigen::MatrixXd J;
+    Eigen::SparseMatrix<double> J;
     Eigen::VectorXd X;
     Eigen::VectorXd dX;
     Eigen::VectorXd F;
@@ -94,7 +96,7 @@ private:
     bool init();
 
     void zeroMatrices();
-    bool calcSystem(bool determineDecomposition = false);
+    bool calcSystem();
     void initPass(int pi);
     void initSystem();
     void logValues();
