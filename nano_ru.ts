@@ -956,7 +956,12 @@ Do you want to save your changes?</source>
         <translation>Средний СИФ стадий:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfPass.qml" line="748"/>
+        <location filename="qml/ROConfPass.qml" line="698"/>
+        <source>Back pressure: </source>
+        <translation>Давление фильтрата: </translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfPass.qml" line="783"/>
         <source>Stage:</source>
         <translation>Стадия:</translation>
     </message>
@@ -1020,18 +1025,17 @@ Do you want to save your changes?</source>
         <translation>Перепад давления: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="145"/>
         <source>Back pressure: </source>
-        <translation>Давление фильтрата: </translation>
+        <translation type="obsolete">Давление фильтрата: </translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="180"/>
+        <location filename="qml/ROConfStage.qml" line="142"/>
         <source>Membrane element:</source>
         <oldsource>Membrane model: </oldsource>
         <translation>Мембранный элемент:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="220"/>
+        <location filename="qml/ROConfStage.qml" line="182"/>
         <source>Choose membrane element</source>
         <translation>Выберите мембранный элемент</translation>
     </message>
@@ -1040,12 +1044,12 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Выберите мембрану</translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="232"/>
+        <location filename="qml/ROConfStage.qml" line="195"/>
         <source>Elements alternatives</source>
         <translation>Замена элементов</translation>
     </message>
     <message>
-        <location filename="qml/ROConfStage.qml" line="232"/>
+        <location filename="qml/ROConfStage.qml" line="195"/>
         <source>Elements parameters</source>
         <translation>Параметры элементов</translation>
     </message>
@@ -1667,19 +1671,19 @@ Cannot open database.
 <context>
     <name>ROPassController</name>
     <message>
-        <location filename="ropasscontroller.cpp" line="73"/>
+        <location filename="ropasscontroller.cpp" line="74"/>
         <source>You must complete 2 of 3 values</source>
         <translation>Заполните любые 2 из 3 значений</translation>
     </message>
     <message>
-        <location filename="ropasscontroller.cpp" line="80"/>
+        <location filename="ropasscontroller.cpp" line="81"/>
         <source>Recovery should be more than %2% and less than %1%</source>
         <translation>СИФ должна быть больше чем %2% и меньше чем %1%</translation>
     </message>
     <message>
-        <location filename="ropasscontroller.cpp" line="137"/>
         <location filename="ropasscontroller.cpp" line="138"/>
-        <location filename="ropasscontroller.cpp" line="143"/>
+        <location filename="ropasscontroller.cpp" line="139"/>
+        <location filename="ropasscontroller.cpp" line="144"/>
         <source>Pass %1: %2</source>
         <translation>Ступень %1: %2</translation>
     </message>
@@ -2755,8 +2759,8 @@ Do you want to save your changes?</source>
         <translation>Мембранный элемент не выбран</translation>
     </message>
     <message>
-        <location filename="rostagecontroller.cpp" line="77"/>
-        <location filename="rostagecontroller.cpp" line="82"/>
+        <location filename="rostagecontroller.cpp" line="76"/>
+        <location filename="rostagecontroller.cpp" line="81"/>
         <source>Stage %1: %2</source>
         <translation>Стадия %1: %2</translation>
     </message>
