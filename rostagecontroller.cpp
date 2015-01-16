@@ -38,7 +38,6 @@ ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
     connect(_stage, SIGNAL(vesselsCountChanged()), this, SIGNAL(inputChanged()));
     connect(_stage, SIGNAL(rawWaterChanged()), this, SIGNAL(inputChanged()));
     connect(_stage, SIGNAL(preStagePressureChanged()), this, SIGNAL(inputChanged()));
-    connect(_stage, SIGNAL(backPressureChanged()), this, SIGNAL(inputChanged()));
 
     hasAnyCriticalWarningsChanged();
     hasAnyCautionWarningsChanged();

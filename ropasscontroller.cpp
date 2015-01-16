@@ -45,6 +45,7 @@ ROPassController::ROPassController(ROPass* pass, ROSystemController* sysC) :
     connect(_pass, SIGNAL(blendPermeateChanged()), this, SIGNAL(inputChanged()));
     connect(_pass, SIGNAL(hasSelfRecycleChanged()), this, SIGNAL(inputChanged()));
     connect(_pass, SIGNAL(selfRecycleChanged()), this, SIGNAL(inputChanged()));
+    connect(_pass, SIGNAL(backPressureChanged()), this, SIGNAL(inputChanged()));
     connect(_pass->permeate(), SIGNAL(rateChanged()), this, SIGNAL(inputChanged()));
     connect(_pass->feed(), SIGNAL(rateChanged()), this, SIGNAL(inputChanged()));
 

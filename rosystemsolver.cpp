@@ -90,6 +90,7 @@ void ROSystemSolver::setSystemValues() {
             firstElement->feed()->setRate(eQf(pi, ei));
             firstElement->feed()->setTemperature(T);
             firstElement->feed()->copySolutesFrom(stage->rawWater());
+            firstElement->feed()->setPressure(ePf(pi, ei) + ePp(pi, ei));
 
 
             for (int ei2 = 0; ei2 < stage->elementsPerVesselCount(); ++ei2, ++ei) {
@@ -99,7 +100,6 @@ void ROSystemSolver::setSystemValues() {
                 stage->element(ei2)->concentrate()->solutes()->beginChange();
                 stage->element(ei2)->permeate()->solutes()->reset();//copySolutesFrom(stage->feed());
                 stage->element(ei2)->concentrate()->solutes()->reset();//copySolutesFrom(stage->feed());
-
 
 
                 for (int sii=0; sii<_usedSolutes.count(); ++sii) {
@@ -121,9 +121,9 @@ void ROSystemSolver::setSystemValues() {
                 stage->element(ei2)->concentrate()->setRate(eQc(pi, ei)/* / stage->vesselCount()*/);
                 stage->element(ei2)->permeate()->setRate(eQp(pi, ei)/* / stage->vesselCount()*/);
 
-                stage->element(ei2)->feed()->setPressure(ePf(pi, ei) + ePp(pi, ei));
-                stage->element(ei2)->permeate()->setPressure(ePb(pi, ei));
-                stage->element(ei2)->concentrate()->setPressure(ePc(pi, ei) + ePp(pi, ei) - ePb(pi, ei));  // см ниже почему надо вычитать Pb
+//                stage->element(ei2)->feed()->setPressure(ePf(pi, ei) + ePp(pi, ei));
+                stage->element(ei2)->permeate()->setPressure(ePb(pi));
+                stage->element(ei2)->concentrate()->setPressure(ePc(pi, ei) + ePp(pi, ei));  // см ниже почему надо вычитать Pb
 
             }
 
@@ -453,7 +453,7 @@ bool ROSystemSolver::init() {
     v = Eigen::VectorXd::Zero(totalElsCount);
 
     pp = Eigen::VectorXd::Zero(totalElsCount);
-    pb = Eigen::VectorXd::Zero(totalElsCount);
+    ePb = Eigen::VectorXd::Zero(_sys->passCount());
 
     for (int pi = _sys->passCount()-1, ei=totalElsCount; pi >= 0; --pi) {
         const ROPass* const pass = _sys->pass(pi);
@@ -462,13 +462,13 @@ bool ROSystemSolver::init() {
         for(int si=pass->stageCount()-1; si >= 0; --si) {
             const ROStage* const stage = pass->stage(si);
             ei -= stage->elementsPerVesselCount();
-            preStageAccumulator += stage->preStagePressure() + stage->backPressure();
+            preStageAccumulator += stage->preStagePressure();
             msi.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXi::Constant(stage->elementsPerVesselCount(), stage->membrane()->seriesIndex());
             s.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), stage->membrane()->activeArea());
             v.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), stage->vesselCount());
-            pb.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), stage->backPressure());
-            pp.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), preStageAccumulator);
+            pp.segment(ei, stage->elementsPerVesselCount()) = Eigen::VectorXd::Constant(stage->elementsPerVesselCount(), preStageAccumulator + pass->backPressure());
         }
+        ePb[pi] = pass->backPressure();
     }
 
     // Инициализация

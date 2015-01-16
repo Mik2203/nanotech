@@ -268,6 +268,18 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                                     if (!readElement()) return;
                                 }
 
+                                // OPTIONAL back Pressure
+                                if (_curElementType == StartElement && _curText == "backPressure") {
+                                    if (!readElement()) return;
+                                    if (_curElementType == TextElement) {
+                                        double backPressure = _curText.toDouble(&convertSuccess);
+                                        if (convertSuccess) pass->setBackPressure(backPressure);
+                                        if (!readElement()) return;
+                                    }
+                                    if (_curElementType != EndElement || _curText != "backPressure") return;
+                                    if (!readElement()) return;
+                                }
+
                                 // OPTIONAL Self Recycle
                                 if (_curElementType == StartElement && _curText == "selfRecycle") {
                                     if (!readElement()) return;
@@ -350,17 +362,14 @@ void ROAbstractProjectSerializer::deserialize(ROProject* const proj, QTextStream
                                             if (!readElement()) return;
                                         }
 
-                                        // OPTIONAL back Pressure
+                                        // начиная с версии 1.4.1 давление фильтрата является параметром ступени, а не стадии
+                                        // для поддержки совместимости на стадии оно просто пропускается
                                         if (_curElementType == StartElement && _curText == "backPressure") {
-                                            if (!readElement()) return;
-                                            if (_curElementType == TextElement) {
-                                                double backPressure = _curText.toDouble(&convertSuccess);
-                                                if (convertSuccess) stage->setBackPressure(backPressure);
-                                                if (!readElement()) return;
-                                            }
-                                            if (_curElementType != EndElement || _curText != "backPressure") return;
-                                            if (!readElement()) return;
+                                            readElement();
+                                            readElement();
+                                            readElement();
                                         }
+
 
                                         // OPTIONAL membrane Index
                                         if (_curElementType == StartElement && _curText == "membraneId") {
@@ -633,6 +642,7 @@ bool ROAbstractProjectSerializer::serialize(const ROProject *const proj, QTextSt
                                     writeElement("recovery", double2Str(pass->recovery()));
                                     writeElement("feedFlowRate", double2Str(pass->feed()->rate()));
                                     writeElement("flowFactor", double2Str(pass->flowFactor()));
+                                    writeElement("backPressure", double2Str(pass->backPressure()));
                                     if (pass->hasSelfRecycle()) writeElement("selfRecycle", double2Str(pass->selfRecycle()));
                                     if (pass->hasBlendPermeate()) writeElement("blendPermeate", double2Str(pass->blendPermeate()));
 
@@ -644,7 +654,6 @@ bool ROAbstractProjectSerializer::serialize(const ROProject *const proj, QTextSt
                                                 writeElement("vesselCount", int2Str(stage->vesselCount()));
                                                 writeElement("elementsPerVesselCount", int2Str(stage->elementsPerVesselCount()));
                                                 writeElement("preStagePressure", double2Str(stage->preStagePressure()));
-                                                writeElement("backPressure", double2Str(stage->backPressure()));
                                                 writeElement("membraneId", int2Str(stage->membraneId()));
                                             } writeEndElement(); // Stage
                                         }

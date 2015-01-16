@@ -24,6 +24,7 @@ ROPass::ROPass(ROSystem* system, ROFlow* rawWater) :
     _concentrate(new ROFlow()),
     _selfRecycle(0.0),
     _recovery(0.0),
+    _backPressure(0.0),
 //    _blendPermeate(0.0),
     ROAbstractElement() {
 
@@ -82,6 +83,8 @@ void ROPass::copyDataFrom(const ROPass* const from) {
     this->setRecovery(from->recovery());
     this->firstStage()->copyDataFrom(from->firstStage());
     this->setStageCount(from->stageCount());
+
+    this->setBackPressure(from->backPressure());
 
     for (int sIdx = 0; sIdx < from->stageCount(); ++sIdx){
         this->stage(sIdx)->copyDataFrom(from->stage(sIdx));
@@ -369,7 +372,15 @@ void ROPass::reset() {
     firstStage()->reset();
     feed()->reset();
     setRecovery(0.0);
+    setBackPressure(0.0);
     permeate()->reset();
     _blending->reset();
     setRawWater(rawWater());  // reset raw water
+}
+
+double ROPass::backPressure() const { return _backPressure; }
+
+void ROPass::setBackPressure(double value) {
+    _backPressure = qMax(0.0, value); // TODO check
+    Q_EMIT backPressureChanged();
 }

@@ -46,11 +46,7 @@ class ROStage: public ROAbstractElement {
     Q_PROPERTY(ROElement* firstElement READ firstElement CONSTANT)
     Q_PROPERTY(ROElement* lastElement READ lastElement CONSTANT)
 
-    // PRESSURE
     Q_PROPERTY(double preStagePressure READ preStagePressure WRITE setPreStagePressure NOTIFY preStagePressureChanged)
-    Q_PROPERTY(double backPressure READ backPressure WRITE setBackPressure NOTIFY backPressureChanged)
-
-
 public:
     static const int MAX_ELEMENTS_PER_VESSEL;
     static const int MIN_ELEMENTS_PER_VESSEL;
@@ -91,13 +87,8 @@ public:
     void setRawWater(ROFlow* const rw);
 
     ROPass* const pass() const;
-
     double preStagePressure() const;
     void setPreStagePressure(double value);
-
-
-    double backPressure() const;
-    void setBackPressure(double value);
 
     double activeArea() const;
 
@@ -117,7 +108,6 @@ private:
     QList<ROElement*> _elements;
     int _membraneId;
     double _preStagePressure;
-    double _backPressure;
 
 signals:
     void totalActiveAreaChanged();
@@ -127,7 +117,7 @@ signals:
     void elementsCountChanged();
     void rawWaterChanged();
     void preStagePressureChanged();
-    void backPressureChanged();
+
     void numberChanged();
     void membraneIdChanged();
     void averageFluxChanged();

@@ -685,6 +685,41 @@ Item {
                 model: passIndex
                 delegate: recyclesDelegate
             }
+
+            Item { // STAGE BACK PRESSURE EDITOR ROW
+                id: backPressureEditor
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 20
+
+                Text {
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: app.translator.emptyString + qsTr("Back pressure: ")
+                }
+
+                ROWidgets.DoubleInput {
+                    anchors.right: stageBackPressureUnits.left
+                    anchors.rightMargin: 5
+                    anchors.verticalCenter: parent.verticalCenter
+                    horizontalAlignment: TextInput.AlignRight
+                    height: parent.height-3
+                    width: 50
+                    value: app.units.convertPressureUnits(pass.backPressure, ROUnits.DEFAULT_PRESSURE_UNITS, app.units.pressureUnits)
+                    onInputChanged: pass.backPressure = app.units.convertPressureUnits(changedValue, app.units.pressureUnits, ROUnits.DEFAULT_PRESSURE_UNITS)
+                }
+
+                Text {
+                    id: stageBackPressureUnits
+                    anchors.right: parent.right
+                    anchors.rightMargin: parent.height-3
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: app.translator.emptyString + unitsText.pressureUnitText(app.units.pressureUnits)
+                    font.italic: true
+                    horizontalAlignment: Text.AlignLeft
+                    width: 30
+                }
+            }
         }
 
 //        Item {

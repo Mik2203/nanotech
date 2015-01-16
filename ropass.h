@@ -74,6 +74,9 @@ class ROPass : public ROAbstractElement {
     Q_PROPERTY(int MAX_RECOVERY READ MAX_RECOVERY CONSTANT)
     Q_PROPERTY(int MIN_RECOVERY READ MIN_RECOVERY CONSTANT)
 
+    // PRESSURE
+    Q_PROPERTY(double backPressure READ backPressure WRITE setBackPressure NOTIFY backPressureChanged)
+
 public:
     static int MAX_STAGES_COUNT() { return _MAX_STAGES_COUNT; }
     static int MIN_STAGES_COUNT() { return _MIN_STAGES_COUNT; }
@@ -140,6 +143,9 @@ public:
 //    Q_INVOKABLE void removeSelfRecycle();
 
 
+    double backPressure() const;
+    void setBackPressure(double value);
+
     bool hasBlendPermeate() const;
     void copyDataFrom(const ROPass* const);
 
@@ -163,6 +169,8 @@ private:
 
     bool _hasSelfRecycle;
 //    bool _hasBlendPermeate;
+
+    double _backPressure;
 
     // CONSTANTS
     static const int _MAX_STAGES_COUNT;
@@ -192,6 +200,8 @@ signals:
     void stageCountChanged();
     void rawWaterChangeBegan();
     void rawWaterChanged();
+
+    void backPressureChanged();
 
     void firstStageChanged();
     void lastStageChanged();
