@@ -80,8 +80,6 @@ ROApplication::ROApplication(int & argc, char ** argv) : QApplication(argc, argv
 
     loadSettings();
     connect(this, SIGNAL(aboutToQuit()), this, SLOT(saveSettings()));
-
-    connect(translator(), SIGNAL(currentLanguageChanged()), ROUnitsText::instance(), SLOT(update()));
 }
 
 ROApplication::~ROApplication() {
@@ -175,6 +173,8 @@ void ROApplication::registerTranslator() {
     QTextCodec::setCodecForCStrings(unicodeCodec);
 #endif
     QTextCodec::setCodecForLocale(unicodeCodec);
+
+    connect(translator(), SIGNAL(currentLanguageChanged()), ROUnitsText::instance(), SLOT(update()));
 }
 
 void ROApplication::continueExecute()
