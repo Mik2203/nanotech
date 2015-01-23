@@ -40,7 +40,7 @@ class ROSystem: public ROAbstractElement {
     Q_PROPERTY(ROFlow* permeate READ permeate NOTIFY permeateChanged) // меняется при смене pass
     Q_PROPERTY(ROFlow* concentrate READ concentrate CONSTANT)
 
-    Q_PROPERTY(double flowFactor READ flowFactor NOTIFY waterTypeIndexChanged)
+    Q_PROPERTY(double flowFactor READ flowFactor NOTIFY flowFactorChanged)
     Q_PROPERTY(double saltPassageYearIncrease READ saltPassageYearIncrease NOTIFY elementLifetimeChanged)
     Q_PROPERTY(double permabilityYearDecrease READ permabilityYearDecrease NOTIFY elementLifetimeChanged)
 
@@ -219,6 +219,7 @@ signals:
     void blendPermeateChanged();
 
     void passIncomingRecyclesChangedEmitter();
+    void flowFactorChanged();
 
 private slots:
     void refreshPermeate();

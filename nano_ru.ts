@@ -428,12 +428,11 @@
         <translation>Тип воды: </translation>
     </message>
     <message>
-        <location filename="qml/FeedWaterPage.qml" line="90"/>
         <source>Flow factor: </source>
-        <translation>Коэффициент загрязнения: </translation>
+        <translation type="obsolete">Коэффициент загрязнения: </translation>
     </message>
     <message>
-        <location filename="qml/FeedWaterPage.qml" line="157"/>
+        <location filename="qml/FeedWaterPage.qml" line="139"/>
         <source>Scaling</source>
         <translation>Осадкообразование</translation>
     </message>
@@ -1077,36 +1076,41 @@ Do you want to save your changes?</source>
     </message>
     <message>
         <location filename="qml/ROConfSystem.qml" line="78"/>
+        <source>Flow factor: </source>
+        <translation>Коэффициент загрязнения: </translation>
+    </message>
+    <message>
+        <location filename="qml/ROConfSystem.qml" line="102"/>
         <source>System raw water:</source>
         <translation>Входной поток на систему:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="115"/>
+        <location filename="qml/ROConfSystem.qml" line="139"/>
         <source>Total elements in system:</source>
         <translation>Общее ко-во элеметов в системе:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="141"/>
+        <location filename="qml/ROConfSystem.qml" line="165"/>
         <source>System recovery:</source>
         <translation>СИФ системы:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="197"/>
+        <location filename="qml/ROConfSystem.qml" line="221"/>
         <source>Pass:</source>
         <translation>Ступень:</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="226"/>
+        <location filename="qml/ROConfSystem.qml" line="250"/>
         <source>Generic schemes</source>
         <translation>Варианты схем</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="227"/>
+        <location filename="qml/ROConfSystem.qml" line="251"/>
         <source>Choose generic scheme</source>
         <translation>Выберите схему</translation>
     </message>
     <message>
-        <location filename="qml/ROConfSystem.qml" line="231"/>
+        <location filename="qml/ROConfSystem.qml" line="255"/>
         <source>Reset scheme</source>
         <translation>Сбросить схему</translation>
     </message>

@@ -22,8 +22,7 @@ public:
         MaxFluxRole,
         MaxRecoveryRole,
         MinConcentrate,
-        FlowFactor,
-        SaltPassage
+        TotalRoles
     };
     explicit ROWaterTypeModel(QObject *parent = 0);
     QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;

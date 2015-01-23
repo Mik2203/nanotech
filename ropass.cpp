@@ -281,12 +281,6 @@ double ROPass::saltPassageYearIncrease() const
     return system()->saltPassageYearIncrease();
 }
 
-double ROPass::permabilityYearDecrease() const {
-    if (system()->passIndex(this))  // если ступень не первая
-        return system()->permeatePermabilityYearDecrease();
-    return system()->permabilityYearDecrease();
-}
-
 double ROPass::blendPermeate() const { return _blending->rate(); }
 
 double ROPass::power() const {

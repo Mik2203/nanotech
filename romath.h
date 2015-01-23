@@ -181,8 +181,7 @@ static double Pf(
         double S,
         double T,
         double FF,
-        int series,
-        double PD) {
+        int series) {
     double a = A(series, Cf, Qp, Qf, Cc, PIf);
     double tcf = TCF(T);
     if (a == 0.0 || S == 0.0 || tcf == 0.0 || FF == 0.0) {
@@ -196,7 +195,7 @@ static double Pf(
     }
     return 0.5 * (PIf + PIc) - PIp + \
            0.5 * dPfc(Qf, Qc) + \
-           (Qp * m3ToL) / (a * PD * S * tcf * FF);
+           (Qp * m3ToL) / (a * S * tcf * FF);
 }
 
 static double dPfQf(
@@ -209,8 +208,7 @@ static double dPfQf(
         double S,
         double T,
         double FF,
-        int series,
-        double PD) {
+        int series) {
     double a = A(series, Cf, Qp_, Qf, Cc, PIf);
     double tcf = TCF(T);
     if (a == 0.0 || S == 0.0 || tcf == 0.0 || FF == 0.0) {
@@ -223,7 +221,7 @@ static double dPfQf(
         FF = 1.0;
     }
     return 0.5 * ddPfcQf(Qf, Qc) - \
-           Qp_ * m3ToL * dAQf(Cf, Qp_, Qf, Cc, PIf) / (PD * S * tcf * FF * a * a);
+           Qp_ * m3ToL * dAQf(Cf, Qp_, Qf, Cc, PIf) / (S * tcf * FF * a * a);
 }
 
 
@@ -236,8 +234,7 @@ static double dPfQp(
         double S,
         double T,
         double FF,
-        int series,
-        double PD) {
+        int series) {
     double a = A(series, Cf, Qp_, Qf, Cc, PIf);
     double tcf = TCF(T);
     if (a == 0.0 || S == 0.0 || tcf == 0.0 || FF == 0.0) {
@@ -249,7 +246,7 @@ static double dPfQp(
         tcf = 1.0;
         FF = 1.0;
     }
-    return m3ToL / (PD * S * tcf * FF) * (a - Qp_ * dAQp(Cf, Qp_, Qf, Cc, PIf)) / (a * a);
+    return m3ToL / (S * tcf * FF) * (a - Qp_ * dAQp(Cf, Qp_, Qf, Cc, PIf)) / (a * a);
 }
 
 static double dPfQc(
@@ -267,8 +264,7 @@ static double dPfCf(
         double S,
         double T,
         double FF,
-        int series,
-        double PD) {
+        int series) {
     double a = A(series, Cf, Qp_, Qf, Cc, PIf);
     double tcf = TCF(T);
     if (a == 0.0 || S == 0.0 || tcf == 0.0 || FF == 0.0) {
@@ -280,7 +276,7 @@ static double dPfCf(
         tcf = 1.0;
         FF = 1.0;
     }
-    return Qp_ * m3ToL / (PD * S * tcf * FF) * (-dACf(Cf, Qp_, Qf, Cc, PIf) / (a * a));
+    return Qp_ * m3ToL / (S * tcf * FF) * (-dACf(Cf, Qp_, Qf, Cc, PIf) / (a * a));
 }
 
 
@@ -293,8 +289,7 @@ static double dPfCc(
         double S,
         double T,
         double FF,
-        int series,
-        double PD) {
+        int series) {
     double a = A(series, Cf, Qp_, Qf, Cc, PIf);
     double tcf = TCF(T);
     if (a == 0.0 || S == 0.0 || tcf == 0.0 || FF == 0.0) {
@@ -306,7 +301,7 @@ static double dPfCc(
         tcf = 1.0;
         FF = 1.0;
     }
-    return Qp_ * m3ToL / (PD * S * tcf * FF) * (-dACc(Cf, Qp_, Qf, Cc, PIf) / (a * a));
+    return Qp_ * m3ToL / (S * tcf * FF) * (-dACc(Cf, Qp_, Qf, Cc, PIf) / (a * a));
 }
 
 

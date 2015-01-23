@@ -38,7 +38,6 @@ class ROPass : public ROAbstractElement {
     Q_PROPERTY(double recovery READ recovery WRITE setRecovery NOTIFY recoveryChanged)
     Q_PROPERTY(double flowFactor READ flowFactor /*WRITE setFlowFactor*/ NOTIFY flowFactorChanged)
     Q_PROPERTY(double saltPassageYearIncrease READ saltPassageYearIncrease NOTIFY saltPassageYearIncreaseChanged)
-    Q_PROPERTY(double permabilityYearDecrease READ permabilityYearDecrease NOTIFY permabilityYearDecreaseChanged)
 
     Q_PROPERTY(double averageFlux READ averageFlux NOTIFY averageFluxChanged)
     Q_PROPERTY(double power READ power NOTIFY powerChanged)
@@ -101,7 +100,6 @@ public:
     double recovery() const;
     double flowFactor() const;
     double saltPassageYearIncrease() const;
-    double permabilityYearDecrease() const;
     double blendPermeate() const;
     double power() const;
     double specificEnergy() const;
@@ -192,7 +190,6 @@ signals:
 
     void flowFactorChanged();
     void saltPassageYearIncreaseChanged();
-    void permabilityYearDecreaseChanged();
     void blendPermeateChanged();
     void selfRecycleChanged();
     void powerChanged();

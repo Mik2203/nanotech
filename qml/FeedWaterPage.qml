@@ -78,24 +78,6 @@ Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
-
-
-            Row { // PASS FLOW FACTOR EDITOR ROW
-                anchors.left: parent.left
-                spacing: 10
-                height: 20
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: app.translator.emptyString + qsTr("Flow factor: ")
-                }
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    horizontalAlignment: TextInput.AlignRight
-                    text: sys.flowFactor.toFixed(2)
-                }
-            }
         }
 
         Rectangle { // BORDER

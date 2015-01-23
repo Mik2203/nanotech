@@ -66,6 +66,30 @@ Rectangle {
 //                        anchors.leftMargin: 10
                         anchors.right: parent.right
 
+                        Item { // SYSTEM FLOW FACTOR ROW
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: 20
+
+                            Text {
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                                font.italic: true
+                                text: app.translator.emptyString + qsTr("Flow factor: ")
+                            }
+
+                            Text {
+                                id: sysFlowFactor
+                                anchors.right: parent.right
+                                anchors.rightMargin: 5 + 30 + parent.height-3
+                                anchors.verticalCenter: parent.verticalCenter
+                                horizontalAlignment: TextInput.AlignRight
+                                width: 50
+                                font.italic: true
+                                text: sys.flowFactor.toFixed(2)
+                            }
+                        }
+
                         Item {
                             id: systemRawWaterRow
                             anchors.left: parent.left

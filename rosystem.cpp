@@ -68,8 +68,13 @@ ROSystem::ROSystem() :
     connect(this, SIGNAL(totalActiveAreaChanged()), this, SIGNAL(averageFluxChanged()));
     connect(permeate(), SIGNAL(rateChanged()), this, SIGNAL(averageFluxChanged()));
 
+    // FLOW FACTOR
+
+    connect(this, SIGNAL(waterTypeIndexChanged()), this, SIGNAL(flowFactorChanged()));
+    connect(this, SIGNAL(elementLifetimeChanged()), this, SIGNAL(flowFactorChanged()));
+
     // first pass flow factor
-    connect(this, SIGNAL(waterTypeIndexChanged()), pass, SIGNAL(flowFactorChanged()));
+    connect(this, SIGNAL(flowFactorChanged()), pass, SIGNAL(flowFactorChanged()));
 
     // смешения
     connect(this, SIGNAL(lastPassChanged()), this, SLOT(updateHasBlend()));
@@ -78,7 +83,6 @@ ROSystem::ROSystem() :
 
     // first pass Permability decrease
     connect(this, SIGNAL(elementLifetimeChanged()), pass, SIGNAL(saltPassageYearIncreaseChanged()));
-    connect(this, SIGNAL(elementLifetimeChanged()), pass, SIGNAL(permabilityYearDecreaseChanged()));
 
     Q_EMIT totalActiveAreaChanged();
 }
@@ -174,6 +178,8 @@ ROPass* ROSystem::addPass(int copyFromPassNumber) {
         connect(newPass, SIGNAL(elementsCountChanged()), this, SIGNAL(elementsCountChanged()));
         connect(newPass, SIGNAL(stageCountChanged()), this, SIGNAL(stagesCountChanged()));
 
+        // FLOW FACTOR
+        connect(this, SIGNAL(flowFactorChanged()), newPass, SIGNAL(flowFactorChanged()));
 
         Q_EMIT afterAddPass();
         Q_EMIT passCountChanged();
@@ -193,10 +199,6 @@ bool ROSystem::removePass(int passIndex) {
         if (passIndex == 0) {  // first pass
             ROPass* newFirstPass = _passes[passIndex];
             newFirstPass->setRawWater(adjustedFeed());
-
-            // first pass flow factor
-            connect(this, SIGNAL(waterTypeIndexChanged()), newFirstPass, SIGNAL(flowFactorChanged()));
-            Q_EMIT waterTypeIndexChanged();
 
             // first pass SP increase & perm decrease
             connect(this, SIGNAL(elementLifetimeChanged()), newFirstPass, SIGNAL(saltPassageYearIncreaseChanged()));
@@ -428,11 +430,13 @@ void ROSystem::setWaterTypeIndex(int index) {
 ROScalingElement *const ROSystem::scalingElement() const { return _scalingElement; }
 
 double ROSystem::flowFactor() const {
-    return roDB->waterTypes()->get(waterTypeIndex(), "flow_factor").toDouble();
+    double ffyd = roDB->waterTypes()->get(waterTypeIndex(), "flow_factor_year_decrease").toDouble();
+    return pow(1.0 - ffyd, elementLifetime());
 }
 
 double ROSystem::permeateFlowFactor() const {
-    return roDB->waterTypes()->get(roDB->waterTypes()->WATER_TYPE_PERMEATE, "flow_factor").toDouble();
+    double ffyd = roDB->waterTypes()->get(roDB->waterTypes()->WATER_TYPE_PERMEATE, "flow_factor_year_decrease").toDouble();
+    return pow(1.0 - ffyd, elementLifetime());
 }
 
 double ROSystem::saltPassageYearIncrease() const

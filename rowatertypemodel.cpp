@@ -27,8 +27,6 @@ ROWaterTypeModel::ROWaterTypeModel(QObject *parent): QSqlRelationalTableModel(pa
     _roleNames[MaxFluxRole] = "max_flux";
     _roleNames[MaxRecoveryRole] = "max_recovery";
     _roleNames[MinConcentrate] = "min_concentrate";
-    _roleNames[FlowFactor] = "flow_factor";
-    _roleNames[SaltPassage] = "salt_passage";
 #if QT_VERSION < 0x050000
     setRoleNames(_roleNames);
 #endif
@@ -42,7 +40,7 @@ ROWaterTypeModel::ROWaterTypeModel(QObject *parent): QSqlRelationalTableModel(pa
 QVariant ROWaterTypeModel::data( const QModelIndex & index, int role) const {
     if (role == NameRole) {
         return tr(_typeNames[index.row()]);
-    } else if (NameRole < role && role <= SaltPassage)
+    } else if (NameRole < role && role < TotalRoles)
         return QSqlRelationalTableModel::data(this->index(index.row(), role-NameRole+1));
     else
         return QSqlRelationalTableModel::data(index);
