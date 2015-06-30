@@ -109,7 +109,7 @@ void ROReportBuilder::insertCase() {
         _cursor.insertText(tr("System details"), headerFormat);
         insertLineBreak();
         insertCapturedImage("qrc:/qml/results-page/system/Common.qml", "systemDetailsCommon");
-        insertLineBreak();
+        insertLineBreak(2);
         insertCapturedImage("qrc:/qml/results-page/common/Solubility.qml", "systemDetailsSolubility", itemProps);
         insertLineBreak(2);
         insertCapturedImage("qrc:/qml/results-page/common/Scaling.qml", "systemDetailsScaling", itemProps);

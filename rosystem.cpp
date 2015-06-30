@@ -301,6 +301,7 @@ void ROSystem::reset() {
 
     setFeedCount(1);
     firstPartFeed()->reset();
+    firstPartFeed()->setPart(1.0);
 
     setWaterTypeIndex(-1);
     scalingElement()->reset();
