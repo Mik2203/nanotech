@@ -23,16 +23,17 @@ ROProject* const ROProjectManager::proj() const { return _proj; }
 QString ROProjectManager::projFileName() const { return _projFile.fileName(); }
 bool ROProjectManager::projWasAltered() const { return _projWasAltered; }
 
-void ROProjectManager::newProject() {
+void ROProjectManager::newProject() {   
     if (maybeSave()) {
+#ifndef QT_NO_CURSOR
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+#endif
         _projFile.close();
         _projFile.setFileName("");
         Q_EMIT projFileNameChanged();
 
         disconnect(_proj, SIGNAL(inputChanged()), this, SLOT(setProjWasAltered()));
 
-//        delete _proj;
-//        _proj = new ROProject();
         _proj->reset();
 
         connect(_proj, SIGNAL(inputChanged()), this, SLOT(setProjWasAltered()));
@@ -42,6 +43,9 @@ void ROProjectManager::newProject() {
             _projWasAltered = false;
             Q_EMIT projWasAlteredChanged();
         }
+#ifndef QT_NO_CURSOR
+    QApplication::restoreOverrideCursor();
+#endif
     }
 }
 

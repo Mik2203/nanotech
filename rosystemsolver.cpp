@@ -482,6 +482,10 @@ bool ROSystemSolver::init() {
 
 void ROSystemSolver::initPass(int pi) {
 
+    static const double Cp_decrease = 0.01;
+    static const double Cc_increase = 1.1;
+    static const double Qp_decrease = 0.1;
+
 
 
 //    const ROPass* const pass = _sys->pass(pi);
@@ -490,8 +494,8 @@ void ROSystemSolver::initPass(int pi) {
     pCf(pi) = pCraw(pi); // real = ((pQfr-pQb)*pCf + sum(QRi*CRi)) / pQf
     s1Cf(pi) = (pQf(pi) * pCf(pi) + pQsr(pi) * pCraw(pi)) / e1vQf(pi);
     // Инициализация вектора переменных
-    s1Cp(pi) = s1Cf(pi) * 0.01;
-    s1Cc(pi) = s1Cf(pi) * 1.1;
+    s1Cp(pi) = s1Cf(pi) * Cp_decrease;
+    s1Cc(pi) = s1Cf(pi) * Cc_increase;
     s1PIf(pi) = PI_old(s1Cf(pi), T);
     s1PIc(pi) = PI_old(s1Cc(pi), T);
     s1PIp(pi) = PI_old(s1Cp(pi), T);
@@ -504,7 +508,7 @@ void ROSystemSolver::initPass(int pi) {
     for (int si=0; si<_usedSolutes.count(); ++si) {
         psCf(pi, si) = psCraw(pi, si);
         s1sCf(pi, si) = (pQf(pi) * psCf(pi, si) + pQsr(pi) * psCraw(pi, si)) / e1vQf(pi);
-        psCp(pi, si) = s1sCf(pi, si) * 0.01;
+        psCp(pi, si) = s1sCf(pi, si) * Cp_decrease;
         psCpb(pi, si)  = (pQp(pi)*psCp(pi, si) + pQb(pi)*psCraw(pi, si)) / pQpb(pi);
         if (si != co2i) {
             pIpb(pi) += psCpb(pi, si) * _preComputedICoeffs(si);
@@ -532,13 +536,17 @@ void ROSystemSolver::initPass(int pi) {
         eIp(pi, ei) = eIc(pi, ei) = pIraw(pi);
 
         if (ei > 0) {
-            eQp(pi, ei) = eQf(pi, ei) * 0.1; // TODO * recovery
+            eQp(pi, ei) = eQf(pi, ei) * Qp_decrease; // TODO * recovery
         }
         evQc(pi, ei) = evQf(pi, ei) - evQp(pi, ei);
         for (int sii=0; sii<_usedSolutes.count(); ++sii) {
             int si = _usedSolutes[sii];
-            esCp(pi, ei, sii) = esCf(pi, 0, sii) * 0.01;
-            esCc(pi, ei, sii) = esCf(pi, 0, sii) * 1.1;
+            double Cp_k = (si == ROSolutes::CO2) ? 1.0 : Cp_decrease;
+            esCp(pi, ei, sii) = esCf(pi, 0, sii) * Cp_k;
+
+            double Cc_k = (si == ROSolutes::CO2) ? 1.0 : Cc_increase;
+            esCc(pi, ei, sii) = esCf(pi, 0, sii) * Cc_k;
+
             if (si != ROSolutes::CO3) {
                 if (si == ROSolutes::B)
                     esSPm(pi, ei, sii) = pSPI[pi] * SPmPh(MSi(pi, ei), ePHf(pi, ei));
@@ -547,8 +555,8 @@ void ROSystemSolver::initPass(int pi) {
             }
 
         }
-        eCp(pi, ei) = s1Cf(pi) * 0.01;
-        eCc(pi, ei) = s1Cf(pi) * 1.1;
+        eCp(pi, ei) = s1Cf(pi) * Cp_decrease;
+        eCc(pi, ei) = s1Cf(pi) * Cc_increase;
         ePIc(pi, ei) = PI_old(eCc(pi, ei), T);
         ePIp(pi, ei) = PI_old(eCp(pi, ei), T);
         pCp(pi) += evQp(pi, ei) * eCp(pi, ei);
@@ -649,7 +657,6 @@ bool ROSystemSolver::calcSystem() {
                 }
 
                 // Qp
-
                 if (ei > 0) {
                     J.coeffRef(ieQp(pi, ei), iePf(pi, ei)) = 1;
                     J.coeffRef(ieQp(pi, ei), ievQf(pi, ei)) = -dPfQf(eQf(pi, ei), eQp(pi, ei), eQc(pi, ei), eCf(pi, ei), eCc(pi, ei), ePIf(pi, ei), eS(pi, ei), T, pFF(pi), MSi(pi, ei)) * (-1 / (eV(pi, ei) * eV(pi, ei)));
@@ -667,6 +674,7 @@ bool ROSystemSolver::calcSystem() {
                 }
 
                 // PI
+                // will be used for new PI
                 QMap<int, double> epSolutes;
                 QMap<int, double> ecSolutes;
                 for (int sii=0; sii<_usedSolutes.count(); ++sii) {
@@ -723,12 +731,11 @@ bool ROSystemSolver::calcSystem() {
                     } else {
 
                         //SPm
+                        J.coeffRef(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
                         if (si == ROSolutes::B) {
-                            J.coeffRef(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
                             J.coeffRef(iesSPm(pi, ei, sii), iePHf(pi, ei)) = - pSPI[pi] * dSPmPh(MSi(pi, ei), ePHf(pi, ei));
                             F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - pSPI[pi] * SPmPh(MSi(pi, ei), ePHf(pi, ei));
                         } else {
-                            J.coeffRef(iesSPm(pi, ei, sii), iesSPm(pi, ei, sii)) = 1;
                             J.coeffRef(iesSPm(pi, ei, sii), iesCf(pi, ei, sii)) = - pSPI[pi] * dSPm(MSi(pi, ei), si, esCf(pi, ei, sii));
                             F[iesSPm(pi, ei, sii)] = esSPm(pi, ei, sii) - pSPI[pi] * SPm(MSi(pi, ei), si, esCf(pi, ei, sii));
                         }
@@ -1101,7 +1108,7 @@ void ROSystemSolver::logValues() {
             qDebug() << "e" << ei2 << "  PHc:" << ePHc(pi, ei2);
             qDebug() << "e" << ei2 << "  Ip:" << eIp(pi, ei2);
             qDebug() << "e" << ei2 << "  Ic:" << eIc(pi, ei2);
-//            qDebug() << "e" << ei2 << "  Pf:" << ePf(pi, ei2);
+            qDebug() << "e" << ei2 << "  PI[f,p,c]:" << ePIf(pi, ei2) << ePIp(pi, ei2) << ePIc(pi, ei2);
             qDebug() << "e" << ei2 << "  Pf:" << ePf(pi, ei2);
             qDebug() << "e" << ei2 << "  Pc:" << ePc(pi, ei2);
             for (int sii=0; sii<_usedSolutes.count(); ++sii) {

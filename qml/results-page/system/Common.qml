@@ -146,12 +146,6 @@ Column {
             }
 
             Row {
-                TableRowTitle { width: 168; title: app.translator.emptyString + qsTr("Permeate osmotic pressure") }
-                TableRowUnits { units: app.translator.emptyString + unitsText.pressureUnitText(app.units.pressureUnits) }
-                TableRowValue { value: app.units.convertPressureUnits(sys.permeate.osmoticPressure, ROUnits.DEFAULT_PRESSURE_UNITS, app.units.pressureUnits) }
-            }
-
-            Row {
                 TableRowTitle { width: 168; title: app.translator.emptyString + qsTr("Permeate pH") }
                 TableRowUnits { units: "" }
                 TableRowValue { value: sys.permeate.pH }
