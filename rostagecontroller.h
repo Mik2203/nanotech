@@ -18,6 +18,7 @@ class ROStageController : public QObject {
     Q_PROPERTY(ROStage* stage READ stage CONSTANT)
 
     Q_PROPERTY(ROWarning* membraneChosen READ membraneChosen CONSTANT)
+    Q_PROPERTY(ROWarning* seaElementWhenNotSeaWaterChosen READ seaElementWhenNotSeaWaterChosen CONSTANT)
 
 
     Q_PROPERTY(ROPassController* passC READ passC CONSTANT)
@@ -34,6 +35,7 @@ public:
 
     // WARNINGS
     ROWarning* const membraneChosen() const; // CRITICAL
+    ROWarning* const seaElementWhenNotSeaWaterChosen() const; // CAUTION
 
     bool hasAnyCriticalWarnings() const;
     bool hasAnyCautionWarnings() const;
@@ -69,6 +71,7 @@ private:
 
     // WARNINGS
     ROWarning* _membraneChosen;
+    ROWarning* _seaElementWhenNotSeaWaterChosen;
 
 
     

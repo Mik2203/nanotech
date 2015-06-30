@@ -3,6 +3,7 @@
 #include "QStringList"
 
 #include <functional>
+#include <array>
 
 ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
     _stage(stage),
@@ -11,9 +12,22 @@ ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
     QObject(stage) {
 
     _membraneChosen = new ROWarning([this]() { return this->stage()->membraneId() < 0; },
-    ROWarning::WarningCritical,
-    [this]() { return tr("Membrane element is not chosen"); },
-    this);
+        ROWarning::WarningCritical,
+        [this]() { return tr("Membrane element is not chosen"); },
+        this);
+
+    _seaElementWhenNotSeaWaterChosen = new ROWarning(
+        [this]() -> bool {
+            static const std::array<int, 2> seaSeries = {0, 6};
+            static const std::array<int, 2> seaWater = {7, 8};
+
+            bool isSeaWater = seaWater.end() != std::find(seaWater.begin(), seaWater.end(), this->stage()->pass()->system()->waterTypeIndex());
+            bool isSeaElement = this->stage()->membraneId() >= 0 && seaSeries.end() != std::find(seaSeries.begin(), seaSeries.end(), this->stage()->membrane()->seriesIndex());
+            return !isSeaWater && isSeaElement;
+        },
+        ROWarning::WarningCaution,
+        [this]() { return tr("Use KM elements only on sea water"); },
+        this);
 
     _rawWaterToFeed_SRT->addFeed(stage->rawWater(), ROFlowMixer::FlowAdd);
     _rawWaterToFeed_SRT->setOutputFlow(stage->feed());
@@ -21,6 +35,9 @@ ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
     connect(stage, SIGNAL(rawWaterChanged()), this, SLOT(updateRawWater()));
 
     connect(stage, SIGNAL(membraneIdChanged()), _membraneChosen, SLOT(update()));
+
+    connect(stage, SIGNAL(membraneIdChanged()), _seaElementWhenNotSeaWaterChosen, SLOT(update()));
+    connect(stage->pass()->system(), SIGNAL(waterTypeIndexChanged()), _seaElementWhenNotSeaWaterChosen, SLOT(update()));
 
 
     connect(_stage, SIGNAL(elementsPerVesselCountChanged()), this, SLOT(updateElements()));
@@ -30,6 +47,9 @@ ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
     // UPDATE WARNINGS STATE
     // ... CRITICAL
     connect(_membraneChosen, SIGNAL(enabledChanged()), this, SIGNAL(hasAnyCriticalWarningsChanged()));
+
+    // ... CAUTION
+    connect(_seaElementWhenNotSeaWaterChosen, SIGNAL(enabledChanged()), this, SIGNAL(hasAnyCautionWarningsChanged()));
 
 
     // INPUT CHANGES
@@ -53,18 +73,19 @@ ROStageController::~ROStageController() {
 ROStage* const ROStageController::stage() const { return _stage; }
 
 ROWarning* const ROStageController::membraneChosen() const { return _membraneChosen; }
+ROWarning * const ROStageController::seaElementWhenNotSeaWaterChosen() const { return _seaElementWhenNotSeaWaterChosen; }
 
 bool ROStageController::hasAnyCriticalWarnings() const {
-    bool hasW = _membraneChosen->enabled();
+    bool hasW = membraneChosen()->enabled();
     for (int vcIdx = 0; vcIdx < _elementControllers.count(); ++vcIdx) {
-        hasW = hasW || _elementControllers.at(vcIdx)->hasAnyCriticalWarnings();
+        hasW |= _elementControllers.at(vcIdx)->hasAnyCriticalWarnings();
     }
     return hasW;
 }
 bool ROStageController::hasAnyCautionWarnings() const {
-    bool hasW = false;
+    bool hasW = seaElementWhenNotSeaWaterChosen()->enabled();
     for (int vcIdx = 0; vcIdx < _elementControllers.count(); ++vcIdx) {
-        hasW = hasW || _elementControllers.at(vcIdx)->hasAnyCautionWarnings();
+        hasW |= _elementControllers.at(vcIdx)->hasAnyCautionWarnings();
     }
     return hasW;
 }
@@ -73,7 +94,12 @@ QStringList ROStageController::allWarningsMessages(ROWarning::WarningType type) 
     QStringList messages;
     int stageIndex = passC()->pass()->stageIndex(stage());
     if (type & ROWarning::WarningCritical) {
-        if (membraneChosen()->enabled()) messages.append(tr("Stage %1: %2").arg(stageIndex+1).arg(membraneChosen()->what()));
+        if (membraneChosen()->enabled())
+            messages.append(tr("Stage %1: %2").arg(stageIndex+1).arg(membraneChosen()->what()));
+    }
+    if (type & ROWarning::WarningCaution) {
+        if (seaElementWhenNotSeaWaterChosen()->enabled())
+            messages.append(tr("Stage %1: %2").arg(stageIndex+1).arg(seaElementWhenNotSeaWaterChosen()->what()));
     }
     for (int vcIdx = 0; vcIdx < _elementControllers.count(); ++vcIdx) {
         QStringList elWM = _elementControllers.at(vcIdx)->allWarningsMessages(type);
@@ -119,6 +145,7 @@ void ROStageController::updateRawWater()
 
 void ROStageController::updateWarnings() {
     _membraneChosen->update();
+    _seaElementWhenNotSeaWaterChosen->update();
     Q_FOREACH(ROElementController* ec, _elementControllers) {
         ec->updateWarnings();
     }

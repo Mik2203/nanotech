@@ -216,6 +216,12 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
             }
 
+            ROWidgets.WarningPopup {
+                id: seaElementWhenNotSeaWaterChosenWarning
+                warning: stageC.seaElementWhenNotSeaWaterChosen
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+            }
         }
     }
     //}
