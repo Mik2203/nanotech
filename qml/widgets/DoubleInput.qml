@@ -6,9 +6,9 @@ import "../widgets" as ROWidgets
 ROWidgets.TextInput {
     validator: DoubleValidator {}
     property double fixedPrecision: app.visibleDecimals
-    onValueChanged: _inputText = parseFloat(value).toFixed(fixedPrecision);
+    onValueChanged: _inputText = parseFloat(value).toFixed(parseFloat(value) < 1000 ? fixedPrecision : 0);
     onInputChanged: {
         if (value != undefined && value != changedValue)
-            _inputText = parseFloat(value).toFixed(fixedPrecision);
+            _inputText = parseFloat(value).toFixed(parseFloat(value) < 1000 ? fixedPrecision : 0);
     }
 }
