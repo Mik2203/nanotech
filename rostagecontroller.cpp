@@ -18,11 +18,11 @@ ROStageController::ROStageController(ROStage* stage, ROPassController* passC) :
 
     _seaElementWhenNotSeaWaterChosen = new ROWarning(
         [this]() -> bool {
-            static const std::array<int, 2> seaSeries = {0, 6};
-            static const std::array<int, 2> seaWater = {7, 8};
+            static const std::array<int, 2> seaSeriesIndexes = {0, 6};
+            static const std::array<int, 2> seaWaterIndexes = {7, 8};
 
-            bool isSeaWater = seaWater.end() != std::find(seaWater.begin(), seaWater.end(), this->stage()->pass()->system()->waterTypeIndex());
-            bool isSeaElement = this->stage()->membraneId() >= 0 && seaSeries.end() != std::find(seaSeries.begin(), seaSeries.end(), this->stage()->membrane()->seriesIndex());
+            bool isSeaWater = seaWaterIndexes.end() != std::find(seaWaterIndexes.begin(), seaWaterIndexes.end(), this->stage()->pass()->system()->waterTypeIndex());
+            bool isSeaElement = this->stage()->membraneId() >= 0 && seaSeriesIndexes.end() != std::find(seaSeriesIndexes.begin(), seaSeriesIndexes.end(), this->stage()->membrane()->seriesIndex());
             return !isSeaWater && isSeaElement;
         },
         ROWarning::WarningCaution,
