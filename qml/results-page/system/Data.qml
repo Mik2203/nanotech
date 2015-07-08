@@ -14,5 +14,5 @@ Column { // SYSTEM
     Common { objectName: "systemDetailsCommon" }
 //    Hydrodynamics { objectName: "systemDetailsHydrodynamics" }
     Solubility { element: sys; objectName: "systemDetailsSolubility" }
-    Scaling { element: sys; objectName: "systemDetailsScaling" }
+    Scaling { objectName: "systemDetailsScaling" }
 }

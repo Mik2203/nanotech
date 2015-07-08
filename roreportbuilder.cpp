@@ -107,32 +107,32 @@ void ROReportBuilder::insertCase() {
         itemProps["element"] = qVariantFromValue((QObject *) _case->sys());
 
         _cursor.insertText(tr("System details"), headerFormat);
-        insertLineBreak();
+        insertLineBreak(2);
         insertCapturedImage("qrc:/qml/results-page/system/Common.qml", "systemDetailsCommon");
         insertLineBreak(2);
         insertCapturedImage("qrc:/qml/results-page/common/Solubility.qml", "systemDetailsSolubility", itemProps);
         insertLineBreak(2);
-        insertCapturedImage("qrc:/qml/results-page/common/Scaling.qml", "systemDetailsScaling", itemProps);
-        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/system/Scaling.qml", "systemDetailsScaling");
 
-        insertLineBreak(3);
+        insertLineBreak(4);
         _cursor.insertText(tr("Passes details"), headerFormat);
-        insertLineBreak();
-        insertCapturedImage("qrc:/qml/results-page/pass/Common.qml", "passDetailsCommon");
-        insertLineBreak();
-        insertCapturedImage("qrc:/qml/results-page/pass/Flows.qml", "passDetailsStreams");
-
-        insertLineBreak(3);
-        _cursor.insertText(tr("Stages details"), headerFormat);
-        insertLineBreak();
-        insertCapturedImage("qrc:/qml/results-page/stage/Common.qml", "stageDetailsCommon");
         insertLineBreak(2);
-        insertCapturedImage("qrc:/qml/results-page/stage/Flows.qml", "stageDetailsStreams");
-        insertLineBreak();
+        insertCapturedImage("qrc:/qml/results-page/pass/Common.qml", "passDetailsCommon");
+        insertLineBreak(2);
+        insertCapturedImage("qrc:/qml/results-page/pass/Flows.qml", "passDetailsStreams");
+        insertLineBreak(2);
+        insertCapturedImage("qrc:/qml/results-page/pass/Scaling.qml", "passDetailsScaling");
 
-        insertLineBreak();
+        insertLineBreak(13);
+        _cursor.insertText(tr("Stages details"), headerFormat);
+        insertLineBreak(2);
+        insertCapturedImage("qrc:/qml/results-page/stage/Common.qml", "stageDetailsCommon");
+        insertLineBreak(3);
+        insertCapturedImage("qrc:/qml/results-page/stage/Flows.qml", "stageDetailsStreams");
+        insertLineBreak(4);
+
         _cursor.insertText(tr("Elements details"), headerFormat);
-        insertLineBreak();
+        insertLineBreak(2);
         int row = 0;
         while (insertCapturedImage("qrc:/qml/results-page/element/Common.qml", QString("elementDetailsCommonRow%1").arg(row))) {
             insertLineBreak(2);

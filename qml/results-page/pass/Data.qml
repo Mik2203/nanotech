@@ -16,4 +16,5 @@ Column {
 
     Common { objectName: "passDetailsCommon" }
     Flows { objectName: "passDetailsStreams" }
+    Scaling { objectName: "passDetailsScaling" }
 }

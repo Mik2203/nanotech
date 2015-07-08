@@ -229,11 +229,9 @@ OTHER_FILES += \
     qml/results-page/system/Hydrodynamics.qml \
     qml/results-page/common/FlowHydrodynamics.qml \
     qml/results-page/common/FlowSolubility.qml \
-    qml/results-page/common/FlowScaling.qml \
     qml/results-page/util/getFlows.js \
     qml/results-page/pass/Data.qml \
     qml/results-page/common/Solubility.qml \
-    qml/results-page/common/Scaling.qml \
     qml/results-page/stage/Data.qml \
     qml/results-page/element/Data.qml \
     qml/results-page/util/SectionTitle.qml \
@@ -255,7 +253,11 @@ OTHER_FILES += \
     qml/results-page/element/Common.qml \
     qml/results-page/element/RowTemplate.qml \
     qml/results-page/common/FlowsData.qml \
-    qml/results-page/common/FlowsHeader.qml
+    qml/results-page/common/FlowsHeader.qml \
+    qml/results-page/pass/Scaling.qml \
+    qml/results-page/common/ScalingHeader.qml \
+    qml/results-page/common/ScalingData.qml \
+    qml/results-page/system/Scaling.qml
 
 TRANSLATIONS += nano_ru.ts # for update utilite
 win32:RC_FILE = app_icon.rc # for windows icon

@@ -114,9 +114,7 @@
         <file>qml/results-page/Tab.qml</file>
         <file>qml/results-page/Warnings.qml</file>
         <file>qml/results-page/common/FlowHydrodynamics.qml</file>
-        <file>qml/results-page/common/FlowScaling.qml</file>
         <file>qml/results-page/common/FlowSolubility.qml</file>
-        <file>qml/results-page/common/Scaling.qml</file>
         <file>qml/results-page/common/Solubility.qml</file>
         <file>qml/results-page/system/Common.qml</file>
         <file>qml/results-page/system/Data.qml</file>
@@ -144,5 +142,9 @@
         <file>qml/results-page/element/RowTemplate.qml</file>
         <file>qml/results-page/common/FlowsData.qml</file>
         <file>qml/results-page/common/FlowsHeader.qml</file>
+        <file>qml/results-page/common/ScalingData.qml</file>
+        <file>qml/results-page/common/ScalingHeader.qml</file>
+        <file>qml/results-page/pass/Scaling.qml</file>
+        <file>qml/results-page/system/Scaling.qml</file>
     </qresource>
 </RCC>
