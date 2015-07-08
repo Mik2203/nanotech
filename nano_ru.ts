@@ -177,12 +177,8 @@
     </message>
     <message>
         <location filename="qml/results-page/system/Common.qml" line="149"/>
-        <source>Permeate osmotic pressure</source>
-        <translation>Осм. давление в фильтрате</translation>
-    </message>
-    <message>
-        <location filename="qml/results-page/system/Common.qml" line="155"/>
         <source>Permeate pH</source>
+        <oldsource>Permeate osmotic pressure</oldsource>
         <translation>pH в фильтрате</translation>
     </message>
 </context>
@@ -458,19 +454,16 @@
 <context>
     <name>FlowScaling</name>
     <message>
-        <location filename="qml/results-page/common/FlowScaling.qml" line="19"/>
         <source>LSI</source>
-        <translation>LSI</translation>
+        <translation type="obsolete">LSI</translation>
     </message>
     <message>
-        <location filename="qml/results-page/common/FlowScaling.qml" line="23"/>
         <source>S&amp;DSI</source>
-        <translation>S&amp;SDI</translation>
+        <translation type="obsolete">S&amp;SDI</translation>
     </message>
     <message>
-        <location filename="qml/results-page/common/FlowScaling.qml" line="27"/>
         <source>Ionic Strength</source>
-        <translation>Ионная сила</translation>
+        <translation type="obsolete">Ионная сила</translation>
     </message>
 </context>
 <context>
@@ -1797,45 +1790,45 @@ Cannot open database.
 <context>
     <name>ROProjectManager</name>
     <message>
-        <location filename="roprojectmanager.cpp" line="57"/>
+        <location filename="roprojectmanager.cpp" line="61"/>
         <source>Save Project</source>
         <translation>Сохранить проект</translation>
     </message>
     <message>
-        <location filename="roprojectmanager.cpp" line="58"/>
-        <location filename="roprojectmanager.cpp" line="77"/>
+        <location filename="roprojectmanager.cpp" line="62"/>
+        <location filename="roprojectmanager.cpp" line="81"/>
         <source>NanotechPRO Project Files (*.ntp)</source>
         <oldsource>Nanotech Project Files (*.ntp)</oldsource>
         <translation>Файлы проекта NanotechPRO (*.ntp)</translation>
     </message>
     <message>
-        <location filename="roprojectmanager.cpp" line="76"/>
+        <location filename="roprojectmanager.cpp" line="80"/>
         <source>Open Project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="roprojectmanager.cpp" line="94"/>
-        <location filename="roprojectmanager.cpp" line="139"/>
-        <location filename="roprojectmanager.cpp" line="153"/>
+        <location filename="roprojectmanager.cpp" line="98"/>
+        <location filename="roprojectmanager.cpp" line="143"/>
+        <location filename="roprojectmanager.cpp" line="157"/>
         <source>Application</source>
         <translation>Nanotech PRO</translation>
     </message>
     <message>
-        <location filename="roprojectmanager.cpp" line="95"/>
+        <location filename="roprojectmanager.cpp" line="99"/>
         <source>Cannot write file %1:
 %2.</source>
         <translation>Невозможно записать файл %1:
 %2.</translation>
     </message>
     <message>
-        <location filename="roprojectmanager.cpp" line="140"/>
+        <location filename="roprojectmanager.cpp" line="144"/>
         <source>The project has been modified.
 Do you want to save your changes?</source>
         <translation>Проект был изменен.
 Сохранить изменения?</translation>
     </message>
     <message>
-        <location filename="roprojectmanager.cpp" line="154"/>
+        <location filename="roprojectmanager.cpp" line="158"/>
         <source>Cannot read project file %1:
 %2.</source>
         <translation>Невозможно прочитать файл проекта %1:
@@ -1886,7 +1879,7 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Данные по стадиям</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="126"/>
+        <location filename="roreportbuilder.cpp" line="127"/>
         <source>Stages details</source>
         <oldsource>Elements Details</oldsource>
         <translation>Подробная информация по стадиям</translation>
@@ -2111,7 +2104,7 @@ Do you want to save your changes?</source>
         <translation>Подробная информация по системе</translation>
     </message>
     <message>
-        <location filename="roreportbuilder.cpp" line="119"/>
+        <location filename="roreportbuilder.cpp" line="118"/>
         <source>Passes details</source>
         <translation>Подробная информация по ступеням</translation>
     </message>
@@ -2758,13 +2751,19 @@ Do you want to save your changes?</source>
         <translation type="obsolete">Мембрана не выбрана</translation>
     </message>
     <message>
-        <location filename="rostagecontroller.cpp" line="15"/>
+        <location filename="rostagecontroller.cpp" line="16"/>
         <source>Membrane element is not chosen</source>
         <translation>Мембранный элемент не выбран</translation>
     </message>
     <message>
-        <location filename="rostagecontroller.cpp" line="76"/>
-        <location filename="rostagecontroller.cpp" line="81"/>
+        <location filename="rostagecontroller.cpp" line="29"/>
+        <source>Use KM elements only on sea water</source>
+        <translation>Используйте элементы серии KM только на морской воде</translation>
+    </message>
+    <message>
+        <location filename="rostagecontroller.cpp" line="98"/>
+        <location filename="rostagecontroller.cpp" line="102"/>
+        <location filename="rostagecontroller.cpp" line="107"/>
         <source>Stage %1: %2</source>
         <translation>Стадия %1: %2</translation>
     </message>
@@ -2948,9 +2947,36 @@ Do you want to save your changes?</source>
 <context>
     <name>Scaling</name>
     <message>
-        <location filename="qml/results-page/common/Scaling.qml" line="10"/>
+        <source>Scaling</source>
+        <translation type="obsolete">Осадкообразование</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/pass/Scaling.qml" line="15"/>
+        <source>Pass %1</source>
+        <translation>Ступень %1</translation>
+    </message>
+</context>
+<context>
+    <name>ScalingHeader</name>
+    <message>
+        <location filename="qml/results-page/common/ScalingHeader.qml" line="10"/>
         <source>Scaling</source>
         <translation>Осадкообразование</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/common/ScalingHeader.qml" line="17"/>
+        <source>LSI</source>
+        <translation>LSI</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/common/ScalingHeader.qml" line="21"/>
+        <source>S&amp;DSI</source>
+        <translation>S&amp;SDI</translation>
+    </message>
+    <message>
+        <location filename="qml/results-page/common/ScalingHeader.qml" line="25"/>
+        <source>Ionic Strength</source>
+        <translation>Ионная сила</translation>
     </message>
 </context>
 <context>
