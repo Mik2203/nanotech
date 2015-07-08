@@ -36,6 +36,10 @@ inline bool is_inf(double v) {
     return ((temp == v) && ((temp - v) != 0.0));
 }
 
+
+const double ROSystemSolver::MIN_CO2_CONCENTRATION = 0.0045;
+
+
 ROSystemSolver::ROSystemSolver(ROSystem * const sys, QObject *parent) :
     QObject(parent),
     _elementEquationCount(0),
@@ -575,6 +579,7 @@ void ROSystemSolver::initPass(int pi) {
 bool ROSystemSolver::calcSystem() {
     QElapsedTimer timer;
     bool solved = false;
+    bool fixCO2 = false;
     int stepCntr = 0;
 #ifdef QT_DEBUG
     logValues();
@@ -587,7 +592,7 @@ bool ROSystemSolver::calcSystem() {
 
     qint64 elapsed = 0;
 
-    while (!solved && stepCntr < 100) {
+    while (!solved && stepCntr < MAX_ITERATIONS_COUNT) {
 
         QElapsedTimer t;
         t.start();
@@ -1029,7 +1034,7 @@ bool ROSystemSolver::calcSystem() {
 
 
 
-        if (!solution_exists) {
+        if (!solution_exists && !fixCO2) {
 
 #ifdef QT_DEBUG
             myfile << "X:" << std::endl << X.transpose() << std::endl;
@@ -1055,10 +1060,27 @@ bool ROSystemSolver::calcSystem() {
             if (!solution_exists) qDebug() << "NOT SOLVED BECAUSE !solution_exists";
             if (!(X.array() > 0.0).all()) qDebug() << "NOT SOLVED BECAUSE !(X.array() > 0.0).all()";
             if (!(dX.array().abs() < _tolerance).all()) qDebug() << "NOT SOLVED BECAUSE !(dX.array().abs() < _tolerance).all()";
+            logValues();
         }
 #endif
 
         ++stepCntr;
+
+        // FIX CO2
+        fixCO2 = false;
+        for(int pi=0; pi<_sys->passCount(); ++pi) {
+            for(int ei = 0; ei < peCount(pi); ++ei) {
+                for (int sii=0; sii<_usedSolutes.count(); ++sii) {
+                    int si = _usedSolutes[sii];
+                    if (si == ROSolutes::CO2) {
+                        //            double new_CO2 = (eQf(pi, ei) * esCf(pi, ei, sii) - eQp(pi, ei) * esCp(pi, ei, sii)) / eQc(pi, ei);
+                        esCc(pi, ei, sii) = qMax(esCc(pi, ei, sii), MIN_CO2_CONCENTRATION);
+                        esCp(pi, ei, sii) = qMax(esCp(pi, ei, sii), MIN_CO2_CONCENTRATION);
+                        fixCO2 = true;
+                    }
+                }
+            }
+        }
 
     }
 

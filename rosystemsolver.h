@@ -50,6 +50,9 @@ private:
     ROSystem * _sys;
     bool _setSystemValues;
 
+    static const double MIN_CO2_CONCENTRATION;
+    static const int MAX_ITERATIONS_COUNT = 250;
+
     double _tolerance;
 
     bool _solved;
