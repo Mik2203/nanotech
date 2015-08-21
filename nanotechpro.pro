@@ -314,8 +314,8 @@ win32 {
 }
 
 win32 {
-    LIBS += -L"C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Lib/" -lshell32
-    INCLUDEPATH += "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Include"
-    DEPENDPATH += "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Include"
-    PRE_TARGETDEPS += "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.1A/Lib/shell32.lib"
+    LIBS += -L"$$(ProgramFiles)/Microsoft SDKs/Windows/v7.1/Lib/" -lshell32
+    INCLUDEPATH += "$$(ProgramFiles)/Microsoft SDKs/Windows/v7.1/Include"
+    DEPENDPATH += "$$(ProgramFiles)/Microsoft SDKs/Windows/v7.1/Include"
+    PRE_TARGETDEPS += "$$(ProgramFiles)/Microsoft SDKs/Windows/v7.1/Lib/shell32.lib"
 }
