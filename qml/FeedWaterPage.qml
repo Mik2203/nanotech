@@ -134,7 +134,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 5
         anchors.left: waterPageAll.right
-        anchors.leftMargin: 30
+        anchors.leftMargin: 50
 
         headerLabel: app.translator.emptyString + qsTr("Scaling")
 

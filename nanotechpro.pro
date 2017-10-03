@@ -9,7 +9,7 @@
 QMAKE_CXXFLAGS_RELEASE += -DEIGEN_NO_DEBUG
 
 
-QT       += core sql declarative
+QT       += qml xml core sql declarative
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT *= printsupport quick
@@ -279,7 +279,7 @@ POST_TARGETDEPS += copyfiles
 
 
 
-
+#CONFIG+=qml_debug
 
 
 
